@@ -17,4 +17,5 @@ yarn-error.log
 /.idea
 /.vscode
 /public/index.php
+/public/uploads
 # .git
