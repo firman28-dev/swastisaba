@@ -669,33 +669,12 @@
                             <span class="menu-title">Gambaran Umum</span>
                         </a>
                     </div>
-                    {{-- <div class="menu-item menu-accordion {{ request()->routeIs('kelembagaan.*') ? 'show' : '' }}" data-kt-menu-trigger="click">
-                        <a class="menu-link" href="#">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-industry fs-3"></i>
-                            </span>
-                            <span class="menu-title">Data Kelembagaan</span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="menu-sub menu-sub-accordion ">
-                            @php
-                                $session_date = Session::get('selected_year');
-                                $categorys = \App\Models\M_Category_Kelembagaan::where('id_survey', $session_date)->get();
-                            @endphp
-                            @foreach( $categorys as $data)
-                                <div class="menu-item">
-                                    <a class="menu-link {{ request()->routeIs('kelembagaan.showKabKota') && request()->id == $data->id ? 'active' : '' }}" href="{{ route('kelembagaan.showKabKota', ['id' => $data->id]) }}">
-                                        <span class="menu-icon">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">{{ $data->name }}</span>
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>  
-                    </div> --}}
 
-                    <div class="menu-item menu-accordion {{ request()->routeIs('kelembagaan.*') ? 'show' : '' }}" data-kt-menu-trigger="click">
+                    <div class="menu-item menu-accordion {{
+                            request()->routeIs('kelembagaan.*') ||
+                            Route::is('kelembagaan-v2.show')
+                            ? 'show' : '' 
+                        }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-industry fs-3"></i>
