@@ -1428,24 +1428,45 @@ class Answer_Kelembagaan_New_Controller extends Controller
     {
         $activity = Trans_Forum_Kel::find($id);
         // return $activity;
+        
 
         try {
-            if (!is_null($activity->path_sk_f) && file_exists(public_path('uploads/doc_pokja_desa/'.$activity->path_sk_f))) {
-                // Hapus file di public/uploads/doc_kelembagaan
-                unlink(public_path('uploads/doc_pokja_desa/'.$activity->path_sk_f));
-            }
+            // if (!is_null($activity->path_sk_f) && file_exists(public_path('uploads/doc_pokja_desa/'.$activity->path_sk_f))) {
+            //     // Hapus file di public/uploads/doc_kelembagaan
+            //     unlink(public_path('uploads/doc_pokja_desa/'.$activity->path_sk_f));
+            // }
     
-            if (!is_null($activity->path_plan_f) && file_exists(public_path('uploads/doc_pokja_desa/'.$activity->path_plan_f))) {
-                // Hapus file di public/uploads/doc_kelembagaan
-                unlink(public_path('uploads/doc_pokja_desa/'.$activity->path_plan_f));
-            }
-            if (!is_null($activity->path_s) && file_exists(public_path('uploads/doc_pokja_desa/'.$activity->path_s))) {
-                // Hapus file di public/uploads/doc_kelembagaan
-                unlink(public_path('uploads/doc_pokja_desa/'.$activity->path_s));
-            }
-            if (!is_null($activity->path_budget) && file_exists(public_path('uploads/doc_pokja_desa/'.$activity->path_budget))) {
-                // Hapus file di public/uploads/doc_kelembagaan
-                unlink(public_path('uploads/doc_pokja_desa/'.$activity->path_budget));
+            // if (!is_null($activity->path_plan_f) && file_exists(public_path('uploads/doc_pokja_desa/'.$activity->path_plan_f))) {
+            //     // Hapus file di public/uploads/doc_kelembagaan
+            //     unlink(public_path('uploads/doc_pokja_desa/'.$activity->path_plan_f));
+            // }
+            // if (!is_null($activity->path_s) && file_exists(public_path('uploads/doc_pokja_desa/'.$activity->path_s))) {
+            //     // Hapus file di public/uploads/doc_kelembagaan
+            //     unlink(public_path('uploads/doc_pokja_desa/'.$activity->path_s));
+            // }
+            // if (!is_null($activity->path_budget) && file_exists(public_path('uploads/doc_pokja_desa/'.$activity->path_budget))) {
+            //     // Hapus file di public/uploads/doc_kelembagaan
+            //     unlink(public_path('uploads/doc_pokja_desa/'.$activity->path_budget));
+            // }
+
+            $paths = [
+                $activity->path_sk_f,
+                $activity->path_plan_f,
+                $activity->path_s,
+                $activity->path_budget
+            ];
+            
+            
+            foreach ($paths as $path) {
+                $fullPath = $_SERVER['DOCUMENT_ROOT'] . '/uploads/doc_pokja_desa/' . $path;
+                if (!is_null($path) && file_exists($fullPath)) {
+                    // Hapus file di /uploads/doc_forum_kec
+                    unlink($fullPath);
+                }
+                // if (!is_null($path) && file_exists(public_path('uploads/doc_forum_kec/' . $path))) {
+                    
+                //     unlink(public_path('uploads/doc_forum_kec/' . $path));
+                // }
             }
             
             
