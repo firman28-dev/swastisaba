@@ -470,12 +470,6 @@ class Answer_Kelembagaan_New_Controller extends Controller
         
         try {
             
-            // if($activity){
-            //     $oldPhotoPath = $_SERVER['DOCUMENT_ROOT']. '/uploads/doc_activity/' .$activity->path;
-            //     if (file_exists($oldPhotoPath)) {
-            //             unlink($oldPhotoPath);
-            //     }
-            // }
             $oldPhotoPath = $_SERVER['DOCUMENT_ROOT']. '/uploads/doc_activity/' .$activity->path;
             if (!is_null($activity->path) && file_exists($oldPhotoPath)) {
                 // Hapus file di public/uploads/doc_kelembagaan
@@ -1201,8 +1195,6 @@ class Answer_Kelembagaan_New_Controller extends Controller
         $village = M_Village::find($request->id_village);
 
         $path = $request->file('path'); 
-        // $budget = $request->input('f_budget'); 
-        // return $budget
 
         $user = Auth::user();
         $idZona = $user->id_zona;
@@ -1599,8 +1591,10 @@ class Answer_Kelembagaan_New_Controller extends Controller
         try {
             if($path){
                 // $file = $request->file('path'); 
-                $fileName = $idZona. '_' . $path->getClientOriginalName();
-                $path->move(public_path('uploads/doc_activity/'), $fileName);
+                $fileName = $user->id . '_Kegiatan_Pokja_' . $path->getClientOriginalName();
+                    $path->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_activity/', $fileName);
+                // $fileName = $idZona. '_' . $path->getClientOriginalName();
+                // $path->move(public_path('uploads/doc_activity/'), $fileName);
 
                 $activity = new Trans_Kegiatan();
                 $activity->id_survey = $session_date;
@@ -1709,16 +1703,23 @@ class Answer_Kelembagaan_New_Controller extends Controller
         try {
             if($path){
                 // $file = $request->file('path'); 
-                
+                $fileName = $user->id . '_Kegiatan_Pokja_' . $path->getClientOriginalName();
+                $path->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_activity/', $fileName);
+                    
                 $fileName = $idZona. '_' . $path->getClientOriginalName();
                 $path->move(public_path('uploads/doc_activity/'), $fileName);
 
                 $activity = Trans_Kegiatan::find($id);
                 if ($activity->path) {
-                    $oldPath = public_path('uploads/doc_activity/' . $activity->path);
+                    $oldPath = $_SERVER['DOCUMENT_ROOT']. '/uploads/doc_activity/' .$activity->path;
                     if (file_exists($oldPath)) {
                         unlink($oldPath);
                     }
+
+                    // $oldPath = public_path('uploads/doc_activity/' . $activity->path);
+                    // if (file_exists($oldPath)) {
+                    //     unlink($oldPath);
+                    // }
                 }
                 // $activity->id_survey = $session_date;
                 // $activity->id_zona = $idZona;
