@@ -216,7 +216,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
             if($path){
                 // $file = $request->file('path'); 
                 $fileName = $idZona. '_' . $path->getClientOriginalName();
-                $path->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_kelembagaan/', $fileName);
+                $path->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_activity/', $fileName);
 
                 $activity = new Trans_Kegiatan();
                 $activity->id_survey = $session_date;
