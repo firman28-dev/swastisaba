@@ -687,10 +687,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
                     if (file_exists($oldPhotoPath)) {
                         unlink($oldPhotoPath);
                     }
-                    // $oldPath = public_path('uploads/doc_forum_kec/' . $activity->path_sk_f);
-                    // if (file_exists($oldPath)) {
-                    //     unlink($oldPath);
-                    // }
+                   
                 }
                 $activity->path_sk_f = $fileName; // Simpan jika tidak null
             }
@@ -745,6 +742,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
                 $activity->path_budget = $fileName4; // Simpan jika tidak null
 
             }
+
             $activity->updated_by = $user->id;
             $activity->save();
             return redirect()->route('kelembagaan-v2.show', $activity->id_c_kelembagaan)->with('success', 'Berhasil mengubah data');
@@ -1287,7 +1285,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
 
             
         } catch (\Throwable $th) {
-            throw $th;
+            // throw $th;
             return redirect()->back()->with('error', 'Gagal menambahkan data');
         }
 
@@ -1327,10 +1325,17 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'f_budget.required' => 'Anggaran wajib diisi',
             's_address.required' => 'Alamat Sekretariat Pokja Desa wajib diisi',
 
-            'path_sk_f' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 2MB'],
-            'path_plan_f' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 2MB'],
-            'path_s' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 2MB'],
-            'path_budget' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 2MB'],
+            'path_sk_f.mimes' => 'File SK Pokja Desa Wajib Pdf',
+            'path_sk_f.max' => 'Ukuran file SK Pokja Desa tidak boleh melebihi 2MB.',
+
+            'path_plan_f.mimes' => 'File Renja Wajib Pdf',
+            'path_plan_f.max' => 'Ukuran file Renja tidak boleh melebihi 2MB.',
+
+            'path_s.mimes' => 'File Sekretariat Pokja Wajib Pdf',
+            'path_s.max' => 'Ukuran file Sekretariat Pokja tidak boleh melebihi 2MB.',
+
+            'path_budget.mimes' => 'File Anggaran Pokja Wajib Pdf',
+            'path_budget.max' => 'Ukuran file Anggaran Pokja tidak boleh melebihi 2MB.',
         ]);
 
         $path = $request->file('path'); 
@@ -1355,12 +1360,14 @@ class Answer_Kelembagaan_New_Controller extends Controller
             if ($request->hasFile('path_sk_f')) {
                 $path1 = $request->file('path_sk_f');
                 $fileName = $idZona . '_' . $path1->getClientOriginalName();
-                $path1->move(public_path('uploads/doc_pokja_desa/'), $fileName);
+                $path1->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/', $fileName);
+                // $path1->move(public_path('uploads/doc_forum_kec/'), $fileName);
                 if($activity->path_sk_f){
-                    $oldPath = public_path('uploads/doc_pokja_desa/' . $activity->path_sk_f);
-                    if (file_exists($oldPath)) {
-                        unlink($oldPath);
+                    $oldPhotoPath = $_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/' .$activity->path_sk_f;
+                    if (file_exists($oldPhotoPath)) {
+                        unlink($oldPhotoPath);
                     }
+                   
                 }
                 $activity->path_sk_f = $fileName; // Simpan jika tidak null
             }
@@ -1369,26 +1376,30 @@ class Answer_Kelembagaan_New_Controller extends Controller
             if ($request->hasFile('path_plan_f')) {
                 $path2 = $request->file('path_plan_f');
                 $fileName2 = $idZona . '_' . $path2->getClientOriginalName();
-                $path2->move(public_path('uploads/doc_pokja_desa/'), $fileName2);
+                // $path2->move(public_path('uploads/doc_forum_kec/'), $fileName2);
+                $path2->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/', $fileName2);
                 if($activity->path_plan_f){
-                    $oldPath = public_path('uploads/doc_pokja_desa/' . $activity->path_plan_f);
-                    if (file_exists($oldPath)) {
-                        unlink($oldPath);
+                    $oldPhotoPath = $_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/' .$activity->path_plan_f;
+                    if (file_exists($oldPhotoPath)) {
+                        unlink($oldPhotoPath);
                     }
+                   
                 }
-                $activity->path_plan_f = $fileName2; // Simpan jika tidak null
+                $activity->path_plan_f = $fileName2; 
             }
             
             // Cek dan proses file Sekre
             if ($request->hasFile('path_s')) {
                 $path3 = $request->file('path_s');
                 $fileName3 = $idZona . '_' . $path3->getClientOriginalName();
-                $path3->move(public_path('uploads/doc_pokja_desa/'), $fileName3);
+                // $path3->move(public_path('uploads/doc_forum_kec/'), $fileName3);
+                $path3->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/', $fileName3);
                 if($activity->path_s){
-                    $oldPath = public_path('uploads/doc_pokja_desa/' . $activity->path_s);
-                    if (file_exists($oldPath)) {
-                        unlink($oldPath);
+                    $oldPhotoPath = $_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/' .$activity->path_s;
+                    if (file_exists($oldPhotoPath)) {
+                        unlink($oldPhotoPath);
                     }
+                   
                 }
                 
                 $activity->path_s = $fileName3; // Simpan jika tidak null
@@ -1398,17 +1409,80 @@ class Answer_Kelembagaan_New_Controller extends Controller
             if ($request->hasFile('path_budget')) {
                 $path4 = $request->file('path_budget');
                 $fileName4 = $idZona . '_' . $path4->getClientOriginalName();
-                $path4->move(public_path('uploads/doc_pokja_desa/'), $fileName4);
-
+                // $path4->move(public_path('uploads/doc_forum_kec/'), $fileName4);
+                $path4->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/', $fileName4);
+                
                 if($activity->path_budget){
-                    $oldPath = public_path('uploads/doc_pokja_desa/' . $activity->path_budget);
-                    if (file_exists($oldPath)) {
-                        unlink($oldPath);
+                    $oldPhotoPath = $_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/' .$activity->path_budget;
+                    if (file_exists($oldPhotoPath)) {
+                        unlink($oldPhotoPath);
                     }
+                   
                 }
                 $activity->path_budget = $fileName4; // Simpan jika tidak null
 
             }
+
+
+
+            // if ($request->hasFile('path_sk_f')) {
+            //     $path1 = $request->file('path_sk_f');
+            //     $fileName = $idZona . '_' . $path1->getClientOriginalName();
+            //     $path1->move(public_path('uploads/doc_pokja_desa/'), $fileName);
+            //     if($activity->path_sk_f){
+            //         $oldPath = public_path('uploads/doc_pokja_desa/' . $activity->path_sk_f);
+            //         if (file_exists($oldPath)) {
+            //             unlink($oldPath);
+            //         }
+            //     }
+            //     $activity->path_sk_f = $fileName; // Simpan jika tidak null
+            // }
+            
+            // // Cek dan proses file Renja
+            // if ($request->hasFile('path_plan_f')) {
+            //     $path2 = $request->file('path_plan_f');
+            //     $fileName2 = $idZona . '_' . $path2->getClientOriginalName();
+            //     $path2->move(public_path('uploads/doc_pokja_desa/'), $fileName2);
+            //     if($activity->path_plan_f){
+            //         $oldPath = public_path('uploads/doc_pokja_desa/' . $activity->path_plan_f);
+            //         if (file_exists($oldPath)) {
+            //             unlink($oldPath);
+            //         }
+            //     }
+            //     $activity->path_plan_f = $fileName2; // Simpan jika tidak null
+            // }
+            
+            // // Cek dan proses file Sekre
+            // if ($request->hasFile('path_s')) {
+            //     $path3 = $request->file('path_s');
+            //     $fileName3 = $idZona . '_' . $path3->getClientOriginalName();
+            //     $path3->move(public_path('uploads/doc_pokja_desa/'), $fileName3);
+            //     if($activity->path_s){
+            //         $oldPath = public_path('uploads/doc_pokja_desa/' . $activity->path_s);
+            //         if (file_exists($oldPath)) {
+            //             unlink($oldPath);
+            //         }
+            //     }
+                
+            //     $activity->path_s = $fileName3; // Simpan jika tidak null
+            // }
+            
+            // // Cek dan proses file Budget/Anggaran
+            // if ($request->hasFile('path_budget')) {
+            //     $path4 = $request->file('path_budget');
+            //     $fileName4 = $idZona . '_' . $path4->getClientOriginalName();
+            //     $path4->move(public_path('uploads/doc_pokja_desa/'), $fileName4);
+
+            //     if($activity->path_budget){
+            //         $oldPath = public_path('uploads/doc_pokja_desa/' . $activity->path_budget);
+            //         if (file_exists($oldPath)) {
+            //             unlink($oldPath);
+            //         }
+            //     }
+            //     $activity->path_budget = $fileName4; // Simpan jika tidak null
+
+            // }
+
             $activity->updated_by = $user->id;
             $activity->save();
             return redirect()->route('pokja-desa.showPokjaDesa', [$activity->id_c_kelembagaan, $village->subdistrict_id])->with('success', 'Berhasil mengubah data');
@@ -1460,13 +1534,8 @@ class Answer_Kelembagaan_New_Controller extends Controller
             foreach ($paths as $path) {
                 $fullPath = $_SERVER['DOCUMENT_ROOT'] . '/uploads/doc_pokja_desa/' . $path;
                 if (!is_null($path) && file_exists($fullPath)) {
-                    // Hapus file di /uploads/doc_forum_kec
                     unlink($fullPath);
                 }
-                // if (!is_null($path) && file_exists(public_path('uploads/doc_forum_kec/' . $path))) {
-                    
-                //     unlink(public_path('uploads/doc_forum_kec/' . $path));
-                // }
             }
             
             
