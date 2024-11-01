@@ -1116,4 +1116,547 @@ class Answer_Kelembagaan_New_Controller extends Controller
         }
         
     }
+
+    //NEW POKJA
+    public function showPokjaDesa($idCKelembagaan, $idSubdistrict)
+    {
+        $user = Auth::user();
+        $idZona = $user->id_zona;
+        $session_date = Session::get('selected_year');
+
+        $category = M_C_Kelembagaan_New::find($idCKelembagaan);
+
+        $subdistrict = M_SubDistrict::find($idSubdistrict);
+        $village = M_Village::where('subdistrict_id', $idSubdistrict)->get();
+
+        $forumKel = Trans_Forum_Kel::where('id_zona', $idZona)
+            ->where('id_survey', $session_date)
+            ->where('id_c_kelembagaan', $category->id)
+            ->get();
+
+        $activity = Trans_Kegiatan::where('id_zona', $idZona)
+            ->where('id_survey', $session_date)
+            ->where('id_c_kelembagaan', $category->id)
+            ->get();
+
+        $sent = [
+            'subdistrict' => $subdistrict,
+            'village' => $village,
+            'forumKel' => $forumKel,
+            'category' => $category,
+            'activity' => $activity
+        ];
+        return view('operator_kabkota.kelembagaan_v2.pokja.index', $sent);
+        // return $subdistrict;
+    }
+
+    public function createSkPokjaDesa($idCategory, $idVillage){
+        $village = M_Village::find($idVillage);
+        $category = M_C_Kelembagaan_New::find($idCategory);
+        $sent = [
+            'village' => $village,
+            'category' => $category
+        ];
+        return view('operator_kabkota.kelembagaan_v2.pokja.create_sk', $sent);
+
+    }
+
+    public function storeSKPokjaDesa(Request $request, $id)
+    {
+
+        $request->validate([
+            'id_village' => 'required',
+            'f_village' => 'required',
+            'no_sk' => 'required',
+            'expired_sk' => 'required',
+            'f_budget' => 'required',
+            's_address' => 'required',
+
+            'path_sk_f' => 'nullable|mimes:pdf|max:2048',
+            'path_plan_f' => 'nullable|mimes:pdf|max:2048',
+            'path_s' => 'nullable|mimes:pdf|max:2048',
+            'path_budget' => 'nullable|mimes:pdf|max:2048',
+
+        ],[
+            'id_village.required' => 'Nama Kelurahan wajib diisi',
+            'f_village.required' => 'Nama Pokja wajib diisi',
+            'no_sk.required' => 'No SK wajib dipilih',
+            'expired_sk.required' => 'Masa Berlaku SK wajib diisi',
+            'f_budget.required' => 'Anggaran wajib diisi',
+            's_address.required' => 'Alamat Sekretariat Pokja wajib diisi',
+
+            'path_sk_f.mimes' => 'File Wajib Pdf',
+            'path_sk_f.max' => 'Ukuran file tidak boleh melebihi 2MB.',
+
+            'path_plan_f.mimes' => 'File Wajib Pdf',
+            'path_plan_f.max' => 'Ukuran file tidak boleh melebihi 2MB.',
+
+            'path_s.mimes' => 'File Wajib Pdf',
+            'path_s.max' => 'Ukuran file tidak boleh melebihi 2MB.',
+
+            'path_budget.mimes' => 'File Wajib Pdf',
+            'path_budget.max' => 'Ukuran file tidak boleh melebihi 2MB.',
+            
+        ]);
+
+        $c_kelembagaan = M_C_Kelembagaan_New::find($id);
+        $village = M_Village::find($request->id_village);
+
+        $path = $request->file('path'); 
+        // $budget = $request->input('f_budget'); 
+        // return $budget
+
+        $user = Auth::user();
+        $idZona = $user->id_zona;
+        $session_date = Session::get('selected_year');
+
+        try {
+
+                $activity = new Trans_Forum_Kel();
+                $activity->id_survey = $session_date;
+                $activity->id_zona = $idZona;
+
+                $activity->id_c_kelembagaan = $id;
+                $activity->id_village = $request->id_village;
+
+                $activity->f_village = $request->f_village;
+                $activity->no_sk = $request->no_sk;
+                $activity->expired_sk = $request->expired_sk;
+
+                $activity->f_budget = floatval(str_replace('.', '', $request->f_budget));
+                $activity->s_address = $request->s_address;
+
+
+                if ($request->hasFile('path_sk_f')) {
+                    $path1 = $request->file('path_sk_f');
+                    $fileName = time() . '_SK_Pokja' . $path1->getClientOriginalName();
+                    $path1->move(public_path('uploads/doc_pokja_desa'), $fileName);
+                    $activity->path_sk_f = $fileName; // Simpan jika tidak null
+                }
+                
+                // Cek dan proses file Renja
+                if ($request->hasFile('path_plan_f')) {
+                    $path2 = $request->file('path_plan_f');
+                    $fileName2 = time() . '_Renja_' . $path2->getClientOriginalName();
+                    $path2->move(public_path('uploads/doc_pokja_desa/'), $fileName2);
+                    $activity->path_plan_f = $fileName2; // Simpan jika tidak null
+                }
+                
+                // Cek dan proses file Sekre
+                if ($request->hasFile('path_s')) {
+                    $path3 = $request->file('path_s');
+                    $fileName3 = time() . '_Sekre_' . $path3->getClientOriginalName();
+                    $path3->move(public_path('uploads/doc_pokja_desa/'), $fileName3);
+                    $activity->path_s = $fileName3; // Simpan jika tidak null
+                }
+                
+                // Cek dan proses file Budget/Anggaran
+                if ($request->hasFile('path_budget')) {
+                    $path4 = $request->file('path_budget');
+                    $fileName4 = time() . '_Anggaran_' . $path4->getClientOriginalName();
+                    $path4->move(public_path('uploads/doc_pokja_desa/'), $fileName4);
+                    $activity->path_budget = $fileName4; // Simpan jika tidak null
+                }
+
+                $activity->created_by = $user->id;
+                $activity->updated_by = $user->id;
+
+                $activity->save();
+                return redirect()->route('pokja-desa.showPokjaDesa', [$id, $village->subdistrict_id])->with('success', 'Berhasil mengubah data');
+
+                // return redirect()->back()->with('success', 'Berhasil menambahkan data');
+
+
+            
+        } catch (\Throwable $th) {
+            // throw $th;
+            return redirect()->back()->with('error', 'Gagal menambahkan data');
+        }
+
+    }
+
+    public function editSkPokjaDesa($idValue, $idVillage)
+    {
+        $village = M_Village::find($idVillage);
+        $activity = Trans_Forum_Kel::find($idValue);
+        $sent = [
+            'village' => $village,
+            'activity' => $activity
+        ];
+        return view('operator_kabkota.kelembagaan_v2.pokja.edit_sk', $sent);
+    }
+
+    public function updateSKPokjaDesa(Request $request, $id)
+    {
+        // $activity = Trans_Forum_Kec::findOrFail($id);
+        // return $activity;
+        $request->validate([
+            'f_village' => 'required',
+            'no_sk' => 'required',
+            'expired_sk' => 'required',
+            'f_budget' => 'required',
+            's_address' => 'required',
+
+            'path_sk_f' => 'nullable|mimes:pdf|max:2048',
+            'path_plan_f' => 'nullable|mimes:pdf|max:2048',
+            'path_s' => 'nullable|mimes:pdf|max:2048',
+            'path_budget' => 'nullable|mimes:pdf|max:2048',
+
+        ],[
+            'f_village.required' => 'Pokja Desa wajib diisi',
+            'no_sk.required' => 'No SK wajib dipilih',
+            'expired_sk.required' => 'Masa Berlaku SK wajib diisi',
+            'f_budget.required' => 'Anggaran wajib diisi',
+            's_address.required' => 'Alamat Sekretariat Pokja Desa wajib diisi',
+
+            'path_sk_f' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 2MB'],
+            'path_plan_f' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 2MB'],
+            'path_s' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 2MB'],
+            'path_budget' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 2MB'],
+        ]);
+
+        $path = $request->file('path'); 
+        $village = M_Village::find($request->id_village); 
+
+
+        $user = Auth::user();
+        $idZona = $user->id_zona;
+        $session_date = Session::get('selected_year');
+
+        try 
+        {
+           
+            $activity = Trans_Forum_Kel::find($id);
+            $activity->f_village = $request->f_village;
+            $activity->no_sk = $request->no_sk;
+            $activity->expired_sk = $request->expired_sk;
+
+            $activity->f_budget = floatval(str_replace('.', '', $request->f_budget));
+            $activity->s_address = $request->s_address;
+
+            if ($request->hasFile('path_sk_f')) {
+                $path1 = $request->file('path_sk_f');
+                $fileName = $idZona . '_' . $path1->getClientOriginalName();
+                $path1->move(public_path('uploads/doc_pokja_desa/'), $fileName);
+                if($activity->path_sk_f){
+                    $oldPath = public_path('uploads/doc_pokja_desa/' . $activity->path_sk_f);
+                    if (file_exists($oldPath)) {
+                        unlink($oldPath);
+                    }
+                }
+                $activity->path_sk_f = $fileName; // Simpan jika tidak null
+            }
+            
+            // Cek dan proses file Renja
+            if ($request->hasFile('path_plan_f')) {
+                $path2 = $request->file('path_plan_f');
+                $fileName2 = $idZona . '_' . $path2->getClientOriginalName();
+                $path2->move(public_path('uploads/doc_pokja_desa/'), $fileName2);
+                if($activity->path_plan_f){
+                    $oldPath = public_path('uploads/doc_pokja_desa/' . $activity->path_plan_f);
+                    if (file_exists($oldPath)) {
+                        unlink($oldPath);
+                    }
+                }
+                $activity->path_plan_f = $fileName2; // Simpan jika tidak null
+            }
+            
+            // Cek dan proses file Sekre
+            if ($request->hasFile('path_s')) {
+                $path3 = $request->file('path_s');
+                $fileName3 = $idZona . '_' . $path3->getClientOriginalName();
+                $path3->move(public_path('uploads/doc_pokja_desa/'), $fileName3);
+                if($activity->path_s){
+                    $oldPath = public_path('uploads/doc_pokja_desa/' . $activity->path_s);
+                    if (file_exists($oldPath)) {
+                        unlink($oldPath);
+                    }
+                }
+                
+                $activity->path_s = $fileName3; // Simpan jika tidak null
+            }
+            
+            // Cek dan proses file Budget/Anggaran
+            if ($request->hasFile('path_budget')) {
+                $path4 = $request->file('path_budget');
+                $fileName4 = $idZona . '_' . $path4->getClientOriginalName();
+                $path4->move(public_path('uploads/doc_pokja_desa/'), $fileName4);
+
+                if($activity->path_budget){
+                    $oldPath = public_path('uploads/doc_pokja_desa/' . $activity->path_budget);
+                    if (file_exists($oldPath)) {
+                        unlink($oldPath);
+                    }
+                }
+                $activity->path_budget = $fileName4; // Simpan jika tidak null
+
+            }
+            $activity->updated_by = $user->id;
+            $activity->save();
+            return redirect()->route('pokja-desa.showPokjaDesa', [$activity->id_c_kelembagaan, $village->subdistrict_id])->with('success', 'Berhasil mengubah data');
+
+
+        } 
+        catch (\Throwable $th) 
+        {
+            // throw $th;
+            return redirect()->back()->with('error', 'Gagal mengubah data');
+
+        }
+
+    }
+
+    public function destroyPokjaDesa($id)
+    {
+        $activity = Trans_Forum_Kel::find($id);
+        // return $activity;
+
+        try {
+            if (!is_null($activity->path_sk_f) && file_exists(public_path('uploads/doc_pokja_desa/'.$activity->path_sk_f))) {
+                // Hapus file di public/uploads/doc_kelembagaan
+                unlink(public_path('uploads/doc_pokja_desa/'.$activity->path_sk_f));
+            }
+    
+            if (!is_null($activity->path_plan_f) && file_exists(public_path('uploads/doc_pokja_desa/'.$activity->path_plan_f))) {
+                // Hapus file di public/uploads/doc_kelembagaan
+                unlink(public_path('uploads/doc_pokja_desa/'.$activity->path_plan_f));
+            }
+            if (!is_null($activity->path_s) && file_exists(public_path('uploads/doc_pokja_desa/'.$activity->path_s))) {
+                // Hapus file di public/uploads/doc_kelembagaan
+                unlink(public_path('uploads/doc_pokja_desa/'.$activity->path_s));
+            }
+            if (!is_null($activity->path_budget) && file_exists(public_path('uploads/doc_pokja_desa/'.$activity->path_budget))) {
+                // Hapus file di public/uploads/doc_kelembagaan
+                unlink(public_path('uploads/doc_pokja_desa/'.$activity->path_budget));
+            }
+            
+            
+    
+            $activity->delete();
+            return redirect()->back()->with('success', 'Berhasil menghapus data');
+        } catch (\Throwable $th) {
+            //throw $th;
+            return redirect()->back()->with('error', 'Gagal menghapus data');
+
+        }
+        
+    }
+
+    //act-desa
+    public function createActivityPokja($idCategory, $idVillage)
+    {
+        $village = M_Village::find($idVillage);
+        $category = M_C_Kelembagaan_New::find($idCategory);
+
+        // return $category;
+        $sent = [
+            'village' => $village,
+            'category' => $category
+        ];
+        // return $subdistrict;
+        return view('operator_kabkota.kelembagaan_v2.pokja.create_activity', $sent);
+
+    }
+
+    public function storeActivityPokja(Request $request, $id)
+    {
+
+        $request->validate([
+            'name' => 'required',
+            'id_kode' => 'required',
+            'time' => 'required',
+            'participant' => 'required',
+            'result' => 'required',
+            'note' => 'required',
+            'path' => 'nullable|mimes:pdf|max:2048',
+        ],[
+            'name.required' => 'Option wajib diisi',
+            'id_kode.required' => 'Kode Kecamatan wajib diisi',
+            'time.required' => 'Waktu wajib dipilih',
+            'result.required' => 'Hasil wajib dipilih',
+            'note.required' => 'Keterangan wajib dipilih',
+            'path.mimes' => 'File Wajib Pdf',
+            'path.max' => 'FIle Ukuran Maksimal 2MB',
+        ]);
+
+        $c_kelembagaan = M_C_Kelembagaan_New::find($id);
+        $village = M_Village::find($request->id_kode);
+        $path = $request->file('path'); 
+
+        $user = Auth::user();
+        $idZona = $user->id_zona;
+        $session_date = Session::get('selected_year');
+
+        try {
+            if($path){
+                // $file = $request->file('path'); 
+                $fileName = $idZona. '_' . $path->getClientOriginalName();
+                $path->move(public_path('uploads/doc_activity/'), $fileName);
+
+                $activity = new Trans_Kegiatan();
+                $activity->id_survey = $session_date;
+                $activity->id_zona = $idZona;
+
+                $activity->id_c_kelembagaan = $id;
+                $activity->name = $request->name;
+                $activity->id_kode = $request->id_kode;
+
+                $activity->time = $request->time;
+                $activity->participant = $request->participant;
+                $activity->result = $request->result;
+                $activity->note = $request->note;
+                $activity->path = $fileName;
+
+                $activity->created_by = $user->id;
+                $activity->updated_by = $user->id;
+
+                $activity->save();
+
+                return redirect()->route('pokja-desa.showPokjaDesa', [$activity->id_c_kelembagaan, $village->subdistrict_id])->with('success', 'Berhasil menambah data');
+
+                // return redirect()->back()->with('success', 'Berhasil menambahkan kegiatan');
+
+
+            }
+
+            else
+            {
+                $activity = new Trans_Kegiatan();
+                $activity->id_survey = $session_date;
+                $activity->id_zona = $idZona;
+
+                $activity->id_c_kelembagaan = $id;
+                $activity->name = $request->name;
+                $activity->id_kode = $request->id_kode;
+
+                $activity->time = $request->time;
+                $activity->participant = $request->participant;
+                $activity->result = $request->result;
+                $activity->note = $request->note;
+                $activity->created_by = $user->id;
+                $activity->updated_by = $user->id;
+
+                $activity->save();
+                return redirect()->route('pokja-desa.showPokjaDesa', [$activity->id_c_kelembagaan, $village->subdistrict_id])->with('success', 'Berhasil menambah data');
+
+                // return redirect()->route('kelembagaan-v2.show', $activity->id_c_kelembagaan)->with('success', 'Berhasil mengubah data');
+
+                // return redirect()->back()->with('success', 'Berhasil menambahkan kegiatan');
+
+            }
+
+
+        } catch (\Throwable $th) {
+            // throw $th;
+            return redirect()->back()->with('error', 'Gagal menambahkan kegiatan');
+
+        }
+
+    }
+
+
+    public function editActivityPokja($idValue, $idVillage)
+    {
+        $village = M_Village::find($idVillage);
+        $activity = Trans_Kegiatan::find($idValue);
+        $sent = [
+            'village' => $village,
+            'activity' => $activity
+        ];
+        // return $subdistrict;
+        return view('operator_kabkota.kelembagaan_v2.pokja.edit_activity', $sent);
+
+    }
+
+    
+    public function updateActivityPokjaDesa(Request $request, $id)
+    {
+        // $activity = Trans_Kegiatan::findOrFail($id);
+        // return $activity;
+        $request->validate([
+            'name' => 'required',
+            'time' => 'required',
+            'participant' => 'required',
+            'result' => 'required',
+            'note' => 'required',
+            'path' => 'nullable|mimes:pdf|max:2048',
+        ],[
+            'name.required' => 'Option wajib diisi',
+            'time.required' => 'Waktu wajib dipilih',
+            'result.required' => 'Hasil wajib dipilih',
+            'note.required' => 'Keterangan wajib dipilih',
+            'path.mimes' => 'File Wajib Pdf',
+            'path.max' => 'FIle Ukuran Maksimal 2MB',
+        ]);
+
+        $village = M_Village::find($request->id_kode);
+
+        $path = $request->file('path'); 
+
+        $user = Auth::user();
+        $idZona = $user->id_zona;
+        $session_date = Session::get('selected_year');
+
+        try {
+            if($path){
+                // $file = $request->file('path'); 
+                
+                $fileName = $idZona. '_' . $path->getClientOriginalName();
+                $path->move(public_path('uploads/doc_activity/'), $fileName);
+
+                $activity = Trans_Kegiatan::find($id);
+                if ($activity->path) {
+                    $oldPath = public_path('uploads/doc_activity/' . $activity->path);
+                    if (file_exists($oldPath)) {
+                        unlink($oldPath);
+                    }
+                }
+                // $activity->id_survey = $session_date;
+                // $activity->id_zona = $idZona;
+
+                // $activity->id_c_kelembagaan = $id;
+                $activity->name = $request->name;
+                $activity->time = $request->time;
+                $activity->participant = $request->participant;
+                $activity->result = $request->result;
+                $activity->note = $request->note;
+                $activity->path = $fileName;
+                $activity->created_by = $user->id;
+                $activity->updated_by = $user->id;
+
+                $activity->save();
+                return redirect()->route('pokja-desa.showPokjaDesa', [$activity->id_c_kelembagaan, $village->subdistrict_id])->with('success', 'Berhasil mengubah data');
+
+                // return redirect()->route('kelembagaan-v2.show', $activity->id_c_kelembagaan)->with('success', 'Berhasil mengubah kegiatan');
+
+                // return redirect()->back()->with('success', 'Berhasil menambahkan kegiatan');
+
+
+            }
+
+            else
+            {
+                $activity = Trans_Kegiatan::find($id);
+                $activity->name = $request->name;
+                $activity->time = $request->time;
+                $activity->participant = $request->participant;
+                $activity->result = $request->result;
+                $activity->note = $request->note;
+                $activity->updated_by = $user->id;
+
+                $activity->save();
+                return redirect()->route('pokja-desa.showPokjaDesa', [$activity->id_c_kelembagaan, $village->subdistrict_id])->with('success', 'Berhasil mengubah data');
+
+                // return redirect()->route('kelembagaan-v2.show', $activity->id_c_kelembagaan)->with('success', 'Berhasil mengubah kegiatan');
+
+            }
+
+
+        } catch (\Throwable $th) {
+            // throw $th;
+            return redirect()->back()->with('error', 'Gagal menambahkan kegiatan');
+
+        }
+
+    }
 }
