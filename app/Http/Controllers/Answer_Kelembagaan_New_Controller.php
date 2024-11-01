@@ -7,6 +7,7 @@ use App\Models\M_District;
 use App\Models\M_Q_Kelembagaan_New;
 use App\Models\M_SubDistrict;
 use App\Models\M_Village;
+use App\Models\Setting_Time;
 use App\Models\Trans_Doc_Kelembagaan;
 use App\Models\Trans_Forum_Kec;
 use App\Models\Trans_Forum_Kel;
@@ -61,6 +62,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
 
        
         // return $forumKec;
+        $schedule = Setting_Time::where('id_group', $user->id_group)->first();
         
         $sent =[
             'category' => $category,
@@ -71,6 +73,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'forumKec' => $forumKec,
             'forumKel' => $forumKel,
             'subdistrict' => $subdistrict,
+            'schedule' => $schedule
         ];
         // return $q_kelembagaan;
         return view('operator_kabkota.kelembagaan_v2.index', $sent);
@@ -1131,12 +1134,15 @@ class Answer_Kelembagaan_New_Controller extends Controller
             ->where('id_c_kelembagaan', $category->id)
             ->get();
 
+        $schedule = Setting_Time::where('id_group', $user->id_group)->first();
+
         $sent = [
             'subdistrict' => $subdistrict,
             'village' => $village,
             'forumKel' => $forumKel,
             'category' => $category,
-            'activity' => $activity
+            'activity' => $activity,
+            'schedule' => $schedule
         ];
         return view('operator_kabkota.kelembagaan_v2.pokja.index', $sent);
         // return $subdistrict;

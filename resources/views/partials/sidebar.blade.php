@@ -672,7 +672,18 @@
 
                     <div class="menu-item menu-accordion {{
                             request()->routeIs('kelembagaan.*') ||
-                            Route::is('kelembagaan-v2.show')
+                            Route::is('kelembagaan-v2.show') ||
+                            Route::is('kelembagaan-v2.editActivity') ||
+                            Route::is('kelembagaan-v2.editForumKec') ||
+                            Route::is('kelembagaan-v2.createForumKec') ||
+                            Route::is('act-kec.createActivityKec') ||
+                            Route::is('pokja-desa.showPokjaDesa') ||
+                            Route::is('pokja-desa.createSkPokjaDesa') ||
+                            Route::is('pokja-desa.editSkPokjaDesa') ||
+                            Route::is('pokja-desa.createActivityPokja') ||
+                            Route::is('pokja-desa.editActivityPokja')
+
+                            
                             ? 'show' : '' 
                         }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">

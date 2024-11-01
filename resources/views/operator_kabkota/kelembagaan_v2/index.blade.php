@@ -8,7 +8,26 @@
 
 
 @section('content')
-   
+   @php
+       $now = strtotime(now());
+        // echo($now);
+        $start = strtotime($schedule->started_at);
+        $end = strtotime($schedule->ended_at);
+   @endphp
+
+    <div class="card mb-5 p-7 bg-card-stopwatch text-custom-primary rounded rounded-4">
+        <div class="row align-items-center">
+            <div class="col-lg-6 ">
+                <h3 class="text-custom-primary fw-bolder">{{$schedule->notes}}</h3>
+                <h3 class="text-custom-primary fw-bolder">Jadwal dimulai tanggal {{$schedule->started_at->format('d-m-Y')}} jam {{$schedule->started_at->format('H:i')}}</h3>
+                <h3 class="text-custom-primary fw-bolder">Jadwal berakhir tanggal {{$schedule->ended_at->format('d-m-Y')}} jam {{$schedule->ended_at->format('H:i')}}</h3>
+            </div>
+            <div class="col-lg-6 text-end">
+                <img src="{{asset('assets/img/stopwatch.png')}}" class="w-80px" alt="">
+                <span id="time-range" class="fw-bolder"></span>
+            </div>
+        </div>
+    </div>
    
     <div class="card mb-5 mb-xl-10">
         <div class="card-header justify-content-between">
@@ -138,8 +157,8 @@
                                                             <table class="table mb-3 table-striped table-row-bordered border rounded mb-3">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th class="border border-1">Opsi Jawaban</th>
-                                                                        <th class="w-300px border border-1">Nilai Jawaban</th>
+                                                                        <th class="w-50 border border-1">Opsi Jawaban</th>
+                                                                        <th class="border border-1">Nilai Jawaban</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -160,7 +179,11 @@
                                                                                                 id="name_option_{{$opsi->id}}"
                                                                                                 value="{{ $opsi->id }}" 
                                                                                                 @if($relatedAnswer->id_opt_kelembagaan == $opsi->id) checked @endif
-                                                                                                required
+                                                                                                @if ($now >= $start && $now <= $end) 
+                                                                                                    required 
+                                                                                                @else 
+                                                                                                    disabled 
+                                                                                                @endif
                                                                                             >
                                                                                             <label class="form-check-label" for="name_option">{{ $opsi->name }}</label>
                                                                                         </div>
@@ -183,7 +206,11 @@
                                                                                                 type="radio" 
                                                                                                 name="id_option" 
                                                                                                 value="{{ $opsi->id }}" 
-                                                                                                required
+                                                                                                @if ($now >= $start && $now <= $end) 
+                                                                                                    required 
+                                                                                                @else 
+                                                                                                    disabled 
+                                                                                                @endif
                                                                                                 id="name_option_{{$opsi->id}}"
                                                                                             >
                                                                                             <label class="form-check-label" for="name_option_{{$opsi->id}}">{{ $opsi->name }}</label>
@@ -205,8 +232,8 @@
                                                             <table class="table mb-3 table-striped table-row-bordered border rounded">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th class="border border-1">Data Pendukung</th>
-                                                                        <th class=" w-300px border border-1">File</th>
+                                                                        <th class="w-50 border border-1">Data Pendukung</th>
+                                                                        <th class="border border-1">File</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -227,7 +254,13 @@
                                                                                         Lihat
                                                                                     </div>
                                                                                 </a>
-                                                                                <button type="submit" class="btn btn-danger btn-sm delete-btn" data-id="{{ $uploadedFile->id }}">
+                                                                                <button 
+                                                                                    @if ($now >= $start && $now <= $end)
+                                                                                        type="submit" class="btn btn-danger btn-sm delete-btn" data-id="{{ $uploadedFile->id }}"
+                                                                                    @else
+                                                                                        class="btn btn-danger btn-sm" disabled
+                                                                                    @endif
+                                                                                >
                                                                                     Hapus
                                                                                 </button>
                                                                             @endif
@@ -238,9 +271,17 @@
                                                             </table>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal">Batal</button>
+                                                        <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal" onclick="location.reload()">Batal</button>
                                                         &nbsp;
-                                                        <button type="submit" class="btn btn-primary rounded-4 hover-scale">Simpan</button>
+                                                        <button 
+                                                        @if ($now >= $start && $now <= $end)
+                                                            type="submit" 
+                                                            class="btn btn-primary rounded-4 hover-scale"
+                                                        @else
+                                                            class="btn btn-primary rounded-4 hover-scale" disabled
+                                                        @endif>
+                                                            Simpan
+                                                        </button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -272,9 +313,6 @@
             </div>
         </div>
         <div class="card-body">
-            {{-- <button type="button" class="btn btn-primary btn-sm" id="createNewForumKec" data-bs-toggle="modal" data-bs-target="#confirmForumKec"> 
-                <i class="nav-icon fas fa-folder-plus "></i>Tambah
-            </button> --}}
             <div class="table-responsive mt-3">
                 <table id="tableForumKec" class="table table-striped table-row-bordered border rounded" style="width:100%">
                     <thead>
@@ -304,51 +342,27 @@
                                 <td class="border-1 border text-center">{{ $loop->iteration }}</td>
                                 <td class="border border-1 text-center">
                                     @if (is_null($forum2))
-                                        <a href="{{ route('kelembagaan-v2.createForumKec', [$category->id, $item->id]) }}" class="btn btn-icon btn-primary w-35px h-35px mb-3">
+                                        <a href="{{ route('kelembagaan-v2.createForumKec', [$category->id, $item->id]) }}" class="btn btn-icon btn-primary w-35px h-35px mb-3 {{ $now >= $start && $now <= $end ? '' : 'disabled' }}">
                                             <div class="d-flex justify-content-center">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </div>
                                         </a>
                                     @else
-                                        <a href="{{ route('kelembagaan-v2.editForumKec', $item->id) }}" class="btn btn-icon btn-primary w-35px h-35px mb-3">
+                                        <a href="{{ route('kelembagaan-v2.editForumKec', $item->id) }}" class="btn btn-icon btn-primary w-35px h-35px mb-3 {{ $now >= $start && $now <= $end ? '' : 'disabled' }}">
                                             <div class="d-flex justify-content-center">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </div>
                                         </a>
                                     @endif
-                                    {{-- <button class="btn btn-icon btn-danger w-35px h-35px mb-3" data-bs-toggle="modal" data-bs-target="#confirmDeleteForumKec{{ $item->id }}">
-                                        <div class="d-flex justify-content-center">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </div>
-                                    </button>
-                                    <div class="modal text-start fade" tabindex="-1" id="confirmDeleteForumKec{{ $item->id }}">
-                                        <form action="{{ route('kelembagaan-v2.destroyForumKec', $item->id) }}" method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h3 class="modal-title">
-                                                            Hapus Data
-                                                        </h3>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Apakah yakin ingin menghapus data?</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary rounded-4" data-bs-dismiss="modal">Batal</button>
-                                                        <button type="submit" class="btn btn-primary rounded-4">Hapus</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div> --}}
+                                   
                                 </td>
                                 <td class="border-1 border">{{$item->name}}</td>
                                 @if ($forum2)
                                     <td class="border-1 border">{{$forum2->f_district}}</td>
                                     <td class="border-1 border">{{$forum2->no_sk}}</td>
-                                    <td class="border-1 border">{{$forum2->expired_sk}}</td>
+                                    <td class="border-1 border">
+                                        {{ \Carbon\Carbon::parse($forum2->expired_sk)->format('d-F-Y') ?? '-' }}
+                                    </td>
                                     <td class="border-1 border">{{ number_format($forum2->f_budget,0,',','.') }}</td>
                                     <td class="border-1 border">{{$forum2->s_address}}</td>
 
@@ -438,7 +452,7 @@
         <div class="card-body">
             
             <div class="table-responsive mt-3">
-                <table id="tableKegiatan2"  class="table table-striped table-row-bordered border rounded" style="width:100%">
+                <table  class="table table-striped table-row-bordered border rounded" style="width:100%">
                     <thead>
                         <tr>
                             <th class="min-w-60px text-center border-1 border">No.</th>
@@ -466,7 +480,7 @@
                                         @if ($firstRow)
                                             <td class="border-1 border text-center" rowspan="{{ $activityCount }}">{{ $index + 1 }}</td>
                                             <td class="border-1 border text-center" rowspan="{{ $activityCount }}">
-                                                <a href="{{ route('act-kec.createActivityKec', [$category->id, $item->id]) }}" class="btn btn-icon btn-primary w-35px h-35px mb-3">
+                                                <a href="{{ route('act-kec.createActivityKec', [$category->id, $item->id]) }}" class="btn btn-icon btn-primary w-35px h-35px mb-3 {{ $now >= $start && $now <= $end ? '' : 'disabled' }}">
                                                     <div class="d-flex justify-content-center">
                                                         <i class="nav-icon fas fa-folder-plus"></i>
                                                     </div>
@@ -498,12 +512,12 @@
                                             </td>
                                         @endif
                                         <td class="border border-1 text-center">
-                                            <a href="{{ route('kelembagaan-v2.editActivity', $item_v2->id) }}" class="btn btn-icon btn-primary w-35px h-35px mb-3">
+                                            <a href="{{ route('kelembagaan-v2.editActivity', $item_v2->id) }}" class="btn btn-icon btn-primary w-35px h-35px mb-3 {{ $now >= $start && $now <= $end ? '' : 'disabled' }}">
                                                 <div class="d-flex justify-content-center">
                                                     <i class="fa-solid fa-pen-to-square"></i>
                                                 </div>
                                             </a>
-                                            <button class="btn btn-icon btn-danger w-35px h-35px mb-3" data-bs-toggle="modal" data-bs-target="#confirmDeleteActivity{{ $item->id }}">
+                                            <button class="btn btn-icon btn-danger w-35px h-35px mb-3 {{ $now >= $start && $now <= $end ? '' : 'disabled' }}" data-bs-toggle="modal" data-bs-target="#confirmDeleteActivity{{ $item->id }}">
                                                 <div class="d-flex justify-content-center">
                                                     <i class="fa-solid fa-trash"></i>
                                                 </div>
@@ -537,7 +551,7 @@
                                 <tr>
                                     <td class="border-1 border text-center">{{ $index + 1 }}</td>
                                     <td class="border-1 border text-center">
-                                        <a href="{{ route('act-kec.createActivityKec', [$category->id, $item->id]) }}" class="btn btn-icon btn-primary w-35px h-35px mb-3">
+                                        <a href="{{ route('act-kec.createActivityKec', [$category->id, $item->id]) }}" class="btn btn-icon btn-primary w-35px h-35px mb-3 {{ $now >= $start && $now <= $end ? '' : 'disabled' }}">
                                             <div class="d-flex justify-content-center">
                                                 <i class="nav-icon fas fa-folder-plus"></i>
                                             </div>
@@ -564,199 +578,6 @@
 
     {{-- pokja --}}
     @elseif($category && $category->is_status == 3)
-    {{-- <div class="card mb-5 mb-xl-10">
-        <div class="card-header">
-            <div class="card-title">
-                <h3>SK Pokja Desa/Kelurahan Sehat</h3>
-            </div>
-        </div>
-        <div class="card-body">
-            <button type="button" class="btn btn-primary btn-sm" id="createNewForumKel" data-bs-toggle="modal" data-bs-target="#confirmForumKel"> 
-                <i class="nav-icon fas fa-folder-plus "></i>Tambah
-            </button>
-            <div class="table-responsive mt-3">
-                <table  class="table table-striped table-row-bordered border rounded" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th class="min-w-60px text-center border-1 border">No.</th>
-                            <th class="min-w-100px text-center border-1 border"></th>
-                            <th class="min-w-200px border-1 border">Nama Kecamatan</th>
-                            <th class="min-w-200px border-1 border">Nama Kelurahan</th>
-                            <th class="min-w-200px border-1 border">Pokja Desa</th>
-                            <th class="min-w-200px border-1 border">No. SK Pokja</th>
-                            <th class="min-w-200px border-1 border">Masa Berlaku SK Pokja</th>
-                            <th class="min-w-200px border-1 border">Alokasi Anggaran Pokja</th>
-                            <th class="min-w-200px border-1 border">Alamat Sekretariat Pokja</th>
-
-                            <th class="min-w-150px border-1 border text-center">Dokumen SK Pokja</th>
-                            <th class="min-w-150px border-1 border text-center">Dokumen Renja Pokja</th>
-                            <th class="min-w-150px border-1 border text-center">Dokumen Anggaran</th>
-                            <th class="min-w-150px border-1 border text-center">Foto Sekretariat</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                       @foreach ($forumKel as $item)
-                           <tr>
-                                <td class="border-1 border text-center">{{ $loop->iteration }}</td>
-                                <td class="border border-1 text-center">
-                                    <a href="{{ route('kelembagaan-v2.editForumDesa', $item->id) }}" class="btn btn-icon btn-primary w-35px h-35px mb-3">
-                                        <div class="d-flex justify-content-center">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </div>
-                                    </a>
-                                    <button class="btn btn-icon btn-danger w-35px h-35px mb-3" data-bs-toggle="modal" data-bs-target="#confirmDeleteForumKec{{ $item->id }}">
-                                        <div class="d-flex justify-content-center">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </div>
-                                    </button>
-                                    <div class="modal text-start fade" tabindex="-1" id="confirmDeleteForumKec{{ $item->id }}">
-                                        <form action="{{ route('kelembagaan-v2.destroyForumDesa', $item->id) }}" method="POST">
-                                            @csrf
-                                            @method('delete')
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h3 class="modal-title">
-                                                            Hapus Data
-                                                        </h3>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Apakah yakin ingin menghapus data?</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary rounded-4" data-bs-dismiss="modal">Batal</button>
-                                                        <button type="submit" class="btn btn-primary rounded-4">Hapus</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </td>
-                                <td class="border-1 border">{{$item->district}}</td>
-                                <td class="border-1 border">{{$item->subdistrict}}</td>
-                                <td class="border-1 border">{{$item->f_subdistrict}}</td>
-                                <td class="border-1 border">{{$item->no_sk}}</td>
-                                <td class="border-1 border">{{$item->expired_sk}}</td>
-                                <td class="border-1 border">{{$item->f_budget}}</td>
-                                <td class="border-1 border">{{$item->s_address}}</td>
-
-                                @if (!is_null($item->path_sk_f))
-                                <td class="border-1 border text-center">
-                                    <a href="{{ asset('uploads/doc_pokja_desa/'.$item->path_sk_f) }}" target="_blank" class="btn btn-success btn-sm ">
-                                        <div class="d-flex justify-content-center">
-                                            Lihat
-                                        </div>
-                                    </a>
-                                </td>
-                                @else
-                                <td class="border-1 border text-center">
-                                    <div class="badge badge-light-danger">Belum diupload</div>
-                                </td>
-                                @endif
-
-                                @if (!is_null($item->path_plan_f))
-                                <td class="border-1 border text-center">
-                                    <a href="{{ asset('uploads/doc_pokja_desa/'.$item->path_plan_f) }}" target="_blank" class="btn btn-success btn-sm ">
-                                        <div class="d-flex justify-content-center">
-                                            Lihat
-                                        </div>
-                                    </a>
-                                </td>
-                                @else
-                                <td class="border-1 border text-center">
-                                    <div class="badge badge-light-danger">Belum diupload</div>
-                                </td>
-                                @endif
-
-                                
-
-                                @if (!is_null($item->path_budget))
-                                <td class="border-1 border text-center">
-                                    <a href="{{ asset('uploads/doc_pokja_desa/'.$item->path_budget) }}" target="_blank" class="btn btn-success btn-sm ">
-                                        <div class="d-flex justify-content-center">
-                                            Lihat
-                                        </div>
-                                    </a>
-                                </td>
-                                @else
-                                <td class="border-1 border text-center">
-                                    <div class="badge badge-light-danger">Belum diupload</div>
-                                </td>
-                                @endif
-
-                                @if (!is_null($item->path_s))
-                                <td class="border-1 border text-center">
-                                    <a href="{{ asset('uploads/doc_pokja_desa/'.$item->path_s) }}" target="_blank" class="btn btn-success btn-sm ">
-                                        <div class="d-flex justify-content-center">
-                                            Lihat
-                                        </div>
-                                    </a>
-                                </td>
-                                @else
-                                <td class="border-1 border text-center">
-                                    <div class="badge badge-light-danger">Belum diupload</div>
-                                </td>
-                                @endif
-                           </tr>
-                       @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="card mb-5 mb-xl-10">
-        <div class="card-header justify-content-between">
-            <div class="card-title">
-                <h3>Kegiatan Pokja Desa/Kelurahan</h3>
-            </div>
-        </div>
-        <div class="card-body">
-            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#confirmNewActivity"> 
-                <i class="nav-icon fas fa-folder-plus "></i>Tambah
-            </button>
-            <div class="table-responsive mt-3">
-                <table id="tableKegiatan" class="table table-striped table-row-bordered border rounded" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th class="w-60px text-center border-1 border">No.</th>
-                            <th class="border-1 border">Nama Kecamatan</th>
-                            <th class="border-1 border">Nama Kegiatan</th>
-                            <th class="border-1 border">Waktu</th>
-                            <th class="border-1 border">Jumlah Peserta</th>
-                            <th class="border-1 border">Hasil</th>
-                            <th class="border-1 border">Keterangan</th>
-                            <th class="border-1 border text-center">Dokumen</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($subdistrict as $item)
-                           <tr>
-                                <td class="border-1 border text-center">{{ $loop->iteration }}</td>
-                                <td class="border-1 border">{{$item->name}}</td>
-                                @php
-                                @endphp
-                                @foreach ($activity as $item_v2)
-                                    <td class="border-1 border">{{$item_v2->name}}</td>
-                                    <td class="border-1 border text-center"></td>
-                                    <td class="border-1 border"></td>
-                                    <td class="border-1 border"></td>
-                                    <td class="border-1 border"></td>
-                                    <td class="border-1 border"></td>
-
-                                @endforeach
-                                
-                                
-                           </tr>
-                       @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div> --}}
     
     <div class="card mb-5 mb-xl-10">
         <div class="card-header">
@@ -800,7 +621,12 @@
             </div>
         </div>
         <div class="card-body">
-            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#confirmNewActivity"> 
+            <button 
+                @if ($now >= $start && $now <= $end)
+                    type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#confirmNewActivity"
+                @else
+                    class="btn  btn btn-primary btn-sm" disabled
+                @endif>
                 <i class="nav-icon fas fa-folder-plus "></i>Tambah
             </button>
             <div class="table-responsive mt-3">
@@ -822,12 +648,18 @@
                            <tr>
                                 <td class="border-1 border text-center">{{ $loop->iteration }}</td>
                                 <td class="border border-1 text-center">
-                                    <a href="{{ route('kelembagaan-v2.editActivity', $item->id) }}" class="btn btn-icon btn-primary w-35px h-35px mb-3">
+                                    <a href="{{ route('kelembagaan-v2.editActivity', $item->id) }}" 
+                                        class="btn btn-icon btn-primary w-35px h-35px mb-3 {{$now >= $start && $now <= $end ? '' : 'disabled'}} " >
                                         <div class="d-flex justify-content-center">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </div>
                                     </a>
-                                    <button class="btn btn-icon btn-danger w-35px h-35px mb-3" data-bs-toggle="modal" data-bs-target="#confirmDeleteActivity{{ $item->id }}">
+                                    <button  
+                                        @if ($now >= $start && $now <= $end)
+                                            class="btn btn-icon btn-danger w-35px h-35px mb-3" data-bs-toggle="modal" data-bs-target="#confirmDeleteActivity{{ $item->id }}"
+                                        @else
+                                            class="btn btn-icon btn-danger w-35px h-35px mb-3" disabled
+                                        @endif>
                                         <div class="d-flex justify-content-center">
                                             <i class="fa-solid fa-trash"></i>
                                         </div>
@@ -1185,6 +1017,46 @@
             const rupiah = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             input.value = rupiah;
         }
+
+        var startTime = @json($start);
+        var endTime = @json($end);
+        var now = Math.floor(Date.now() / 1000); // Waktu saat ini dalam detik
+
+        // Fungsi untuk menghitung dan menampilkan waktu tersisa
+        function updateTime() {
+            now = Math.floor(Date.now() / 1000); // Update waktu saat ini
+
+            if (now < startTime) {
+                // Jika waktu sekarang sebelum waktu mulai
+                var timeDiff = startTime - now;
+                document.getElementById("time-range").innerHTML = "Waktu mulai: " + formatTime(timeDiff);
+            } else if (now >= startTime && now <= endTime) {
+                // Jika waktu sekarang dalam rentang waktu
+                var timeDiff = endTime - now;
+                document.getElementById("time-range").innerHTML = "Waktu tersisa: " + formatTime(timeDiff);
+            } else {
+                // Jika waktu sekarang setelah waktu selesai
+                document.getElementById("time-range").innerHTML = "Waktu sudah berakhir.";
+            }
+        }
+
+        // Fungsi untuk memformat waktu dalam format jam:menit:detik
+        function formatTime(seconds) {
+            var months = Math.floor(seconds / (3600 * 24 * 30)); // Menghitung bulan
+            var days = Math.floor((seconds % (3600 * 24 * 30)) / (3600 * 24)); // Menghitung hari
+            var hours = Math.floor((seconds % (3600 * 24)) / 3600); // Menghitung jam
+            var minutes = Math.floor((seconds % 3600) / 60); // Menghitung menit
+            var secs = seconds % 60; // Menghitung detik
+            return months + " bulan " + days + " hari " + hours + " jam " + minutes + " menit " + secs + " detik";
+            // return hours + " : " + minutes + " : " + seconds
+            // return hours + " jam " + minutes + " menit " + secs + " detik";
+        }
+
+        // Panggil fungsi updateTime setiap detik
+        setInterval(updateTime, 1000);
+
+        // Panggil fungsi sekali untuk menampilkan waktu saat halaman dimuat
+        updateTime();
 
         
         

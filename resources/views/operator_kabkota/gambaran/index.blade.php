@@ -8,6 +8,12 @@
 
 
 @section('content')
+    @php
+        $now = strtotime(now());
+        $start = strtotime($schedule->started_at);
+        $end = strtotime($schedule->ended_at);
+    @endphp
+
      <div class="card mb-5 p-7 bg-card-stopwatch text-custom-primary rounded rounded-4">
         <div class="row align-items-center">
             <div class="col-lg-6 ">
@@ -50,10 +56,6 @@
                                 <td class="text-capitalize border border-1 p-3">{{ $data->name }}</td>
                                 <td class="border border-1 p-3">{{ $data->ket }}</td>
                                 @php
-                                    $now = strtotime(now());
-                                    // echo($now);
-                                    $start = strtotime($schedule->started_at);
-                                    $end = strtotime($schedule->ended_at);
                                     $relatedAnswerDoc = $answer_doc->where('id_gambaran_kabkota', $data->id)->first();
                                 @endphp
                                 @if ($relatedAnswerDoc)

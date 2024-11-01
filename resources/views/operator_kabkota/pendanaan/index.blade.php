@@ -8,6 +8,11 @@
 
 
 @section('content')
+    @php
+        $now = strtotime(now());
+        $start = strtotime($schedule->started_at);
+        $end = strtotime($schedule->ended_at);
+    @endphp
 
     <div class="card mb-5 p-7 bg-card-stopwatch text-custom-primary rounded rounded-4">
         <div class="row align-items-center">
@@ -50,11 +55,6 @@
                                 <td class="border border-1 text-center p-3">{{ $loop->iteration }}</td>
                                 <td class="text-capitalize border border-1 p-3">{{ $data->name }}</td>
                                 @php
-                                    // date_default_timezone_set('Asia/Jakarta');
-                                    $now = strtotime(now());
-                                    // echo($now);
-                                    $start = strtotime($schedule->started_at);
-                                    $end = strtotime($schedule->ended_at);
                                     $relatedAnswerDoc = $answer_doc->where('id_pendanaan_kabkota', $data->id)->first();
                                 @endphp
                                 @if ($relatedAnswerDoc)
@@ -188,7 +188,7 @@
                 ">"
         });
         
-         var startTime = @json($start);
+        var startTime = @json($start);
         var endTime = @json($end);
         var now = Math.floor(Date.now() / 1000); // Waktu saat ini dalam detik
 

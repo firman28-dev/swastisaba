@@ -270,7 +270,7 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <th class="border border-1">Opsi Jawaban</th>
-                                                                        <th class="w-50 border border-1">Nilai Jawaban</th>
+                                                                        <th class="w-25 border border-1">Nilai Jawaban</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -347,9 +347,9 @@
                                                             <table class="table mb-3 table-striped table-row-bordered border rounded">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th class="border border-1">Data Pendukung</th>
+                                                                        <th class="w-50 border border-1">Data Pendukung</th>
                                                                         <th class="w-60px border border-1">Penjelasan</th>
-                                                                        <th class="w-300px border border-1">File</th>
+                                                                        <th class="border border-1">File</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
