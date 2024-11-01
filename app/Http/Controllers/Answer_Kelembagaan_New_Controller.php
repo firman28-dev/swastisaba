@@ -1256,7 +1256,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
                     // $path3->move(public_path('uploads/doc_pokja_desa/'), $fileName3);
                     // $activity->path_s = $fileName3; // Simpan jika tidak null
 
-                    $fileName3 = $user->id . '_Renja_' . $path3->getClientOriginalName();
+                    $fileName3 = $user->id . '_Sekretariat_' . $path3->getClientOriginalName();
                     $path2->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/', $fileName3);
                     $activity->path_sk_f = $fileName3;
                 }
@@ -1268,7 +1268,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
                     // $path4->move(public_path('uploads/doc_pokja_desa/'), $fileName4);
                     // $activity->path_budget = $fileName4; // Simpan jika tidak null
 
-                    $fileName4 = $user->id . '_Renja_' . $path4->getClientOriginalName();
+                    $fileName4 = $user->id . '_Anggaran_' . $path4->getClientOriginalName();
                     $path4->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/', $fileName4);
                     $activity->path_budget = $fileName4;
                     
@@ -1359,7 +1359,8 @@ class Answer_Kelembagaan_New_Controller extends Controller
 
             if ($request->hasFile('path_sk_f')) {
                 $path1 = $request->file('path_sk_f');
-                $fileName = $idZona . '_' . $path1->getClientOriginalName();
+                
+                $fileName = $user->id . '_SK_' . $path1->getClientOriginalName();
                 $path1->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/', $fileName);
                 // $path1->move(public_path('uploads/doc_forum_kec/'), $fileName);
                 if($activity->path_sk_f){
@@ -1375,7 +1376,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
             // Cek dan proses file Renja
             if ($request->hasFile('path_plan_f')) {
                 $path2 = $request->file('path_plan_f');
-                $fileName2 = $idZona . '_' . $path2->getClientOriginalName();
+                $fileName2 = $user->id . '_Renja_' . $path2->getClientOriginalName();
                 // $path2->move(public_path('uploads/doc_forum_kec/'), $fileName2);
                 $path2->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/', $fileName2);
                 if($activity->path_plan_f){
@@ -1391,7 +1392,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
             // Cek dan proses file Sekre
             if ($request->hasFile('path_s')) {
                 $path3 = $request->file('path_s');
-                $fileName3 = $idZona . '_' . $path3->getClientOriginalName();
+                $fileName3 = $user->id . '_Sekretariat_' . $path3->getClientOriginalName();
                 // $path3->move(public_path('uploads/doc_forum_kec/'), $fileName3);
                 $path3->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/', $fileName3);
                 if($activity->path_s){
@@ -1408,7 +1409,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
             // Cek dan proses file Budget/Anggaran
             if ($request->hasFile('path_budget')) {
                 $path4 = $request->file('path_budget');
-                $fileName4 = $idZona . '_' . $path4->getClientOriginalName();
+                $fileName4 = $user->id . '_Anggaran_' . $path4->getClientOriginalName();
                 // $path4->move(public_path('uploads/doc_forum_kec/'), $fileName4);
                 $path4->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/', $fileName4);
                 
