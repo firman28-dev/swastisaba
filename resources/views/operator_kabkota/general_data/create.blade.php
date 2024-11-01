@@ -154,8 +154,8 @@
 
                     <div class="col-lg-6 mb-4">
                         <div class="form-group">
-                            <label for="id_category" class="form-label">Alamat Kantor Walikota/Bupati</label>
-                            <textarea id="id_category" name="alamat_kantor" class="form-control form-control-solid rounded rounded-4" rows="2" placeholder="Alamat"></textarea>
+                            <label for="alamat_kantor" class="form-label">Alamat Kantor Walikota/Bupati</label>
+                            <textarea id="alamat_kantor" name="alamat_kantor" class="form-control form-control-solid rounded rounded-4" rows="2" placeholder="Alamat"></textarea>
                             @error('alamat_kantor')
                                 <div class="is-invalid">
                                     <span class="text-danger">
