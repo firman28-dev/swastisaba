@@ -436,7 +436,7 @@
                                                             
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal">Batal</button>
+                                                        <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal" onclick="location.reload()" >Batal</button>
                                                         &nbsp;
                                                         <button 
                                                         @if ($now >= $start && $now <= $end)
