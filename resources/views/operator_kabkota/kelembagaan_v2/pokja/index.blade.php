@@ -131,7 +131,7 @@
 
                                 @if (!is_null($forumKel2->path_budget))
                                 <td class="border-1 border text-center">
-                                    <a href="{{ asset('uploads/doc_pokja_esa/'.$forumKel2->path_budget) }}" target="_blank" class="btn btn-success btn-sm ">
+                                    <a href="{{ asset('uploads/doc_pokja_desa/'.$forumKel2->path_budget) }}" target="_blank" class="btn btn-success btn-sm ">
                                         <div class="d-flex justify-content-center">
                                             Lihat
                                         </div>
