@@ -1706,8 +1706,8 @@ class Answer_Kelembagaan_New_Controller extends Controller
                 $fileName = $user->id . '_Kegiatan_Pokja_' . $path->getClientOriginalName();
                 $path->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_activity/', $fileName);
                     
-                $fileName = $idZona. '_' . $path->getClientOriginalName();
-                $path->move(public_path('uploads/doc_activity/'), $fileName);
+                // $fileName = $idZona. '_' . $path->getClientOriginalName();
+                // $path->move(public_path('uploads/doc_activity/'), $fileName);
 
                 $activity = Trans_Kegiatan::find($id);
                 if ($activity->path) {
@@ -1763,7 +1763,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
 
 
         } catch (\Throwable $th) {
-            // throw $th;
+            throw $th;
             return redirect()->back()->with('error', 'Gagal menambahkan kegiatan');
 
         }
