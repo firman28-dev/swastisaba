@@ -103,7 +103,7 @@
 
                                 @if (!is_null($forumKel2->path_sk_f))
                                 <td class="border-1 border text-center">
-                                    <a href="{{ asset('uploads/doc_forum_kec/'.$forumKel2->path_sk_f) }}" target="_blank" class="btn btn-success btn-sm ">
+                                    <a href="{{ asset('uploads/doc-pokja-desa/'.$forumKel2->path_sk_f) }}" target="_blank" class="btn btn-success btn-sm ">
                                         <div class="d-flex justify-content-center">
                                             Lihat
                                         </div>
@@ -117,7 +117,7 @@
 
                                 @if (!is_null($forumKel2->path_plan_f))
                                 <td class="border-1 border text-center">
-                                    <a href="{{ asset('uploads/doc_forum_kec/'.$forumKel2->path_plan_f) }}" target="_blank" class="btn btn-success btn-sm ">
+                                    <a href="{{ asset('uploads/doc-pokja-desa/'.$forumKel2->path_plan_f) }}" target="_blank" class="btn btn-success btn-sm ">
                                         <div class="d-flex justify-content-center">
                                             Lihat
                                         </div>
@@ -131,7 +131,7 @@
 
                                 @if (!is_null($forumKel2->path_budget))
                                 <td class="border-1 border text-center">
-                                    <a href="{{ asset('uploads/doc_forum_kec/'.$forumKel2->path_budget) }}" target="_blank" class="btn btn-success btn-sm ">
+                                    <a href="{{ asset('uploads/doc-pokja-desa/'.$forumKel2->path_budget) }}" target="_blank" class="btn btn-success btn-sm ">
                                         <div class="d-flex justify-content-center">
                                             Lihat
                                         </div>
@@ -145,7 +145,7 @@
 
                                 @if (!is_null($forumKel2->path_s))
                                 <td class="border-1 border text-center">
-                                    <a href="{{ asset('uploads/doc_forum_kec/'.$forumKel2->path_s) }}" target="_blank" class="btn btn-success btn-sm ">
+                                    <a href="{{ asset('uploads/doc-pokja-desa/'.$forumKel2->path_s) }}" target="_blank" class="btn btn-success btn-sm ">
                                         <div class="d-flex justify-content-center">
                                             Lihat
                                         </div>
