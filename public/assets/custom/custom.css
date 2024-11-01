@@ -1,0 +1,60 @@
+@charset "UTF-8";
+:root {
+  --custom-black: #272727;
+  --custom-black-200: #2e3a40;
+  --custom-blue: #00a3e9;
+  --custom-blue-700: #335ca7;
+  --custom-blue-tosca: #85cede;
+  --custom-gray: #68748b;
+  --custom-white: #fff;
+  --bs-font-geologica: "Geologica", sans-serif;
+  --bs-font-poppins: "Poppins", sans-serif;
+  --custom-bg-primary: #f3f6fa;
+}
+
+body {
+  font-family: var(--bs-font-geologica);
+  background-color: var(--custom-white);
+}
+
+.bg-error{
+  background-image: url('../media/bg1.jpg');
+  background-size: cover;
+}
+
+.bg-login{
+  background-color: #A5DD9B;
+}
+
+/* Card */
+.card-custom {
+  box-shadow: 2px 1px 48px 0px rgba(0, 163, 233, 0.16);
+  border-radius: 16px;
+}
+
+textarea .custom-textarea{
+  twhite-space: pre-wrap; 
+  word-wrap: break-word;
+}
+
+.bg-show-date{
+  background-color: #335ca7;
+}
+.bg-card-stopwatch{
+  background-color: #E1F6FE !important;
+  color: white !important;
+}
+
+.text-custom-primary{
+  color: #3184C2 !important;
+}
+
+
+
+/* .card {
+  transition: transform 0.3s ease-in-out; 
+}
+.card:hover {
+  transform: translateY(-10px); 
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
+}  */

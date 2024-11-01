@@ -26,7 +26,8 @@
                                 required
                                 oninvalid="this.setCustomValidity('Nama Kecamatan tidak boleh kosong.')"
                                 oninput="this.setCustomValidity('')"
-                                value="{{$activity->district}}"
+                                value="{{$subdistrict->name}}"
+                                readonly
                             >
                             @error('district')
                                 <div class="is-invalid">

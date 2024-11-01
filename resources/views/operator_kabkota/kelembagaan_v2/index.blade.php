@@ -1096,12 +1096,14 @@
         });
 
         $("#tableKegiatan2").DataTable({
-            scrollX:        true,
-            scrollCollapse: true,
-            fixedColumns:   {
-                left: 3,
-                // right: 1
-            },
+            "stateSave": true,
+            "columnDefs": "",
+            "colReorder": true,
+            // scrollX:        true,
+            // scrollCollapse: true,
+            // fixedColumns:   {
+            //     left: 3,
+            // },
             "pageLength":100,
             "dom":
                 "<'row'" +

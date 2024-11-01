@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\M_District;
 use App\Models\M_General_Data;
 use App\Models\M_Zona;
 use Auth;
@@ -37,7 +38,7 @@ class General_Data_KabKota_Controller extends Controller
     public function create(){
         $user = Auth::user();
         $idZona = $user->id_zona;
-        $name_zona = M_Zona::where('id', $idZona)->first();
+        $name_zona = M_District::where('id', $idZona)->first();
 
         $sent = [
             'idZona' => $idZona,
