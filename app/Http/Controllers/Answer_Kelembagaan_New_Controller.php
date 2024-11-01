@@ -1185,17 +1185,17 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'f_budget.required' => 'Anggaran wajib diisi',
             's_address.required' => 'Alamat Sekretariat Pokja wajib diisi',
 
-            'path_sk_f.mimes' => 'File Wajib Pdf',
-            'path_sk_f.max' => 'Ukuran file tidak boleh melebihi 2MB.',
+            'path_sk_f.mimes' => 'File SK Pokja Desa Wajib Pdf',
+            'path_sk_f.max' => 'Ukuran file SK Pokja Desa tidak boleh melebihi 2MB.',
 
-            'path_plan_f.mimes' => 'File Wajib Pdf',
-            'path_plan_f.max' => 'Ukuran file tidak boleh melebihi 2MB.',
+            'path_plan_f.mimes' => 'File Renja Wajib Pdf',
+            'path_plan_f.max' => 'Ukuran file Renja tidak boleh melebihi 2MB.',
 
-            'path_s.mimes' => 'File Wajib Pdf',
-            'path_s.max' => 'Ukuran file tidak boleh melebihi 2MB.',
+            'path_s.mimes' => 'File Sekretariat Pokja Wajib Pdf',
+            'path_s.max' => 'Ukuran file Sekretariat Pokja tidak boleh melebihi 2MB.',
 
-            'path_budget.mimes' => 'File Wajib Pdf',
-            'path_budget.max' => 'Ukuran file tidak boleh melebihi 2MB.',
+            'path_budget.mimes' => 'File Anggaran Pokja Wajib Pdf',
+            'path_budget.max' => 'Ukuran file Anggaran Pokja tidak boleh melebihi 2MB.',
             
         ]);
 
