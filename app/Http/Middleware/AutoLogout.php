@@ -19,7 +19,7 @@ class AutoLogout
                 // $inactiveDuration = Carbon::now()->diffInHours($lastActivity);
                 $inactiveDuration = Carbon::now()->diffInMinutes($lastActivity);
                 
-                if ($inactiveDuration >= 120) { // Ubah menjadi 1 menit
+                if ($inactiveDuration >= 1) { // Ubah menjadi 1 menit
                     // Clear session and logout
                     $user->session = null; // Remove token
                     $user->save(); // Save changes
