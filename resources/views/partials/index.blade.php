@@ -99,27 +99,25 @@
 
 		<script>
 			let lastActivity = Date.now();
-			const inactivityLimit = 1 * 60 * 1000;
+			const inactivityLimit = 30 * 60 * 1000; // 30 menit
 
 			function checkInactivity() {
 				const currentTime = Date.now();
 				const inactiveTime = currentTime - lastActivity;
 
 				if (inactiveTime > inactivityLimit) {
-					logout(); // Panggil fungsi logout jika sudah lebih dari 1 menit
+					logout();
 				}
 			}
 
 			function logout() {
 				console.log("User  has been logged out due to inactivity.");
 
-				// Menggunakan AJAX untuk melakukan permintaan logout
 				$.ajax({
 					url: '/logout',
 					type: 'GET',
 					success: function(response) {
-						// Jika logout berhasil, arahkan pengguna ke halaman login atau halaman lain
-						window.location.href = '/login'; // Ganti dengan URL halaman yang diinginkan
+						window.location.href = '/login'; 
 					},
 					error: function(xhr, status, error) {
 						console.error("Logout failed:", error);
