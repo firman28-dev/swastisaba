@@ -16,6 +16,8 @@ class Trans_Survey_D_Answer extends Model
         'id_category',
         'id_question',
         'id_option',
+        'achievement',
+        'comment',
         'id_option_prov',
         'comment_prov',
         'id_option_pusat',

@@ -58,14 +58,17 @@ class Answer_KabKota_Controller extends Controller
         $request->validate([
             'id_survey' => 'required',
             'id_option' => 'required',
+            'comment' => 'required',
+            'achievement' => 'required',
             'nama_data.*' => 'nullable',
             'file_path.*' => 'nullable|mimes:pdf|max:25000',
             'nama_data' => 'nullable|array',
             'file_path' => 'nullable|array',
         ],[
             'id_option.required' => 'Option wajib diisi',
-            'id_survey' => 'Tahun wajib dipilih',
-
+            'id_survey.required' => 'Tahun wajib dipilih',
+            'comment.required' => 'Penjelasan wajib diisi',
+            'achievement.required' => 'Capaian wajib diisi',
             // 'nama_data.*.required' => 'Nama Dokumen wajib diisi',
             'file_path.*.mimes' => 'File wajib pdf',
             'file_path.*.max' => 'Ukuran file maksimal 25 MB',
@@ -95,6 +98,8 @@ class Answer_KabKota_Controller extends Controller
                 $relatedAnswer = Trans_Survey_D_Answer::create([
                     'id_survey' => $session_date,
                     'id_option' => $request->id_option,
+                    'comment' => $request->comment,
+                    'achievement' => $request->achievement,
                     'id_zona' => $idZona,
                     'id_question' => $question->id,
                     'id_category' => $question->id_category,
@@ -153,6 +158,8 @@ class Answer_KabKota_Controller extends Controller
 
         } catch (\Throwable $th) {
             throw $th;
+            return redirect()->back()->with('error', 'Gagal memverifikasi pertanyaan');
+
         }
 
     }
@@ -162,10 +169,14 @@ class Answer_KabKota_Controller extends Controller
         $request->validate([
             'id_survey' => 'required',
             'id_option' => 'required',
+            'comment' => 'required',
+            'achievement' => 'required',
             'file_path' => 'nullabel|mimes:pdf|max:2048',
         ],[
             'id_option.required' => 'Option wajib diisi',
-            'id_survey' => 'Tahun wajib dipilih',
+            'id_survey.required' => 'Tahun wajib dipilih',
+            'comment.required' => 'Penjelasan wajib diisi',
+            'achievement.required' => 'Capaian wajib diisi',
             'file_path.mimes' => 'Wajib Pdf',
             'file_path.max' => 'Ukuran Maksimal 2 MB',
 
@@ -192,6 +203,8 @@ class Answer_KabKota_Controller extends Controller
             if ($relatedAnswer) {
                 $relatedAnswer->update([
                     'id_option' => $request->id_option,
+                    'comment' => $request->comment,
+                    'achievement' => $request->achievement,
                 ]);
             }
 
@@ -199,6 +212,9 @@ class Answer_KabKota_Controller extends Controller
                 $relatedAnswer = Trans_Survey_D_Answer::create([
                     'id_survey' => $session_date,
                     'id_option' => $request->id_option,
+                    'comment' => $request->comment,
+                    'achievement' => $request->achievement,
+
                     'id_zona' => $idZona,
                     'id_question' => $question->id,
                     'id_category' => $question->id_category,

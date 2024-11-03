@@ -10,10 +10,6 @@ class LogoutController extends Controller
 {
     public function perform()
     {
-        // Session::flush();
-        // Session::put('selected_year', '');
-        // Auth::logout();
-        // return redirect('login');
         $user = Auth::user();
 
         

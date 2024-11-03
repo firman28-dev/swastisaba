@@ -250,13 +250,12 @@
                                                 
                                                     <div class="modal-header">
                                                         <h3 class="modal-title">
-                                                            Edit Jawaban Pertanyaan
+                                                            Edit Jawaban
                                                         </h3>
                                                     </div>
                                                     <div class="modal-body">
                                                         <form action="{{ route('answer-data.store', $question->id)}}" method="POST" enctype="multipart/form-data">
                                                             @csrf
-                                                            
                                                             <p>
                                                                 <strong>Pertanyaan:</strong> 
                                                                 <button type="button" class="btn btn-secondary btn-sm btn-icon" data-bs-toggle="popover" data-bs-placement="right" title="Data Operasional" data-bs-custom-class="popover-inverse" data-bs-dismiss="true" data-bs-content="{{$question->d_operational}}">
@@ -339,6 +338,55 @@
                                                                     @endif
                                                                 </tbody>
                                                             </table>
+                                                            <div class="row">
+                                                                <div class="col-6 mb-4">
+                                                                    <div class="form-group w-100">
+                                                                        <label for="achievement" class="form-label">Capaian</label>
+                                                                        <input type="number"
+                                                                            id="achievement"
+                                                                            name="achievement"
+                                                                            class="form-control form-control-solid rounded rounded-4"
+                                                                            placeholder="0.00"
+                                                                            oninvalid="this.setCustomValidity('Capaian tidak boleh kosong.')"
+                                                                            oninput="this.setCustomValidity('')"
+                                                                            step="0.01"
+                                                                            min="0"
+                                                                            required
+                                                                            onchange="validateDecimal(this)"
+                                                                            @if ($relatedAnswer)
+                                                                                value="{{$relatedAnswer->achievement}}"
+                                                                            @endif
+                                                                        >
+                                                                        @error('achievement')
+                                                                            <div class="is-invalid">
+                                                                                <span class="text-danger">
+                                                                                    {{$message}}
+                                                                                </span>
+                                                                            </div>
+                                                                        @enderror
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 mb-4">
+                                                                    <div class="form-group w-100">
+                                                                        <label for="comment" class="form-label">Penjelasan</label>
+                                                                        <textarea 
+                                                                            name="comment" 
+                                                                            id="comment" 
+                                                                            cols="2" rows="2" 
+                                                                            placeholder="Penjelasan" 
+                                                                            class="form-control-solid form-control rounded rounded-4"
+                                                                            required
+                                                                        >@if($relatedAnswer){{$relatedAnswer->comment}}@endif</textarea>
+                                                                        @error('comment')
+                                                                            <div class="is-invalid">
+                                                                                <span class="text-danger">
+                                                                                    {{$message}}
+                                                                                </span>
+                                                                            </div>
+                                                                        @enderror
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                             
                                                             <div class="mb-2">
                                                                 <span class="required">Data Dukung berupa Pdf dan maksimal 2 MB</span>
@@ -468,7 +516,21 @@
 
 @section('script')
     <script>
-       
+        function validateDecimal(input) {
+            // Ganti koma dengan titik
+            // console.log('hello');
+            
+            input.value = input.value.replace(',', '.');
+            console.log(input.value);
+            
+
+            // if (input.value && !/^\d+(\.\d{0,2})?$/.test(input.value)) {
+            //     alert('Masukkan angka desimal yang valid (maksimal 2 desimal).');
+            //     input.value = ''; // Mengosongkan input jika tidak valid
+            //     input.focus(); // Mengembalikan fokus ke input
+            // }
+        }
+
         $(document).ready(function() {
             var counter = 1;
             $(document).on('click', '#add-field', function() {
@@ -493,9 +555,10 @@
             });
             
             
+            
         });
         
-        
+       
 
         function deleteField(id) {
             $(`#field-${id}`).remove();

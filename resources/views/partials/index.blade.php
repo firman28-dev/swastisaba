@@ -96,5 +96,47 @@
 		<script src="{{asset('assets/js/scripts.bundle.js')}}"></script>
 		<script src="{{asset('assets/plugins/custom/datatables/datatables.bundle.js')}}"></script>
         @yield('script')
+
+		<script>
+			let lastActivity = Date.now();
+			const inactivityLimit = 1 * 60 * 1000;
+
+			function checkInactivity() {
+				const currentTime = Date.now();
+				const inactiveTime = currentTime - lastActivity;
+
+				if (inactiveTime > inactivityLimit) {
+					logout(); // Panggil fungsi logout jika sudah lebih dari 1 menit
+				}
+			}
+
+			function logout() {
+				console.log("User  has been logged out due to inactivity.");
+
+				// Menggunakan AJAX untuk melakukan permintaan logout
+				$.ajax({
+					url: '/logout',
+					type: 'GET',
+					success: function(response) {
+						// Jika logout berhasil, arahkan pengguna ke halaman login atau halaman lain
+						window.location.href = '/login'; // Ganti dengan URL halaman yang diinginkan
+					},
+					error: function(xhr, status, error) {
+						console.error("Logout failed:", error);
+					}
+				});
+			}
+			document.addEventListener('mousemove', resetTimer);
+			document.addEventListener('keypress', resetTimer);
+
+			function resetTimer() {
+				lastActivity = Date.now();
+			}
+
+			// Memeriksa aktivitas setiap menit
+			setInterval(checkInactivity, 60 * 1000);
+			// console.log(lastActivity);
+			
+		</script>
 	</body>
 </html>

@@ -16,20 +16,17 @@ class AutoLogout
             $lastActivity = Session::get('lastActivity');
 
             if ($lastActivity) {
-                // $inactiveDuration = Carbon::now()->diffInHours($lastActivity);
                 $inactiveDuration = Carbon::now()->diffInMinutes($lastActivity);
                 
-                if ($inactiveDuration >= 1) { // Ubah menjadi 1 menit
-                    // Clear session and logout
-                    $user->session = null; // Remove token
-                    $user->save(); // Save changes
+                if ($inactiveDuration >= 1) { 
+                    $user->session = null; 
+                    $user->save(); 
                     Session::flush();
                     Auth::logout();
                     return redirect('login')->with('message', 'You have been logged out due to inactivity.');
                 }
             }
 
-            // Update last activity time
             Session::put('lastActivity', Carbon::now());
         }
 
