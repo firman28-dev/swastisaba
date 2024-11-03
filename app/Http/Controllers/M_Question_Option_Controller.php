@@ -271,6 +271,7 @@ class M_Question_Option_Controller extends Controller
                     
                     $u = new M_Question_Option();
                     $u->id_question = $d[$i][0];
+                    // return $u->id_question;
                     $u->name = $d[$i][2];
                     $u->score = $d[$i][3];
                     $u->id_survey = $id_survey;

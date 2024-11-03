@@ -6,6 +6,7 @@ use App\Models\M_Category;
 use App\Models\M_Questions;
 use App\Models\M_Zona;
 use App\Models\Setting_Time;
+use App\Models\Trans_Survey;
 use App\Models\Trans_Survey_D_Answer;
 use App\Models\Trans_Upload_KabKota;
 use Auth;
@@ -25,6 +26,8 @@ class Answer_KabKota_Controller extends Controller
     public function show($id)
     {
         $session_date = Session::get('selected_year');
+        $dates = Trans_Survey::all();
+        $date = Trans_Survey::find($session_date);
         // return $session_date;
         $user = Auth::user();
         $idZona = $user->id_zona;
@@ -47,6 +50,8 @@ class Answer_KabKota_Controller extends Controller
             'uploadedFiles' => $uploadedFiles,
             'idZona' => $idZona,
             'session_date' =>$session_date,
+            'date' => $date,
+            'dates' => $dates, 
             'schedule' => $schedule
         ];
         return view('operator_kabkota.answer.index', $sent);
@@ -157,7 +162,7 @@ class Answer_KabKota_Controller extends Controller
             return redirect()->back()->with('success', 'Berhasil memverifikasi pertanyaan');
 
         } catch (\Throwable $th) {
-            throw $th;
+            // throw $th;
             return redirect()->back()->with('error', 'Gagal memverifikasi pertanyaan');
 
         }
