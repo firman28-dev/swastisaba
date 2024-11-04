@@ -54,7 +54,7 @@
                             <span class="menu-arrow"></span>
                         </a>
                         <div class="menu-sub menu-sub-accordion">
-                            @foreach(\App\Models\M_Zona::all() as $zona)
+                            @foreach(\App\Models\M_District::where('province_id', 13)->get() as $zona)
                                 <div class="menu-item">
                                     <a class="menu-link {{ 
                                         request()->routeIs('v-pusat.indexQuestion') && request()->id == $zona->id ||

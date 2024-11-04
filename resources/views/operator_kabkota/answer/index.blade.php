@@ -248,289 +248,288 @@
                                         <div class="modal-dialog modal-dialog-scrollable">
                                             <div class="modal-content">
                                                 
-                                                    <div class="modal-header">
-                                                        <h3 class="modal-title">
-                                                            Edit Jawaban
-                                                        </h3>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="{{ route('answer-data.store', $question->id)}}" method="POST" enctype="multipart/form-data">
-                                                            @csrf
-                                                            <p>
-                                                                <strong>Pertanyaan:</strong> 
-                                                                <button type="button" class="btn btn-secondary btn-sm btn-icon" data-bs-toggle="popover" data-bs-placement="right" title="Data Operasional" data-bs-custom-class="popover-inverse" data-bs-dismiss="true" data-bs-content="{{$question->d_operational}}">
-                                                                    <i class="fa fa-info-circle"></i>
-                                                                </button>
-                                                                
-                                                            </p>
-                                                            <p>{{$question->name}}</p>
-                                                            <input name="id_survey" value="{{session('selected_year')}}" hidden>
-                                                            <table class="table mb-3 table-striped table-row-bordered border rounded mb-3">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th class="border border-1">Opsi Jawaban</th>
-                                                                        <th class="w-25 border border-1">Nilai Jawaban</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    @php
-                                                                        $sessionDate = session('selected_year');
-                                                                        $relatedAnswer = $answer->where('id_question', $question->id)->first();
-                                                                    @endphp
-                                                                    @if($relatedAnswer)
-                                                                        @foreach ($question->_q_option as $opsi)
-                                                                            @if ($opsi->id_survey == $sessionDate)
-                                                                                <tr>
-                                                                                    <td class="border border-1">
-                                                                                        <div class="form-check">
-                                                                                            <input 
-                                                                                                class="form-check-input" 
-                                                                                                type="radio" 
-                                                                                                name="id_option" 
-                                                                                                id="name_option_{{$opsi->id}}"
-                                                                                                value="{{ $opsi->id }}" 
-                                                                                                @if($relatedAnswer->id_option == $opsi->id) checked @endif
-                                                                                                @if ($now >= $start && $now <= $end) 
-                                                                                                    required 
-                                                                                                @else 
-                                                                                                    disabled 
-                                                                                                @endif
-                                                                                                
-                                                                                            >
-                                                                                            <label class="form-check-label" for="name_option_{{$opsi->id}}">{{ $opsi->name }}</label>
-                                                                                        </div>
-                                                                                    </td>
-                                                                                    <td class="border border-1">
-                                                                                        <span>{{ $opsi->score }}</span>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @endif
-                                                                            
-                                                                        @endforeach
-                                                                    @else
-                                                                        @foreach ($question->_q_option as $opsi)
-                                                                            @if ($opsi->id_survey == $sessionDate)
-                                                                                <tr>
-                                                                                    <td class="border border-1">
-                                                                                        <div class="form-check form-check-custom form-check-solid">
-                                                                                            <input 
-                                                                                                class="form-check-input" 
-                                                                                                type="radio" 
-                                                                                                name="id_option" 
-                                                                                                value="{{ $opsi->id }}" 
-                                                                                                id="name_option_{{ $opsi->id }}" 
-                                                                                                @if ($now >= $start && $now <= $end) 
-                                                                                                    required 
-                                                                                                @else 
-                                                                                                    disabled 
-                                                                                                @endif
-                                                                                            >
-                                                                                            <label class="form-check-label" for="name_option_{{ $opsi->id }}">{{ $opsi->name }}</label>
-                                                                                        </div>
-
-                                                                                    </td>
-                                                                                    <td class="border border-1">
-                                                                                        <span>{{ $opsi->score }}</span>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @endif
-                                                                        @endforeach
-                                                                    @endif
-                                                                </tbody>
-                                                            </table>
-                                                            <div class="row">
-                                                                <div class="col-6 mb-4">
-                                                                    <div class="form-group w-100">
-                                                                        <label for="achievement" class="form-label">Capaian {{$date->trans_date - 1}}</label>
-                                                                        @php
-                                                                            $datesV2 = $dates->where('trans_date',$date->trans_date - 1)->first();
-                                                                            if ($datesV2) {
-                                                                                $questionByYear = \App\Models\M_Questions::where('id', $question->id)->first();
-                                                                                $questionByYearV2 = \App\Models\M_Questions::where('name', $questionByYear->name)
-                                                                                    ->where('id_survey', $datesV2->id)->first();
-                                                                                $answerV2 = \App\Models\Trans_Survey_D_Answer::where('id_question', $questionByYearV2->id)
-                                                                                    ->where('id_survey', $datesV2->id)->first();
-                                                                            }
-                                                                            else {
-                                                                                $answerV2 = null;
-                                                                            }
-                                                                            
-                                                                        @endphp
-                                                                        <input type="number"
-                                                                            class="form-control form-control-solid rounded rounded-4"
-                                                                            {{-- {{$questionByYear ? $questionByYear->name : 'o'}} --}}
-                                                                            placeholder="{{ $datesV2 ? ($answerV2 ? $answerV2->achievement : 'Belum diisi') : 'Tahun tidak tersedia' }}"
-
-                                                                            {{-- placeholder="{{$datesV2 ? $datesV2->trans_date : 'Tidak ada'}}" --}}
-                                                                            oninvalid="this.setCustomValidity('Capaian tidak boleh kosong.')"
-                                                                            oninput="this.setCustomValidity('')"
-                                                                            step="0.01"
-                                                                            min="0"
-                                                                            readonly
-                                                                        >
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-6 mb-4">
-                                                                    <div class="form-group w-100">
-                                                                        <label for="achievement" class="form-label">Capaian {{$date->trans_date}}</label>
-                                                                        <input type="number"
-                                                                            id="achievement"
-                                                                            name="achievement"
-                                                                            class="form-control form-control-solid rounded rounded-4"
-                                                                            placeholder="0.00"
-                                                                            oninvalid="this.setCustomValidity('Capaian tidak boleh kosong.')"
-                                                                            oninput="this.setCustomValidity('')"
-                                                                            step="0.01"
-                                                                            min="0"
-                                                                            required
-                                                                            onchange="validateDecimal(this)"
-                                                                            @if ($relatedAnswer)
-                                                                                value="{{$relatedAnswer->achievement}}"
-                                                                            @endif
-                                                                        >
-                                                                        @error('achievement')
-                                                                            <div class="is-invalid">
-                                                                                <span class="text-danger">
-                                                                                    {{$message}}
-                                                                                </span>
-                                                                            </div>
-                                                                        @enderror
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-6 mb-4">
-                                                                    <div class="form-group w-100">
-                                                                        <label for="comment" class="form-label">Penjelasan</label>
-                                                                        <textarea 
-                                                                            name="comment" 
-                                                                            id="comment" 
-                                                                            cols="2" rows="2" 
-                                                                            placeholder="Penjelasan" 
-                                                                            class="form-control-solid form-control rounded rounded-4"
-                                                                            required
-                                                                        >@if($relatedAnswer){{$relatedAnswer->comment}}@endif</textarea>
-                                                                        @error('comment')
-                                                                            <div class="is-invalid">
-                                                                                <span class="text-danger">
-                                                                                    {{$message}}
-                                                                                </span>
-                                                                            </div>
-                                                                        @enderror
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            
-                                                            <div class="mb-2">
-                                                                <span class="required">Data Dukung berupa Pdf dan maksimal 2 MB</span>
-                                                            </div>
-                                                            
-                                                            <table class="table mb-3 table-striped table-row-bordered border rounded">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th class="w-50 border border-1">Data Pendukung</th>
-                                                                        <th class="w-60px border border-1">Penjelasan</th>
-                                                                        <th class="border border-1">File</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    @php
-                                                                        $sessionDate = session('selected_year');
-                                                                        $relatedAnswer = $answer->where('id_question', $question->id)->first();
-                                                                    @endphp
-                                                                    @if($relatedAnswer)
-                                                                        @foreach ($question->_doc_question as $opsi)
-                                                                            @if ($opsi->id_survey == $sessionDate)
-                                                                                @php
-                                                                                    $uploadedFile = $uploadedFiles->where('id_doc_question', $opsi->id)->first();
-                                                                                @endphp
-                                                                                <tr>
-                                                                                    <td class="border border-1">
-                                                                                        {{$opsi->name}}
-                                                                                    </td>
-                                                                                    <td class="border border-1 text-center">
-                                                                                        <button type="button" class="btn btn-secondary btn-sm btn-icon" data-bs-toggle="popover" data-bs-placement="right" title="Keterangan" data-bs-custom-class="popover-inverse" data-bs-dismiss="true" data-bs-content="{{$opsi->ket}}">
-                                                                                            <i class="fa fa-info-circle"></i>
-                                                                                        </button>
-                                                                                    </td>
-                                                                                    <td class="border border-1">
-                                                                                        @if (!$uploadedFile)
-                                                                                            <!-- No file uploaded: Show input field -->
-                                                                                            <input type="file" name="file_{{$opsi->id}}" class="form-control">
-                                                                                        @else
-                                                                                            <a href="{{ asset($uploadedFile->file_path) }}" target="_blank" class="btn btn-success btn-sm ">
-                                                                                                <div class="d-flex justify-content-center">
-                                                                                                    Lihat
-                                                                                                </div>
-                                                                                            </a>
-                                                                                            <button 
-                                                                                                @if ($now >= $start && $now <= $end)
-                                                                                                    type="submit" 
-                                                                                                    class="btn btn-danger btn-sm delete-btn" data-id="{{ $uploadedFile->id }}"
-                                                                                                @else
-                                                                                                    class="btn btn-danger btn-sm" disabled
-                                                                                                @endif>
-                                                                                                Hapus
-                                                                                            </button>
-                                                                                            <div class="col-md-2">
-                                                                                                
-                                                                                            </div>
-                                                                                            
-                                                                                        @endif
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @endif
-                                                                        @endforeach
-                                                                    @else
-                                                                        @foreach ($question->_doc_question as $opsi)
-                                                                            @if ($opsi->id_survey == $sessionDate)
-                                                                                @php
-                                                                                    $uploadedFile = $uploadedFiles->where('id_doc_question', $opsi->id)->first();
-                                                                                @endphp
-                                                                                <tr>
-                                                                                    <td class="border border-1">
-                                                                                        {{$opsi->name}}
-                                                                                    </td>
-                                                                                    <td class="border border-1">
-                                                                                        <button type="button" class="btn btn-secondary btn-sm btn-icon" data-bs-toggle="popover" data-bs-placement="right" title="Keterangan" data-bs-custom-class="popover-inverse" data-bs-dismiss="true" data-bs-content="{{$opsi->ket}}">
-                                                                                            <i class="fa fa-info-circle"></i>
-                                                                                        </button>
-                                                                                    </td>
-                                                                                    <td class="border border-1">
-                                                                                        @if (!$uploadedFile)
-                                                                                            <input type="file" name="file_{{$opsi->id}}" class="form-control">
-                                                                                        @else
-                                                                                            <a href="{{ url('path_to_uploaded_file/' . $uploadedFile->filename) }}" target="_blank" class="btn btn-sm btn-icon btn-primary">
-                                                                                                <i class="fas fa-eye"></i> View
-                                                                                            </a>
-                                                                                            <input type="file" name="file_{{$opsi->id}}" class="form-control">
-                                                                                            <input type="hidden" name="file_id_{{$opsi->id}}" value="{{$uploadedFile->id}}">
-                                                                                        @endif
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @endif
-                                                                        @endforeach
-                                                                    @endif
-                                                                </tbody>
-                                                            </table>
-
-                                                            
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal" onclick="location.reload()" >Batal</button>
-                                                        &nbsp;
-                                                        <button 
-                                                        @if ($now >= $start && $now <= $end)
-                                                            type="submit" 
-                                                            class="btn btn-primary rounded-4 hover-scale"
-                                                        @else
-                                                            class="btn btn-primary rounded-4 hover-scale" disabled
-                                                        @endif>
-                                                            Simpan
+                                                <div class="modal-header">
+                                                    <h3 class="modal-title">
+                                                        Edit Jawaban
+                                                    </h3>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{ route('answer-data.store', $question->id)}}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <p>
+                                                        <strong>Pertanyaan:</strong> 
+                                                        <button type="button" class="btn btn-secondary btn-sm btn-icon" data-bs-toggle="popover" data-bs-placement="right" title="Data Operasional" data-bs-custom-class="popover-inverse" data-bs-dismiss="true" data-bs-content="{{$question->d_operational}}">
+                                                            <i class="fa fa-info-circle"></i>
                                                         </button>
+                                                        
+                                                    </p>
+                                                    <p>{{$question->name}}</p>
+                                                    <input name="id_survey" value="{{session('selected_year')}}" hidden>
+                                                    <table class="table mb-3 table-striped table-row-bordered border rounded mb-3">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="border border-1">Opsi Jawaban</th>
+                                                                <th class="w-25 border border-1">Nilai Jawaban</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @php
+                                                                $sessionDate = session('selected_year');
+                                                                $relatedAnswer = $answer->where('id_question', $question->id)->first();
+                                                            @endphp
+                                                            @if($relatedAnswer)
+                                                                @foreach ($question->_q_option as $opsi)
+                                                                    @if ($opsi->id_survey == $sessionDate)
+                                                                        <tr>
+                                                                            <td class="border border-1">
+                                                                                <div class="form-check">
+                                                                                    <input 
+                                                                                        class="form-check-input" 
+                                                                                        type="radio" 
+                                                                                        name="id_option" 
+                                                                                        id="name_option_{{$opsi->id}}"
+                                                                                        value="{{ $opsi->id }}" 
+                                                                                        @if($relatedAnswer->id_option == $opsi->id) checked @endif
+                                                                                        @if ($now >= $start && $now <= $end) 
+                                                                                            required 
+                                                                                        @else 
+                                                                                            disabled 
+                                                                                        @endif
+                                                                                        
+                                                                                    >
+                                                                                    <label class="form-check-label" for="name_option_{{$opsi->id}}">{{ $opsi->name }}</label>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="border border-1">
+                                                                                <span>{{ $opsi->score }}</span>
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endif
+                                                                    
+                                                                @endforeach
+                                                            @else
+                                                                @foreach ($question->_q_option as $opsi)
+                                                                    @if ($opsi->id_survey == $sessionDate)
+                                                                        <tr>
+                                                                            <td class="border border-1">
+                                                                                <div class="form-check form-check-custom form-check-solid">
+                                                                                    <input 
+                                                                                        class="form-check-input" 
+                                                                                        type="radio" 
+                                                                                        name="id_option" 
+                                                                                        value="{{ $opsi->id }}" 
+                                                                                        id="name_option_{{ $opsi->id }}" 
+                                                                                        @if ($now >= $start && $now <= $end) 
+                                                                                            required 
+                                                                                        @else 
+                                                                                            disabled 
+                                                                                        @endif
+                                                                                    >
+                                                                                    <label class="form-check-label" for="name_option_{{ $opsi->id }}">{{ $opsi->name }}</label>
+                                                                                </div>
+
+                                                                            </td>
+                                                                            <td class="border border-1">
+                                                                                <span>{{ $opsi->score }}</span>
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endif
+                                                                @endforeach
+                                                            @endif
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="row">
+                                                        <div class="col-6 mb-4">
+                                                            <div class="form-group w-100">
+                                                                <label for="achievement" class="form-label">Capaian {{$date->trans_date - 1}}</label>
+                                                                @php
+                                                                    $datesV2 = $dates->where('trans_date',$date->trans_date - 1)->first();
+                                                                    if ($datesV2) {
+                                                                        $questionByYear = \App\Models\M_Questions::where('id', $question->id)->first();
+                                                                        $questionByYearV2 = \App\Models\M_Questions::where('name', $questionByYear->name)
+                                                                            ->where('id_survey', $datesV2->id)->first();
+                                                                        $answerV2 = \App\Models\Trans_Survey_D_Answer::where('id_question', $questionByYearV2->id)
+                                                                            ->where('id_survey', $datesV2->id)->first();
+                                                                    }
+                                                                    else {
+                                                                        $answerV2 = null;
+                                                                    }
+                                                                    
+                                                                @endphp
+                                                                <input type="number"
+                                                                    class="form-control form-control-solid rounded rounded-4"
+                                                                    {{-- {{$questionByYear ? $questionByYear->name : 'o'}} --}}
+                                                                    placeholder="{{ $datesV2 ? ($answerV2 ? $answerV2->achievement : 'Belum diisi') : 'Tahun tidak tersedia' }}"
+
+                                                                    {{-- placeholder="{{$datesV2 ? $datesV2->trans_date : 'Tidak ada'}}" --}}
+                                                                    oninvalid="this.setCustomValidity('Capaian tidak boleh kosong.')"
+                                                                    oninput="this.setCustomValidity('')"
+                                                                    step="0.01"
+                                                                    min="0"
+                                                                    readonly
+                                                                >
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6 mb-4">
+                                                            <div class="form-group w-100">
+                                                                <label for="achievement" class="form-label">Capaian {{$date->trans_date}}</label>
+                                                                <input type="number"
+                                                                    id="achievement"
+                                                                    name="achievement"
+                                                                    class="form-control form-control-solid rounded rounded-4"
+                                                                    placeholder="0.00"
+                                                                    oninvalid="this.setCustomValidity('Capaian tidak boleh kosong.')"
+                                                                    oninput="this.setCustomValidity('')"
+                                                                    step="0.01"
+                                                                    min="0"
+                                                                    required
+                                                                    onchange="validateDecimal(this)"
+                                                                    @if ($relatedAnswer)
+                                                                        value="{{$relatedAnswer->achievement}}"
+                                                                    @endif
+                                                                >
+                                                                @error('achievement')
+                                                                    <div class="is-invalid">
+                                                                        <span class="text-danger">
+                                                                            {{$message}}
+                                                                        </span>
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6 mb-4">
+                                                            <div class="form-group w-100">
+                                                                <label for="comment" class="form-label">Penjelasan</label>
+                                                                <textarea 
+                                                                    name="comment" 
+                                                                    id="comment" 
+                                                                    cols="2" rows="2" 
+                                                                    placeholder="Penjelasan" 
+                                                                    class="form-control-solid form-control rounded rounded-4"
+                                                                    required
+                                                                >@if($relatedAnswer){{$relatedAnswer->comment}}@endif</textarea>
+                                                                @error('comment')
+                                                                    <div class="is-invalid">
+                                                                        <span class="text-danger">
+                                                                            {{$message}}
+                                                                        </span>
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
                                                     </div>
+                                                    
+                                                    <div class="mb-2">
+                                                        <span class="required">Data Dukung berupa Pdf dan maksimal 2 MB</span>
+                                                    </div>
+                                                    
+                                                    <table class="table mb-3 table-striped table-row-bordered border rounded">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="w-50 border border-1">Data Pendukung</th>
+                                                                <th class="w-60px border border-1">Penjelasan</th>
+                                                                <th class="border border-1">File</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @php
+                                                                $sessionDate = session('selected_year');
+                                                                $relatedAnswer = $answer->where('id_question', $question->id)->first();
+                                                            @endphp
+                                                            @if($relatedAnswer)
+                                                                @foreach ($question->_doc_question as $opsi)
+                                                                    @if ($opsi->id_survey == $sessionDate)
+                                                                        @php
+                                                                            $uploadedFile = $uploadedFiles->where('id_doc_question', $opsi->id)->first();
+                                                                        @endphp
+                                                                        <tr>
+                                                                            <td class="border border-1">
+                                                                                {{$opsi->name}}
+                                                                            </td>
+                                                                            <td class="border border-1 text-center">
+                                                                                <button type="button" class="btn btn-secondary btn-sm btn-icon" data-bs-toggle="popover" data-bs-placement="right" title="Keterangan" data-bs-custom-class="popover-inverse" data-bs-dismiss="true" data-bs-content="{{$opsi->ket}}">
+                                                                                    <i class="fa fa-info-circle"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                            <td class="border border-1">
+                                                                                @if (!$uploadedFile)
+                                                                                    <!-- No file uploaded: Show input field -->
+                                                                                    <input type="file" name="file_{{$opsi->id}}" class="form-control">
+                                                                                @else
+                                                                                    <a href="{{ asset($uploadedFile->file_path) }}" target="_blank" class="btn btn-success btn-sm ">
+                                                                                        <div class="d-flex justify-content-center">
+                                                                                            Lihat
+                                                                                        </div>
+                                                                                    </a>
+                                                                                    <button 
+                                                                                        @if ($now >= $start && $now <= $end)
+                                                                                            type="submit" 
+                                                                                            class="btn btn-danger btn-sm delete-btn" data-id="{{ $uploadedFile->id }}"
+                                                                                        @else
+                                                                                            class="btn btn-danger btn-sm" disabled
+                                                                                        @endif>
+                                                                                        Hapus
+                                                                                    </button>
+                                                                                    <div class="col-md-2">
+                                                                                        
+                                                                                    </div>
+                                                                                    
+                                                                                @endif
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endif
+                                                                @endforeach
+                                                            @else
+                                                                @foreach ($question->_doc_question as $opsi)
+                                                                    @if ($opsi->id_survey == $sessionDate)
+                                                                        @php
+                                                                            $uploadedFile = $uploadedFiles->where('id_doc_question', $opsi->id)->first();
+                                                                        @endphp
+                                                                        <tr>
+                                                                            <td class="border border-1">
+                                                                                {{$opsi->name}}
+                                                                            </td>
+                                                                            <td class="border border-1">
+                                                                                <button type="button" class="btn btn-secondary btn-sm btn-icon" data-bs-toggle="popover" data-bs-placement="right" title="Keterangan" data-bs-custom-class="popover-inverse" data-bs-dismiss="true" data-bs-content="{{$opsi->ket}}">
+                                                                                    <i class="fa fa-info-circle"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                            <td class="border border-1">
+                                                                                @if (!$uploadedFile)
+                                                                                    <input type="file" name="file_{{$opsi->id}}" class="form-control">
+                                                                                @else
+                                                                                    <a href="{{ url('path_to_uploaded_file/' . $uploadedFile->filename) }}" target="_blank" class="btn btn-sm btn-icon btn-primary">
+                                                                                        <i class="fas fa-eye"></i> View
+                                                                                    </a>
+                                                                                    <input type="file" name="file_{{$opsi->id}}" class="form-control">
+                                                                                    <input type="hidden" name="file_id_{{$opsi->id}}" value="{{$uploadedFile->id}}">
+                                                                                @endif
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endif
+                                                                @endforeach
+                                                            @endif
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal" onclick="location.reload()" >Batal</button>
+                                                    &nbsp;
+                                                    <button 
+                                                    @if ($now >= $start && $now <= $end)
+                                                        type="submit" 
+                                                        class="btn btn-primary rounded-4 hover-scale"
+                                                    @else
+                                                        class="btn btn-primary rounded-4 hover-scale" disabled
+                                                    @endif>
+                                                        Simpan
+                                                    </button>
+                                                </div>
                                                 </form>
-                                                    </div>
                                             </div>
                                         </div>
+                                    </div>
                                 </td>
                                 
                             </tr>

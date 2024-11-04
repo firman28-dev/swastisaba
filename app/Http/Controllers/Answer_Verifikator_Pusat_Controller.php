@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category_Doc_Provinsi;
 use App\Models\M_Category;
 use App\Models\M_Category_Kelembagaan;
+use App\Models\M_District;
 use App\Models\M_Doc_General_Data;
 use App\Models\M_Question_Kelembagaan;
 use App\Models\M_Questions;
@@ -24,7 +25,9 @@ class Answer_Verifikator_Pusat_Controller extends Controller
     public function indexQuestion($id)
     {
         $session_date = Session::get('selected_year');
-        $zona = M_Zona::find($id);
+        // $zona = M_Zona::find($id);
+        $zona = M_District::find($id);
+
         $category = M_Category::where('id_survey', $session_date)->get();
         $sent = [
             'zona' => $zona,
@@ -39,7 +42,11 @@ class Answer_Verifikator_Pusat_Controller extends Controller
     public function showCategory($id_zona, $id)
     {
         $session_date = Session::get('selected_year');
-        $zona = M_Zona::find($id_zona);
+        // $zona = M_Zona::find($id_zona);
+        $zona = M_District::find($id_zona);
+        // return $zona;
+
+
         $category = M_Category::find($id);
         $questions = M_Questions::where('id_category', $id)
             ->where('id_survey', $session_date)

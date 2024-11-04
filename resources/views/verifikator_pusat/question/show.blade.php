@@ -65,7 +65,6 @@
                             <td class="border-1 border p-3">{{ $item->name }}</td>
                             @php
                                 $relatedAnswer = $answer->where('id_question', $item->id)->first();
-
                             @endphp
 
                             @if ($relatedAnswer)
@@ -118,175 +117,218 @@
                                     </div>
                                 </button>
                                 <div class="modal modal-lg fade modal-dialog-scrollable text-start" tabindex="-1" id="confirmUpdate{{ $item->id }}" data-bs-backdrop="static" data-bs-keyboard="false">
-                                    <form action="{{ route('v-pusat.storeQuestion', ['id' => $item->id, 'id_zona' => $zona->id])}}" method="POST">
-                                        @csrf
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h3 class="modal-title">
-                                                        Edit Verifikasi Pertanyaan
-                                                    </h3>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>
-                                                        <strong>Pertanyaan:</strong> 
-                                                    </p>
-                                                    <p>{{ $item->name }}</p> 
-                                                    <table class="table table-bordered mb-4 border">
+                                    
+                                    <div class="modal-dialog modal-dialog-scrollable">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h3 class="modal-title">
+                                                    Edit Verifikasi Pertanyaan
+                                                </h3>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ route('v-pusat.storeQuestion', ['id' => $item->id, 'id_zona' => $zona->id])}}" method="POST">
+                                                @csrf
+                                                <p>
+                                                    <strong>Pertanyaan:</strong> 
+                                                </p>
+                                                <p>{{ $item->name }}</p> 
+                                                <table class="table table-bordered mb-4 border">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="border-1 border">Opsi Jawaban</th>
+                                                            <th class="w-25 border-1 border">Nilai Jawaban</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @php
+                                                            $relatedAnswer = $answer->where('id_question', $item->id)->first();
+                                                        @endphp
+                                                        
+                                                        @if ($relatedAnswer && $relatedAnswer->id_option_pusat)
+                                                            @foreach ($item->_q_option as $opsi)
+                                                            <tr>
+                                                                <td class="border-1 border">
+                                                                    <div class="form-check">
+                                                                        <input 
+                                                                            class="form-check-input" 
+                                                                            type="radio" 
+                                                                            name="id_option_pusat" 
+                                                                            value="{{ $opsi->id }}" 
+                                                                            @if($relatedAnswer->id_option_pusat == $opsi->id) checked @endif
+                                                                            required
+                                                                        >
+                                                                        <label class="form-check-label" for="name_option">{{ $opsi->name }}</label>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="border-1 border">
+                                                                    <label class="form-check-label">{{ $opsi->score }}</label>
+                                                                </td>
+                                                            </tr>
+
+                                                            @endforeach
+                                                        @else
+                                                        
+                                                            @foreach ($item->_q_option as $opsi)
+                                                            <tr>
+                                                                <td class="border-1 border">
+                                                                    <div class="form-check">
+                                                                        <input 
+                                                                            class="form-check-input" 
+                                                                            type="radio" 
+                                                                            name="id_option_pusat" 
+                                                                            id="name_option_{{ $opsi->id }}" 
+                                                                            value="{{ $opsi->id }}" 
+                                                                            required
+                                                                        >
+                                                                        <label class="form-check-label" for="name_option_{{ $opsi->id }}">{{ $opsi->name }}</label>
+                                                                    </div>
+
+                                                                </td>
+                                                                <td class="border-1 border">
+                                                                    <label class="form-check-label">{{ $opsi->score }}</label>
+                                                                </td>
+                                                            </tr>
+                                                            @endforeach
+                                                            
+                                                        @endif
+                                                        
+                                                        
+
+                                                    </tbody>
+                                                </table>
+
+                                                {{-- <div id="dynamic-input-pdf mb-4 ">
+                                                    <label for="opsi" class="form-label">Data Pendukung</label>
+                                                    @php
+                                                        $docQuestions = \App\Models\Doc_Question::where('id_question', $item->id)->get();
+                                                    @endphp
+                                                    <table class="table mb-3 table-striped table-row-bordered border rounded">
                                                         <thead>
                                                             <tr>
-                                                                <th class="border-1 border">Opsi Jawaban</th>
-                                                                <th class="border-1 border">Nilai Jawaban</th>
+                                                                <th class="border border-1">Nama Data</th>
+                                                                <th class="w-200px border border-1 text-center">Status</th>
+                                                                <th class="border border-1">Dokumen</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @php
-                                                                $relatedAnswer = $answer->where('id_question', $item->id)->first();
-                                                            @endphp
-                                                            
-                                                            @if ($relatedAnswer && $relatedAnswer->id_option_pusat)
-                                                                @foreach ($item->_q_option as $opsi)
-                                                                <tr>
-                                                                    <td class="border-1 border">
-                                                                        <div class="form-check">
-                                                                            <input 
-                                                                                class="form-check-input" 
-                                                                                type="radio" 
-                                                                                name="id_option_pusat" 
-                                                                                value="{{ $opsi->id }}" 
-                                                                                @if($relatedAnswer->id_option_pusat == $opsi->id) checked @endif
-                                                                                required
-                                                                            >
-                                                                            <label class="form-check-label" for="name_option">{{ $opsi->name }}</label>
-                                                                        </div>
+                                                            @foreach ($docQuestions as $doc)
+                                                                <td class="border border-1">{{$doc->name}}</td>
+                                                                @php
+                                                                    // Ambil dokumen yang sesuai dengan Doc_Question yang sedang di-loop
+                                                                    $uploadedFile = $uploadedFiles->where('id_doc_question', $doc->id);
+                                                                @endphp
+                                                                @if ($uploadedFile->isNotEmpty())
+                                                                    <td class="border border-1 text-success text-center">
+                                                                        <div class="badge badge-light-success">Ada</div>
                                                                     </td>
-                                                                    <td class="border-1 border">
-                                                                        <label class="form-check-label">{{ $opsi->score }}</label>
+                                                                    <td class="border border-1 text-center">
+                                                                        <!-- Menampilkan link untuk setiap dokumen yang tersedia -->
+                                                                        @foreach ($uploadedFile as $file)
+                                                                            <a href="{{ asset($file->file_path) }}" target="_blank" class="btn btn-icon btn-success w-35px h-35px mb-sm-0 mb-3">
+                                                                                <i class="fa-solid fa-eye"></i>
+                                                                            </a>
+                                                                        @endforeach
                                                                     </td>
-                                                                </tr>
-
+                                                                @else
+                                                                    <td class="border border-1 text-center">
+                                                                        <div class="badge badge-light-danger">Tidak ada</div>
+                                                                    </td>
+                                                                    <td class="border border-1 text-center">
+                                                                        -
+                                                                    </td>
+                                                                @endif
                                                                 @endforeach
-                                                            @else
-                                                           
-                                                                @foreach ($item->_q_option as $opsi)
-                                                                <tr>
-                                                                    <td class="border-1 border">
-                                                                        <div class="form-check">
-                                                                            <input 
-                                                                                class="form-check-input" 
-                                                                                type="radio" 
-                                                                                name="id_option_pusat" 
-                                                                                value="{{ $opsi->id }}" 
-                                                                                required
-                                                                            >
-                                                                            <label class="form-check-label" for="name_option">{{ $opsi->name }}</label>
-                                                                        </div>
-
-                                                                    </td>
-                                                                    <td class="border-1 border">
-                                                                        <label class="form-check-label">{{ $opsi->score }}</label>
-                                                                    </td>
-                                                                </tr>
-                                                                @endforeach
-                                                               
-                                                            @endif
-                                                            
-                                                            
-
                                                         </tbody>
                                                     </table>
+                                                    
+                                                </div> --}}
 
-                                                    <div id="dynamic-input-pdf mb-4 ">
-                                                        <label for="opsi" class="form-label">Data Pendukung</label>
+                                                <table class="table mb-3 table-striped table-row-bordered border rounded">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="w-50 border border-1">Data Pendukung</th>
+                                                            <th class="w-60px border border-1">Penjelasan</th>
+                                                            <th class="border border-1">File</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
                                                         @php
                                                             $docQuestions = \App\Models\Doc_Question::where('id_question', $item->id)->get();
                                                         @endphp
-                                                        <table class="table mb-3 table-striped table-row-bordered border rounded">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th class="border border-1">Nama Data</th>
-                                                                    <th class="w-200px border border-1 text-center">Status</th>
-                                                                    <th class="border border-1">Dokumen</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @foreach ($docQuestions as $doc)
-                                                                    <td class="border border-1">{{$doc->name}}</td>
-                                                                    @php
-                                                                        // Ambil dokumen yang sesuai dengan Doc_Question yang sedang di-loop
-                                                                        $uploadedFile = $uploadedFiles->where('id_doc_question', $doc->id);
-                                                                    @endphp
-                                                                    @if ($uploadedFile->isNotEmpty())
-                                                                        <td class="border border-1 text-success text-center">
-                                                                            <div class="badge badge-light-success">Ada</div>
-                                                                        </td>
-                                                                        <td class="border border-1 text-center">
-                                                                            <!-- Menampilkan link untuk setiap dokumen yang tersedia -->
-                                                                            @foreach ($uploadedFile as $file)
-                                                                                <a href="{{ asset($file->file_path) }}" target="_blank" class="btn btn-icon btn-success w-35px h-35px mb-sm-0 mb-3">
-                                                                                    <i class="fa-solid fa-eye"></i>
-                                                                                </a>
-                                                                            @endforeach
-                                                                        </td>
-                                                                    @else
-                                                                        <td class="border border-1 text-center">
-                                                                            <div class="badge badge-light-danger">Tidak ada</div>
-                                                                        </td>
-                                                                        <td class="border border-1 text-center">
-                                                                            -
-                                                                        </td>
-                                                                    @endif
-                                                                    @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                       
+                                                        @foreach ($docQuestions as $doc)
+                                                            <tr>
+                                                                <td class="border border-1">{{$doc->name}}</td>
+                                                                <td class="border border-1 text-center">
+                                                                    <button type="button" class="btn btn-secondary btn-sm btn-icon" data-bs-toggle="popover" data-bs-placement="right" title="Keterangan" data-bs-custom-class="popover-inverse" data-bs-dismiss="true" data-bs-content="{{$doc->ket}}">
+                                                                        <i class="fa fa-info-circle"></i>
+                                                                    </button>
+                                                                </td>
+                                                                @php
+                                                                    $uploadedFile = $uploadedFiles->where('id_doc_question', $doc->id)->first();
+                                                                @endphp
+                                                                @if ($uploadedFile && $uploadedFile->file_path)
+                                                                    <td class="border border-1">
+                                                                        <a href="{{ asset($uploadedFile->file_path) }}" target="_blank" class="btn btn-success btn-sm ">
+                                                                            <div class="d-flex justify-content-center">
+                                                                                Lihat
+                                                                            </div>
+                                                                        </a>
+                                                                    </td>
+                                                                @else
+                                                                    <td class="border border-1">
+                                                                        <div class="badge badge-light-danger">Tidak diupload</div>
+                                                                    </td>
+                                                                @endif
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+
+                                                @if ($relatedAnswer && $relatedAnswer->id_option_pusat)
+                                                    <div class="row mb-3">
+                                                        <div class="col-12">
+                                                            <div class="form-group w-100">
+                                                                <label for="name" class="form-label">Komentar</label>
+                                                                <textarea name="comment_pusat" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Komentar">{{$relatedAnswer->comment_pusat}}</textarea>
+                                                                
+                                                                @error('comment_pusat')
+                                                                    <div class="is-invalid">
+                                                                        <span class="text-danger">
+                                                                            {{$message}}
+                                                                        </span>
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
                                                     </div>
-
-                                                    @if ($relatedAnswer && $relatedAnswer->id_option_pusat)
-                                                        <div class="row mb-3">
-                                                            <div class="col-12">
-                                                                <div class="form-group w-100">
-                                                                    <label for="name" class="form-label">Komentar</label>
-                                                                    <textarea name="comment_pusat" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Komentar">{{$relatedAnswer->comment_pusat}}</textarea>
-                                                                    
-                                                                    @error('comment_pusat')
-                                                                        <div class="is-invalid">
-                                                                            <span class="text-danger">
-                                                                                {{$message}}
-                                                                            </span>
-                                                                        </div>
-                                                                    @enderror
-                                                                </div>
+                                                @else
+                                                    <div class="row mb-3">
+                                                        <div class="col-12">
+                                                            <div class="form-group w-100">
+                                                                <label for="name" class="form-label">Komentar</label>
+                                                                <textarea name="comment_pusat" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Komentar"></textarea>
+                                                                
+                                                                @error('comment_prov')
+                                                                    <div class="is-invalid">
+                                                                        <span class="text-danger">
+                                                                            {{$message}}
+                                                                        </span>
+                                                                    </div>
+                                                                @enderror
                                                             </div>
                                                         </div>
-                                                    @else
-                                                        <div class="row mb-3">
-                                                            <div class="col-12">
-                                                                <div class="form-group w-100">
-                                                                    <label for="name" class="form-label">Komentar</label>
-                                                                    <textarea name="comment_pusat" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Komentar"></textarea>
-                                                                    
-                                                                    @error('comment_prov')
-                                                                        <div class="is-invalid">
-                                                                            <span class="text-danger">
-                                                                                {{$message}}
-                                                                            </span>
-                                                                        </div>
-                                                                    @enderror
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endif
-                                                    
+                                                    </div>
+                                                @endif
+                                                
 
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary rounded-4" data-bs-dismiss="modal">Batal</button>
-                                                    <button type="submit" class="btn btn-primary rounded-4">Simpan</button>
-                                                </div>
                                             </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary rounded-4" data-bs-dismiss="modal" onclick="location.reload()">Batal</button>
+                                                <button type="submit" class="btn btn-primary rounded-4">Simpan</button>
+                                            </div>
+                                        </form>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </td>
                                 
