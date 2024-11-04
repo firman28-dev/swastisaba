@@ -456,7 +456,7 @@
                                                                                     <!-- No file uploaded: Show input field -->
                                                                                     <input type="file" name="file_{{$opsi->id}}" class="form-control">
                                                                                 @else
-                                                                                    <a href="{{ asset($uploadedFile->file_path) }}" target="_blank" class="btn btn-success btn-sm ">
+                                                                                    <a href="{{ asset('uploads/doc_pendukung/'.$uploadedFile->file_path) }}" target="_blank" class="btn btn-success btn-sm ">
                                                                                         <div class="d-flex justify-content-center">
                                                                                             Lihat
                                                                                         </div>
