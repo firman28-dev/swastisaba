@@ -268,7 +268,7 @@
                                                                 @endphp
                                                                 @if ($uploadedFile && $uploadedFile->file_path)
                                                                     <td class="border border-1">
-                                                                        <a href="{{ asset($uploadedFile->file_path) }}" target="_blank" class="btn btn-success btn-sm ">
+                                                                        <a href="{{ asset('uploads/doc_pendukung/'.$uploadedFile->file_path) }}" target="_blank" class="btn btn-success btn-sm ">
                                                                             <div class="d-flex justify-content-center">
                                                                                 Lihat
                                                                             </div>
