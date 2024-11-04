@@ -141,59 +141,60 @@
                                                     </thead>
                                                     <tbody>
                                                         @php
+                                                            $sessionDate = session('selected_year');
+
                                                             $relatedAnswer = $answer->where('id_question', $item->id)->first();
                                                         @endphp
                                                         
                                                         @if ($relatedAnswer && $relatedAnswer->id_option_pusat)
                                                             @foreach ($item->_q_option as $opsi)
-                                                            <tr>
-                                                                <td class="border-1 border">
-                                                                    <div class="form-check">
-                                                                        <input 
-                                                                            class="form-check-input" 
-                                                                            type="radio" 
-                                                                            name="id_option_pusat" 
-                                                                            value="{{ $opsi->id }}" 
-                                                                            @if($relatedAnswer->id_option_pusat == $opsi->id) checked @endif
-                                                                            required
-                                                                        >
-                                                                        <label class="form-check-label" for="name_option">{{ $opsi->name }}</label>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="border-1 border">
-                                                                    <label class="form-check-label">{{ $opsi->score }}</label>
-                                                                </td>
-                                                            </tr>
-
+                                                            @if ($opsi->id_survey == $sessionDate)
+                                                                <tr>
+                                                                    <td class="border-1 border">
+                                                                        <div class="form-check">
+                                                                            <input 
+                                                                                class="form-check-input" 
+                                                                                type="radio" 
+                                                                                name="id_option_pusat" 
+                                                                                id="name_option_{{$opsi->id}}"
+                                                                                value="{{ $opsi->id }}" 
+                                                                                @if($relatedAnswer->id_option_pusat == $opsi->id) checked @endif
+                                                                                required
+                                                                            >
+                                                                            <label class="form-check-label" for="name_option_{{$opsi->id}}">{{ $opsi->name }}</label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="border-1 border">
+                                                                        <label class="form-check-label">{{ $opsi->score }}</label>
+                                                                    </td>
+                                                                </tr>
+                                                            @endif
                                                             @endforeach
                                                         @else
-                                                        
                                                             @foreach ($item->_q_option as $opsi)
-                                                            <tr>
-                                                                <td class="border-1 border">
-                                                                    <div class="form-check">
-                                                                        <input 
-                                                                            class="form-check-input" 
-                                                                            type="radio" 
-                                                                            name="id_option_pusat" 
-                                                                            id="name_option_{{ $opsi->id }}" 
-                                                                            value="{{ $opsi->id }}" 
-                                                                            required
-                                                                        >
-                                                                        <label class="form-check-label" for="name_option_{{ $opsi->id }}">{{ $opsi->name }}</label>
-                                                                    </div>
+                                                                @if ($opsi->id_survey == $sessionDate)
+                                                                    <tr>
+                                                                        <td class="border-1 border">
+                                                                            <div class="form-check">
+                                                                                <input 
+                                                                                    class="form-check-input" 
+                                                                                    type="radio" 
+                                                                                    name="id_option_pusat" 
+                                                                                    id="name_option_{{ $opsi->id }}" 
+                                                                                    value="{{ $opsi->id }}" 
+                                                                                    required
+                                                                                >
+                                                                                <label class="form-check-label" for="name_option_{{ $opsi->id }}">{{ $opsi->name }}</label>
+                                                                            </div>
 
-                                                                </td>
-                                                                <td class="border-1 border">
-                                                                    <label class="form-check-label">{{ $opsi->score }}</label>
-                                                                </td>
-                                                            </tr>
+                                                                        </td>
+                                                                        <td class="border-1 border">
+                                                                            <label class="form-check-label">{{ $opsi->score }}</label>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endif
                                                             @endforeach
-                                                            
                                                         @endif
-                                                        
-                                                        
-
                                                     </tbody>
                                                 </table>
 
