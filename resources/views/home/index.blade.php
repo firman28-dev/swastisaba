@@ -121,7 +121,26 @@
             </div>
         </div>
     @endforeach --}}
-        
+    @elseif($userprofile->id_group === 6)
+    <div class="card card-bordered mb-5">
+        <div class="card-header">
+            <div class="card-title">
+                <h3>
+                    Total Jawaban Tatanan
+                </h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="kt_apexcharts_2" style="overflow-x: auto">
+                <div id="chartKabkota" style="height: 100%;"> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @else
+    <hr>
+
     @endif
 @endsection
 
@@ -230,7 +249,7 @@
             // var myChartScore = new Chart(ctxScore, configScore);
 
 
-            var element = document.getElementById('kt_apexcharts_1');
+            
 
             var height = parseInt(KTUtil.css(element, 'height'));
             var labelColor = KTUtil.getCssVariableValue('--kt-gray-500');
@@ -239,111 +258,239 @@
             var secondaryColor = KTUtil.getCssVariableValue('--kt-success');
 
 
-            var options = {
-                series: [ {
-                    name: 'Total Jawaban',
-                    data: dataAnswerDistrict
-                },{
-                    name: 'Total Nilai',
-                    data: dataScoreDistrict
-                }],
-                chart: {
-                    fontFamily: 'inherit',
-                    type: 'bar',
-                    // height: 600,
-                    toolbar: {
-                        show: true
-                    }
-                },
-                plotOptions: {
-                    bar: {
-                        horizontal: true,
-                        columnWidth: ['50%'],
-                        endingShape: 'rounded'
-                    },
-                },
-                legend: {
-                    show: true,
-                    position: 'top'
-                },
-                dataLabels: {
-                    enabled: true
-                },
-                stroke: {
-                    show: true,
-                    width: 2,
-                    colors: ['transparent']
-                },
-                xaxis: {
-                    categories: labels,
-                    axisBorder: {
-                        show: true,
-                    },
-                    axisTicks: {
-                        show: false
-                    },
-                    labels: {
-                        style: {
-                            colors: labelColor,
-                            fontSize: '12px'
-                        }
-                    }
-                },
-                yaxis: {
-                    labels: {
-                        style: {
-                            colors: labelColor,
-                            fontSize: '12px'
-                        }
-                    }
-                },
-                fill: {
-                    opacity: 1
-                },
-                states: {
-                    normal: {
-                        filter: {
-                            type: 'none',
-                            value: 0
-                        }
-                    },
-                    hover: {
-                        filter: {
-                            type: 'none',
-                            value: 0
-                        }
-                    },
-                    active: {
-                        allowMultipleDataPointsSelection: false,
-                        filter: {
-                            type: 'none',
-                            value: 0
-                        }
-                    }
-                },
-                tooltip: {
-                    style: {
-                        fontSize: '12px'
-                    },
-                    y: {
-                        formatter: function (val) {
-                            return val 
-                        }
-                    }
-                },
-                colors: [baseColor, secondaryColor],
-                grid: {
-                    borderColor: borderColor,
-                    yaxis: {
-                        lines: {
+            
+
+
+            const idGroup = @json($idGroup);
+            // console.log(idGroup);
+
+            if(idGroup === 2){
+                var element = document.getElementById('kt_apexcharts_1');
+
+                var options = {
+                    series: [ {
+                        name: 'Total Jawaban',
+                        data: dataAnswerDistrict
+                    },{
+                        name: 'Total Nilai',
+                        data: dataScoreDistrict
+                    }],
+                    chart: {
+                        fontFamily: 'inherit',
+                        type: 'bar',
+                        // height: 600,
+                        toolbar: {
                             show: true
                         }
                     },
-                }
-            };
+                    plotOptions: {
+                        bar: {
+                            horizontal: true,
+                            columnWidth: ['50%'],
+                            endingShape: 'rounded'
+                        },
+                    },
+                    legend: {
+                        show: true,
+                        position: 'top'
+                    },
+                    dataLabels: {
+                        enabled: true
+                    },
+                    stroke: {
+                        show: true,
+                        width: 2,
+                        colors: ['transparent']
+                    },
+                    xaxis: {
+                        categories: labels,
+                        axisBorder: {
+                            show: true,
+                        },
+                        axisTicks: {
+                            show: false
+                        },
+                        labels: {
+                            style: {
+                                colors: labelColor,
+                                fontSize: '12px'
+                            }
+                        }
+                    },
+                    yaxis: {
+                        labels: {
+                            style: {
+                                colors: labelColor,
+                                fontSize: '12px'
+                            }
+                        }
+                    },
+                    fill: {
+                        opacity: 1
+                    },
+                    states: {
+                        normal: {
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        },
+                        hover: {
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        },
+                        active: {
+                            allowMultipleDataPointsSelection: false,
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        }
+                    },
+                    tooltip: {
+                        style: {
+                            fontSize: '12px'
+                        },
+                        y: {
+                            formatter: function (val) {
+                                return val 
+                            }
+                        }
+                    },
+                    colors: [baseColor, secondaryColor],
+                    grid: {
+                        borderColor: borderColor,
+                        yaxis: {
+                            lines: {
+                                show: true
+                            }
+                        },
+                    }
+                };
+                var chart = new ApexCharts(document.querySelector("#chart"), options);
+                chart.render();
+            }
 
-            var chart = new ApexCharts(document.querySelector("#chart"), options);
-            chart.render();
+            if(idGroup === 6){
+                var element = document.getElementById('kt_apexcharts_2');
+                
+                const chartData = @json($chartData);
+                const labelsCategory = chartData.map(item => item.kategori);
+                const dataKabKota = chartData.map(item => item.total_jawaban);
+                const dataQuestion = chartData.map(item => item.total_pertanyaan);
+
+
+                // console.log(chartData);
+
+                var optionsKabKota = {
+                    series: [ {
+                        name: 'Total Jawaban',
+                        data: dataKabKota
+                    },{
+                        name: 'Total Pertanyaan',
+                        data: dataQuestion
+                    }],
+                    chart: {
+                        fontFamily: 'inherit',
+                        type: 'bar',
+                        // height: 600,
+                        toolbar: {
+                            show: true
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: true,
+                            columnWidth: ['50%'],
+                            endingShape: 'rounded'
+                        },
+                    },
+                    legend: {
+                        show: true,
+                        position: 'top'
+                    },
+                    dataLabels: {
+                        enabled: true
+                    },
+                    stroke: {
+                        show: true,
+                        width: 2,
+                        colors: ['transparent']
+                    },
+                    xaxis: {
+                        categories: labelsCategory,
+                        axisBorder: {
+                            show: true,
+                        },
+                        axisTicks: {
+                            show: false
+                        },
+                        labels: {
+                            style: {
+                                colors: labelColor,
+                                fontSize: '12px'
+                            }
+                        }
+                    },
+                    yaxis: {
+                        labels: {
+                            style: {
+                                colors: labelColor,
+                                fontSize: '12px'
+                            }
+                        }
+                    },
+                    fill: {
+                        opacity: 1
+                    },
+                    states: {
+                        normal: {
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        },
+                        hover: {
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        },
+                        active: {
+                            allowMultipleDataPointsSelection: false,
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        }
+                    },
+                    tooltip: {
+                        style: {
+                            fontSize: '12px'
+                        },
+                        y: {
+                            formatter: function (val) {
+                                return val 
+                            }
+                        }
+                    },
+                    colors: [baseColor, secondaryColor],
+                    grid: {
+                        borderColor: borderColor,
+                        yaxis: {
+                            lines: {
+                                show: true
+                            }
+                        },
+                    }
+                };
+
+                var chart2 = new ApexCharts(document.querySelector("#chartKabkota"), optionsKabKota);
+                chart2.render();
+            }
+            
 
             // const chartData = [];
 
@@ -381,7 +528,12 @@
             //         }
             //     });
             // });
+
+            
                     
+            
+            
+
         });
 
        

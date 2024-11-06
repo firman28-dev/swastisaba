@@ -18,6 +18,10 @@ use Session;
 class Home_Controller extends Controller
 {
     public function index(){
+        $user = Auth::user();
+        $idZona = $user->id_zona;
+        $idGroup = $user->id_group;
+
         $session_date = Session::get('selected_year');
         $category = M_Category::select('id')
             ->where('id_survey', $session_date)
@@ -59,10 +63,27 @@ class Home_Controller extends Controller
             
         // $categoryv2 = M_Category::where('id_survey', $session_date)->get();
         $results = M_District::where('province_id',13)->with(['_transAnswers' => function($query) {
-            $query->select('id_zona', 'id_category', \DB::raw('count(*) as jumlah_jawaban'))
+            $query->select('id_zona', 'id_category', DB::raw('count(*) as jumlah_jawaban'))
                   ->groupBy('id_zona', 'id_category');
-        }])
+        },])
         ->get();
+
+        $chart = M_Category::where('id_survey', $session_date)
+            ->withCount(['_transDAnswer as total_jawaban' => function ($query) use ($session_date, $idZona) {
+                $query->where('id_survey', $session_date)->where('id_zona', $idZona);
+            }, '_question as total_pertanyaan'])
+            ->get();
+
+        $chartData = $chart->map(function ($category) {
+            return [
+                'kategori' => $category->name,  // atau gunakan field yang sesuai untuk nama kategori
+                'total_jawaban' => $category->total_jawaban,
+                'total_pertanyaan' => $category->total_pertanyaan,
+                
+            ];
+        });
+
+        // return $chartData;
 
         $categoryV2 = M_Category::where('id_survey', $session_date)->get();
 
@@ -95,7 +116,9 @@ class Home_Controller extends Controller
             'districtNames' => $districtNames,
             'totalAnswers' => $totalAnswers,
             'totalScore' => $totalScore,
-            'categoryV2' => $categoryV2
+            'categoryV2' => $categoryV2,
+            'chartData' => $chartData,
+            'idGroup' => $idGroup
             // 'categoryLabels' => $categoryLabels,
             // 'categoryData' =>$categoryData
 
