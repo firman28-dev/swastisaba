@@ -138,6 +138,22 @@
         </div>
     </div>
 
+    <div class="card card-bordered mb-5">
+        <div class="card-header">
+            <div class="card-title">
+                <h3>
+                    Total Score Tatanan
+                </h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="kt_apexcharts_3" style="overflow-x: auto">
+                <div id="chartKabkota2" style="height: 100%;"> 
+                </div>
+            </div>
+        </div>
+    </div>
+
     @else
     <hr>
 
@@ -375,12 +391,22 @@
 
             if(idGroup === 6){
                 var element = document.getElementById('kt_apexcharts_2');
+                var elementScore = document.getElementById('kt_apexcharts_3');
+
                 
                 const chartData = @json($chartData);
                 const labelsCategory = chartData.map(item => item.kategori);
                 const dataKabKota = chartData.map(item => item.total_jawaban);
                 const dataQuestion = chartData.map(item => item.total_pertanyaan);
 
+
+                // const totalAllScore = dataQuestion*100;
+                const dataallScore = chartData.map(item => item.total_pertanyaan *100);
+                const totalScoreKabkota = chartData.map(item => item.total_score);
+
+
+                // console.log(dataallScore);
+                
 
                 // console.log(chartData);
 
@@ -487,8 +513,114 @@
                     }
                 };
 
+                var optionsScore = {
+                    series: [ {
+                        name: 'Score Saat ini',
+                        data: totalScoreKabkota
+                    },{
+                        name: 'Total Score Max',
+                        data: dataallScore
+                    }],
+                    chart: {
+                        fontFamily: 'inherit',
+                        type: 'bar',
+                        // height: 600,
+                        toolbar: {
+                            show: true
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: true,
+                            columnWidth: ['50%'],
+                            endingShape: 'rounded'
+                        },
+                    },
+                    legend: {
+                        show: true,
+                        position: 'top'
+                    },
+                    dataLabels: {
+                        enabled: true
+                    },
+                    stroke: {
+                        show: true,
+                        width: 2,
+                        colors: ['transparent']
+                    },
+                    xaxis: {
+                        categories: labelsCategory,
+                        axisBorder: {
+                            show: true,
+                        },
+                        axisTicks: {
+                            show: false
+                        },
+                        labels: {
+                            style: {
+                                colors: labelColor,
+                                fontSize: '12px'
+                            }
+                        }
+                    },
+                    yaxis: {
+                        labels: {
+                            style: {
+                                colors: labelColor,
+                                fontSize: '12px'
+                            }
+                        }
+                    },
+                    fill: {
+                        opacity: 1
+                    },
+                    states: {
+                        normal: {
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        },
+                        hover: {
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        },
+                        active: {
+                            allowMultipleDataPointsSelection: false,
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        }
+                    },
+                    tooltip: {
+                        style: {
+                            fontSize: '12px'
+                        },
+                        y: {
+                            formatter: function (val) {
+                                return val 
+                            }
+                        }
+                    },
+                    colors: [baseColor, secondaryColor],
+                    grid: {
+                        borderColor: borderColor,
+                        yaxis: {
+                            lines: {
+                                show: true
+                            }
+                        },
+                    }
+                };
+
                 var chart2 = new ApexCharts(document.querySelector("#chartKabkota"), optionsKabKota);
                 chart2.render();
+
+                var chart3 = new ApexCharts(document.querySelector("#chartKabkota2"), optionsScore);
+                chart3.render();
             }
             
 

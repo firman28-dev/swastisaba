@@ -72,14 +72,23 @@ class Home_Controller extends Controller
             ->withCount(['_transDAnswer as total_jawaban' => function ($query) use ($session_date, $idZona) {
                 $query->where('id_survey', $session_date)->where('id_zona', $idZona);
             }, '_question as total_pertanyaan'])
+            ->with(['_transDAnswer' => function ($query) use ($session_date, $idZona) {
+                $query->where('id_survey', $session_date)
+                      ->where('id_zona', $idZona)
+                      ->with('_q_option'); 
+            }])
             ->get();
 
         $chartData = $chart->map(function ($category) {
+            $totalScore = $category->_transDAnswer->sum(function ($answer) {
+                return $answer->_q_option ? $answer->_q_option->score : 0;
+            });
+
             return [
                 'kategori' => $category->name,  // atau gunakan field yang sesuai untuk nama kategori
                 'total_jawaban' => $category->total_jawaban,
                 'total_pertanyaan' => $category->total_pertanyaan,
-                
+                'total_score' => $totalScore
             ];
         });
 
