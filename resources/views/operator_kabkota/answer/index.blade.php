@@ -338,6 +338,7 @@
                                                             @endif
                                                         </tbody>
                                                     </table>
+                                                    
                                                     <div class="row">
                                                         <div class="col-6 mb-4">
                                                             <div class="form-group w-100">
@@ -349,6 +350,7 @@
                                                                         $questionByYearV2 = \App\Models\M_Questions::where('name', $questionByYear->name)
                                                                             ->where('id_survey', $datesV2->id)->first();
                                                                         $answerV2 = \App\Models\Trans_Survey_D_Answer::where('id_question', $questionByYearV2->id)
+                                                                            ->where('id_zona', $idZona)
                                                                             ->where('id_survey', $datesV2->id)->first();
                                                                     }
                                                                     else {

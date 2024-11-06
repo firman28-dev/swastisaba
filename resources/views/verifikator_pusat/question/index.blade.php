@@ -20,7 +20,7 @@
                     <thead>
                         <tr class="fw-semibold fs-6 text-muted">
                             <th class="w-60px border border-1 text-center">No.</th>
-                            <th class="border border-1">Nama Tatanan</th>
+                            <th class="w-50 border border-1">Nama Tatanan</th>
                             <th class="border border-1">#</th>
                         </tr>
                     </thead>
@@ -48,7 +48,6 @@
 @section('script')
     <script>
         $("#tableSKPD").DataTable({
-            responsive: true,
             "language": {
                 "lengthMenu": "Show _MENU_",
             },

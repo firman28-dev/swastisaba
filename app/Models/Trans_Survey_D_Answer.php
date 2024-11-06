@@ -25,9 +25,9 @@ class Trans_Survey_D_Answer extends Model
 
     ];  
 
-    public function _zona()
+    public function _district()
     {
-        return $this->belongsTo(M_Zona::class, 'id_zona');
+        return $this->belongsTo(M_District::class, 'id_zona');
     }
 
     public function _category()

@@ -15,6 +15,7 @@ use App\Models\Trans_Doc_G_Data;
 use App\Models\Trans_Doc_Kelembagaan;
 use App\Models\Trans_Doc_Prov;
 use App\Models\Trans_Kelembagaan_H;
+use App\Models\Trans_Survey;
 use App\Models\Trans_Survey_D_Answer;
 use App\Models\Trans_Upload_KabKota;
 use Illuminate\Http\Request;
@@ -45,7 +46,8 @@ class Answer_Verifikator_Pusat_Controller extends Controller
         // $zona = M_Zona::find($id_zona);
         $zona = M_District::find($id_zona);
         // return $zona;
-
+        $dates = Trans_Survey::all();
+        $date = Trans_Survey::find($session_date);
 
         $category = M_Category::find($id);
         $questions = M_Questions::where('id_category', $id)
@@ -59,8 +61,9 @@ class Answer_Verifikator_Pusat_Controller extends Controller
             'category' => $category,
             'questions' => $questions,
             'answer' => $answer,
-            'uploadedFiles' => $uploadedFiles
-
+            'uploadedFiles' => $uploadedFiles,
+            'date' => $date,
+            'dates' => $dates, 
         ];
 
         return view('verifikator_pusat.question.show', $sent);

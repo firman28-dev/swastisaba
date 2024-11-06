@@ -9,4 +9,8 @@ class M_District extends Model
 {
     use HasFactory;
     protected $table = 'district';
+    public function _transAnswers()
+    {
+        return $this->hasMany(Trans_Survey_D_Answer::class, 'id_zona', 'id');
+    }
 }

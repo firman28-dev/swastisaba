@@ -198,6 +198,55 @@
                                                     </tbody>
                                                 </table>
 
+                                                <div class="row">
+                                                    <div class="col-6 mb-4">
+                                                        <div class="form-group w-100">
+                                                            <label for="achievement" class="form-label">Capaian {{$date->trans_date - 1}}</label>
+                                                            @php
+                                                                $datesV2 = $dates->where('trans_date',$date->trans_date - 1)->first();
+                                                                if($datesV2){
+                                                                    $questionByYear = \App\Models\M_Questions::where('id', $item->id)->first();
+                                                                    $questionByYearV2 = \App\Models\M_Questions::where('name', $questionByYear->name)
+                                                                        ->where('id_survey', $datesV2->id)->first();
+                                                                    $answerV2 = \App\Models\Trans_Survey_D_Answer::where('id_question', $questionByYearV2->id)
+                                                                        ->where('id_survey', $datesV2->id)->first();
+                                                                }
+                                                                else {
+                                                                    $answerV2 = null;
+                                                                }
+                                                            @endphp
+                                                            <input type="number"
+                                                                class="form-control form-control-solid rounded rounded-4"
+                                                                placeholder="{{ $datesV2 ? ($answerV2 ? $answerV2->achievement : 'Belum diisi') : 'Tahun tidak tersedia' }}"
+                                                                readonly
+                                                            >
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 mb-4">
+                                                        <div class="form-group w-100">
+                                                            <label for="achievement" class="form-label">Capaian {{$date->trans_date}}</label>
+                                                            <input type="number"
+                                                                id="achievement"
+                                                                class="form-control form-control-solid rounded rounded-4"
+                                                                placeholder="{{ $relatedAnswer ? ($relatedAnswer->achievement ?? 'Belum diisi') : 'Belum diisi' }}"
+                                                                readonly
+                                                            >
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 mb-4">
+                                                        <div class="form-group w-100">
+                                                            <label for="comment" class="form-label">Penjelasan</label>
+                                                            <textarea 
+                                                                cols="2" rows="2" 
+                                                                class="form-control-solid form-control rounded rounded-4"
+                                                                required
+                                                                readonly
+                                                                placeholder="{{ $relatedAnswer ? ($relatedAnswer->comment ?? 'Belum diisi') : 'Belum diisi' }}"
+                                                            ></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 {{-- <div id="dynamic-input-pdf mb-4 ">
                                                     <label for="opsi" class="form-label">Data Pendukung</label>
                                                     @php

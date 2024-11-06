@@ -43,6 +43,7 @@ class Answer_KabKota_Controller extends Controller
             ->where('id_survey', $session_date)
             ->get();
         $schedule = Setting_Time::where('id_group', $user->id_group)->first();
+        
         $sent = [
             'category' => $category,
             'questions' => $questions,
