@@ -159,7 +159,7 @@
                         <tr class="fw-semibold fs-6 text-muted text-center ">
                             <th class="w-60px text-center border-1 border p-3" rowspan="2">No.</th>
                             <th class="w-50px text-center border-1 border align-middle p-3" rowspan="2">Pertanyaan</th>
-                            <th class="text-center border-1 border align-middle" colspan="4">Self Assesment</th>
+                            <th class="text-center border-1 border align-middle" colspan="4">Self Assesment Kab/Kota</th>
                             <th class="text-center border-1 border align-middle" colspan="3">Provinsi</th>
                             <th class="text-center border-1 border align-middle" colspan="3">Pusat</th>
                             <th class=" w-100px text-center border-1 border align-middle p-3" rowspan="2">Aksi</th>
