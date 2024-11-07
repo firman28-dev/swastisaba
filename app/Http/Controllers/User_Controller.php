@@ -129,7 +129,7 @@ class User_Controller extends Controller
             return redirect()->route('user.index')->with('success', 'Berhasil mereset session user');
         }
         else{
-            return redirect()->route('user.index')->with('error', 'Tidak menghapus session pribadi');
+            return redirect()->route('user.index')->with('error', 'Tidak bisa menghapus session pribadi');
 
         }
 

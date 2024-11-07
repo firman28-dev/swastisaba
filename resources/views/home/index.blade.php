@@ -90,6 +90,48 @@
                     Total Nilai dan Jawaban Kabupaten/Kota
                 </h3>
             </div>
+            <div class="card-toolbar">
+                <form action="{{route('home.showDistrict')}}" method="POST">
+                    @csrf
+                    <div class="row d-flex align-items-center">
+                        <div class="col-lg-10">
+                            <div class="form-group">
+                                <select 
+                                    id="id_district" 
+                                    name="id_district" 
+                                    aria-label="Default select example"
+                                    class="form-select form-select-solid rounded rounded-4" 
+                                    required
+                                    autofocus
+                                    oninvalid="this.setCustomValidity('Kabupaten/Kota tidak boleh kosong.')"
+                                    oninput="this.setCustomValidity('')"
+                                >
+                                    <option value="" disabled selected>Pilih Kab/Kota</option>
+                                    @foreach($searchDistrict as $data)
+                                        <option value="{{ $data->id }}" {{ old('id_district') == $data->id ? 'selected' : '' }}>
+                                            {{ $data->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('id_district')
+                                    <div class="is-invalid">
+                                        <span class="text-danger">
+                                            {{$message}}
+                                        </span>
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <button class="btn-sm btn btn-secondary btn-icon" type="submit">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </div>
+                        
+                    </div>
+                    
+                </form>
+            </div>
         </div>
         <div class="card-body">
             <div id="kt_apexcharts_1" style="overflow-x: auto">
@@ -668,7 +710,10 @@
 
         });
 
-       
+        $('#id_district').select2({
+            placeholder: 'Pilih Kab/Kota',
+            allowClear: true
+        });
         
     </script>
     

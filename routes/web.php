@@ -99,6 +99,10 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::group(['middleware' => ['superadmin']], function () {
             
+            Route::post('/dashboard/show-kabkota', [Home_Controller::class, 'showDistrict'])->name('home.showDistrict');
+            Route::post('/dashboard/{id}/show-category', [Home_Controller::class, 'showCategory'])->name('home.showCategory');
+            Route::get('/dashboard/show-kabkota/{id}', [Home_Controller::class, 'getDistrict'])->name('home.getDistrict');
+
             Route::get('/category/trashed', [M_Category_Controller::class, 'onlyTrashed'])->name('category.onlyTrashed');
             Route::get('/category/restore/{id}', [M_Category_Controller::class, 'restore'])->name('category.restore');
             Route::get('/category/forcedelete/{id}', [M_Category_Controller::class, 'forceDelete'])->name('category.forceDelete');

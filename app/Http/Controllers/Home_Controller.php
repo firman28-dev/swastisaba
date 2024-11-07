@@ -8,6 +8,7 @@ use App\Models\M_Questions;
 use App\Models\M_Zona;
 use App\Models\Trans_Survey;
 use App\Models\Trans_Survey_D_Answer;
+use App\Models\Trans_Upload_KabKota;
 use App\Models\User;
 use Auth;
 use DB;
@@ -21,6 +22,7 @@ class Home_Controller extends Controller
         $user = Auth::user();
         $idZona = $user->id_zona;
         $idGroup = $user->id_group;
+        $searchDistrict = M_District::where('province_id',13)->get();
 
         $session_date = Session::get('selected_year');
         $category = M_Category::select('id')
@@ -127,7 +129,8 @@ class Home_Controller extends Controller
             'totalScore' => $totalScore,
             'categoryV2' => $categoryV2,
             'chartData' => $chartData,
-            'idGroup' => $idGroup
+            'idGroup' => $idGroup,
+            'searchDistrict' => $searchDistrict
             // 'categoryLabels' => $categoryLabels,
             // 'categoryData' =>$categoryData
 
@@ -152,6 +155,125 @@ class Home_Controller extends Controller
         Session::put('selected_year', $idSurvey);
 
         return response()->json(['success' => true, 'id_survey' => $idSurvey]);
+    }
+
+    public function showDistrict(Request $request)
+    {
+        $session_date = Session::get('selected_year');
+
+        $request->validate([
+            'id_district' => 'required',
+        ],);
+        $category = M_Category::where('id_survey', $session_date)->get();
+        $district= $request->id_district;
+        $districtv2 = M_District::find($request->id_district);
+        
+        $chart = M_Category::where('id_survey', $session_date)
+            ->withCount(['_transDAnswer as total_jawaban' => function ($query) use ($session_date, $district) {
+                $query->where('id_survey', $session_date)->where('id_zona', $district);
+            }, '_question as total_pertanyaan'])
+            ->with(['_transDAnswer' => function ($query) use ($session_date, $district) {
+                $query->where('id_survey', $session_date)
+                      ->where('id_zona', $district)
+                      ->with('_q_option'); 
+            }])
+            ->get();
+
+        $chartData = $chart->map(function ($category) {
+            $totalScore = $category->_transDAnswer->sum(function ($answer) {
+                return $answer->_q_option ? $answer->_q_option->score : 0;
+            });
+
+            return [
+                'kategori' => $category->name,  // atau gunakan field yang sesuai untuk nama kategori
+                'total_jawaban' => $category->total_jawaban,
+                'total_pertanyaan' => $category->total_pertanyaan,
+                'total_score' => $totalScore
+            ];
+        });
+
+        $sent = [
+            'chartData' => $chartData,
+            'districtv2' => $districtv2,
+            'category' => $category
+        ];
+        return view('home.show_kabkota',$sent);
+    }
+
+    public function getDistrict($idDistirct)
+    {
+        $session_date = Session::get('selected_year');
+
+       
+        $category = M_Category::where('id_survey', $session_date)->get();
+        $district= $idDistirct;
+        $districtv2 = M_District::find($idDistirct);
+        
+        $chart = M_Category::where('id_survey', $session_date)
+            ->withCount(['_transDAnswer as total_jawaban' => function ($query) use ($session_date, $district) {
+                $query->where('id_survey', $session_date)->where('id_zona', $district);
+            }, '_question as total_pertanyaan'])
+            ->with(['_transDAnswer' => function ($query) use ($session_date, $district) {
+                $query->where('id_survey', $session_date)
+                      ->where('id_zona', $district)
+                      ->with('_q_option'); 
+            }])
+            ->get();
+
+        $chartData = $chart->map(function ($category) {
+            $totalScore = $category->_transDAnswer->sum(function ($answer) {
+                return $answer->_q_option ? $answer->_q_option->score : 0;
+            });
+
+            return [
+                'kategori' => $category->name,  // atau gunakan field yang sesuai untuk nama kategori
+                'total_jawaban' => $category->total_jawaban,
+                'total_pertanyaan' => $category->total_pertanyaan,
+                'total_score' => $totalScore
+            ];
+        });
+
+        $sent = [
+            'chartData' => $chartData,
+            'districtv2' => $districtv2,
+            'category' => $category
+        ];
+        return view('home.show_kabkota',$sent);
+    }
+
+    public function showCategory(Request $request,$idZona)
+    {
+        $session_date = Session::get('selected_year');
+
+        $request->validate([
+            'id_category' => 'required',
+        ],);
+        $district = M_District::find($idZona);
+        $id_category = $request->id_category;
+
+        $category = M_Category::find($id_category);
+        $questions = M_Questions::where('id_category', $category->id)
+            ->get();
+
+        $answer = Trans_Survey_D_Answer::where('id_zona',$idZona)
+            ->where('id_survey', $session_date)
+            ->get();
+        
+        $uploadedFiles = Trans_Upload_KabKota::where('id_zona',$idZona)
+            ->where('id_survey', $session_date)
+            ->get();
+        
+        $sent = [
+            'district' => $district,
+            'questions' => $questions,
+            'answer' => $answer,
+            'uploadedFiles' => $uploadedFiles,
+            'category' => $category,
+            'session_date' =>$session_date,
+
+        ];
+        return view('home.show_category',$sent);
+
     }
 
 }
