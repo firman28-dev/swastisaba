@@ -96,12 +96,13 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/set-date', [Set_Date_Controller::class, 'index'])->name('set-date.index');
         Route::post('/set-date/store', [Set_Date_Controller::class, 'store'])->name('set-date.store');
 
-
-        Route::group(['middleware' => ['superadmin']], function () {
-            
+        Route::group(['middleware' => 'check.roles'], function () {
             Route::post('/dashboard/show-kabkota', [Home_Controller::class, 'showDistrict'])->name('home.showDistrict');
             Route::post('/dashboard/{id}/show-category', [Home_Controller::class, 'showCategory'])->name('home.showCategory');
             Route::get('/dashboard/show-kabkota/{id}', [Home_Controller::class, 'getDistrict'])->name('home.getDistrict');
+        });
+
+        Route::group(['middleware' => ['superadmin']], function () {
 
             Route::get('/category/trashed', [M_Category_Controller::class, 'onlyTrashed'])->name('category.onlyTrashed');
             Route::get('/category/restore/{id}', [M_Category_Controller::class, 'restore'])->name('category.restore');
@@ -401,6 +402,8 @@ Route::group(['middleware' => ['auth']], function () {
             // Route::get('/o-prov/doc-prov/get/{id}', [Trans_Doc_Prov_Controller::class, 'show'])->name('doc-prov.show');
 
         });
+
+        
 
 
     });
