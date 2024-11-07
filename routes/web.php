@@ -98,6 +98,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
         Route::group(['middleware' => ['superadmin']], function () {
+            
             Route::get('/category/trashed', [M_Category_Controller::class, 'onlyTrashed'])->name('category.onlyTrashed');
             Route::get('/category/restore/{id}', [M_Category_Controller::class, 'restore'])->name('category.restore');
             Route::get('/category/forcedelete/{id}', [M_Category_Controller::class, 'forceDelete'])->name('category.forceDelete');
@@ -180,7 +181,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/user/forcedelete/{id}', [User_Controller::class, 'forceDelete'])->name('user.forceDelete');
             Route::post('/check-username', [User_Controller::class, 'checkUsername'])->name('user.checkUsername');
             Route::patch('/user/{id}/reset-password', [User_Controller::class, 'resetPassword'])->name('user.resetPassword');
-            
+            Route::get('/user/reset-session/{id}', [User_Controller::class, 'resetSession'])->name('user.resetSession');
             Route::resource('user', User_Controller::class);
 
             //document general data

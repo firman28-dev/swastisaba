@@ -118,6 +118,23 @@ class User_Controller extends Controller
         return redirect()->route('user.index')->with('success', 'Berhasil mereset password ke default');
     }
 
+    public function resetSession($id){
+        $userself = Auth::user();
+
+        $user = User::findOrFail($id);
+        if($userself->id != $user->id){
+            $user->update([
+                'session' => null
+            ]);
+            return redirect()->route('user.index')->with('success', 'Berhasil mereset session user');
+        }
+        else{
+            return redirect()->route('user.index')->with('error', 'Tidak menghapus session pribadi');
+
+        }
+
+    }
+
     public function editPhoto()
     {
         $user = Auth::user();

@@ -32,6 +32,7 @@
                             <th class="border-1 border">Role Akses</th>
                             <th class="border-1 border">Kab/Kota</th>
                             <th class="border-1 border">Username</th>
+                            <th class="border-1 border">Session</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,12 +70,13 @@
                                             </div>
                                         </form>
                                     </div>
-
+                                    
                                     <button class="btn btn-icon btn-danger w-35px h-35px mb-sm-0 mb-3" data-bs-toggle="modal" data-bs-target="#confirmDelete{{ $data->id }}">
                                         <div class="d-flex justify-content-center">
                                             <i class="fa-solid fa-trash"></i>
                                         </div>
                                     </button>
+                                    
                                     <div class="modal fade" tabindex="-1" id="confirmDelete{{ $data->id }}">
                                         <form action="{{ route('user.destroy', $data->id) }}" method="POST">
                                             @csrf
@@ -98,11 +100,16 @@
                                         </form>
                                     </div>
 
-                                    
+                                    <a href="{{ route('user.resetSession', $data->id) }}" class="btn btn-icon btn-primary w-35px h-35px mb-sm-0 mb-3">
+                                        <div class="d-flex justify-content-center">
+                                            <i class="fa-solid fa-rotate-right"></i>
+                                        </div>
+                                    </a>
                                 </td>
                                 <td class="text-capitalize border border-1">{{ $data->_group->name }}</td>
                                 <td class="text-capitalize border border-1">{{ $data->_zona->name ?? '-' }}</td>
                                 <td class="text-capitalize border border-1">{{ $data->username }}</td>
+                                <td class="border border-1">{{ $data->session ?? '-' }}</td>
 
                             </tr>
                         @endforeach
