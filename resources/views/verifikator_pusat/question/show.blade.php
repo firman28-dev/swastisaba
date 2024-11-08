@@ -142,7 +142,6 @@
                                                     <tbody>
                                                         @php
                                                             $sessionDate = session('selected_year');
-
                                                             $relatedAnswer = $answer->where('id_question', $item->id)->first();
                                                         @endphp
                                                         
@@ -247,51 +246,7 @@
                                                     </div>
                                                 </div>
 
-                                                {{-- <div id="dynamic-input-pdf mb-4 ">
-                                                    <label for="opsi" class="form-label">Data Pendukung</label>
-                                                    @php
-                                                        $docQuestions = \App\Models\Doc_Question::where('id_question', $item->id)->get();
-                                                    @endphp
-                                                    <table class="table mb-3 table-striped table-row-bordered border rounded">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="border border-1">Nama Data</th>
-                                                                <th class="w-200px border border-1 text-center">Status</th>
-                                                                <th class="border border-1">Dokumen</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($docQuestions as $doc)
-                                                                <td class="border border-1">{{$doc->name}}</td>
-                                                                @php
-                                                                    // Ambil dokumen yang sesuai dengan Doc_Question yang sedang di-loop
-                                                                    $uploadedFile = $uploadedFiles->where('id_doc_question', $doc->id);
-                                                                @endphp
-                                                                @if ($uploadedFile->isNotEmpty())
-                                                                    <td class="border border-1 text-success text-center">
-                                                                        <div class="badge badge-light-success">Ada</div>
-                                                                    </td>
-                                                                    <td class="border border-1 text-center">
-                                                                        <!-- Menampilkan link untuk setiap dokumen yang tersedia -->
-                                                                        @foreach ($uploadedFile as $file)
-                                                                            <a href="{{ asset($file->file_path) }}" target="_blank" class="btn btn-icon btn-success w-35px h-35px mb-sm-0 mb-3">
-                                                                                <i class="fa-solid fa-eye"></i>
-                                                                            </a>
-                                                                        @endforeach
-                                                                    </td>
-                                                                @else
-                                                                    <td class="border border-1 text-center">
-                                                                        <div class="badge badge-light-danger">Tidak ada</div>
-                                                                    </td>
-                                                                    <td class="border border-1 text-center">
-                                                                        -
-                                                                    </td>
-                                                                @endif
-                                                                @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                    
-                                                </div> --}}
+                                           
 
                                                 <table class="table mb-3 table-striped table-row-bordered border rounded">
                                                     <thead>
@@ -392,8 +347,6 @@
         
     </div>
 
-    <!-- Confirmation Modal -->
-    <!-- Toast notifikasi sukses -->
 
 @endsection
 

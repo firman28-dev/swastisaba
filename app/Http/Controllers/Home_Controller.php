@@ -50,6 +50,9 @@ class Home_Controller extends Controller
         $totalAnswers = $answers->pluck('total_jawaban');
         $totalScore = $answers->pluck('total_nilai');
 
+
+        
+
         // return $answers;
         
         // $answers = M_District::where('province_id', 13)
@@ -98,25 +101,6 @@ class Home_Controller extends Controller
 
         $categoryV2 = M_Category::where('id_survey', $session_date)->get();
 
-        $categoriesV2 = [];
-        $dataV2 = [];
-
-        // foreach ($results as $district) {
-        //     foreach ($district->_transAnswers as $answer) {
-        //         $categoryName = $answer->id_category; // Ganti dengan nama kategori jika perlu
-        //         if (!isset($categories[$categoryName])) {
-        //             $categories[$categoryName] = 0;
-        //         }
-        //         $categories[$categoryName] += $answer->jumlah_jawaban;
-        //     }
-        // }
-
-        // Memisahkan kategori dan jumlah jawaban
-        // $categoryLabels = array_keys($categories);
-        // $categoryData = array_values($categories);
-        
-        // return $results;
-        
 
         $sent = [
             'category' => $category,

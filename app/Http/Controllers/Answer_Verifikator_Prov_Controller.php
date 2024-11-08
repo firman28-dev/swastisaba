@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\M_Category;
 use App\Models\M_Category_Kelembagaan;
+use App\Models\M_District;
 use App\Models\M_Doc_General_Data;
 use App\Models\M_Question_Kelembagaan;
 use App\Models\M_Questions;
@@ -11,8 +12,10 @@ use App\Models\M_Zona;
 use App\Models\Trans_Doc_G_Data;
 use App\Models\Trans_Doc_Kelembagaan;
 use App\Models\Trans_Kelembagaan_H;
+use App\Models\Trans_Survey;
 use App\Models\Trans_Survey_D_Answer;
 use App\Models\Trans_Upload_KabKota;
+use Auth;
 use Illuminate\Http\Request;
 use Session;
 
@@ -21,7 +24,9 @@ class Answer_Verifikator_Prov_Controller extends Controller
     public function index($id)
     {
         $session_date = Session::get('selected_year');
-        $zona = M_Zona::find($id);
+        // $zona = M_Zona::find($id);
+        $zona = M_District::find($id);
+
         $category = M_Category::where('id_survey', $session_date)->get();
         // return $zona;
         $sent = [
@@ -35,6 +40,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
     {
         $session_date = Session::get('selected_year');
         $zona = M_Zona::find($id);
+        
         $category = M_Category_Kelembagaan::where('id_survey', $session_date)->get();
 
         $sent = [
@@ -65,7 +71,11 @@ class Answer_Verifikator_Prov_Controller extends Controller
     public function showCategory($id_zona, $id)
     {
         $session_date = Session::get('selected_year');
-        $zona = M_Zona::find($id_zona);
+        $zona = M_District::find($id_zona);
+
+        $dates = Trans_Survey::all();
+        $date = Trans_Survey::find($session_date);
+
         $category = M_Category::find($id);
         $questions = M_Questions::where('id_category', $id)
             ->where('id_survey', $session_date)
@@ -82,7 +92,9 @@ class Answer_Verifikator_Prov_Controller extends Controller
             'category' => $category,
             'questions' => $questions,
             'answer' => $answer,
-            'uploadedFiles' => $uploadedFiles
+            'uploadedFiles' => $uploadedFiles,
+            'date' => $date,
+            'dates' => $dates, 
 
         ];
 
@@ -128,10 +140,15 @@ class Answer_Verifikator_Prov_Controller extends Controller
             'comment_prov.required' => 'Komentar wajib diisi',
         ]);
 
+        $user = Auth::user();
+
 
         try {
+            $session_date = Session::get('selected_year');
+
             $relatedAnswer = Trans_Survey_D_Answer::where('id_question', $questionId)
                 ->where('id_zona',$id_zona)
+                ->where('id_survey',$session_date)
                 ->first();
 
             if($relatedAnswer)
@@ -139,6 +156,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
                 $relatedAnswer->update([
                     'id_option_prov' => $request->id_option_prov,
                     'comment_prov' => $request->comment_prov,
+                    'updated_by_prov' => $user->id
                 ]);
             }
             return redirect()->back()->with('success', 'Berhasil memverifikasi pertanyaan');

@@ -16,7 +16,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive mt-3">
-                <table id="tableSKPD" class="table table-striped table-row-bordered border rounded" style="width:100%">
+                <table id="tableSKPD" class="table table-striped table-row-bordered gy-5 gs-7 border rounded" style="width:100%">
                     <thead>
                         <tr class="fw-semibold fs-6 text-muted">
                             <th class="w-60px border border-1">No.</th>
