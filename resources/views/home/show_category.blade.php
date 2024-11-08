@@ -163,7 +163,6 @@
                             <th class="text-center border-1 border align-middle" colspan="3">Provinsi</th>
                             <th class="text-center border-1 border align-middle" colspan="3">Pusat</th>
                             <th class=" w-100px text-center border-1 border align-middle p-3" rowspan="2">Aksi</th>
-
                         </tr>
                         <tr class="fw-semibold fs-6 text-muted">
                             <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>

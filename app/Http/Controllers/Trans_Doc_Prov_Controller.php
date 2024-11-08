@@ -47,6 +47,7 @@ class Trans_Doc_Prov_Controller extends Controller
             $uploadPdf = new Trans_Doc_Prov();
             $uploadPdf->id_sub_doc_prov = $docId;
             $uploadPdf->path = $fileName;
+
             $uploadPdf->save();
             return redirect()->back()->with('success', 'Berhasil mengubah dokumen provinsi');
             

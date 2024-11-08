@@ -100,6 +100,7 @@ class Answer_KabKota_Controller extends Controller
                     'id_option' => $request->id_option,
                     'comment' => $request->comment,
                     'achievement' => $request->achievement,
+                    'updated_by' => $user->id,
                 ]);
             }
 
@@ -113,6 +114,10 @@ class Answer_KabKota_Controller extends Controller
                     'id_zona' => $idZona,
                     'id_question' => $question->id,
                     'id_category' => $question->id_category,
+                    
+                    'created_by' => $user->id,
+                    'updated_by' => $user->id,
+
                 ]);
             }
 
@@ -147,6 +152,8 @@ class Answer_KabKota_Controller extends Controller
                         $uploadedFile->id_category = $question->id_category;
                         $uploadedFile->id_question = $question->id;
                         $uploadedFile->id_doc_question = $ids;
+                        $uploadedFile->created_by = $user->id;
+
                         $uploadedFile->save();
                     }
                 }

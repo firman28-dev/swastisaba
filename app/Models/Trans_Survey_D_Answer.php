@@ -21,8 +21,11 @@ class Trans_Survey_D_Answer extends Model
         'id_option_prov',
         'comment_prov',
         'id_option_pusat',
-        'comment_pusat'
-
+        'comment_pusat',
+        'created_by',
+        'updated_by',
+        'updated_by_prov',
+        'updated_by_pusat'
     ];  
 
     public function _district()
