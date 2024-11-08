@@ -18,6 +18,7 @@ use App\Models\Trans_Kelembagaan_H;
 use App\Models\Trans_Survey;
 use App\Models\Trans_Survey_D_Answer;
 use App\Models\Trans_Upload_KabKota;
+use Auth;
 use Illuminate\Http\Request;
 use Session;
 
@@ -79,6 +80,8 @@ class Answer_Verifikator_Pusat_Controller extends Controller
             'comment_pusat.required' => 'Komentar wajib diisi',
         ]);
 
+        $user = Auth::user();
+
 
         try {
             $session_date = Session::get('selected_year');
@@ -93,6 +96,7 @@ class Answer_Verifikator_Pusat_Controller extends Controller
                 $relatedAnswer->update([
                     'id_option_pusat' => $request->id_option_pusat,
                     'comment_pusat' => $request->comment_pusat,
+                    'updated_by_pusat' => $user->id
                 ]);
                 return redirect()->back()->with('success', 'Berhasil memverifikasi pertanyaan');
 

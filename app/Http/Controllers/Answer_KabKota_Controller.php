@@ -133,6 +133,7 @@ class Answer_KabKota_Controller extends Controller
 
                     $ids = str_replace('file_', '', $key);
                     $fileId = $request->input('file_id_' . $ids);
+                    
                     if ($fileId) {
                         // Update file
                         $uploadedFile = Trans_Upload_KabKota::find($fileId);
