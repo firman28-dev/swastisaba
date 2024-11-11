@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\M_Category;
 use App\Models\M_Question_Option;
 use App\Models\M_Questions;
+use Cache;
 use DB;
 use Illuminate\Http\Request;
 use Session;
@@ -32,6 +33,28 @@ class M_Questions_Controller extends Controller
         $sent = [
             'category' => $category,
             'questions' => $questions
+        ];
+        return view("admin.questions.index_v2_q", $sent);
+    }
+
+    public function showQuestion2($id){
+        $session_date = Session::get('selected_year');
+        $category = Cache::remember("category_{$id}_{$session_date}", 600, function () use ($id) {
+            return M_Category::find($id);
+        });
+    
+        // Cache questions data for the given category ID and session date
+        $questions = Cache::remember("questions_{$id}_{$session_date}", 600, function () use ($id, $session_date) {
+            return M_Questions::select('m_questions.*', 'm_category.name as name_category')
+                ->leftJoin('m_category', 'm_questions.id_category', '=', 'm_category.id')
+                ->where('m_questions.id_category', $id)
+                ->where('m_questions.id_survey', $session_date)
+                ->get();
+        });
+    
+        $sent = [
+            'category' => $category,
+            'questions' => $questions,
         ];
         return view("admin.questions.index_v2_q", $sent);
     }

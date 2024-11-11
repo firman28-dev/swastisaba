@@ -81,7 +81,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/set-year', [Home_Controller::class, 'sessionYear'])->name('home.store');
 
     Route::group(['middleware' => ['checkSelectedYear']], function () {
+        // Route::get('/dashboard', [Home_Controller::class, 'index2'])->name('home.index');
         Route::get('/dashboard', [Home_Controller::class, 'index'])->name('home.index');
+
         Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
 
         Route::get('/profile', [User_Controller::class, 'profile'])->name('user.profile');
@@ -114,6 +116,8 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/questions/restore/{id}', [M_Questions_Controller::class, 'restore'])->name('questions.restore');
             Route::get('/questions/forcedelete/{id}', [M_Questions_Controller::class, 'forceDelete'])->name('questions.forceDelete');
             Route::get('/questions/show-question/{id}', [M_Questions_Controller::class, 'showQuestion'])->name('showQuestionV1');
+            // Route::get('/questions/show-question/{id}', [M_Questions_Controller::class, 'showQuestion2'])->name('showQuestionV1');
+
             Route::get('/questions/import/{id}', [M_Questions_Controller::class, 'import'])->name('questions.import');
             Route::post('/question/import', [M_Questions_Controller::class, 'importQuestion'])->name('questions.importQuestion');
             Route::resource('questions', M_Questions_Controller::class);

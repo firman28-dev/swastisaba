@@ -11,6 +11,7 @@ use App\Models\Trans_Survey_D_Answer;
 use App\Models\Trans_Upload_KabKota;
 use App\Models\User;
 use Auth;
+use Cache;
 use DB;
 use Illuminate\Http\Request;
 use Log;
@@ -22,7 +23,11 @@ class Home_Controller extends Controller
         $user = Auth::user();
         $idZona = $user->id_zona;
         $idGroup = $user->id_group;
-        $searchDistrict = M_District::where('province_id',13)->get();
+        $searchDistrict = Cache::remember('searchDistrict', 60, function () {
+            return M_District::where('province_id', 13)->get();
+        });
+        // return $searchDistrict;
+        // $searchDistrict = M_District::where('province_id',13)->get();
 
         $session_date = Session::get('selected_year');
         $category = M_Category::select('id')
@@ -49,29 +54,6 @@ class Home_Controller extends Controller
         $districtNames = $answers->pluck('district_name');
         $totalAnswers = $answers->pluck('total_jawaban');
         $totalScore = $answers->pluck('total_nilai');
-
-
-        
-
-        // return $answers;
-        
-        // $answers = M_District::where('province_id', 13)
-        //     ->leftJoin('trans_survey_d_answer', function($join) use ($session_date) {
-        //     $join->on('district.id', '=', 'trans_survey_d_answer.id_zona')
-        //         ->where('trans_survey_d_answer.id_survey', $session_date);
-        //     })
-        //     ->leftJoin('m_question_options', 'trans_survey_d_answer.id_option','=', 'm_question_options.id')
-        //     ->select('district.name as district_name', DB::raw('COUNT(trans_survey_d_answer.id) as total_jawaban'), DB::raw('SUM(m_question_options.score) as total_nilai'))
-        //     ->groupBy('district.name')
-        //     ->orderBy('total_jawaban', 'desc')
-        //     ->get();
-            
-        // $categoryv2 = M_Category::where('id_survey', $session_date)->get();
-        $results = M_District::where('province_id',13)->with(['_transAnswers' => function($query) {
-            $query->select('id_zona', 'id_category', DB::raw('count(*) as jumlah_jawaban'))
-                  ->groupBy('id_zona', 'id_category');
-        },])
-        ->get();
 
         $chart = M_Category::where('id_survey', $session_date)
             ->withCount(['_transDAnswer as total_jawaban' => function ($query) use ($session_date, $idZona) {
@@ -120,6 +102,116 @@ class Home_Controller extends Controller
 
         ];
         return view('home.index', $sent);
+    }
+
+    public function index2()
+    {
+        $user = Auth::user();
+    $idZona = $user->id_zona;
+    $idGroup = $user->id_group;
+
+    // Cache searchDistrict data
+    $searchDistrict = Cache::remember('searchDistrict', 60, function () {
+        return M_District::where('province_id', 13)->get();
+    });
+
+    $session_date = Session::get('selected_year');
+
+    // Cache category count
+    $category = Cache::remember("category_count_{$session_date}", 60, function () use ($session_date) {
+        return M_Category::where('id_survey', $session_date)->count();
+    });
+
+    // Cache questions count
+    $questions = Cache::remember("questions_count_{$session_date}", 60, function () use ($session_date) {
+        return M_Questions::where('id_survey', $session_date)->count();
+    });
+
+    // Cache user count
+    $userCount = Cache::remember('user_count', 60, function () {
+        return User::count();
+    });
+
+    // Cache zona data
+    $zona = Cache::remember('zona', 60, function () {
+        return M_District::where('province_id', 13)->get();
+    });
+
+    // Cache pluckZona data
+    $pluckZona = Cache::remember('pluckZona', 60, function () {
+        return M_District::where('province_id', 13)->pluck('name');
+    });
+
+    // Cache answers data
+    $answers = Cache::remember("answers_{$session_date}", 60, function () use ($session_date) {
+        return M_District::where('province_id', 13)
+            ->leftJoin('trans_survey_d_answer', function($join) use ($session_date) {
+                $join->on('district.id', '=', 'trans_survey_d_answer.id_zona')
+                    ->where('trans_survey_d_answer.id_survey', $session_date);
+            })
+            ->leftJoin('m_question_options', 'trans_survey_d_answer.id_option','=', 'm_question_options.id')
+            ->select('district.name as district_name', DB::raw('COUNT(trans_survey_d_answer.id) as total_jawaban'), DB::raw('SUM(m_question_options.score) as total_nilai'))
+            ->groupBy('district.name')
+            ->orderBy('total_jawaban', 'desc')
+            ->get();
+    });
+
+    // Prepare district names, total answers, and total score
+    $districtNames = $answers->pluck('district_name');
+    $totalAnswers = $answers->pluck('total_jawaban');
+    $totalScore = $answers->pluck('total_nilai');
+
+    // Cache chart data
+    $chart = Cache::remember("chart_data_{$session_date}_{$idZona}", 60, function () use ($session_date, $idZona) {
+        return M_Category::where('id_survey', $session_date)
+            ->withCount(['_transDAnswer as total_jawaban' => function ($query) use ($session_date, $idZona) {
+                $query->where('id_survey', $session_date)->where('id_zona', $idZona);
+            }, '_question as total_pertanyaan'])
+            ->with(['_transDAnswer' => function ($query) use ($session_date, $idZona) {
+                $query->where('id_survey', $session_date)
+                    ->where('id_zona', $idZona)
+                    ->with('_q_option'); 
+            }])
+            ->get();
+    });
+
+    // Process chart data
+    $chartData = Cache::remember("chartDataProcessed_{$session_date}_{$idZona}", 60, function () use ($chart) {
+        return $chart->map(function ($category) {
+            $totalScore = $category->_transDAnswer->sum(function ($answer) {
+                return $answer->_q_option ? $answer->_q_option->score : 0;
+            });
+
+            return [
+                'kategori' => $category->name, 
+                'total_jawaban' => $category->total_jawaban,
+                'total_pertanyaan' => $category->total_pertanyaan,
+                'total_score' => $totalScore
+            ];
+        });
+    });
+
+    // Cache categoryV2 data
+    $categoryV2 = Cache::remember("categoryV2_{$session_date}", 60, function () use ($session_date) {
+        return M_Category::where('id_survey', $session_date)->get();
+    });
+
+    $sent = [
+        'category' => $category,
+        'questions' => $questions,
+        'user' => $userCount,
+        'zona' => $zona,
+        'pluckZona' => $pluckZona,
+        'districtNames' => $districtNames,
+        'totalAnswers' => $totalAnswers,
+        'totalScore' => $totalScore,
+        'categoryV2' => $categoryV2,
+        'chartData' => $chartData,
+        'idGroup' => $idGroup,
+        'searchDistrict' => $searchDistrict
+    ];
+
+    return view('home.index', $sent);
     }
 
     public function showYear()
