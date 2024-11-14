@@ -3,18 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category_Doc_Provinsi;
+use App\Models\M_C_Kelembagaan_New;
 use App\Models\M_Category;
 use App\Models\M_Category_Kelembagaan;
 use App\Models\M_District;
 use App\Models\M_Doc_General_Data;
+use App\Models\M_Q_Kelembagaan_New;
 use App\Models\M_Question_Kelembagaan;
 use App\Models\M_Questions;
+use App\Models\M_SubDistrict;
+use App\Models\M_Village;
 use App\Models\M_Zona;
 use App\Models\Sub_Doc_Provinsi;
 use App\Models\Trans_Doc_G_Data;
 use App\Models\Trans_Doc_Kelembagaan;
 use App\Models\Trans_Doc_Prov;
+use App\Models\Trans_Forum_Kec;
+use App\Models\Trans_Forum_Kel;
+use App\Models\Trans_Kegiatan;
 use App\Models\Trans_Kelembagaan_H;
+use App\Models\Trans_Kelembagaan_V2;
 use App\Models\Trans_Survey;
 use App\Models\Trans_Survey_D_Answer;
 use App\Models\Trans_Upload_KabKota;
@@ -115,8 +123,8 @@ class Answer_Verifikator_Pusat_Controller extends Controller
     public function indexKelembagaan($id)
     {
         $session_date = Session::get('selected_year');
-        $zona = M_Zona::find($id);
-        $category = M_Category_Kelembagaan::where('id_survey', $session_date)->get();
+        $zona = M_District::find($id);
+        $category = M_C_Kelembagaan_New::where('id_survey', $session_date)->get();
 
 
         $sent = [
@@ -130,24 +138,49 @@ class Answer_Verifikator_Pusat_Controller extends Controller
     public function showKelembagaan($id_zona, $id )
     {
         $session_date = Session::get('selected_year');
-        $zona = M_Zona::find($id_zona);
-        $category = M_Category_Kelembagaan::find($id);
-        $questions = M_Question_Kelembagaan::where('id_c_kelembagaan', $id)
+        $zona = M_District::find($id_zona);
+        $category = M_C_Kelembagaan_New::find($id);
+        // return $category
+        $questions = M_Q_Kelembagaan_New::where('id_c_kelembagaan_v2', $id)
             ->where('id_survey', $session_date)
             ->get();
-        $answer = Trans_Kelembagaan_H::where('id_zona',$id_zona)
+
+        $answer = Trans_Kelembagaan_V2::where('id_zona',$id_zona)
             ->where('id_survey', $session_date)
             ->get();
+
         $uploadedFiles = Trans_Doc_Kelembagaan::where('id_zona',$id_zona)
             ->where('id_survey', $session_date)
             ->get();
-        // return $answer;
+
+        $subdistrict = M_SubDistrict::where('district_id', $id_zona)->get();
+       
+        $forumKec = Trans_Forum_Kec::where('id_zona', $id_zona)
+            ->where('id_survey', $session_date)
+            ->where('id_c_kelembagaan', $id)
+            ->get();
+        
+        $activity = Trans_Kegiatan::where('id_zona', $id_zona)
+            ->where('id_survey', $session_date)
+            ->where('id_c_kelembagaan', $id)
+            ->get();
+
+        $forumKel = Trans_Forum_Kel::where('id_zona', $id_zona)
+            ->where('id_survey', $session_date)
+            ->where('id_c_kelembagaan', $id)
+            ->get();
+
+        // return $forumKec;
         $sent = [
             'zona' => $zona,
             'category' => $category,
             'questions' => $questions,
             'answer' => $answer,
-            'uploadedFiles' => $uploadedFiles
+            'uploadedFiles' => $uploadedFiles,
+            'subdistrict' => $subdistrict,
+            'forumKec' => $forumKec,
+            'activity' => $activity,
+            'forumKel' => $forumKel,
 
         ];
 
@@ -157,11 +190,12 @@ class Answer_Verifikator_Pusat_Controller extends Controller
     public function storeKelembagaan(Request $request, $id_zona, $id)
     {
         $request->validate([
-            'answer_pusat' => 'required',
+            'id_survey' => 'required',
+            'id_option' => 'required',
             'comment_pusat' => 'required',
         ],[
-            'answer_pusat.required' => 'Option wajib diisi',
-            'comment_prov.required' => 'Komentar wajib diisi',
+            'id_option.required' => 'Option wajib diisi',
+            'comment_pusat.required' => 'Komentar wajib diisi',
         ]);
 
         // return $request->answer_prov;
@@ -169,14 +203,15 @@ class Answer_Verifikator_Pusat_Controller extends Controller
 
 
         try {
-            $relatedAnswer = Trans_Kelembagaan_H::where('id_q_kelembagaan', $id)
+            $relatedAnswer = Trans_Kelembagaan_V2::where('id_q_kelembagaan', $id)
                 ->where('id_zona',$id_zona)
+                ->where('id_survey', $request->id_survey)
                 ->first();
 
             if($relatedAnswer)
             {
                 $relatedAnswer->update([
-                    'answer_pusat' => $request->answer_pusat,
+                    'id_opt_kelembagaan_pusat' => $request->id_option,
                     'comment_pusat' => $request->comment_pusat,
                 ]);
                 return redirect()->back()->with('success', 'Berhasil memverifikasi kelembagaan');
@@ -190,6 +225,8 @@ class Answer_Verifikator_Pusat_Controller extends Controller
             //throw $th;
         }
     }
+
+
 
     public function indexGData($id)
     {
@@ -281,6 +318,147 @@ class Answer_Verifikator_Pusat_Controller extends Controller
                     'is_pusat' => $request->is_pusat,
                 ]);
                 return redirect()->back()->with('success', 'Berhasil memverifikasi kelembagaan');
+
+            }
+            else{
+                return redirect()->back()->with('error', 'Data belum diinputkan kabupaten kota');
+            }
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    public function showPokjaDesa($idCKelembagaan, $idSubdistrict)
+    {
+        $session_date = Session::get('selected_year');
+        $category = M_C_Kelembagaan_New::find($idCKelembagaan);
+        $subdistrict = M_SubDistrict::find($idSubdistrict);
+        $village = M_Village::where('subdistrict_id', $idSubdistrict)->get();
+
+        $forumKel = Trans_Forum_Kel::where('id_zona', $subdistrict->district_id)
+            ->where('id_survey', $session_date)
+            ->where('id_c_kelembagaan', $category->id)
+            ->get();
+
+        $activity = Trans_Kegiatan::where('id_zona', $subdistrict->district_id)
+            ->where('id_survey', $session_date)
+            ->where('id_c_kelembagaan', $category->id)
+            ->get();
+        $sent = [
+            'category' => $category,
+            'subdistrict' => $subdistrict,
+            'village' => $village,
+            'forumKel' => $forumKel,
+            'activity' => $activity
+        ];
+
+
+        // return $sent;
+        return view('verifikator_pusat.kelembagaan.show_pokja', $sent);
+
+    }
+
+    public function storeActivity(Request $request, $id)
+    {
+
+        $request->validate([
+            'comment_pusat' => 'required',
+            'answer_pusat' => 'required',
+        ],[
+            'answer_pusat.required' => 'Option wajib diisi',
+            'comment_pusat.required' => 'Komentar wajib diisi',
+
+        ]);
+
+        try {
+            $relatedAnswer = Trans_Kegiatan::find($id);
+            // return $relatedAnswer;
+            $user = Auth::user();
+
+            if($relatedAnswer)
+            {
+                $relatedAnswer->update([
+                    'answer_pusat' => $request->answer_pusat,
+                    'comment_pusat' => $request->comment_pusat,
+                    'updated_by_pusat' => $user->id
+
+                ]);
+                return redirect()->back()->with('success', 'Berhasil memverifikasi data');
+
+            }
+            else{
+                return redirect()->back()->with('error', 'Data belum diinputkan kabupaten kota');
+            }
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    public function storeSKPokja(Request $request, $id)
+    {
+
+        $request->validate([
+            'comment_pusat' => 'required',
+            'answer_pusat' => 'required',
+        ],[
+            'answer_pusat.required' => 'Option wajib diisi',
+            'comment_pusat.required' => 'Komentar wajib diisi',
+
+        ]);
+
+        try {
+            $relatedAnswer = Trans_Forum_Kel::find($id);
+            // return $relatedAnswer;
+            $user = Auth::user();
+
+            if($relatedAnswer)
+            {
+                $relatedAnswer->update([
+                    'answer_pusat' => $request->answer_pusat,
+                    'comment_pusat' => $request->comment_pusat,
+                    'updated_by_pusat' => $user->id
+
+                ]);
+                return redirect()->back()->with('success', 'Berhasil memverifikasi data');
+
+            }
+            else{
+                return redirect()->back()->with('error', 'Data belum diinputkan kabupaten kota');
+            }
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    public function storeSKKec(Request $request, $id)
+    {
+
+        $request->validate([
+            'comment_pusat' => 'required',
+            'answer_pusat' => 'required',
+        ],[
+            'answer_pusat.required' => 'Option wajib diisi',
+            'comment_pusat.required' => 'Komentar wajib diisi',
+
+        ]);
+
+        try {
+            $relatedAnswer = Trans_Forum_Kec::find($id);
+            // return $relatedAnswer;
+            $user = Auth::user();
+
+            if($relatedAnswer)
+            {
+                $relatedAnswer->update([
+                    'answer_pusat' => $request->answer_pusat,
+                    'comment_pusat' => $request->comment_pusat,
+                    'updated_by_pusat' => $user->id
+
+                ]);
+                return redirect()->back()->with('success', 'Berhasil memverifikasi data');
 
             }
             else{

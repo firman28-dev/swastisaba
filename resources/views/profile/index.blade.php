@@ -9,21 +9,6 @@
 
 @section('content')
 <div class="row">
-    {{-- <div class="card mb-5">
-        <div class="card-header">
-            <div class="card-title m-0">
-                <h3 class="fw-bold m-0">Foto</h3>
-            </div>
-            <a href="{{route('user.editPhoto')}}" class="btn btn-primary btn-sm align-self-center hover-scale">Edit Foto</a>
-        </div>
-        <div class="card-body">
-            @if ($userFind->photo)
-                <img src="{{ asset('uploads/photo/' . $userFind->photo) }}" alt="Foto Pengguna" class="img-fluid rounded" style="max-width: 200px">
-            @else
-                <p>Belum ada foto</p>
-            @endif
-        </div>
-    </div> --}}
 
     <div class="card mb-5" id="kt_profile_details_view">
         <div class="card-header cursor-pointer">

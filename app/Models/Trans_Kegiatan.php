@@ -20,8 +20,14 @@ class Trans_Kegiatan extends Model
         'result',
         'note',
         'path',
+        'answer_prov',
+        'answer_pusat',
+        'comment_prov',
+        'comment_pusat',
         'created_by',
-        'updated_by'
+        'updated_by',
+        'updated_by_prov',
+        'updated_by_pusat'
     ];  
 
     public function _c_kelembagaan()

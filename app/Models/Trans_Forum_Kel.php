@@ -24,8 +24,14 @@ class Trans_Forum_Kel extends Model
         'path_plan_f',
         'path_s',
         'path_budget',
+        'answer_pusat',
+        'comment_pusat',
+        'answer_prov',
+        'comment_prov',
         'created_by',   
-        'updated_by'
+        'updated_by',
+        'updated_by_pusat',
+        'updated_by_prov',
     ];  
 
     protected $table = 'trans_forum_kel';

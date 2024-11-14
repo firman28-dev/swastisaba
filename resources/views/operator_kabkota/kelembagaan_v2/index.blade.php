@@ -318,7 +318,7 @@
                     <thead>
                         <tr>
                             <th class="min-w-60px text-center border-1 border">No.</th>
-                            <th class="min-w-60px text-center border-1 border"></th>
+                            <th class="min-w-100px text-center border-1 border"></th>
                             <th class="min-w-200px border-1 border">Nama Kecamatan</th>
                             <th class="min-w-200px border-1 border">Forum Kecamatan</th>
                             <th class="min-w-200px border-1 border">No. SK</th>
@@ -353,9 +353,43 @@
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </div>
                                         </a>
+                                        <button 
+                                            @if ($now >= $start && $now <= $end)
+                                                class="btn btn-icon btn-danger w-35px h-35px mb-3" data-bs-toggle="modal" data-bs-target="#confirmDeleteSK{{ $forum2->id }}"
+                                            @else
+                                                class="btn btn-icon btn-danger w-35px h-35px mb-3" disabled
+                                            @endif>
+                                            <div class="d-flex justify-content-center">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </div>
+                                        </button>
                                     @endif
                                    
                                 </td>
+                                @if (!is_null($forum2))
+                                    <div class="modal text-start fade" tabindex="-1" id="confirmDeleteSK{{ $forum2->id }}">
+                                        <form action="{{ route('kelembagaan-v2.destroyForumKec', $forum2->id) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h3 class="modal-title">
+                                                            Hapus Data
+                                                        </h3>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Apakah yakin ingin menghapus data?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary rounded-4" data-bs-dismiss="modal">Batal</button>
+                                                        <button type="submit" class="btn btn-primary rounded-4">Hapus</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                @endif
                                 <td class="border-1 border">{{$item->name}}</td>
                                 @if ($forum2)
                                     <td class="border-1 border">{{$forum2->f_district}}</td>
@@ -517,12 +551,12 @@
                                                     <i class="fa-solid fa-pen-to-square"></i>
                                                 </div>
                                             </a>
-                                            <button class="btn btn-icon btn-danger w-35px h-35px mb-3 {{ $now >= $start && $now <= $end ? '' : 'disabled' }}" data-bs-toggle="modal" data-bs-target="#confirmDeleteActivity{{ $item->id }}">
+                                            <button class="btn btn-icon btn-danger w-35px h-35px mb-3 {{ $now >= $start && $now <= $end ? '' : 'disabled' }}" data-bs-toggle="modal" data-bs-target="#confirmDeleteActivity{{ $item_v2->id }}">
                                                 <div class="d-flex justify-content-center">
                                                     <i class="fa-solid fa-trash"></i>
                                                 </div>
                                             </button>
-                                            <div class="modal text-start fade" tabindex="-1" id="confirmDeleteActivity{{ $item->id }}">
+                                            <div class="modal text-start fade" tabindex="-1" id="confirmDeleteActivity{{ $item_v2->id }}">
                                                 <form action="{{ route('kelembagaan-v2.destroyActivity', $item_v2->id) }}" method="POST">
                                                     @csrf
                                                     @method('delete')

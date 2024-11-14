@@ -28,5 +28,15 @@ class Trans_Kelembagaan_V2 extends Model
         return $this->belongsTo(M_Q_O_Kelembagaan_New::class, 'id_opt_kelembagaan');
     }
 
+    public function _q_option_pusat()
+    {
+        return $this->belongsTo(M_Q_O_Kelembagaan_New::class, 'id_opt_kelembagaan_pusat');
+    }
+
+    public function _q_option_prov()
+    {
+        return $this->belongsTo(M_Q_O_Kelembagaan_New::class, 'id_opt_kelembagaan_prov');
+    }
+
     protected $table = 'trans_kelembagaan_v2';
 }

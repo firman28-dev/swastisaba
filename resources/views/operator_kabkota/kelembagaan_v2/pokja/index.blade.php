@@ -122,7 +122,7 @@
                                 @if ($forumKel2)
                                     <td class="border-1 border">{{$forumKel2->f_village}}</td>
                                     <td class="border-1 border">{{$forumKel2->no_sk}}</td>
-                                    <td class="border-1 border">{{$forumKel2->expired_sk}}</td>
+                                    <td class="border-1 border">{{ \Carbon\Carbon::parse($forumKel2->expired_sk)->format('d-F-Y') ?? '-' }}</td>
                                     <td class="border-1 border">{{ number_format($forumKel2->f_budget,0,',','.') }}</td>
                                     <td class="border-1 border">{{$forumKel2->s_address}}</td>
 
@@ -274,12 +274,12 @@
                                                     <i class="fa-solid fa-pen-to-square"></i>
                                                 </div>
                                             </a>
-                                            <button class="btn btn-icon btn-danger w-35px h-35px mb-3 {{ $now >= $start && $now <= $end ? '' : 'disabled' }}" data-bs-toggle="modal" data-bs-target="#confirmDeleteActivity{{ $item->id }}">
+                                            <button class="btn btn-icon btn-danger w-35px h-35px mb-3 {{ $now >= $start && $now <= $end ? '' : 'disabled' }}" data-bs-toggle="modal" data-bs-target="#confirmDeleteActivity{{ $item_v2->id }}">
                                                 <div class="d-flex justify-content-center">
                                                     <i class="fa-solid fa-trash"></i>
                                                 </div>
                                             </button>
-                                            <div class="modal text-start fade" tabindex="-1" id="confirmDeleteActivity{{ $item->id }}">
+                                            <div class="modal text-start fade" tabindex="-1" id="confirmDeleteActivity{{ $item_v2->id }}">
                                                 <form action="{{ route('kelembagaan-v2.destroyActivity', $item_v2->id) }}" method="POST">
                                                     @csrf
                                                     @method('delete')

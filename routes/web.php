@@ -390,10 +390,27 @@ Route::group(['middleware' => ['auth']], function () {
 
 
             //kelembagaan
+            // Route::get('/v-pusat/kabkota/{id}/c-kelembagaan', [Answer_Verifikator_Pusat_Controller::class, 'indexKelembagaan'])->name('v-pusat.indexKelembagaan');
+            // Route::get('/v-pusat/kabkota/{id_zona}/c-kelembagaan/{id}', [Answer_Verifikator_Pusat_Controller::class, 'showKelembagaan'])->name('v-pusat.showKelembagaan');
+            // Route::post('/v-pusat/kabkota/{id_zona}/store-kelembagaan/{id}',[Answer_Verifikator_Pusat_Controller::class, 'storeKelembagaan'])->name('v-pusat.storeKelembagaan');
+            
+            //new kelambagaan
             Route::get('/v-pusat/kabkota/{id}/c-kelembagaan', [Answer_Verifikator_Pusat_Controller::class, 'indexKelembagaan'])->name('v-pusat.indexKelembagaan');
             Route::get('/v-pusat/kabkota/{id_zona}/c-kelembagaan/{id}', [Answer_Verifikator_Pusat_Controller::class, 'showKelembagaan'])->name('v-pusat.showKelembagaan');
             Route::post('/v-pusat/kabkota/{id_zona}/store-kelembagaan/{id}',[Answer_Verifikator_Pusat_Controller::class, 'storeKelembagaan'])->name('v-pusat.storeKelembagaan');
-            
+            Route::get('/v-pusat/pokja-desa/{id_c_kelembagaan}/{id_subdistrict}', [Answer_Verifikator_Pusat_Controller::class, 'showPokjaDesa'])->name('v-pusat.showPokjaDesa');
+
+
+            //activity
+            Route::post('/v-pusat/kabkota/store-activity/{id}',[Answer_Verifikator_Pusat_Controller::class, 'storeActivity'])->name('v-pusat.storeActivity');
+
+            //SK Desa/Kel
+            Route::post('/v-pusat/kabkota/store-skpokja/{id}',[Answer_Verifikator_Pusat_Controller::class, 'storeSKPokja'])->name('v-pusat.storeSKPokja');
+
+            //SK Kec
+            Route::post('/v-pusat/kabkota/store-skkec/{id}',[Answer_Verifikator_Pusat_Controller::class, 'storeSKKec'])->name('v-pusat.storeSKKec');
+
+
             //doc umum
             Route::get('/v-pusat/kabkota/{id}/general-data', [Answer_Verifikator_Pusat_Controller::class, 'indexGData'])->name('v-pusat.indexGData');
             Route::post('/v-pusat/kabkota/{id_zona}/store-gdata/{id}',[Answer_Verifikator_Pusat_Controller::class, 'storeGdata'])->name('v-pusat.storeGdata');

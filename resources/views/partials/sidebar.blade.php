@@ -120,6 +120,31 @@
                         </div>
                     </div> --}}
 
+                    <div class="menu-item menu-accordion {{ Route::is('v-pusat.indexKelembagaan') || Route::is('v-pusat.showCategory') ? 'show' : '' }}" data-kt-menu-trigger="click">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-book fs-3"></i>
+                            </span>
+                            <span class="menu-title">Verifikasi Kelembagaan</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="menu-sub menu-sub-accordion">
+                            @foreach(\App\Models\M_District::where('province_id', 13)->get() as $zona)
+                                <div class="menu-item">
+                                    <a class="menu-link {{ 
+                                        request()->routeIs('v-pusat.indexKelembagaan') && request()->id == $zona->id ||
+                                        (request()->routeIs('v-pusat.showCategory') && request()->id_zona == $zona->id)
+                                        ? 'active' : '' }}" href="{{ route('v-pusat.indexKelembagaan', ['id' => $zona->id]) }}">
+                                        <span class="menu-icon">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">{{ $zona->name }}</span>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
                     <div class="menu-item menu-accordion {{ Route::is('v-pusat.showDocProv') ? 'show' : '' }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">

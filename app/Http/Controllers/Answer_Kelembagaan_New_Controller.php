@@ -470,7 +470,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
     public function destroyActivity($id)
     {
         $activity = Trans_Kegiatan::findOrFail($id);
-        
+        // return $activity;
         try {
             
             $oldPhotoPath = $_SERVER['DOCUMENT_ROOT']. '/uploads/doc_activity/' .$activity->path;

@@ -26,16 +26,16 @@ class LoginController extends Controller
 
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
         
-        if ($user->session !== null) {
-        // token sudah ada, pengguna tidak dapat login dari perangkat lain
-            return redirect()->to('login')
-                ->withErrors(trans('auth.failed'));
-        }
+        // if ($user->session !== null) {
+        // // token sudah ada, pengguna tidak dapat login dari perangkat lain
+        //     return redirect()->to('login')
+        //         ->withErrors(trans('auth.failed'));
+        // }
         
-        $session = Str::random(32);
+        // $session = Str::random(32);
         
-        $user->session = $session;
-        $user->save();
+        // $user->session = $session;
+        // $user->save();
 
         Auth::login($user);
         Session::put('selected_year', '');
