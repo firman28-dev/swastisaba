@@ -43,7 +43,11 @@
     <h1>
         Tatanan Seluruh Kategori {{$district->name}}
     </h1>
+   
     @foreach ($categories as $category)
+        @if (!$loop->first)
+            <div style="page-break-before: always;"></div> <!-- Tambahkan pemisah halaman -->
+        @endif  
         <div class="category-title">
             {{$loop->iteration}}. Tatanan {{$category->name}}
         </div>
@@ -153,7 +157,7 @@
                     @endforeach
                 @endif
                 
-               
+            
             </tbody>
             <tfoot>
                 <tr>
@@ -168,5 +172,6 @@
             </tfoot>
         </table>
     @endforeach
+    
 </body>
 </html>
