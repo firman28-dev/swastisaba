@@ -53,7 +53,7 @@
             <thead>
                 <tr >
                     <th rowspan="2">No.</th>
-                    <th rowspan="2" style="max-width: 200px">Pertanyaan</th>
+                    <th rowspan="2">Pertanyaan</th>
                     <th colspan="4">Self Assesment</th>
                     <th colspan="3">Provinsi</th>
                     <th colspan="3">Pusat</th>
@@ -82,7 +82,7 @@
                     @foreach ($questionsV2 as $item)
                     <tr>
                         <td class="border-1 border text-center p-3">{{ $loop->iteration }}</td>
-                        <td class="border-1 border p-3">{{ $item->name }}</td>
+                        <td class="border-1 border p-3" style="max-width: 200px">{{ $item->name }}</td>
 
                     @php
                         $relatedAnswer = $answer->where('id_question', $item->id)->first(); // This will return a single instance or null
