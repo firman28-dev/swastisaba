@@ -26,13 +26,13 @@
         }
 
         h1 {
-            text-align: start;
+            text-align: center;
         }
 
         .category-title {
             margin-top: 40px;
-            text-align: center;
-            font-size: 24px;
+            text-align: start;
+            font-size: 18px;
             font-weight: bold;
             margin-bottom: 10px;
         }
@@ -40,14 +40,11 @@
 </head>
 <body>
     <h1>
-        Tatanan Seluruh Kategori
-    </h1>
-    <h1>
-        Nama Kab/Kota : {{$district->name}}
+        Tatanan Seluruh Kategori {{$district->name}}
     </h1>
     @foreach ($categories as $category)
         <div class="category-title">
-            Tatanan {{$category->name}}
+            {{$loop->iteration}}. Tatanan {{$category->name}}
         </div>
         <table>
             <thead>
@@ -77,6 +74,10 @@
             <tbody>
                 @php
                     $questionsV2 = $questions->where('id_category', $category->id);
+
+                    $totalSelfAssessment = 0;
+                    $totalProvScore = 0;
+                    $totalPusatScore = 0;
                 @endphp
                 @if($questionsV2->isNotEmpty())
                     @foreach ($questionsV2 as $item)
@@ -87,6 +88,10 @@
                     @php
                         $relatedAnswer = $answer->where('id_question', $item->id)->first(); // This will return a single instance or null
                         $uploadedFile = $uploadedFiles->where('id_question', $item->id);
+                        
+                        $totalSelfAssessment += $relatedAnswer->_q_option->score ?? 0;
+                        $totalProvScore += $relatedAnswer->_q_option_prov->score ?? 0;
+                        $totalPusatScore += $relatedAnswer->_q_option_pusat->score ?? 0;
                     @endphp
 
                     @if($relatedAnswer)
@@ -149,6 +154,17 @@
                 
                
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="border-1 border text-center p-3"><strong>Total</strong></td>
+                    <td class="border-1 border text-center p-3"><strong>{{ $totalSelfAssessment }}</strong></td>
+                    <td colspan="3" class="border-1 border text-center p-3"></td>
+                    <td class="border-1 border text-center p-3"><strong>{{ $totalProvScore }}</strong></td>
+                    <td colspan="2" class="border-1 border text-center p-3"></td>
+                    <td class="border-1 border text-center p-3"><strong>{{ $totalPusatScore }}</strong></td>
+                    <td class="border-1 border text-center p-3"></td>
+                </tr>
+            </tfoot>
         </table>
     @endforeach
 </body>
