@@ -281,18 +281,19 @@ class Answer_KabKota_Controller extends Controller
             'uploadedFiles' => $uploadedFiles,
             'idZona' => $idZona,
             'session_date' =>$session_date,
+            'district' => $district
         ];
 
-        // return view('operator_kabkota.export.export_all_tatanan', $sent);
+        return view('operator_kabkota.export.export_all_tatanan', $sent);
         
-        $htmlContent = view('operator_kabkota.export.export_all_tatanan', $sent)->render();
+        // $htmlContent = view('operator_kabkota.export.export_all_tatanan', $sent)->render();
 
-        $pdf = PDF::loadHTML($htmlContent)
-           ->setPaper([0, 0, 595, 1000], 'landscape')  
-           ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+        // $pdf = PDF::loadHTML($htmlContent)
+        //    ->setPaper([0, 0, 595, 1000], 'landscape')  
+        //    ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
        
         
-        return $pdf->download($district->name. '.pdf');
+        // return $pdf->download($district->name. '.pdf');
         // return $questions;
     }
 

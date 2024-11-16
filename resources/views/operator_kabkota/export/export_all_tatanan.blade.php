@@ -42,6 +42,9 @@
     <h1>
         Tatanan Seluruh Kategori
     </h1>
+    <h1>
+        Nama Kab/Kota : {{$district->name}}
+    </h1>
     @foreach ($categories as $category)
         <div class="category-title">
             Tatanan {{$category->name}}
