@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\M_Category;
+use App\Models\M_District;
 use App\Models\M_Questions;
 use App\Models\M_Zona;
 use App\Models\Setting_Time;
@@ -218,6 +219,7 @@ class Answer_KabKota_Controller extends Controller
         // return $session_date;
         $user = Auth::user();
         $idZona = $user->id_zona;
+        $district = M_District::find($idZona);
         $category = M_Category::find($id);
         // return $category;
         $questions = M_Questions::where('id_category', $id)
@@ -244,14 +246,14 @@ class Answer_KabKota_Controller extends Controller
             'schedule' => $schedule
         ];
 
-        $htmlContent = view('pdf.export_tatanan', $sent)->render();
+        $htmlContent = view('operator_kabkota.export.export_pertatanan', $sent)->render();
 
         $pdf = PDF::loadHTML($htmlContent)
            ->setPaper([0, 0, 595, 1000], 'landscape')  
            ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
        
         
-        return $pdf->download('tatanan_report.pdf');
+        return $pdf->download($district->name. '_' . $category->name . '.pdf');
     }
 
 }

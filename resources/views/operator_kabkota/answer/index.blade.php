@@ -142,8 +142,6 @@
         <div class="card-header justify-content-between">
             <div class="card-title">
                 <h3>Tatanan {{$category->name}}</h3>
-                <h3>hashahs</h3>
-                
             </div>
             <div class="card-toolbar gap-2">
                 <!-- Export to PDF Button -->
