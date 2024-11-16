@@ -258,6 +258,8 @@ class Answer_KabKota_Controller extends Controller
 
     public function exportAllCategory(){
         $session_date = Session::get('selected_year');
+        $trans_survey = Trans_Survey::find($session_date);
+        // return $trans_survey;
         $user = Auth::user();
         $idZona = $user->id_zona;
 
@@ -281,7 +283,8 @@ class Answer_KabKota_Controller extends Controller
             'uploadedFiles' => $uploadedFiles,
             'idZona' => $idZona,
             'session_date' =>$session_date,
-            'district' => $district
+            'district' => $district,
+            'trans_survey' => $trans_survey
         ];
 
         // return view('operator_kabkota.export.export_all_tatanan', $sent);
@@ -293,7 +296,7 @@ class Answer_KabKota_Controller extends Controller
            ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
        
         
-        return $pdf->download($district->name. '.pdf');
+        return $pdf->download('Tatanan '. $district->name. ' Tahun '. $trans_survey->trans_date .'.pdf');
         // return $questions;
     }
 

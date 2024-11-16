@@ -41,7 +41,7 @@
 </head>
 <body>
     <h1>
-        Tatanan Seluruh Kategori {{$district->name}}
+        Tatanan Seluruh Kategori {{$district->name}} <br> Tahun {{$trans_survey->trans_date}}
     </h1>
    
     @foreach ($categories as $category)
