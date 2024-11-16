@@ -23,6 +23,7 @@
             padding: 8px;
             text-align: left;
             word-wrap: break-word;
+            vertical-align: middle;
         }
 
         h1 {
@@ -57,18 +58,18 @@
     
                 </tr>
                 <tr class="fw-semibold fs-6 text-muted">
-                    <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
-                    <th class="text-center border-1 border align-middle p-3">Nilai</th>
-                    <th class="text-center border-1 border align-middle p-3">Keterangan</th>
-                    <th class="text-center border-1 border align-middle p-3">Dokumen</th>
+                    <th>Nilai Assessment</th>
+                    <th>Nilai</th>
+                    <th>Keterangan</th>
+                    <th>Dokumen</th>
     
-                    <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
-                    <th class="text-center border-1 border align-middle p-3">Nilai</th>
-                    <th class="text-center border-1 border align-middle p-3">Keterangan</th>
+                    <th>Nilai Assessment</th>
+                    <th>Nilai</th>
+                    <th>Keterangan</th>
     
-                    <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
-                    <th class="text-center border-1 border align-middle p-3">Nilai</th>
-                    <th class="text-center border-1 border align-middle p-3">Keterangan</th>
+                    <th>Nilai Assessment</th>
+                    <th>Nilai</th>
+                    <th>Keterangan</th>
                 </tr>
             </thead>
             <tbody>
@@ -82,8 +83,8 @@
                 @if($questionsV2->isNotEmpty())
                     @foreach ($questionsV2 as $item)
                     <tr>
-                        <td class="border-1 border text-center p-3">{{ $loop->iteration }}</td>
-                        <td class="border-1 border p-3" style="max-width: 200px">{{ $item->name }}</td>
+                        <td>{{ $loop->iteration }}</td>
+                        <td style="max-width: 200px">{{ $item->name }}</td>
 
                     @php
                         $relatedAnswer = $answer->where('id_question', $item->id)->first(); // This will return a single instance or null
@@ -95,14 +96,14 @@
                     @endphp
 
                     @if($relatedAnswer)
-                    <td class="border-1 border p-3">{{ $relatedAnswer->_q_option->name }}</td>
-                    <td class="border-1 border text-center p-3">{{ $relatedAnswer->_q_option->score }}</td>
-                    <td class="border-1 border text-center p-3">
-                        <div class="badge badge-light-success">Sudah dijawab</div>
+                    <td>{{ $relatedAnswer->_q_option->name }}</td>
+                    <td>{{ $relatedAnswer->_q_option->score }}</td>
+                    <td>
+                        <div>Sudah dijawab</div>
                     </td>
                     @if ($uploadedFile->isNotEmpty())
-                        <td class="border-1 border text-center p-3">
-                            <div class="badge badge-light-success">Sudah diupload</div>
+                        <td>
+                            <div>Sudah diupload</div>
                         </td>
                     @else
                         <td class="border-1 border text-center p-3">
@@ -111,9 +112,9 @@
                     @endif
 
 
-                    <td class="border-1 border p-3">{{ $relatedAnswer->_q_option_prov->name?? '-' }}</td>
-                    <td class="border-1 border text-center p-3">{{ $relatedAnswer->_q_option_prov->score??'-'}}</td>
-                    <td class="border-1 border p-3">
+                    <td>{{ $relatedAnswer->_q_option_prov->name?? '-' }}</td>
+                    <td>{{ $relatedAnswer->_q_option_prov->score??'-'}}</td>
+                    <td>
                         @if($relatedAnswer && $relatedAnswer->comment_prov)
                             {{ $relatedAnswer->comment_prov }}
                         @else
@@ -121,9 +122,9 @@
                         @endif
                     </td>
 
-                    <td class="border-1 border p-3">{{ $relatedAnswer->_q_option_pusat->name?? '-' }}</td>
-                    <td class="border-1 border text-center p-3">{{ $relatedAnswer->_q_option_pusat->score??'-'}}</td>
-                    <td class="border-1 border p-3">
+                    <td>{{ $relatedAnswer->_q_option_pusat->name?? '-' }}</td>
+                    <td>{{ $relatedAnswer->_q_option_pusat->score??'-'}}</td>
+                    <td>
                         @if($relatedAnswer && $relatedAnswer->comment_pusat)
                             {{ $relatedAnswer->comment_pusat }}
                         @else
@@ -131,21 +132,21 @@
                         @endif
                     </td>
                     @else
-                    <td class="border-1 border p-3">-</td>
-                    <td class="border-1 border p-3">-</td>
-                    <td class="border-1 border p-3">
+                    <td>-</td>
+                    <td>-</td>
+                    <td>
                         <div class="badge badge-light-danger">Belum dijawab</div>
                     </td>
-                    <td class="border-1 border p-3">-</td>
+                    <td>-</td>
 
 
-                    <td class="border-1 border p-3">-</td>
-                    <td class="border-1 border p-3">-</td>
-                    <td class="border-1 border p-3">-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
 
-                    <td class="border-1 border p-3">-</td>
-                    <td class="border-1 border p-3">-</td>
-                    <td class="border-1 border p-3">-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
                     @endif
                     </tr>
 
