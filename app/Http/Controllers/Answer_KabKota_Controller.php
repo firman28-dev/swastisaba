@@ -256,4 +256,44 @@ class Answer_KabKota_Controller extends Controller
         return $pdf->download($district->name. '_' . $category->name . '.pdf');
     }
 
+    public function exportAllCategory(){
+        $session_date = Session::get('selected_year');
+        $user = Auth::user();
+        $idZona = $user->id_zona;
+
+        $district = M_District::find($idZona);
+        $categories = M_Category::where('id_survey',$session_date)->get();
+
+        $questions = M_Questions::where('id_survey', $session_date)    
+            ->get();
+        $answer = Trans_Survey_D_Answer::where('id_zona',$idZona)
+            ->where('id_survey', $session_date)
+            ->get();
+
+        $uploadedFiles = Trans_Upload_KabKota::where('id_zona',$idZona)
+            ->where('id_survey', $session_date)
+            ->get();
+
+        $sent = [
+            'categories' => $categories,
+            'questions' => $questions,
+            'answer' => $answer,
+            'uploadedFiles' => $uploadedFiles,
+            'idZona' => $idZona,
+            'session_date' =>$session_date,
+        ];
+
+        // return view('operator_kabkota.export.export_all_tatanan', $sent);
+        
+        $htmlContent = view('operator_kabkota.export.export_all_tatanan', $sent)->render();
+
+        $pdf = PDF::loadHTML($htmlContent)
+           ->setPaper([0, 0, 595, 1000], 'landscape')  
+           ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+       
+        
+        return $pdf->download($district->name. '.pdf');
+        // return $questions;
+    }
+
 }

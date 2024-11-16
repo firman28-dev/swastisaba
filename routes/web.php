@@ -360,6 +360,8 @@ Route::group(['middleware' => ['auth']], function () {
             
             //export pdf
             Route::get('/export-tatanan-pdf/{id}', [Answer_KabKota_Controller::class,'exportPDF'])->name('answer.exportPDF');
+            Route::get('/export-all-tatanan-pdf', [Answer_KabKota_Controller::class,'exportAllCategory'])->name('answer.exportAllCategory');
+
 
         });
 

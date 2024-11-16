@@ -789,6 +789,15 @@
                             <span class="menu-title">Narasi Tatanan</span>
                         </a>
                     </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::is('answer.exportAllCategory') ? 'active' : '' }}" href="{{route('answer.exportAllCategory')}}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-folder fs-3"></i>
+                            </span>
+                            <span class="menu-title">Cetak Tatanan</span>
+                        </a>
+                    </div>
                     
                 @endif
                 
