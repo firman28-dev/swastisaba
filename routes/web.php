@@ -357,6 +357,10 @@ Route::group(['middleware' => ['auth']], function () {
             Route::put('kabkota/pokja-desa/update-act/{id}', [Answer_Kelembagaan_New_Controller::class,'updateActivityPokjaDesa'])->name('pokja-desa.updateActivityPokjaDesa');
 
             // Route::get('kabkota/pokja-desa/create-act/{id_c_kelembagaan}/{id_village}', [Answer_Kelembagaan_New_Controller::class, 'createActivityPokja'])->name('act-pokja.createActivityPokja');
+            
+            //export pdf
+            Route::get('/export-tatanan-pdf/{id}', [Answer_KabKota_Controller::class,'exportPDF'])->name('answer.exportPDF');
+
         });
 
         Route::group(['middleware' => ['operator_provinsi']], function (){

@@ -144,6 +144,16 @@
                 <h3>Tatanan {{$category->name}}</h3>
                 
             </div>
+            <div class="card-toolbar gap-2">
+                <!-- Export to PDF Button -->
+                <a href="{{route('answer.exportPDF', $category->id)}}" class="btn btn-primary btn-sm">
+                    <i class="fa-solid fa-file-pdf"></i> Export PDF
+                </a>
+
+                <a href="" class="btn btn-success btn-sm">
+                    <i class="fa-solid fa-file-excel"></i> Export Excel
+                </a>
+            </div>
         </div>
         <div class="card-body">
           

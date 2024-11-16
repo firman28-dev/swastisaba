@@ -24,25 +24,12 @@
                 <h1 class="display-6 text-white text-center">
                     Selamat Datang di Swastisaba
                 </h1>
-                <div class="d-flex flex-sm-row flex-column justify-content-around mt-4">
+                <div class="d-flex flex-sm-row flex-column justify-content-around mt-4 gap-3">
                     @foreach ($t_date as $item)
-                    {{-- <div data-aos="slide-up" data-aos-duration="500" data-aos-easing="ease-in-out">
-                        <form action="{{ route('home.store') }}" method="POST" id="surveyForm">
-                            @csrf 
-                            <input type="hidden" name="id_survey" value="{{$item->id}}">
-                            <div class="card bg-white shadow-lg mb-sm-0 mb-3 bg-gradient rounded rounded-4 cursor-pointer" data-id="{{$item->id}}" onclick="submitForm(this)">
-                                <div class="card-body">
-                                    <h2>
-                                        {{$item->trans_date}}
-                                    </h2>
-                                </div>
-                            </div>
-                        </form>
-                    </div> --}}
 
                     <div data-aos="slide-up" data-aos-duration="500" data-aos-easing="ease-in-out">
                         <input type="hidden" id="id_survey_{{$item->id}}" name="id_survey" value="{{$item->id}}">
-                        <div class="card bg-white shadow-lg mb-sm-0 mb-3 bg-gradient rounded rounded-4 cursor-pointer hover-elevate-up" onclick="sendSurvey('{{$item->id}}')">
+                        <div class="card bg-white shadow-lg bg-gradient rounded rounded-4 cursor-pointer hover-elevate-up" onclick="sendSurvey('{{$item->id}}')">
                             <div class="card-body">
                                 <h2>
                                     {{$item->trans_date}}
@@ -64,52 +51,28 @@
 		<script src="{{asset('assets/js/scripts.bundle.js')}}"></script>
 		<script src="{{asset('assets/plugins/custom/datatables/datatables.bundle.js')}}"></script>
         <script>
-            // function handleCardClick(cardElement) {
-            //     const cardId = cardElement.getAttribute('data-id');
-            //     console.log('ID Card:', cardId);
-            //     $.ajax({    
-            //         url: '/set-year', // Ganti dengan route ke controller yang sesuai
-            //         method: 'POST',
-            //         data: {
-            //             id: cardId,
-            //             _token: '{{ csrf_token() }}' // Sertakan CSRF token untuk keamanan
-            //         },
-            //         success: function(response) {
-            //             console.log('Response from server:', response);
-            //         },
-            //         error: function(xhr, status, error) {
-            //             console.error('Error:', error);
-            //         }
-            //     }); 
-            // }
+            
+        function sendSurvey(surveyId) {
+            var idSurvey = $('#id_survey_' + surveyId).val();
 
-            // function submitForm(cardElement) {
-            //     // Ambil form dari elemen card
-            //     const form = document.getElementById('surveyForm');
-            //     form.submit();
-            // }
-
-            function sendSurvey(surveyId) {
-                var idSurvey = $('#id_survey_' + surveyId).val();
-
-                $.ajax({
-                    url: '/set-year',  // Replace with your Laravel route
-                    type: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',  // CSRF token for security
-                        id_survey: idSurvey
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        window.location.href = '/dashboard';
-                        // Handle success (display a message or redirect, etc.)
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error:', error);
-                        // Handle error (show an error message, etc.)
-                    }
-                });
-            }
+            $.ajax({
+                url: '/set-year',  // Replace with your Laravel route
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',  // CSRF token for security
+                    id_survey: idSurvey
+                },
+                success: function(response) {
+                    console.log(response);
+                    window.location.href = '/dashboard';
+                    // Handle success (display a message or redirect, etc.)
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    // Handle error (show an error message, etc.)
+                }
+            });
+        }
         </script>
 	</body>
 </html>

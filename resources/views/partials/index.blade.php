@@ -99,7 +99,7 @@
 
 		<script>
 			let lastActivity = Date.now();
-			const inactivityLimit = 30 * 60 * 1000; // 10 menit
+			const inactivityLimit = 40 * 60 * 1000; // 10 menit
 
 			function checkInactivity() {
 				const currentTime = Date.now();

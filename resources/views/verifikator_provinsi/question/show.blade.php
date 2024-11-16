@@ -26,6 +26,7 @@
                 <h3>Tatanan {{$category->name}}</h3>
             </div>
         </div>
+
         <div class="card-body">
             <a href="{{ route('v-prov.index', $zona->id)}}">
                 <button type="button" class="btn btn-primary btn-outline btn-outline-primary btn-sm">

@@ -13,6 +13,8 @@ use Auth;
 use File;
 use Illuminate\Http\Request;
 use Session;
+use PDF;
+
 
 class Answer_KabKota_Controller extends Controller
 {
@@ -205,6 +207,51 @@ class Answer_KabKota_Controller extends Controller
         $file->delete();
         return response()->json(['message' => 'File deleted successfully'], 200);
 
+    }
+
+
+    public function exportPDF($id)
+    {
+        $session_date = Session::get('selected_year');
+        $dates = Trans_Survey::all();
+        $date = Trans_Survey::find($session_date);
+        // return $session_date;
+        $user = Auth::user();
+        $idZona = $user->id_zona;
+        $category = M_Category::find($id);
+        // return $category;
+        $questions = M_Questions::where('id_category', $id)
+            ->where('id_survey', $session_date)    
+            ->get();
+        $answer = Trans_Survey_D_Answer::where('id_zona',$idZona)
+            ->where('id_survey', $session_date)
+            ->get();
+
+        $uploadedFiles = Trans_Upload_KabKota::where('id_zona',$idZona)
+            ->where('id_survey', $session_date)
+            ->get();
+        $schedule = Setting_Time::where('id_group', $user->id_group)->first();
+        
+        $sent = [
+            'category' => $category,
+            'questions' => $questions,
+            'answer' => $answer,
+            'uploadedFiles' => $uploadedFiles,
+            'idZona' => $idZona,
+            'session_date' =>$session_date,
+            'date' => $date,
+            'dates' => $dates, 
+            'schedule' => $schedule
+        ];
+
+        $htmlContent = view('pdf.export_tatanan', $sent)->render();
+
+        $pdf = PDF::loadHTML($htmlContent)
+           ->setPaper([0, 0, 595, 1000], 'landscape')  
+           ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+       
+        
+        return $pdf->download('tatanan_report.pdf');
     }
 
 }
