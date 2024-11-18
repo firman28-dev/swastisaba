@@ -45,7 +45,7 @@
                             @endphp
                             @if ($answerDoc)
                                 <td class="border-1 border p-3 text-center">
-                                    <a href="{{ asset($answerDoc->path) }}" target="_blank" class="btn btn-icon btn-success w-35px h-35px mb-sm-0 mb-3">
+                                    <a href="{{ asset('uploads/doc_narasi/'.$answerDoc->path) }}" target="_blank" class="btn btn-icon btn-success w-35px h-35px mb-sm-0 mb-3">
                                         <div class="d-flex justify-content-center">
                                             <i class="fa-solid fa-eye"></i>
                                         </div>

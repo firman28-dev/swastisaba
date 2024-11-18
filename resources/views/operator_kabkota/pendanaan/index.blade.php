@@ -62,7 +62,7 @@
                                         <div class="badge badge-light-success">Sudah upload</div>
                                     </td>
                                     <td class="border border-1 text-center">
-                                        <a href="{{ asset('uploads/doc_g_umum_kabkota/'.$relatedAnswerDoc->path) }}" target="_blank" class="btn btn-icon btn-success w-35px h-35px mb-sm-0 mb-3">
+                                        <a href="{{ asset('uploads/doc_pendanaan/'.$relatedAnswerDoc->path) }}" target="_blank" class="btn btn-icon btn-success w-35px h-35px mb-sm-0 mb-3">
                                             <div class="d-flex justify-content-center">
                                                 <i class="fa-solid fa-eye"></i>
                                             </div>
