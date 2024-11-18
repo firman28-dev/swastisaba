@@ -419,7 +419,16 @@ Route::group(['middleware' => ['auth']], function () {
 
             //doc umum
             Route::get('/v-pusat/kabkota/{id}/general-data', [Answer_Verifikator_Pusat_Controller::class, 'indexGData'])->name('v-pusat.indexGData');
-            Route::post('/v-pusat/kabkota/{id_zona}/store-gdata/{id}',[Answer_Verifikator_Pusat_Controller::class, 'storeGdata'])->name('v-pusat.storeGdata');
+            Route::post('/v-pusat/kabkota/store-gdata/{id}',[Answer_Verifikator_Pusat_Controller::class, 'storeGData'])->name('v-pusat.storeGData');
+
+            //pendanaan
+            Route::get('/v-pusat/kabkota/{id}/pendanaan', [Answer_Verifikator_Pusat_Controller::class, 'indexPendanaan'])->name('v-pusat.indexPendanaan');
+            Route::post('/v-pusat/kabkota/pendanaan/{id}',[Answer_Verifikator_Pusat_Controller::class, 'storePendanaan'])->name('v-pusat.storePendanaan');
+
+            //narasi tatanan
+            Route::get('/v-pusat/kabkota/{id}/narasi-tatanan', [Answer_Verifikator_Pusat_Controller::class, 'indexNarasi'])->name('v-pusat.indexNarasi');
+            Route::post('/v-pusat/kabkota/narasi-tatanan/{id}',[Answer_Verifikator_Pusat_Controller::class, 'storeNarasi'])->name('v-pusat.storeNarasi');
+
 
             //doc prov
             Route::get('/v-pusat/doc-prov/{id}/data', [Answer_Verifikator_Pusat_Controller::class, 'showDocProv'])->name('v-pusat.showDocProv');

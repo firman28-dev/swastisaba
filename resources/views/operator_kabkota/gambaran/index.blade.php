@@ -41,12 +41,21 @@
                 <table id="tableSKPD" class="table table-striped table-row-bordered gy-5 gs-7 border rounded" style="width:100%">
                     <thead>
                         <tr class="fw-semibold fs-6 text-muted">
-                            <th class="w-60px border border-1 text-center p-3 align-middle">No.</th>
-                            <th class="w-25 border border-1">Nama Dokumen</th>
-                            <th class="border border-1">Keterangan Dokumen</th>
-                            <th class="w-200px border border-1 text-center">Dokumen Upload</th>
-                            <th class="w-150px border border-1 text-center">Aksi</th>
+                            <th class="w-60px border border-1 text-center p-3 align-middle" rowspan="2">No.</th>
+                            <th class="w-200px border border-1" rowspan="2">Nama Dokumen</th>
+                            <th class="w-150px border border-1" rowspan="2">Keterangan Dokumen</th>
+                            <th class="w-200px border border-1 text-center" rowspan="2">Dokumen Upload</th>
+                            <th class="w-150px text-center border-1 border align-middle p-3" colspan="2">Assesment Provinsi</th>
+                            <th class="w-150px text-center border-1 border align-middle p-3" colspan="2">Assesment Pusat</th>
+                            <th class="w-200px border border-1 text-center" rowspan="2">Aksi</th>
 
+                        </tr>
+                        <tr class="fw-semibold fs-6 text-muted">
+                            <th class="text-center border-1 border align-middle p-3">Status</th>
+                            <th class="text-center border-1 border align-middle p-3">Keterangan</th>
+
+                            <th class="text-center border-1 border align-middle p-3">Status</th>
+                            <th class="text-center border-1 border align-middle p-3 w-50px">Keterangan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,6 +71,43 @@
                                     <td class="border border-1 text-center">
                                         <div class="badge badge-light-success">Sudah upload</div>
                                     </td>
+                                    <td class="border-1 border p-3 text-center">
+                                        @if($relatedAnswerDoc && $relatedAnswerDoc->is_prov)
+                                            @if ($relatedAnswerDoc->is_prov == 1)
+                                                Sesuai
+                                            @else
+                                                Tidak sesuai
+                                            @endif
+                                        @else
+                                            <div class="badge badge-light-info">-</div>
+                                        @endif
+                                    </td>
+                                    <td class="border-1 border p-3 text-center">
+                                        @if($relatedAnswerDoc && $relatedAnswerDoc->comment_prov)
+                                            {{$relatedAnswerDoc->comment_prov}}
+                                        @else
+                                            <div class="badge badge-light-info">-</div>
+                                        @endif
+                                    </td>
+                                    <td class="border-1 border p-3 text-center">
+                                        @if($relatedAnswerDoc && $relatedAnswerDoc->is_pusat)
+                                            @if ($relatedAnswerDoc->is_pusat == 1)
+                                                Sesuai
+                                            @else
+                                                Tidak sesuai
+                                            @endif
+                                        @else
+                                            <div class="badge badge-light-info">-</div>
+                                        @endif
+                                    </td>
+                                    <td class="border-1 border p-3 text-center">
+                                        @if($relatedAnswerDoc && $relatedAnswerDoc->comment_pusat)
+                                            {{$relatedAnswerDoc->comment_pusat}}
+                                        @else
+                                            <div class="badge badge-light-info">-</div>
+                                        @endif
+                                    </td>
+
                                     <td class="border border-1 text-center">
                                         <a href="{{ asset('uploads/doc_g_umum_kabkota/'.$relatedAnswerDoc->path) }}" target="_blank" class="btn btn-icon btn-success w-35px h-35px mb-sm-0 mb-3">
                                             <div class="d-flex justify-content-center">
@@ -106,6 +152,19 @@
                                         <div class="badge badge-light-danger">Belum upload</div>
                                     </td>
                                     <td class="border border-1 text-center">
+                                        <div class="badge badge-light-danger">-</div>
+                                    </td>
+                                    <td class="border border-1 text-center">
+                                        <div class="badge badge-light-danger">-</div>
+                                    </td>
+                                    <td class="border border-1 text-center">
+                                        <div class="badge badge-light-danger">-</div>
+                                    </td>
+                                    <td class="border border-1 text-center">
+                                        <div class="badge badge-light-danger">-</div>
+                                    </td>
+
+                                    <td class="border border-1 text-center">
                                         <button 
                                             @if ($now >= $start && $now <= $end)
                                                 class="btn btn-icon btn-primary w-35px h-35px mb-sm-0 mb-3" data-bs-toggle="modal" data-bs-toggle="modal" data-bs-target="#createModal{{$data->id}}"
@@ -146,7 +205,7 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary rounded-4" data-bs-dismiss="modal">Batal</button>
-                                                            <button type="submit" class="btn btn-primary rounded-4">SImpan</button>
+                                                            <button type="submit" class="btn btn-primary rounded-4">Simpan</button>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -21,7 +21,6 @@
         th, td {
             border: 1px solid #000;
             padding: 8px;
-            text-align: left;
             word-wrap: break-word;
             vertical-align: middle;
         }
@@ -100,44 +99,45 @@
                     @endphp
 
                     @if($relatedAnswer)
-                    <td>{{ $relatedAnswer->_q_option->name }}</td>
-                    <td>{{ $relatedAnswer->_q_option->score }}</td>
-                    <td>
-                        <div>Sudah dijawab</div>
-                    </td>
-                    @if ($uploadedFile->isNotEmpty())
+                        <td>{{ $relatedAnswer->_q_option->name }}</td>
+                        <td style="text-align: center">{{ $relatedAnswer->_q_option->score }}</td>
                         <td>
-                            <div>Sudah diupload</div>
+                            <div>Sudah dijawab</div>
                         </td>
-                    @else
-                        <td class="border-1 border text-center p-3">
-                            <div class="badge badge-light-danger">Belum diupload</div>
+                        @if ($uploadedFile->isNotEmpty())
+                            <td>
+                                <div>Sudah diupload</div>
+                            </td>
+                        @else
+                            <td class="border-1 border text-center p-3">
+                                <div class="badge badge-light-danger">Belum diupload</div>
+                            </td>
+                        @endif
+
+
+                        <td>{{ $relatedAnswer->_q_option_prov->name?? '-' }}</td>
+                        <td style="text-align: center">{{ $relatedAnswer->_q_option_prov->score??'-'}}</td>
+                        <td>
+                            @if($relatedAnswer && $relatedAnswer->comment_prov)
+                                {{ $relatedAnswer->comment_prov }}
+                            @else
+                                <div class="badge badge-light-danger">Belum dijawab</div>
+                            @endif
                         </td>
-                    @endif
 
+                        <td>{{ $relatedAnswer->_q_option_pusat->name?? '-' }}</td>
+                        <td style="text-align: center">{{ $relatedAnswer->_q_option_pusat->score??'0'}}</td>
+                        <td>
+                            @if($relatedAnswer && $relatedAnswer->comment_pusat)
+                                {{ $relatedAnswer->comment_pusat }}
+                            @else
+                                <div class="badge badge-light-danger">Belum dijawab</div>
+                            @endif
+                        </td>
 
-                    <td>{{ $relatedAnswer->_q_option_prov->name?? '-' }}</td>
-                    <td>{{ $relatedAnswer->_q_option_prov->score??'-'}}</td>
-                    <td>
-                        @if($relatedAnswer && $relatedAnswer->comment_prov)
-                            {{ $relatedAnswer->comment_prov }}
-                        @else
-                            <div class="badge badge-light-danger">Belum dijawab</div>
-                        @endif
-                    </td>
-
-                    <td>{{ $relatedAnswer->_q_option_pusat->name?? '-' }}</td>
-                    <td>{{ $relatedAnswer->_q_option_pusat->score??'-'}}</td>
-                    <td>
-                        @if($relatedAnswer && $relatedAnswer->comment_pusat)
-                            {{ $relatedAnswer->comment_pusat }}
-                        @else
-                            <div class="badge badge-light-danger">Belum dijawab</div>
-                        @endif
-                    </td>
                     @else
                     <td>-</td>
-                    <td>-</td>
+                    <td style="text-align: center">0</td>
                     <td>
                         <div class="badge badge-light-danger">Belum dijawab</div>
                     </td>
@@ -145,11 +145,11 @@
 
 
                     <td>-</td>
-                    <td>-</td>
+                    <td style="text-align: center">0</td>
                     <td>-</td>
 
                     <td>-</td>
-                    <td>-</td>
+                    <td style="text-align: center">0</td>
                     <td>-</td>
                     @endif
                     </tr>

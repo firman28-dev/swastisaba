@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category_Doc_Provinsi;
+use App\Models\Gambaran_KabKota;
 use App\Models\M_C_Kelembagaan_New;
 use App\Models\M_Category;
 use App\Models\M_Category_Kelembagaan;
@@ -14,15 +15,19 @@ use App\Models\M_Questions;
 use App\Models\M_SubDistrict;
 use App\Models\M_Village;
 use App\Models\M_Zona;
+use App\Models\Pendanaan_KabKota;
 use App\Models\Sub_Doc_Provinsi;
 use App\Models\Trans_Doc_G_Data;
 use App\Models\Trans_Doc_Kelembagaan;
 use App\Models\Trans_Doc_Prov;
 use App\Models\Trans_Forum_Kec;
 use App\Models\Trans_Forum_Kel;
+use App\Models\Trans_Gambaran_Kabkota;
 use App\Models\Trans_Kegiatan;
 use App\Models\Trans_Kelembagaan_H;
 use App\Models\Trans_Kelembagaan_V2;
+use App\Models\Trans_Narasi;
+use App\Models\Trans_Pendanaan_kabkota;
 use App\Models\Trans_Survey;
 use App\Models\Trans_Survey_D_Answer;
 use App\Models\Trans_Upload_KabKota;
@@ -228,57 +233,57 @@ class Answer_Verifikator_Pusat_Controller extends Controller
 
 
 
-    public function indexGData($id)
-    {
-        $session_date = Session::get('selected_year');
-        $zona = M_Zona::find($id);
-        $category = M_Doc_General_Data::where('id_survey', $session_date)->get();
-        $doc = Trans_Doc_G_Data::where('id_zona', $zona->id)
-            ->where('id_survey', $session_date)
-            ->get();
+    // public function indexGData($id)
+    // {
+    //     $session_date = Session::get('selected_year');
+    //     $zona = M_Zona::find($id);
+    //     $category = M_Doc_General_Data::where('id_survey', $session_date)->get();
+    //     $doc = Trans_Doc_G_Data::where('id_zona', $zona->id)
+    //         ->where('id_survey', $session_date)
+    //         ->get();
 
-        $sent = [
-            'zona' => $zona,
-            'category' => $category,
-            'doc' => $doc
-        ];
-        return view('verifikator_pusat.g_data.index', $sent);
-    }
+    //     $sent = [
+    //         'zona' => $zona,
+    //         'category' => $category,
+    //         'doc' => $doc
+    //     ];
+    //     return view('verifikator_pusat.g_data.index', $sent);
+    // }
 
-    public function storeGdata(Request $request, $id_zona, $id)
-    {
-        $request->validate([
-            'comment_pusat' => 'required',
-            'is_pusat' => 'required',
-        ],[
-            'is_pusat.required' => 'Option wajib diisi',
-            'comment_pusat.required' => 'Komentar wajib diisi',
+    // public function storeGdata(Request $request, $id_zona, $id)
+    // {
+    //     $request->validate([
+    //         'comment_pusat' => 'required',
+    //         'is_pusat' => 'required',
+    //     ],[
+    //         'is_pusat.required' => 'Option wajib diisi',
+    //         'comment_pusat.required' => 'Komentar wajib diisi',
 
-        ]);
+    //     ]);
 
-        try {
-            $relatedAnswer = Trans_Doc_G_Data::where('id_doc_g_data', $id)
-                ->where('id_zona',$id_zona)
-                ->first();
+    //     try {
+    //         $relatedAnswer = Trans_Doc_G_Data::where('id_doc_g_data', $id)
+    //             ->where('id_zona',$id_zona)
+    //             ->first();
 
-            if($relatedAnswer)
-            {
-                $relatedAnswer->update([
-                    'is_pusat' => $request->is_pusat,
-                    'comment_pusat' => $request->comment_pusat,
+    //         if($relatedAnswer)
+    //         {
+    //             $relatedAnswer->update([
+    //                 'is_pusat' => $request->is_pusat,
+    //                 'comment_pusat' => $request->comment_pusat,
 
-                ]);
-                return redirect()->back()->with('success', 'Berhasil memverifikasi data umum');
+    //             ]);
+    //             return redirect()->back()->with('success', 'Berhasil memverifikasi data umum');
 
-            }
-            else{
-                return redirect()->back()->with('error', 'Data belum diinputkan kabupaten kota');
-            }
+    //         }
+    //         else{
+    //             return redirect()->back()->with('error', 'Data belum diinputkan kabupaten kota');
+    //         }
 
-        } catch (\Throwable $th) {
-            //throw $th;
-        }
-    }
+    //     } catch (\Throwable $th) {
+    //         //throw $th;
+    //     }
+    // }
 
     public function showDocProv($id)
     {
@@ -447,7 +452,6 @@ class Answer_Verifikator_Pusat_Controller extends Controller
 
         try {
             $relatedAnswer = Trans_Forum_Kec::find($id);
-            // return $relatedAnswer;
             $user = Auth::user();
 
             if($relatedAnswer)
@@ -459,6 +463,169 @@ class Answer_Verifikator_Pusat_Controller extends Controller
 
                 ]);
                 return redirect()->back()->with('success', 'Berhasil memverifikasi data');
+
+            }
+            else{
+                return redirect()->back()->with('error', 'Data belum diinputkan kabupaten kota');
+            }
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    //gambaran umum
+    public function indexGData($id)
+    {
+        $session_date = Session::get('selected_year');
+        $zona = M_District::find($id);
+        // return $zona;
+        $category = Gambaran_KabKota::where('id_survey', $session_date)->get();
+        $doc = Trans_Gambaran_Kabkota::where('id_zona', $zona->id)
+            ->where('id_survey', $session_date)
+            ->get();
+
+        $sent = [
+            'zona' => $zona,
+            'category' => $category,
+            'doc' => $doc
+        ];
+        return view('verifikator_pusat.g_data.index', $sent);
+    }
+
+    public function storeGData(Request $request, $id)
+    {
+        $request->validate([
+            'comment_pusat' => 'required',
+            'is_pusat' => 'required',
+        ],[
+            'is_pusat.required' => 'Option wajib diisi',
+            'comment_pusat.required' => 'Komentar wajib diisi',
+        ]);
+
+        $user = Auth::user();
+
+        try {
+            $relatedAnswer = Trans_Gambaran_Kabkota::find($id);
+            // return $relatedAnswer;
+
+            if($relatedAnswer)
+            {
+                $relatedAnswer->update([
+                    'is_pusat' => $request->is_pusat,
+                    'comment_pusat' => $request->comment_pusat,
+                    'updated_by_pusat' => $user->id
+
+                ]);
+                return redirect()->back()->with('success', 'Berhasil memverifikasi gambaran umum');
+
+            }
+            else{
+                return redirect()->back()->with('error', 'Data belum diinputkan kabupaten kota');
+            }
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    //pendanaan
+    public function indexPendanaan($id)
+    {
+        $session_date = Session::get('selected_year');
+        $zona = M_District::find($id);
+        // return $zona;
+        $category = Pendanaan_KabKota::where('id_survey', $session_date)->get();
+        $doc = Trans_Pendanaan_kabkota::where('id_zona', $zona->id)
+            ->where('id_survey', $session_date)
+            ->get();
+
+        $sent = [
+            'zona' => $zona,
+            'category' => $category,
+            'doc' => $doc
+        ];
+        return view('verifikator_pusat.pendanaan.index', $sent);
+    }
+
+    public function storePendanaan(Request $request, $id)
+    {
+        $request->validate([
+            'comment_pusat' => 'required',
+            'is_pusat' => 'required',
+        ],[
+            'is_pusat.required' => 'Option wajib diisi',
+            'comment_pusat.required' => 'Komentar wajib diisi',
+        ]);
+
+        $user = Auth::user();
+
+        try {
+            $relatedAnswer = Trans_Pendanaan_kabkota::find($id);
+            // return $relatedAnswer;
+
+            if($relatedAnswer)
+            {
+                $relatedAnswer->update([
+                    'is_pusat' => $request->is_pusat,
+                    'comment_pusat' => $request->comment_pusat,
+                    'updated_by_pusat' => $user->id
+                ]);
+                return redirect()->back()->with('success', 'Berhasil memverifikasi pendanaan kabkota');
+
+            }
+            else{
+                return redirect()->back()->with('error', 'Data belum diinputkan kabupaten kota');
+            }
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+     //narasi tatanan
+    public function indexNarasi($id)
+    {
+        $session_date = Session::get('selected_year');
+        $zona = M_District::find($id);
+        // return $zona;
+        $category = M_Category::where('id_survey', $session_date)->get();
+        $doc = Trans_Narasi::where('id_zona', $zona->id)
+            ->where('id_survey', $session_date)
+            ->get();
+
+        $sent = [
+            'zona' => $zona,
+            'category' => $category,
+            'doc' => $doc
+        ];
+        return view('verifikator_pusat.narasi.index', $sent);
+    }
+
+    public function storeNarasi(Request $request, $id)
+    {
+        $request->validate([
+            'comment_pusat' => 'required',
+            'is_pusat' => 'required',
+        ],[
+            'is_pusat.required' => 'Option wajib diisi',
+            'comment_pusat.required' => 'Komentar wajib diisi',
+        ]);
+
+        $user = Auth::user();
+
+        try {
+            $relatedAnswer = Trans_Narasi::find($id);
+            // return $relatedAnswer;
+
+            if($relatedAnswer)
+            {
+                $relatedAnswer->update([
+                    'is_pusat' => $request->is_pusat,
+                    'comment_pusat' => $request->comment_pusat,
+                    'updated_by_pusat' => $user->id
+                ]);
+                return redirect()->back()->with('success', 'Berhasil memverifikasi pendanaan kabkota');
 
             }
             else{

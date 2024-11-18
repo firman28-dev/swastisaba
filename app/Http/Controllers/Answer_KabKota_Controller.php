@@ -246,14 +246,17 @@ class Answer_KabKota_Controller extends Controller
             'schedule' => $schedule
         ];
 
-        $htmlContent = view('operator_kabkota.export.export_pertatanan', $sent)->render();
+        return view('operator_kabkota.export.export_pertatanan', $sent);
 
-        $pdf = PDF::loadHTML($htmlContent)
-           ->setPaper([0, 0, 595, 1000], 'landscape')  
-           ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+
+        // $htmlContent = view('operator_kabkota.export.export_pertatanan', $sent)->render();
+
+        // $pdf = PDF::loadHTML($htmlContent)
+        //    ->setPaper([0, 0, 595, 1000], 'landscape')  
+        //    ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
        
         
-        return $pdf->download($district->name. '_' . $category->name . '.pdf');
+        // return $pdf->download($district->name. '_' . $category->name . '.pdf');
     }
 
     public function exportAllCategory(){
@@ -287,16 +290,16 @@ class Answer_KabKota_Controller extends Controller
             'trans_survey' => $trans_survey
         ];
 
-        // return view('operator_kabkota.export.export_all_tatanan', $sent);
+        return view('operator_kabkota.export.export_all_tatanan', $sent);
         
-        $htmlContent = view('operator_kabkota.export.export_all_tatanan', $sent)->render();
+        // $htmlContent = view('operator_kabkota.export.export_all_tatanan', $sent)->render();
 
-        $pdf = PDF::loadHTML($htmlContent)
-           ->setPaper([0, 0, 595, 1000], 'landscape')  
-           ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+        // $pdf = PDF::loadHTML($htmlContent)
+        //    ->setPaper([0, 0, 595, 1000], 'landscape')  
+        //    ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
        
         
-        return $pdf->download('Tatanan '. $district->name. ' Tahun '. $trans_survey->trans_date .'.pdf');
+        // return $pdf->download('Tatanan '. $district->name. ' Tahun '. $trans_survey->trans_date .'.pdf');
         // return $questions;
     }
 

@@ -21,8 +21,11 @@
         th, td {
             border: 1px solid #000;
             padding: 8px;
-            text-align: left;
             word-wrap: break-word;
+        }
+
+        th {
+            vertical-align: middle !important
         }
 
         h1 {
@@ -60,6 +63,11 @@
             </tr>
         </thead>
         <tbody>
+            @php
+                $totalSelfAssessment = 0;
+                $totalProvScore = 0;
+                $totalPusatScore = 0;
+            @endphp
             @foreach($questions as $question)
                 <tr>
                     <td class="border-1 border text-center p-3">{{ $loop->iteration }}</td>
@@ -67,10 +75,14 @@
                     @php
                         $relatedAnswer = $answer->where('id_question', $question->id)->first(); // This will return a single instance or null
                         $uploadedFile = $uploadedFiles->where('id_question', $question->id);
+
+                        $totalSelfAssessment += $relatedAnswer->_q_option->score ?? 0;
+                        $totalProvScore += $relatedAnswer->_q_option_prov->score ?? 0;
+                        $totalPusatScore += $relatedAnswer->_q_option_pusat->score ?? 0;
                     @endphp
                     @if($relatedAnswer)
                         <td class="border-1 border p-3">{{ $relatedAnswer->_q_option->name }}</td>
-                        <td class="border-1 border text-center p-3">{{ $relatedAnswer->_q_option->score }}</td>
+                        <td class="border-1 border text-center p-3" style="text-align: center">{{ $relatedAnswer->_q_option->score }}</td>
                         <td class="border-1 border text-center p-3">
                             <div class="badge badge-light-success">Sudah dijawab</div>
                         </td>
@@ -86,7 +98,7 @@
                         
 
                         <td class="border-1 border p-3">{{ $relatedAnswer->_q_option_prov->name?? '-' }}</td>
-                        <td class="border-1 border text-center p-3">{{ $relatedAnswer->_q_option_prov->score??'-'}}</td>
+                        <td class="border-1 border text-center p-3" style="text-align: center">{{ $relatedAnswer->_q_option_prov->score??'0'}}</td>
                         <td class="border-1 border p-3">
                             @if($relatedAnswer && $relatedAnswer->comment_prov)
                                 {{ $relatedAnswer->comment_prov }}
@@ -96,7 +108,7 @@
                         </td>
 
                         <td class="border-1 border p-3">{{ $relatedAnswer->_q_option_pusat->name?? '-' }}</td>
-                        <td class="border-1 border text-center p-3">{{ $relatedAnswer->_q_option_pusat->score??'-'}}</td>
+                        <td class="border-1 border text-center p-3" style="text-align: center">{{ $relatedAnswer->_q_option_pusat->score??'0'}}</td>
                         <td class="border-1 border p-3">
                             @if($relatedAnswer && $relatedAnswer->comment_pusat)
                                 {{ $relatedAnswer->comment_pusat }}
@@ -105,25 +117,36 @@
                             @endif
                         </td>
                     @else
-                        <td class="border-1 border p-3">-</td>
-                        <td class="border-1 border p-3">-</td>
+                        <td class="border-1 border p-3" style="text-align: center">-</td>
+                        <td class="border-1 border p-3" style="text-align: center">0</td>
                         <td class="border-1 border p-3">
                             <div class="badge badge-light-danger">Belum dijawab</div>
                         </td>
                         <td class="border-1 border p-3">-</td>
 
 
-                        <td class="border-1 border p-3">-</td>
-                        <td class="border-1 border p-3">-</td>
-                        <td class="border-1 border p-3">-</td>
+                        <td class="border-1 border p-3" style="text-align: center">-</td>
+                        <td class="border-1 border p-3" style="text-align: center">0</td>
+                        <td class="border-1 border p-3" style="text-align: center">-</td>
 
-                        <td class="border-1 border p-3">-</td>
-                        <td class="border-1 border p-3">-</td>
-                        <td class="border-1 border p-3">-</td>
+                        <td class="border-1 border p-3" style="text-align: center">-</td>
+                        <td class="border-1 border p-3" style="text-align: center">0</td>
+                        <td class="border-1 border p-3" style="text-align: center">-</td>
                     @endif
                 </tr>
             @endforeach
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"><strong>Total</strong></td>
+                <td style="text-align: center"><strong>{{ $totalSelfAssessment }}</strong></td>
+                <td colspan="3"></td>
+                <td style="text-align: center"><strong>{{ $totalProvScore }}</strong></td>
+                <td colspan="2"></td>
+                <td style="text-align: center"><strong>{{ $totalPusatScore }}</strong></td>
+                <td></td>
+            </tr>
+        </tfoot>
     </table>
 </body>
 </html>

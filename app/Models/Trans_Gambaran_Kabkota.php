@@ -18,7 +18,9 @@ class Trans_Gambaran_Kabkota extends Model
         'is_pusat',
         'comment_prov',
         'comment_pusat',
-        'created_by'
+        'created_by',
+        'updated_by_pusat',
+        'updated_by_prov'
     ];  
 
     protected $table = 'trans_gambaran_kabkota';

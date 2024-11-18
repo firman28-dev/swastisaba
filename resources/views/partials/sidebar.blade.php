@@ -45,70 +45,25 @@
                 </div> --}}
 
                 @if(Auth::user()->id_group == 1)
-                    <div class="menu-item menu-accordion {{ Route::is('v-pusat.indexQuestion') || Route::is('v-pusat.showCategory') ? 'show' : '' }}" data-kt-menu-trigger="click">
+                    <div class="menu-item pt-5"><!--begin:Menu content-->
+                        <div class="menu-content"><span class="menu-heading fw-bold text-uppercase fs-7">Kabupaten/Kota</span>
+                        </div><!--end:Menu content-->
+                    </div>
+
+                    <div class="menu-item menu-accordion {{ Route::is('v-pusat.indexGData') || Route::is('v-pusat.indexGData') ? 'show' : '' }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-book fs-3"></i>
                             </span>
-                            <span class="menu-title">Verifikasi Tatanan</span>
+                            <span class="menu-title">Verifikasi Gambaran Umum</span>
                             <span class="menu-arrow"></span>
                         </a>
                         <div class="menu-sub menu-sub-accordion">
                             @foreach(\App\Models\M_District::where('province_id', 13)->get() as $zona)
                                 <div class="menu-item">
                                     <a class="menu-link {{ 
-                                        request()->routeIs('v-pusat.indexQuestion') && request()->id == $zona->id ||
-                                        (request()->routeIs('v-pusat.showCategory') && request()->id_zona == $zona->id)
-                                        ? 'active' : '' }}" href="{{ route('v-pusat.indexQuestion', ['id' => $zona->id]) }}">
-                                        <span class="menu-icon">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">{{ $zona->name }}</span>
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    {{-- <div class="menu-item menu-accordion {{ Route::is('v-pusat.indexKelembagaan') || Route::is('v-pusat.showKelembagaan')  ? 'show' : '' }}" data-kt-menu-trigger="click">
-                        <a class="menu-link" href="#">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-industry fs-3"></i>
-                            </span>
-                            <span class="menu-title">Verifikasi Data Kelembagaan</span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="menu-sub menu-sub-accordion">
-                            @foreach(\App\Models\M_Zona::all() as $zona)
-                                <div class="menu-item">
-                                    <a class="menu-link {{ 
-                                        request()->routeIs('v-pusat.indexKelembagaan') && request()->id == $zona->id ||
-                                        (request()->routeIs('v-pusat.showKelembagaan') && request()->id_zona == $zona->id)
-                                        ? 'active' : '' }}" href="{{ route('v-pusat.indexKelembagaan', ['id' => $zona->id]) }}">
-                                        <span class="menu-icon">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">{{ $zona->name }}</span>
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <div class="menu-item menu-accordion {{ Route::is('v-pusat.indexGData')   ? 'show' : '' }}" data-kt-menu-trigger="click">
-                        <a class="menu-link" href="#">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-folder fs-3"></i>
-                            </span>
-                            <span class="menu-title">Dokumen Umum</span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="menu-sub menu-sub-accordion">
-                            @foreach(\App\Models\M_Zona::all() as $zona)
-                                <div class="menu-item">
-                                    <a class="menu-link {{ 
-                                        request()->routeIs('v-pusat.indexGData') && request()->id == $zona->id
-                                        
+                                        request()->routeIs('v-pusat.indexGData') && request()->id == $zona->id ||
+                                        (request()->routeIs('v-pusat.indexGData') && request()->id_zona == $zona->id)
                                         ? 'active' : '' }}" href="{{ route('v-pusat.indexGData', ['id' => $zona->id]) }}">
                                         <span class="menu-icon">
                                             <span class="bullet bullet-dot"></span>
@@ -118,7 +73,7 @@
                                 </div>
                             @endforeach
                         </div>
-                    </div> --}}
+                    </div>
 
                     <div class="menu-item menu-accordion {{ Route::is('v-pusat.indexKelembagaan') || Route::is('v-pusat.showCategory') ? 'show' : '' }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
@@ -145,6 +100,86 @@
                         </div>
                     </div>
 
+                    <div class="menu-item menu-accordion {{ Route::is('v-pusat.indexPendanaan') || Route::is('v-pusat.indexPendanaan') ? 'show' : '' }}" data-kt-menu-trigger="click">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-book fs-3"></i>
+                            </span>
+                            <span class="menu-title">Verifikasi Pendanaan</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="menu-sub menu-sub-accordion">
+                            @foreach(\App\Models\M_District::where('province_id', 13)->get() as $zona)
+                                <div class="menu-item">
+                                    <a class="menu-link {{ 
+                                        request()->routeIs('v-pusat.indexPendanaan') && request()->id == $zona->id ||
+                                        (request()->routeIs('v-pusat.indexPendanaan') && request()->id_zona == $zona->id)
+                                        ? 'active' : '' }}" href="{{ route('v-pusat.indexPendanaan', ['id' => $zona->id]) }}">
+                                        <span class="menu-icon">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">{{ $zona->name }}</span>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="menu-item menu-accordion {{ Route::is('v-pusat.indexQuestion') || Route::is('v-pusat.showCategory') ? 'show' : '' }}" data-kt-menu-trigger="click">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-book fs-3"></i>
+                            </span>
+                            <span class="menu-title">Verifikasi Tatanan</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="menu-sub menu-sub-accordion">
+                            @foreach(\App\Models\M_District::where('province_id', 13)->get() as $zona)
+                                <div class="menu-item">
+                                    <a class="menu-link {{ 
+                                        request()->routeIs('v-pusat.indexQuestion') && request()->id == $zona->id ||
+                                        (request()->routeIs('v-pusat.showCategory') && request()->id_zona == $zona->id)
+                                        ? 'active' : '' }}" href="{{ route('v-pusat.indexQuestion', ['id' => $zona->id]) }}">
+                                        <span class="menu-icon">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">{{ $zona->name }}</span>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item menu-accordion {{ Route::is('v-pusat.indexNarasi') || Route::is('v-pusat.indexNarasi') ? 'show' : '' }}" data-kt-menu-trigger="click">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-book fs-3"></i>
+                            </span>
+                            <span class="menu-title">Verifikasi Narasi Tatanan</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="menu-sub menu-sub-accordion">
+                            @foreach(\App\Models\M_District::where('province_id', 13)->get() as $zona)
+                                <div class="menu-item">
+                                    <a class="menu-link {{ 
+                                        request()->routeIs('v-pusat.indexNarasi') && request()->id == $zona->id ||
+                                        (request()->routeIs('v-pusat.indexNarasi') && request()->id_zona == $zona->id)
+                                        ? 'active' : '' }}" href="{{ route('v-pusat.indexNarasi', ['id' => $zona->id]) }}">
+                                        <span class="menu-icon">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">{{ $zona->name }}</span>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="menu-item pt-5"><!--begin:Menu content-->
+                        <div class="menu-content"><span class="menu-heading fw-bold text-uppercase fs-7">Provinsi</span>
+                        </div><!--end:Menu content-->
+                    </div>
+
                     <div class="menu-item menu-accordion {{ Route::is('v-pusat.showDocProv') ? 'show' : '' }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
@@ -166,6 +201,8 @@
                             @endforeach
                         </div>
                     </div>
+
+                    
 
                 @endif
 
@@ -417,40 +454,6 @@
                             <span class="menu-title">Gambaran Umum KabKota</span>
                         </a>
                     </div>
-
-                    {{-- <div class="menu-item menu-accordion {{ 
-                        (Route::is('c-kelembagaan.*') || 
-                        Route::is('q-kelembagaan.*') || 
-                        Route::is('showQKelembagaan')) && 
-                        !Route::is('c-kelembagaan.onlyTrashed')  &&
-                        !Route::is('q-kelembagaan.onlyTrashed')
-                        ? 'show' : '' }}" data-kt-menu-trigger="click">
-                        <a class="menu-link" href="#">
-                            <span class="menu-icon">
-                                <i class="fa-solid fa-industry fs-3"></i>
-                            </span>
-                            <span class="menu-title">Kelembagaan</span>
-                            <span class="menu-arrow"></span>
-                        </a>
-                        <div class="menu-sub menu-sub-accordion">
-                            <div class="menu-item">
-                                <a class="menu-link {{ Route::is('c-kelembagaan.*') && !Route::is('c-kelembagaan.onlyTrashed') ? 'active' : '' }}" href="{{route('c-kelembagaan.index')}}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Kategori Kelembagaan</span>
-                                </a>
-                            </div>
-                            <div class="menu-item">
-                                <a class="menu-link {{ (Route::is('q-kelembagaan.*') || Route::is('showQKelembagaan')) && !Route::is('q-kelembagaan.onlyTrashed') ? 'active' : '' }}" href="{{route('q-kelembagaan.index')}}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                    <span class="menu-title">Pertanyaan Kelembagaan</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div> --}}
 
                     <div class="menu-item menu-accordion {{
                         (Route::is('c-kelembagaan-v2.*') || 

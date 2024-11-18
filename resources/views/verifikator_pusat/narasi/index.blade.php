@@ -3,7 +3,7 @@
     {{$zona->name}}
 @endsection
 @section('page')
-    Dokumen Gambaran Umum KabKota
+    Dokumen Narasi Tatanan KabKota
 @endsection
 
 
@@ -12,7 +12,7 @@
     <div class="card mb-5 mb-xl-10">
         <div class="card-header justify-content-between">
             <div class="card-title">
-                <h3>Daftar Dokumen Gambaran Umum</h3>
+                <h3>Daftar Dokumen Narasi Tatanan</h3>
             </div>
         </div>
         <div class="card-body">
@@ -21,7 +21,7 @@
                     <thead>
                         <tr class="fw-semibold fs-6 text-muted text-center ">
                             <th class="w-60px text-center border-1 border align-middle p-3" rowspan="2">No.</th>
-                            <th class="w-150px text-center border-1 border align-middle p-3" rowspan="2">Nama Dokumen </th>
+                            <th class="w-200px text-center border-1 border align-middle p-3" rowspan="2">Nama Dokumen </th>
                             <th class="w-100px text-center border-1 border align-middle p-3" rowspan="2">Bukti</th>
                             <th class="w-150px text-center border-1 border align-middle p-3" colspan="2">Assesment Provinsi</th>
                             <th class="w-150px text-center border-1 border align-middle p-3" colspan="2">Assesment Pusat</th>
@@ -41,7 +41,7 @@
                             <td class="border-1 border text-center p-3">{{$loop->iteration}}</td>
                             <td class="border-1 border p-3">{{ $item->name }}</td>
                             @php
-                                $answerDoc = $doc->where('id_gambaran_kabkota', $item->id)->first();
+                                $answerDoc = $doc->where('id_category', $item->id)->first();
                             @endphp
                             @if ($answerDoc)
                                 <td class="border-1 border p-3 text-center">
@@ -97,7 +97,7 @@
                                         </div>
                                     </button>
                                     <div class="modal fade" tabindex="-1" id="confirmUpdate{{ $item->id }}" data-bs-backdrop="static" data-bs-keyboard="false">
-                                        <form action="{{ route('v-pusat.storeGData', $answerDoc->id)}}" method="POST">
+                                        <form action="{{ route('v-pusat.storeNarasi', $answerDoc->id)}}" method="POST">
                                             @csrf
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -109,13 +109,13 @@
                                                     <div class="modal-body text-start">
                                                         <p><strong>{{$item->name}}</strong></p>
                                                         <div class="form-check mb-3">
-                                                            <input class="form-check-input" type="radio" name="is_pusat" id="optionAda" value="1" {{ isset($answerDoc) && $answerDoc->is_pusat == 1 ? 'checked' : '' }} required>
-                                                            <label class="form-check-label" for="optionAda">Sesuai</label>
+                                                            <input class="form-check-input" type="radio" name="is_pusat" id="optionAda{{$answerDoc->id}}" value="1" {{ isset($answerDoc) && $answerDoc->is_pusat == 1 ? 'checked' : '' }} required>
+                                                            <label class="form-check-label" for="optionAda{{$answerDoc->id}}">Sesuai</label>
                                                         </div>
                                                 
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="is_pusat" id="optionTidakAda" value="2" {{ isset($answerDoc) && $answerDoc->is_pusat == 2 ? 'checked' : '' }} required>
-                                                            <label class="form-check-label" for="optionTidakAda">Tidak Sesuai</label>
+                                                            <input class="form-check-input" type="radio" name="is_pusat" id="optionTidakAda{{$answerDoc->id}}" value="2" {{ isset($answerDoc) && $answerDoc->is_pusat == 2 ? 'checked' : '' }} required>
+                                                            <label class="form-check-label" for="optionTidakAda{{$answerDoc->id}}">Tidak Sesuai</label>
                                                         </div>
                                                         <div class="row mb-3 mt-3">
                                                             <div class="col-12">
