@@ -517,7 +517,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
                 $relatedAnswer->update([
                     'is_prov' => $request->is_prov,
                     'comment_prov' => $request->comment_prov,
-                    'updated_by_pusat' => $user->id
+                    'updated_by_prov' => $user->id
                 ]);
                 return redirect()->back()->with('success', 'Berhasil memverifikasi pendanaan kabkota');
 

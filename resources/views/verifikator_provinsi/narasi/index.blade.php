@@ -121,7 +121,7 @@
                                                             <div class="col-12">
                                                                 <div class="form-group w-100">
                                                                     <label for="name" class="form-label bold">Komentar</label>
-                                                                    @if (!empty($answerDoc->comment_pusat))
+                                                                    @if (!empty($answerDoc->comment_prov))
                                                                         <textarea name="comment_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Komentar" required>{{$answerDoc->comment_prov}}</textarea>
                                                                     @else
                                                                         <textarea name="comment_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Komentar" required></textarea>
