@@ -75,7 +75,7 @@ class General_Data_KabKota_Controller extends Controller
             return redirect()->route('g-data.indexKabKota')->with('success', 'Berhasil mengubah data umum');
         }
         catch(\Exception $e){
-            return redirect()->back('g-data.createKabKota')->with('error', 'Gagal memperbaiki data umum. Silahkan coba lagi');
+            // return redirect()->back('g-data.createKabKota')->with('error', 'Gagal memperbaiki data umum. Silahkan coba lagi');
 
         }   
     }
@@ -117,7 +117,7 @@ class General_Data_KabKota_Controller extends Controller
             return redirect()->route('g-data.indexKabKota')->with('success', 'Berhasil mengubah data umum');
         }
         catch(\Exception $e){
-            return redirect()->back('g-data.editKabKota', $id)->with('error', 'Gagal memperbaiki data umum. Silahkan coba lagi');
+            // return redirect()->back('g-data.editKabKota', $id)->with('error', 'Gagal memperbaiki data umum. Silahkan coba lagi');
 
         }   
     }

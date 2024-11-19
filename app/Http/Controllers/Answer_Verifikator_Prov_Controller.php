@@ -109,8 +109,12 @@ class Answer_Verifikator_Prov_Controller extends Controller
                     'comment_prov' => $request->comment_prov,
                     'updated_by_prov' => $user->id
                 ]);
+
+                return redirect()->back()->with('success', 'Berhasil memverifikasi pertanyaan');
             }
-            return redirect()->back()->with('success', 'Berhasil memverifikasi pertanyaan');
+            else{
+                return redirect()->back()->with('error', 'Data belum diinputkan kab/kota');
+            }
 
         } catch (\Throwable $th) {
             //throw $th;
