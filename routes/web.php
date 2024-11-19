@@ -387,6 +387,31 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/v-prov/kabkota/{id}/general-data', [Answer_Verifikator_Prov_Controller::class, 'indexGData'])->name('v-prov.indexGData');
             Route::post('/v-prov/kabkota/{id_zona}/store-gdata/{id}',[Answer_Verifikator_Prov_Controller::class, 'storeGdata'])->name('v-prov.storeGdata');
             
+            //gambaran umum
+            Route::get('/v-prov/kabkota/{id}/general-data', [Answer_Verifikator_Prov_Controller::class, 'indexGData'])->name('v-prov.indexGData');
+            Route::post('/v-prov/kabkota/store-gdata/{id}',[Answer_Verifikator_Prov_Controller::class, 'storeGData'])->name('v-prov.storeGData');
+
+
+            //pendanaan
+            Route::get('/v-prov/kabkota/{id}/pendanaan', [Answer_Verifikator_Prov_Controller::class, 'indexPendanaan'])->name('v-prov.indexPendanaan');
+            Route::post('/v-prov/kabkota/pendanaan/{id}',[Answer_Verifikator_Prov_Controller::class, 'storePendanaan'])->name('v-prov.storePendanaan');
+
+            //narasi tatanan
+            Route::get('/v-prov/kabkota/{id}/narasi-tatanan', [Answer_Verifikator_Prov_Controller::class, 'indexNarasi'])->name('v-prov.indexNarasi');
+            Route::post('/v-prov/kabkota/narasi-tatanan/{id}',[Answer_Verifikator_Prov_Controller::class, 'storeNarasi'])->name('v-prov.storeNarasi');
+
+            //activity
+            Route::post('/v-prov/kabkota/store-activity/{id}',[Answer_Verifikator_Prov_Controller::class, 'storeActivity'])->name('v-prov.storeActivity');
+
+            //sk kec
+            Route::post('/v-prov/kabkota/store-skkec/{id}',[Answer_Verifikator_Prov_Controller::class, 'storeSKKec'])->name('v-prov.storeSKKec');
+
+            //pokja
+            Route::get('/v-prov/pokja-desa/{id_c_kelembagaan}/{id_subdistrict}', [Answer_Verifikator_Prov_Controller::class, 'showPokjaDesa'])->name('v-prov.showPokjaDesa');
+            Route::post('/v-prov/kabkota/store-skpokja/{id}',[Answer_Verifikator_Prov_Controller::class, 'storeSKPokja'])->name('v-prov.storeSKPokja');
+
+            // Route::get('/v-prov/kabkota/{id}/general-data', [Answer_Verifikator_Prov_Controller::class, 'indexGData'])->name('v-prov.indexGData');
+
         });
 
         Route::group(['middleware' => ['v_pusat']], function (){
@@ -417,7 +442,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/v-pusat/kabkota/store-skkec/{id}',[Answer_Verifikator_Pusat_Controller::class, 'storeSKKec'])->name('v-pusat.storeSKKec');
 
 
-            //doc umum
+            //gambaran umum
             Route::get('/v-pusat/kabkota/{id}/general-data', [Answer_Verifikator_Pusat_Controller::class, 'indexGData'])->name('v-pusat.indexGData');
             Route::post('/v-pusat/kabkota/store-gdata/{id}',[Answer_Verifikator_Pusat_Controller::class, 'storeGData'])->name('v-pusat.storeGData');
 

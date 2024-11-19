@@ -3,30 +3,25 @@
     {{$zona->name}}
 @endsection
 @section('page')
-    Dokumen Gambaran Umum KabKota
+    Dokumen Pendanaan KabKota
 @endsection
 
 
 @section('content')
-
+   
     <div class="card mb-5 mb-xl-10">
         <div class="card-header justify-content-between">
             <div class="card-title">
-                <h3>Daftar Dokumen Gambaran Umum</h3>
+                <h3>Daftar Dokumen Pendanaan</h3>
             </div>
         </div>
         <div class="card-body">
-            <a href="{{ route('v-prov.indexKelembagaan', $zona->id)}}">
-                <button type="button" class="btn btn-primary btn-outline btn-outline-primary btn-sm">
-                    <i class="nav-icon fas fa-arrow-left"></i>Kembali
-                </button>
-            </a>
             <div class="table-responsive mt-3">
                 <table id="tableSKPD" class="table table-striped table-row-bordered gy-5 gs-7 border rounded" style="width:100%">
                     <thead>
                         <tr class="fw-semibold fs-6 text-muted text-center ">
                             <th class="w-60px text-center border-1 border align-middle p-3" rowspan="2">No.</th>
-                            <th class="w-150px text-center border-1 border align-middle p-3" rowspan="2">Nama Dokumen </th>
+                            <th class="w-200px text-center border-1 border align-middle p-3" rowspan="2">Nama Dokumen </th>
                             <th class="w-100px text-center border-1 border align-middle p-3" rowspan="2">Bukti</th>
                             <th class="w-150px text-center border-1 border align-middle p-3" colspan="2">Assesment Provinsi</th>
                             <th class="w-150px text-center border-1 border align-middle p-3" colspan="2">Assesment Pusat</th>
@@ -39,19 +34,18 @@
                             <th class="text-center border-1 border align-middle p-3">Status</th>
                             <th class="text-center border-1 border align-middle p-3 w-50px">Keterangan</th>
                         </tr>
-                        
                     </thead>
-                    <tbody>
+                   <tbody>
                         @foreach ($category as $item)
                         <tr>
                             <td class="border-1 border text-center p-3">{{$loop->iteration}}</td>
                             <td class="border-1 border p-3">{{ $item->name }}</td>
                             @php
-                                $answerDoc = $doc->where('id_gambaran_kabkota', $item->id)->first();
+                                $answerDoc = $doc->where('id_pendanaan_kabkota', $item->id)->first();
                             @endphp
                             @if ($answerDoc)
                                 <td class="border-1 border p-3 text-center">
-                                    <a href="{{ asset('uploads/doc_g_umum_kabkota/'.$answerDoc->path) }}" target="_blank" class="btn btn-icon btn-success w-35px h-35px mb-sm-0 mb-3">
+                                    <a href="{{ asset('uploads/doc_pendanaan/'.$answerDoc->path) }}" target="_blank" class="btn btn-icon btn-success w-35px h-35px mb-sm-0 mb-3">
                                         <div class="d-flex justify-content-center">
                                             <i class="fa-solid fa-eye"></i>
                                         </div>
@@ -103,31 +97,31 @@
                                         </div>
                                     </button>
                                     <div class="modal fade" tabindex="-1" id="confirmUpdate{{ $item->id }}" data-bs-backdrop="static" data-bs-keyboard="false">
-                                        <form action="{{ route('v-prov.storeGData', $answerDoc->id)}}" method="POST">
+                                        <form action="{{ route('v-prov.storePendanaan', $answerDoc->id)}}" method="POST">
                                             @csrf
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h3 class="modal-title">
-                                                            Verifikasi Gambaran Umum
+                                                            Verifikasi Pendanaan
                                                         </h3>
                                                     </div>
                                                     <div class="modal-body text-start">
                                                         <p><strong>{{$item->name}}</strong></p>
                                                         <div class="form-check mb-3">
-                                                            <input class="form-check-input" type="radio" name="is_prov" id="optionAda" value="1" {{ isset($answerDoc) && $answerDoc->is_prov == 1 ? 'checked' : '' }} required>
-                                                            <label class="form-check-label" for="optionAda">Sesuai</label>
+                                                            <input class="form-check-input" type="radio" name="is_prov" id="optionAda{{$answerDoc->id}}" value="1" {{ isset($answerDoc) && $answerDoc->is_prov == 1 ? 'checked' : '' }} required>
+                                                            <label class="form-check-label" for="optionAda{{$answerDoc->id}}">Sesuai</label>
                                                         </div>
                                                 
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="is_prov" id="optionTidakAda" value="2" {{ isset($answerDoc) && $answerDoc->is_prov == 2 ? 'checked' : '' }} required>
-                                                            <label class="form-check-label" for="optionTidakAda">Tidak Sesuai</label>
+                                                            <input class="form-check-input" type="radio" name="is_prov" id="optionTidakAda{{$answerDoc->id}}" value="2" {{ isset($answerDoc) && $answerDoc->is_prov == 2 ? 'checked' : '' }} required>
+                                                            <label class="form-check-label" for="optionTidakAda{{$answerDoc->id}}">Tidak Sesuai</label>
                                                         </div>
                                                         <div class="row mb-3 mt-3">
                                                             <div class="col-12">
                                                                 <div class="form-group w-100">
                                                                     <label for="name" class="form-label bold">Komentar</label>
-                                                                    @if (!empty($answerDoc->comment_pusat))
+                                                                    @if (!empty($answerDoc->comment_prov))
                                                                         <textarea name="comment_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Komentar" required>{{$answerDoc->comment_prov}}</textarea>
                                                                     @else
                                                                         <textarea name="comment_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Komentar" required></textarea>
@@ -172,6 +166,8 @@
                                     <div class="badge badge-light-danger">-</div>
                                 </td>
                             @endif
+
+                            
                         </tr>
                         @endforeach
                    </tbody>

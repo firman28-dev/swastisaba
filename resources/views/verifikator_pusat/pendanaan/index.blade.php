@@ -103,7 +103,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h3 class="modal-title">
-                                                            Verifikasi Dokumen Umum
+                                                            Verifikasi Pendanaan
                                                         </h3>
                                                     </div>
                                                     <div class="modal-body text-start">
