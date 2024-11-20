@@ -256,7 +256,7 @@ class Answer_KabKota_Controller extends Controller
            ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
        
         
-        return $pdf->download($district->name. '_' . $category->name . '.pdf');
+        return $pdf->download("{$district->name} - {$category->name}.pdf");
     }
 
     public function exportAllCategory(){
@@ -299,7 +299,7 @@ class Answer_KabKota_Controller extends Controller
            ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
        
         
-        return $pdf->download('Tatanan '. $district->name. ' Tahun '. $trans_survey->trans_date .'.pdf');
+        return $pdf->download("Tatanan {$district->name} Tahun {$trans_survey->trans_date}.pdf");
         // return $questions;
     }
 
