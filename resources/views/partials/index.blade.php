@@ -99,7 +99,7 @@
 
 		<script>
 			let lastActivity = Date.now();
-			const inactivityLimit = 40 * 60 * 1000; // 10 menit
+			const inactivityLimit = 30 * 60 * 1000; // 10 menit
 
 			function checkInactivity() {
 				const currentTime = Date.now();
@@ -117,7 +117,8 @@
 					url: '/logout',
 					type: 'GET',
 					success: function(response) {
-						window.location.href = '/login'; 
+						window.location.reload();
+						// window.location.href = '/login'; 
 					},
 					error: function(xhr, status, error) {
 						console.error("Logout failed:", error);
