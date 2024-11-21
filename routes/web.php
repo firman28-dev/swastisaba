@@ -79,12 +79,12 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/', [Home_Controller::class, 'showYear'])->name('home.showYear');
     Route::post('/set-year', [Home_Controller::class, 'sessionYear'])->name('home.store');
+    Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
 
     Route::group(['middleware' => ['checkSelectedYear']], function () {
         // Route::get('/dashboard', [Home_Controller::class, 'index2'])->name('home.index');
         Route::get('/dashboard', [Home_Controller::class, 'index'])->name('home.index');
 
-        Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
 
         Route::get('/profile', [User_Controller::class, 'profile'])->name('user.profile');
         Route::get('/profile/update', [User_Controller::class, 'editProfile'])->name('user.editProfile');

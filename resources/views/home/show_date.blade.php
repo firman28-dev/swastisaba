@@ -52,27 +52,65 @@
 		<script src="{{asset('assets/plugins/custom/datatables/datatables.bundle.js')}}"></script>
         <script>
             
-        function sendSurvey(surveyId) {
-            var idSurvey = $('#id_survey_' + surveyId).val();
+            function sendSurvey(surveyId) {
+                var idSurvey = $('#id_survey_' + surveyId).val();
 
-            $.ajax({
-                url: '/set-year',  // Replace with your Laravel route
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',  // CSRF token for security
-                    id_survey: idSurvey
-                },
-                success: function(response) {
-                    console.log(response);
-                    window.location.href = '/dashboard';
-                    // Handle success (display a message or redirect, etc.)
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                    // Handle error (show an error message, etc.)
-                }
-            });
-        }
+                $.ajax({
+                    url: '/set-year',  // Replace with your Laravel route
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',  // CSRF token for security
+                        id_survey: idSurvey
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        window.location.href = '/dashboard';
+                        // Handle success (display a message or redirect, etc.)
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                        // Handle error (show an error message, etc.)
+                    }
+                });
+            }
+
+            let lastActivity = Date.now();
+			const inactivityLimit = 30 * 60 * 1000; // 10 menit
+
+			function checkInactivity() {
+				const currentTime = Date.now();
+				const inactiveTime = currentTime - lastActivity;
+
+				if (inactiveTime > inactivityLimit) {
+					logout();
+				}
+			}
+
+			function logout() {
+				console.log("User  has been logged out due to inactivity.");
+
+				$.ajax({
+					url: '/logout',
+					type: 'GET',
+					success: function(response) {
+						window.location.reload();
+					},
+					error: function(xhr, status, error) {
+						console.error("Logout failed:", error);
+					}
+				});
+			}
+			document.addEventListener('mousemove', resetTimer);
+			document.addEventListener('keypress', resetTimer);
+
+			function resetTimer() {
+				lastActivity = Date.now();
+			}
+
+			// Memeriksa aktivitas setiap menit
+			setInterval(checkInactivity, 60 * 1000);
+			// console.log(lastActivity);
+			
         </script>
 	</body>
 </html>

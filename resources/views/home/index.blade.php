@@ -143,28 +143,6 @@
         </div>
     </div>
 
-    {{-- <div class="card rounded rounded-4">
-        <div class="card-body">
-            <div class="overflow-x-auto w-100">
-                <canvas id="kt_chartjs_2"></canvas>
-            </div>
-        </div>
-    </div> --}}
-
-    {{-- @foreach ($categoryV2 as $category)
-        <div class="card rounded rounded-4 mb-5">
-            <div class="card-header">
-                <div class="card-title">
-                    Total Jawaban {{$category->name}}
-                </div>
-            </div>
-            <div class="card-body">
-                <div class="overflow-x-auto w-100">
-                    <canvas id="chart_{{ $category->id }}" width="400" height="200"></canvas>
-                </div>
-            </div>
-        </div>
-    @endforeach --}}
     @elseif($userprofile->id_group === 6)
     
     <div class="card card-bordered mb-5">
