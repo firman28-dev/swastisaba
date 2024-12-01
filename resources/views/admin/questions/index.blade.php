@@ -20,6 +20,7 @@
                     <thead>
                         <tr class="fw-semibold fs-6 text-muted">
                             <th class="w-60px border-1 border text-center">No.</th>
+                            <th class="w-60px border-1 border text-center">ID</th>
                             <th class="border-1 border">Nama Tatanan</th>
                             <th class="border-1 border">#</th>
                         </tr>
@@ -28,7 +29,7 @@
                         @foreach ($category as $data)
                             <tr>
                                 <td class="border-1 border text-center">{{ $loop->iteration }}</td>
-                               
+                                <td class="border-1 border text-center">{{ $data->id }}</td>
                                 <td class="text-capitalize border-1 border">{{ $data->name }}</td>
                                 <td class="border-1 border">
                                     <a href="{{route('showQuestionV1',$data->id)}}" class="btn btn-outline btn-outline-success btn-sm">

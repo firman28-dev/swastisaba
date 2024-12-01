@@ -168,7 +168,7 @@
                         <div class="form-group">
                             <label for="id_category" class="form-label">Alamat Kantor Walikota/Bupati</label>
                                 {{-- value="{{$generalData->nama_ketua_forum}}" --}}
-                            <textarea name="alamat_kantor"id="id_category" class="form-control form-control-solid rounded rounded-4" rows="2" >{{$generalData->alamat_kantor}}</textarea>
+                            <textarea name="alamat_kantor"  class="form-control form-control-solid rounded rounded-4" rows="2" >{{$generalData->alamat_kantor}}</textarea>
                             @error('alamat_kantor')
                                 <div class="is-invalid">
                                     <span class="text-danger">

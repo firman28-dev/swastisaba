@@ -37,6 +37,7 @@ use App\Http\Controllers\Setting_Time_Controller;
 use App\Http\Controllers\Sub_Doc_Provinsi_Controller;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\Trans_Doc_Prov_Controller;
+use App\Http\Controllers\Trans_ODF_KabKota_Controller;
 use App\Http\Controllers\Trans_Survey_H_Controller;
 use App\Http\Controllers\User_Controller;
 use Illuminate\Support\Facades\Route;
@@ -105,6 +106,11 @@ Route::group(['middleware' => ['auth']], function () {
         });
 
         Route::group(['middleware' => ['superadmin']], function () {
+
+            //tatanan
+            Route::get('/category/duplicate', [M_Category_Controller::class, 'copyCategoriesToNewYear'])->name('category.copyCategoriesToNewYear');
+            Route::get('/category/deleteAll', [M_Category_Controller::class, 'deleteAll'])->name('category.deleteAll');
+            Route::get('/category/forceDeleteAll', [M_Category_Controller::class, 'forceDeleteAll'])->name('category.forceDeleteAll');
 
             Route::get('/category/trashed', [M_Category_Controller::class, 'onlyTrashed'])->name('category.onlyTrashed');
             Route::get('/category/restore/{id}', [M_Category_Controller::class, 'restore'])->name('category.restore');
@@ -362,6 +368,12 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/export-tatanan-pdf/{id}', [Answer_KabKota_Controller::class,'exportPDF'])->name('answer.exportPDF');
             Route::get('/export-all-tatanan-pdf', [Answer_KabKota_Controller::class,'exportAllCategory'])->name('answer.exportAllCategory');
 
+            //odf
+            Route::get('/kabkota/odf', [Trans_ODF_KabKota_Controller::class,'index'])->name('odf.index');
+            Route::get('/kabkota/create-odf', [Trans_ODF_KabKota_Controller::class,'create'])->name('odf.createKabKota');
+            Route::post('/kabkota/odf/store', [Trans_ODF_KabKota_Controller::class,'store'])->name('odf.storeKabKota');
+            Route::get('/kabkota/odf/edit/{id}', [Trans_ODF_KabKota_Controller::class,'edit'])->name('odf.editKabKota');
+            Route::put('/kabkota/odf/update/{id}', [Trans_ODF_KabKota_Controller::class,'update'])->name('odf.updateKabKota');
 
         });
 

@@ -465,7 +465,7 @@
                                                                             <td class="border border-1">
                                                                                 @if (!$uploadedFile)
                                                                                     <!-- No file uploaded: Show input field -->
-                                                                                    <input type="file" name="file_{{$opsi->id}}" class="form-control">
+                                                                                    <input type="file" name="file_{{$opsi->id}}" class="form-control" accept=".pdf">
                                                                                 @else
                                                                                     <a href="{{ asset('uploads/doc_pendukung/'.$uploadedFile->file_path) }}" target="_blank" class="btn btn-success btn-sm ">
                                                                                         <div class="d-flex justify-content-center">
@@ -507,7 +507,7 @@
                                                                             </td>
                                                                             <td class="border border-1">
                                                                                 @if (!$uploadedFile)
-                                                                                    <input type="file" name="file_{{$opsi->id}}" class="form-control">
+                                                                                    <input type="file" name="file_{{$opsi->id}}" class="form-control" accept=".pdf">
                                                                                 @else
                                                                                     <a href="{{ url('path_to_uploaded_file/' . $uploadedFile->filename) }}" target="_blank" class="btn btn-sm btn-icon btn-primary">
                                                                                         <i class="fas fa-eye"></i> View
@@ -792,5 +792,26 @@
         // Panggil fungsi sekali untuk menampilkan waktu saat halaman dimuat
         updateTime();
         
+    </script>
+
+    <script>
+        document.querySelector('input[type="file"]').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const maxSize = 2 * 1024 * 1024; // 2 MB
+
+            if (file && file.type !== 'application/pdf') {
+                alert('File harus berformat PDF.');
+                e.target.value = ''; // Reset input
+            } else if (file && file.size > maxSize) {
+                // alert('Ukuran file tidak boleh lebih dari 2 MB.');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Ukuran file terlalu besar',
+                    text: 'Ukuran maksimal file adalah 2 MB.',
+                    confirmButtonText: 'Oke',
+                });
+                e.target.value = ''; // Reset input
+            }
+        });
     </script>
 @endsection

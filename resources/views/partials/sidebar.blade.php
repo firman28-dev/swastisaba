@@ -680,6 +680,8 @@
                         </div>
                     </div> --}}
 
+
+
                     <div class="menu-item menu-accordion {{ Route::is('v-prov.indexGData') || Route::is('v-prov.indexGData') ? 'show' : '' }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
@@ -831,7 +833,15 @@
                             <span class="menu-title">Gambaran Umum</span>
                         </a>
                     </div>
-
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::is('odf.index') || Route::is('odf.createKabKota') || Route::is('odf.editKabKota')   ? 'active' : '' }}" href="{{route('odf.index')}}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-file-lines fs-3"></i>
+                                {{-- <i class="fa-solid fa-house fs-3"></i> --}}
+                            </span>
+                            <span class="menu-title">Persentase ODF</span>
+                        </a>
+                    </div>
                     <div class="menu-item menu-accordion {{
                             request()->routeIs('kelembagaan.*') ||
                             Route::is('kelembagaan-v2.show') ||

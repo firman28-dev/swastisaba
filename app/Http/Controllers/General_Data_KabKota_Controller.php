@@ -24,7 +24,7 @@ class General_Data_KabKota_Controller extends Controller
         $user = Auth::user();
         $idZona = $user->id_zona;
 
-        $name_zona = M_Zona::where('id', $idZona)->first();
+        $name_zona = M_District::where('id', $idZona)->first();
         $g_data = M_General_Data::find($id);
         $sent = [
             'idZona' => $idZona,
@@ -58,6 +58,15 @@ class General_Data_KabKota_Controller extends Controller
             'nama_forum' => 'required',
             'nama_ketua_forum' => 'required',
             'alamat_kantor_forum' => 'required'
+        ],[
+            'provinsi.required' => 'Field Wajib diisi',
+            'id_zona.required' => 'Field Wajib diisi',
+            'nama_wako_bup.required' => 'Field Wajib diisi',
+            'nama_pembina.required' => 'Field Wajib diisi',
+            'nama_forum.required' => 'Field Wajib diisi',
+            'nama_ketua_forum.required' => 'Field Wajib diisi',
+            'alamat_kantor_forum.required' => 'Field Wajib diisi',
+            'alamat_kantor.required' => 'Field Wajib diisi',
         ]);
 
         try{
@@ -99,7 +108,6 @@ class General_Data_KabKota_Controller extends Controller
             'nama_ketua_forum.required' => 'Field Wajib diisi',
             'alamat_kantor_forum.required' => 'Field Wajib diisi',
             'alamat_kantor.required' => 'Field Wajib diisi',
-
         ]);
 
         try{
@@ -118,7 +126,6 @@ class General_Data_KabKota_Controller extends Controller
         }
         catch(\Exception $e){
             // return redirect()->back('g-data.editKabKota', $id)->with('error', 'Gagal memperbaiki data umum. Silahkan coba lagi');
-
         }   
     }
 }

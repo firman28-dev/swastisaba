@@ -10,7 +10,7 @@
         <form action="{{route('kelembagaan-v2.storeForumKec', $category->id)}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="card-header">
-                <h3 class="card-title">Input Forum Kecamatan</h3>
+                <h3 class="card-title">Input SK Forum Kecamatan</h3>
             </div>
 
             <div class="card-body">
@@ -128,7 +128,7 @@
                     <div class="col-lg-6 mb-4">
                         <div class="form-group w-100">
                             <label for="path_budget" class="form-label">Dokumen Anggaran Forum Kec<span class="text-danger"> * pdf | Max 2MB</span> </label>
-                            <input type="file" class="form-control form-control-solid" name="path_budget" id="path_budget">
+                            <input type="file" class="form-control form-control-solid" name="path_budget" id="path_budget" accept=".pdf">
                             @error('path_budget')
                                 <div class="is-invalid">
                                     <span class="text-danger">
@@ -144,7 +144,7 @@
                     <div class="col-lg-6 mb-4">
                         <div class="form-group w-100">
                             <label for="path_sk_f" class="form-label">Dokumen SK Forum Kec<span class="text-danger"> * pdf | Max 2MB</span> </label>
-                            <input type="file" class="form-control form-control-solid" name="path_sk_f" id="path_sk_f">
+                            <input type="file" class="form-control form-control-solid" name="path_sk_f" id="path_sk_f" accept=".pdf">
                             @error('path_sk_f')
                                 <div class="is-invalid">
                                     <span class="text-danger">
@@ -158,7 +158,7 @@
                     <div class="col-lg-6 mb-4">
                         <div class="form-group w-100">
                             <label for="path_plan_f" class="form-label">Dokumen Renja Forum Kec<span class="text-danger"> * pdf | Max 2MB</span> </label>
-                            <input type="file" class="form-control form-control-solid" name="path_plan_f" id="path_plan_f">
+                            <input type="file" class="form-control form-control-solid" name="path_plan_f" id="path_plan_f" accept=".pdf">
                             @error('path_plan_f')
                                 <div class="is-invalid">
                                     <span class="text-danger">
@@ -172,7 +172,7 @@
                     <div class="col-lg-6 mb-4">
                         <div class="form-group w-100">
                             <label for="path_s" class="form-label">Foto Sekretariat Forum Kec<span class="text-danger"> * pdf | Max 2MB</span> </label>
-                            <input type="file" class="form-control form-control-solid" name="path_s" id="path_s">
+                            <input type="file" class="form-control form-control-solid" name="path_s" id="path_s" accept=".pdf">
                             @error('path_s')
                                 <div class="is-invalid">
                                     <span class="text-danger">
@@ -193,6 +193,7 @@
                                 placeholder="Masukkan Alamat Sekretariat Forum Kecamatan"
                                 oninvalid="this.setCustomValidity('Alamat Sekretariat Forum tidak boleh kosong.')"
                                 oninput="this.setCustomValidity('')"
+                                required
                             ></textarea>
                             @error('s_address')
                                 <div class="is-invalid">
@@ -229,5 +230,30 @@
             const rupiah = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
             input.value = rupiah;
         }
+
+        document.addEventListener('change', function (e) {
+            if (e.target && e.target.type === 'file') {
+                const file = e.target.files[0];
+                const maxSize = 2 * 1024 * 1024; // 2 MB
+
+                if (file && file.type !== 'application/pdf') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'File tidak valid',
+                        text: 'Hanya file PDF yang diizinkan!',
+                        confirmButtonText: 'Oke',
+                    });
+                    e.target.value = ''; // Reset input
+                } else if (file && file.size > maxSize) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Ukuran file terlalu besar',
+                        text: 'Ukuran maksimal file adalah 2 MB.',
+                        confirmButtonText: 'Oke',
+                    });
+                    e.target.value = ''; // Reset input
+                }
+            }
+        });
     </script>
 @endsection

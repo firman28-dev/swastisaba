@@ -16,6 +16,15 @@
                 </h3>
                 
             </div>
+            {{-- <div class="card-toolbar gap-3">
+                <a href="{{route('category.copyCategoriesToNewYear')}}" class="btn btn-sm btn-primary">
+                    Duplikasi
+                </a>
+
+                <a href="{{route('category.deleteAll')}}" class="btn btn-sm btn-danger">
+                    Hapus
+                </a>
+            </div> --}}
         </div>
         <div class="card-body">
             <a href="{{route('category.create')}}">

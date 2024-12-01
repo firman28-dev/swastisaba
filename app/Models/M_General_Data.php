@@ -24,7 +24,7 @@ class M_General_Data extends Model
 
     public function _zona()
     {
-        return $this->belongsTo(M_Zona::class, 'id_zona', 'id');
+        return $this->belongsTo(M_District::class, 'id_zona', 'id');
     }
 
     protected $table = 'm_general_data';

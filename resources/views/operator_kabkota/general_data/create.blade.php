@@ -33,7 +33,7 @@
                             @error('provinsi')
                                 <div class="is-invalid">
                                     <span class="text-danger">
-                                        Provinsi tidak boleh kosong
+                                        {{$message}}
                                     </span>
                                 </div>
                             @enderror
@@ -57,7 +57,7 @@
                             @error('id_zona')
                                 <div class="is-invalid">
                                     <span class="text-danger">
-                                        Kategori tidak boleh kosong
+                                        {{$message}}
                                     </span>
                                 </div>
                             @enderror
@@ -79,7 +79,7 @@
                             @error('nama_wako_bup')
                                 <div class="is-invalid">
                                     <span class="text-danger">
-                                        Walikota/Bupati tidak boleh kosong
+                                        {{$message}}
                                     </span>
                                 </div>
                             @enderror
@@ -101,7 +101,7 @@
                             @error('nama_pembina')
                                 <div class="is-invalid">
                                     <span class="text-danger">
-                                        Nama Pembina tidak boleh kosong
+                                        {{$message}}
                                     </span>
                                 </div>
                             @enderror
@@ -123,7 +123,7 @@
                             @error('nama_forum')
                                 <div class="is-invalid">
                                     <span class="text-danger">
-                                        Nama Forum tidak boleh kosong
+                                        {{$message}}
                                     </span>
                                 </div>
                             @enderror
@@ -145,7 +145,7 @@
                             @error('nama_ketua_forum')
                                 <div class="is-invalid">
                                     <span class="text-danger">
-                                        Nama Ketua Forum tidak boleh kosong
+                                        {{$message}}
                                     </span>
                                 </div>
                             @enderror
@@ -155,11 +155,19 @@
                     <div class="col-lg-6 mb-4">
                         <div class="form-group">
                             <label for="alamat_kantor" class="form-label">Alamat Kantor Walikota/Bupati</label>
-                            <textarea id="alamat_kantor" name="alamat_kantor" class="form-control form-control-solid rounded rounded-4" rows="2" placeholder="Alamat Kantor Walikota/Bupati"></textarea>
+                            <textarea 
+                                id="alamat_kantor" 
+                                name="alamat_kantor" 
+                                class="form-control form-control-solid rounded rounded-4" 
+                                rows="2" placeholder="Alamat Kantor Walikota/Bupati" 
+                                required
+                                oninvalid="this.setCustomValidity('Alamat Kantor Walikota/Bupati tidak boleh kosong.')"
+                                oninput="this.setCustomValidity('')"
+                            ></textarea>
                             @error('alamat_kantor')
                                 <div class="is-invalid">
                                     <span class="text-danger">
-                                        Alamat kantor tidak boleh kosong
+                                       {{$message}}
                                     </span>
                                 </div>
                             @enderror
@@ -169,11 +177,19 @@
                     <div class="col-lg-6 mb-4">
                         <div class="form-group">
                             <label for="alamat_kantor_forum" class="form-label">Alamat Kantor Forum</label>
-                            <textarea id="alamat_kantor_forum" name="alamat_kantor_forum" class="form-control form-control-solid rounded rounded-4" rows="2" placeholder="Alamat Forum"></textarea>
+                            <textarea 
+                                id="alamat_kantor_forum" 
+                                name="alamat_kantor_forum" 
+                                class="form-control form-control-solid rounded rounded-4" 
+                                rows="2" placeholder="Alamat Forum" 
+                                required
+                                oninvalid="this.setCustomValidity('Nama Ketua Tim Pembina tidak boleh kosong.')"
+                                oninput="this.setCustomValidity('')"
+                            ></textarea>
                             @error('alamat_kantor_forum')
                                 <div class="is-invalid">
                                     <span class="text-danger">
-                                        Alamat kantor forum tidak boleh kosong
+                                       {{$message}}
                                     </span>
                                 </div>
                             @enderror

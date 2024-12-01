@@ -117,39 +117,39 @@
                                     </button>
                                     <!-- Modal -->
                                     <div class="modal fade text-start" tabindex="-1" id="createModal{{$data->id}}" data-bs-backdrop="static" data-bs-keyboard="false">>
-                                            <form action="{{route('narasi-tatanan.store', $data->id)}}" method="POST" enctype="multipart/form-data">
-                                                @csrf
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h3 class="modal-title">
-                                                                Input Dokumen Narasi Tatanan
-                                                            </h3>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <input name="id_survey" value="{{session('selected_year')}}" hidden>
-                                                            <div class="col-lg-12">
-                                                                <div class="form-group w-100">
-                                                                    <label for="path" class="form-label">Dokumen</label>
-                                                                    <p class="text-danger">Dokumen berbentuk Pdf dan maksimal 2 MB</p>
-                                                                    <input id="path" type="file" name="path" class="form-control form-control-solid rounded rounded-4" placeholder="File">
-                                                                    @error('path')
-                                                                        <div class="is-invalid">
-                                                                            <span class="text-danger">
-                                                                                {{$message}}
-                                                                            </span>
-                                                                        </div>
-                                                                    @enderror
-                                                                </div>
+                                        <form action="{{route('narasi-tatanan.store', $data->id)}}" method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h3 class="modal-title">
+                                                            Input Dokumen Narasi Tatanan
+                                                        </h3>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <input name="id_survey" value="{{session('selected_year')}}" hidden>
+                                                        <div class="col-lg-12">
+                                                            <div class="form-group w-100">
+                                                                <label for="path" class="form-label">Dokumen</label>
+                                                                <p class="text-danger">Dokumen berbentuk Pdf dan maksimal 2 MB</p>
+                                                                <input id="path" type="file" name="path" class="form-control form-control-solid rounded rounded-4" placeholder="File" accept=".pdf">
+                                                                @error('path')
+                                                                    <div class="is-invalid">
+                                                                        <span class="text-danger">
+                                                                            {{$message}}
+                                                                        </span>
+                                                                    </div>
+                                                                @enderror
                                                             </div>
                                                         </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary rounded-4" data-bs-dismiss="modal">Batal</button>
-                                                            <button type="submit" class="btn btn-primary rounded-4">SImpan</button>
-                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary rounded-4" data-bs-dismiss="modal">Batal</button>
+                                                        <button type="submit" class="btn btn-primary rounded-4">SImpan</button>
                                                     </div>
                                                 </div>
-                                            </form>
+                                            </div>
+                                        </form>
                                     
                                     
 
@@ -229,5 +229,26 @@
         updateTime();
 
         
+    </script>
+
+    <script>
+        document.querySelector('input[type="file"]').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const maxSize = 2 * 1024 * 1024; // 2 MB
+
+            if (file && file.type !== 'application/pdf') {
+                alert('File harus berformat PDF.');
+                e.target.value = ''; // Reset input
+            } else if (file && file.size > maxSize) {
+                // alert('Ukuran file tidak boleh lebih dari 2 MB.');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Ukuran file terlalu besar',
+                    text: 'Ukuran maksimal file adalah 2 MB.',
+                    confirmButtonText: 'Oke',
+                });
+                e.target.value = ''; // Reset input
+            }
+        });
     </script>
 @endsection

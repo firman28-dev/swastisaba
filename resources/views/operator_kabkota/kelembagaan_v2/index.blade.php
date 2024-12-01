@@ -185,11 +185,11 @@
                                                                                                     disabled 
                                                                                                 @endif
                                                                                             >
-                                                                                            <label class="form-check-label" for="name_option">{{ $opsi->name }}</label>
+                                                                                            <label class="form-check-label" for="name_option_{{$opsi->id}}">{{ $opsi->name }}</label>
                                                                                         </div>
                                                                                     </td>
                                                                                     <td class="border border-1">
-                                                                                        <label class="form-check-label" for="score">{{ $opsi->score }}</label>
+                                                                                        <label class="form-check-label">{{ $opsi->score }}</label>
                                                                                     </td>
                                                                                 </tr>
                                                                             @endif
@@ -218,7 +218,7 @@
 
                                                                                     </td>
                                                                                     <td class="border border-1">
-                                                                                        <label class="form-check-label" for="score_{{$opsi->id}}">{{ $opsi->score }}</label>
+                                                                                        <label class="form-check-label" >{{ $opsi->score }}</label>
                                                                                     </td>
                                                                                 </tr>
                                                                             @endif
@@ -247,9 +247,9 @@
                                                                         @endphp
                                                                         <td class="border border-1">
                                                                             @if (!$uploadedFile)
-                                                                                <input type="file" name="file_path" class="form-control">
+                                                                                <input type="file" name="file_path" class="form-control" accept=".pdf">
                                                                             @else
-                                                                                <a href="{{ asset('uploads/doc_kelembagaan/'.$uploadedFile->path) }}" target="_blank" class="btn btn-success btn-sm ">
+                                                                                <a href="{{ asset('/uploads/doc_kelembagaan/'.$uploadedFile->path) }}" target="_blank" class="btn btn-success btn-sm ">
                                                                                     <div class="d-flex justify-content-center">
                                                                                         Lihat
                                                                                     </div>
@@ -769,6 +769,7 @@
                                         class="form-control form-control-solid rounded rounded-4"
                                         placeholder="Masukkan Nama Kegiatan"
                                         name="name"
+                                        id="name"
                                         required
                                         oninvalid="this.setCustomValidity('Nama Kegiatan tidak boleh kosong.')"
                                         oninput="this.setCustomValidity('')"
@@ -805,7 +806,7 @@
                             </div>
                             <div class="col-lg-6 mb-4">
                                 <div class="form-group w-100">
-                                    <label for="number" class="form-label">Jumlah Peserta</label>
+                                    <label for="participant" class="form-label">Jumlah Peserta</label>
                                     <input type="number"
                                         id="participant"
                                         class="form-control form-control-solid rounded rounded-4"
@@ -868,7 +869,7 @@
                             <div class="col-lg-6 mb-4">
                                 <div class="form-group w-100">
                                     <label for="path" class="form-label">Bukti Kegiatan <span class="text-danger">*pdf | Max 2MB</span> </label>
-                                    <input type="file" class="form-control form-control-solid" name="path" id="path">
+                                    <input type="file" class="form-control form-control-solid" name="path" id="path" accept=".pdf">
                                     @error('path')
                                         <div class="is-invalid">
                                             <span class="text-danger">
@@ -883,7 +884,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal" onclick="location.reload()" >Batal</button>
                         &nbsp;
                         <button type="submit" class="btn btn-primary rounded-4 hover-scale">Simpan</button>
                     </div>
@@ -899,6 +900,32 @@
 @section('script')
     <script>
        
+        document.addEventListener('change', function (e) {
+            if (e.target && e.target.type === 'file') {
+                const file = e.target.files[0];
+                const maxSize = 2 * 1024 * 1024; // 2 MB
+
+                if (file && file.type !== 'application/pdf') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'File tidak valid',
+                        text: 'Hanya file PDF yang diizinkan!',
+                        confirmButtonText: 'Oke',
+                    });
+                    e.target.value = ''; // Reset input
+                } else if (file && file.size > maxSize) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Ukuran file terlalu besar',
+                        text: 'Ukuran maksimal file adalah 2 MB.',
+                        confirmButtonText: 'Oke',
+                    });
+                    e.target.value = ''; // Reset input
+                }
+            }
+        });
+
+
         $("#tableSKPD").DataTable({
             "language": {
                 "lengthMenu": "Show _MENU_",
@@ -1092,7 +1119,12 @@
         // Panggil fungsi sekali untuk menampilkan waktu saat halaman dimuat
         updateTime();
 
+        //max pdf
+       
+
         
         
     </script>
+
+    
 @endsection

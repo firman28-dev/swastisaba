@@ -20,7 +20,6 @@ class Trans_Narasi extends Model
         'is_pusat',
         'comment_prov',
         'comment_pusat',
-        'created_by',
         'updated_by_pusat',
         'updated_by_prov'
 

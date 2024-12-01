@@ -184,5 +184,70 @@ class M_Category_Controller extends Controller
         // }
     }
 
+    public function copyCategoriesToNewYear(){
 
+        $session_date = Session::get('selected_year');
+        $transSurvey = Trans_Survey::find($session_date);
+        if($transSurvey){
+            $year = $transSurvey->trans_date - 1;
+        }
+        $transSurveyV2 = Trans_Survey::where('trans_date', $year)->first();
+        // return $transSurveyV2;
+        if($transSurveyV2){
+            $categories = M_Category::where('id_survey', $transSurveyV2->id)->get();
+            foreach ($categories as $categoryNew) {
+                $exists = M_Category::where('id_survey', $session_date)
+                    ->where('name', $categoryNew->name) // Ganti dengan kolom unik
+                    ->exists();
+                
+                if(!$exists){
+                    $newCategory = $categoryNew->replicate();
+                    $newCategory->id_survey = $session_date ;
+                    $newCategory->save();
+                }
+                else{
+                    return redirect()->back()->with('error', 'Tatanan sudah ada');
+                }
+            }
+            return redirect()->back()->with('success', 'Berhasil duplikasi data tatanan tahun sebelumnya');
+
+            // return $categories;
+            // return response()->json(['success' => 'success'], 200);
+        }
+        else{
+            return redirect()->back()->withErrors(['error' => 'Tahun sebelumnya tidak terdaftar']);
+
+        }
+    }
+
+    public function deleteAll()
+    {
+        $session_date = Session::get('selected_year');
+        $categories = M_Category::where('id_survey', $session_date)->get();
+        if ($categories->isNotEmpty()) {
+            foreach ($categories as $category) {
+                $category->delete(); // Hapus setiap item
+            }
+        }
+        // return $category;
+
+    }
+
+    public function forceDeleteAll(){
+        $session_date = Session::get('selected_year');
+        // $questions = M_Category::withTrashed()->where('id_survey', $session_date)->get();
+        $questions = M_Category::withTrashed()->get();
+        if ($questions->isNotEmpty()) {
+            foreach ($questions as $question) {
+                $question->forceDelete(); // Hapus setiap item
+            }
+            return redirect()->back()->with('success', 'Berhasil menghapus secara permanen data tatanan beserta relasi-relasinya.');
+
+        }
+        else{
+            return redirect()->back()->with('success', 'Berhasil menghapus secara permanen data tatanan beserta relasi-relasinya.');
+        }
+        // return $questions;
+
+    }
 }

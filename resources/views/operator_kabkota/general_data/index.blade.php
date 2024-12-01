@@ -62,54 +62,7 @@ Data Umum
                     <span class="fw-semibold text-gray-800 fs-6 text-capitalize">{{$g_data->alamat_kantor_forum ?? 'Belum ada'}}</span>
                 </div>
             </div>
-            {{-- <div class="row mb-7">
-                <label class="col-lg-3 fw-semibold text-muted">Dokumen Surat Minat</label>
-                <div class="col-lg-9 fv-row">
-                    <span class="fw-semibold text-gray-800 fs-6 text-capitalize">{{$g_data->doc_surat_minat ?? 'Belum ada'}}</span>
-                </div>
-            </div>
-            <div class="row mb-7">
-                <label class="col-lg-3 fw-semibold text-muted">Dokumen ODF</label>
-                <div class="col-lg-9 fv-row">
-                    <span class="fw-semibold text-gray-800 fs-6 text-capitalize">{{$g_data->doc_odf ?? 'Belum ada'}}</span>
-                </div>
-            </div>
-            <div class="row mb-7">
-                <label class="col-lg-3 fw-semibold text-muted">Dokumen Akses Jamban</label>
-                <div class="col-lg-9 fv-row">
-                    <span class="fw-semibold text-gray-800 fs-6 text-capitalize">{{$g_data->doc_akses_jamban ?? 'Belum ada'}}</span>
-                </div>
-            </div> --}}
-
-            {{-- <div class="row mb-7">
-                <label class="col-lg-3 fw-semibold text-muted">Id</label>
-                <div class="col-lg-9 fv-row">
-                    <span class="fw-semibold text-gray-800 fs-6 text-capitalize" id="idUser"></span>
-                </div>
-            </div> --}}
+           
         </div>
     </div>
-@endsection
-
-@section('script')
-    <script>
-        $("#tableSKPD").DataTable({
-            responsive: true,
-            "language": {
-                "lengthMenu": "Show _MENU_",
-            },
-            "dom":
-                "<'row'" +
-                "<'col-sm-6 d-flex align-items-center justify-content-start'l>" +
-                "<'col-sm-6 d-flex align-items-center justify-content-end'f>" +
-                ">" +
-
-                "<'table-responsive'tr>" +
-
-                "<'row'" +
-                "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>" +
-                "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
-                ">"
-        });
-    </script>
 @endsection

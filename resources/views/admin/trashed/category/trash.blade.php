@@ -16,24 +16,28 @@
                 </h3>
                 
             </div>
+            <div class="card-toolbar gap-3">
+                <a href="{{route('category.forceDeleteAll')}}" class="btn btn-sm btn-danger">
+                    Hapus Semua
+                </a>
+            </div>
         </div>
         <div class="card-body">
-            <div class="table-responsive mt-3">
-                <table id="tableTrash" class="table table-striped" style="width:100%">
+            <div class="table-responsive">
+                <table id="tableTrash" class="table table-striped table-row-bordered border rounded" style="width:100%">
                     <thead>
                         <tr class="fw-semibold fs-6 text-muted">
-                            <th class="w-60px">No.</th>
-                            <th class="w-100px"></th>
-                            <th>Nama Tatanan</th>
-                            <th></th>
+                            <th class="w-60px text-center border border-1">No.</th>
+                            <th class="w-100px border border-1"></th>
+                            <th class="border border-1">Nama Tatanan</th>
 
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($trashedData as $data)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>
+                                <td class="text-center border border-1">{{ $loop->iteration }}</td>
+                                <td class="border border-1">
                                     <a href="{{ route('category.restore', $data->id) }}" class="btn btn-icon btn-primary w-35px h-35px mb-sm-0 mb-3">
                                         <div class="d-flex justify-content-center">
                                             <i class="fas fa-trash-restore"></i>
@@ -67,7 +71,7 @@
                                         </form>
                                     </div>
                                 </td>
-                                <td class="text-capitalize">{{ $data->name }}</td>
+                                <td class="border border-1">{{ $data->name }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -83,6 +87,7 @@
     <script>
         $("#tableTrash").DataTable({
             responsive: true,
+            "pageLength":100,
             "language": {
                 "lengthMenu": "Show _MENU_",
             },
