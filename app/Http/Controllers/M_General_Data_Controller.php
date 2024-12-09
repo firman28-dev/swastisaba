@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\M_District;
 use App\Models\M_General_Data;
 use App\Models\M_Zona;
 use Illuminate\Http\Request;
@@ -11,13 +12,17 @@ class M_General_Data_Controller extends Controller
     public function index()
     {
         $g_data = M_General_Data::all();
-        $zona = M_Zona::all();
+        // $zona = M_Zona::all();
+        $zona = M_District::where('province_id',13)->get();
+
         return view('admin.general_data.index', compact('zona'));
     }
 
     public function showGData($id)
     {
-        $zona = M_Zona::find($id);
+        // $zona = M_Zona::find($id);
+        $zona = M_District::find($id);
+
         $g_data = M_General_Data::select('m_general_data.*','m_zona.name as name_zona')
             ->leftJoin('m_zona', 'm_general_data.id_zona', '=', 'm_zona.id')
             ->where('m_general_data.id_zona',$id)
