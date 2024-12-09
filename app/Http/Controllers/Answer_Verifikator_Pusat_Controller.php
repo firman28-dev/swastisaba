@@ -322,11 +322,11 @@ class Answer_Verifikator_Pusat_Controller extends Controller
                     'comment_pusat' => $request->comment_pusat,
                     'is_pusat' => $request->is_pusat,
                 ]);
-                return redirect()->back()->with('success', 'Berhasil memverifikasi kelembagaan');
+                return redirect()->back()->with('success', 'Berhasil memverifikasi data');
 
             }
             else{
-                return redirect()->back()->with('error', 'Data belum diinputkan kabupaten kota');
+                return redirect()->back()->with('error', 'Data belum diinputkan provinsi');
             }
 
         } catch (\Throwable $th) {
