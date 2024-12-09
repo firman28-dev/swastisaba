@@ -9,10 +9,12 @@ use App\Models\M_SubDistrict;
 use App\Models\M_Village;
 use App\Models\Setting_Time;
 use App\Models\Trans_Doc_Kelembagaan;
+use App\Models\Trans_Forum_KabKota;
 use App\Models\Trans_Forum_Kec;
 use App\Models\Trans_Forum_Kel;
 use App\Models\Trans_Kegiatan;
 use App\Models\Trans_Kelembagaan_V2;
+use App\Models\Trans_Pembina_KabKota;
 use App\Models\Trans_Sekre_Kec;
 use Auth;
 use Illuminate\Http\Request;
@@ -59,6 +61,15 @@ class Answer_Kelembagaan_New_Controller extends Controller
             ->where('id_survey', $session_date)
             ->where('id_c_kelembagaan', $id)
             ->get();
+        
+        $pembina = Trans_Pembina_KabKota::where('id_survey', $session_date)
+            ->where('id_zona', $idZona)
+            ->first();
+
+        $forum_kabkota = Trans_Forum_KabKota::where('id_survey', $session_date)
+            ->where('id_zona', $idZona)
+            ->first();
+
 
        
         // return $forumKec;
@@ -73,7 +84,9 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'forumKec' => $forumKec,
             'forumKel' => $forumKel,
             'subdistrict' => $subdistrict,
-            'schedule' => $schedule
+            'schedule' => $schedule,
+            'pembina' => $pembina,
+            'forum_kabkota' => $forum_kabkota
         ];
         // return $q_kelembagaan;
         return view('operator_kabkota.kelembagaan_v2.index', $sent);
@@ -242,7 +255,6 @@ class Answer_Kelembagaan_New_Controller extends Controller
 
                 // return redirect()->back()->with('success', 'Berhasil menambahkan kegiatan');
                 return redirect()->route('kelembagaan-v2.show', $activity->id_c_kelembagaan)->with('success', 'Berhasil mengubah data');
-
 
             }
 

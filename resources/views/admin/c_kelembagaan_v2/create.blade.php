@@ -77,7 +77,8 @@
                                 oninput="this.setCustomValidity('')"
                             >
                                 <option value="">Pilih Status</option>
-                                <option value="1">Umum</option>
+                                <option value="0">Pembina</option>
+                                <option value="1">Kab/Kota</option>
                                 <option value="2">Kecamatan</option>
                                 <option value="3">Kelurahan</option>
                             </select>

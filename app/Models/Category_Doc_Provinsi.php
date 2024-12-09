@@ -13,7 +13,9 @@ class Category_Doc_Provinsi extends Model
 
     protected $fillable = [
         'id_survey',
-        'name'
+        'name',
+        'status_kelembagaan',
+        'status_activity'
     ];  
 
     public function _sub_doc_prov()

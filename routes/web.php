@@ -5,6 +5,7 @@ use App\Http\Controllers\Answer_Gambaran_Kabkota_Controller;
 use App\Http\Controllers\Answer_KabKota_Controller;
 use App\Http\Controllers\Answer_Kelembagaan_Controller;
 use App\Http\Controllers\Answer_Kelembagaan_New_Controller;
+use App\Http\Controllers\Answer_Operator_Prov_Controller;
 use App\Http\Controllers\Answer_Pendanaan_Kabkota_Controller;
 use App\Http\Controllers\Answer_Verifikator_Prov_Controller;
 use App\Http\Controllers\Answer_Verifikator_Pusat_Controller;
@@ -37,7 +38,9 @@ use App\Http\Controllers\Setting_Time_Controller;
 use App\Http\Controllers\Sub_Doc_Provinsi_Controller;
 use App\Http\Controllers\TestingController;
 use App\Http\Controllers\Trans_Doc_Prov_Controller;
+use App\Http\Controllers\Trans_Forum_KabKota_Controller;
 use App\Http\Controllers\Trans_ODF_KabKota_Controller;
+use App\Http\Controllers\Trans_Pembina_Controller;
 use App\Http\Controllers\Trans_Survey_H_Controller;
 use App\Http\Controllers\User_Controller;
 use Illuminate\Support\Facades\Route;
@@ -375,12 +378,33 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/kabkota/odf/edit/{id}', [Trans_ODF_KabKota_Controller::class,'edit'])->name('odf.editKabKota');
             Route::put('/kabkota/odf/update/{id}', [Trans_ODF_KabKota_Controller::class,'update'])->name('odf.updateKabKota');
 
+
+            //sk dan renja pembina
+            Route::post('/kabkota/sk-renja/pembina/store', [Trans_Pembina_Controller::class,'store'])->name('pembina.store');
+            Route::put('/kabkota/sk-renja/pembina/update/{id}', [Trans_Pembina_Controller::class,'update'])->name('pembina.update');
+
+            //sk dan renja forum kabkota
+            Route::post('/kabkota/sk-renja/fkabkota/store', [Trans_Forum_KabKota_Controller::class,'store'])->name('fkabkota.store');
+            Route::put('/kabkota/sk-renja/fkabkota/update/{id}', [Trans_Forum_KabKota_Controller::class,'update'])->name('fkabkota.update');
+
+            
         });
 
         Route::group(['middleware' => ['operator_provinsi']], function (){
             Route::get('/o-prov/doc-prov/get/{id}', [Trans_Doc_Prov_Controller::class, 'show'])->name('doc-prov.show');
             Route::post('/o-prov/doc-prov/store/{id}', [Trans_Doc_Prov_Controller::class,'store'])->name('doc-prov.store');
             Route::delete('/o-prov/doc-prov/destroydoc/{id}', [Trans_Doc_Prov_Controller::class,'destroy'])->name('doc-prov.destroy');
+
+            Route::get('/o-prov/gambaran-prov', [Answer_Operator_Prov_Controller::class, 'indexGambaran'])->name('gambaran-prov.indexGambaran');
+            Route::post('/o-prov/gambaran-prov/store/{id}', [Answer_Operator_Prov_Controller::class,'storeGambaran'])->name('gambaran-prov.storeGambaran');
+            Route::delete('/o-prov/gambaran-prov/destroy/{id}', [Answer_Operator_Prov_Controller::class,'destroyGambaran'])->name('gambaran-prov.destroyGambaran');
+
+            //activity
+            Route::post('/o-prov/doc-prov/store-activity', [Trans_Doc_Prov_Controller::class,'storeActivity'])->name('doc-prov.storeActivity');
+            Route::delete('/o-prov/doc-prov/destroy-activity/{id}', [Trans_Doc_Prov_Controller::class,'destroyActivity'])->name('doc-prov.destroyActivity');
+            Route::get('/o-prov/doc-prov/edit-activity/{id}/{idCategory}', [Trans_Doc_Prov_Controller::class, 'editActivity'])->name('doc-prov.editActivity');
+            Route::put('/kabkota/odf/update-activity/{id}', [Trans_Doc_Prov_Controller::class,'updateActivity'])->name('doc-prov.updateActivity');
+
 
         });
 

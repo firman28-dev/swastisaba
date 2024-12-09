@@ -38,14 +38,67 @@
                             @enderror
                         </div>
                     </div>
-                    
+                    <div class="col-lg-6 mb-4">
+                        <div class="form-group w-100">
+                            <label for="status_activity" class="form-label">Status Kegiatan</label>
+                            <select 
+                                id="status_activity" 
+                                name="status_activity" 
+                                aria-label="Default select example"
+                                class="form-select form-select-solid rounded rounded-4" 
+                                required
+                                autocomplete="off"
+                                autofocus
+                                oninvalid="this.setCustomValidity('Status Kegiatan tidak boleh kosong.')"
+                                oninput="this.setCustomValidity('')"
+                            >
+                                <option value="">Pilih Status</option>
+                                <option value="1" {{ $category->status_activity === '1' ? 'selected' : '' }}>Tidak Aktif</option>
+                                <option value="2" {{ $category->status_activity === '2' ? 'selected' : '' }}>Aktif</option>
+                            </select>
+                            @error('status_activity')
+                                <div class="is-invalid">
+                                    <span class="text-danger">
+                                        {{$message}}
+                                    </span>
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="form-group w-100">
+                            <label for="status_kelembagaan" class="form-label">Status Kelembagaan</label>
+                            <select 
+                                id="status_kelembagaan" 
+                                name="status_kelembagaan" 
+                                aria-label="Default select example"
+                                class="form-select form-select-solid rounded rounded-4" 
+                                required
+                                autocomplete="off"
+                                autofocus
+                                oninvalid="this.setCustomValidity('Status Kelembagaan tidak boleh kosong.')"
+                                oninput="this.setCustomValidity('')"
+                            >
+                                <option value="">Pilih Status</option>
+                                <option value="1" {{ $category->status_kelembagaan === '1' ? 'selected' : '' }}>Tidak Aktif</option>
+                                <option value="2" {{ $category->status_kelembagaan === '2' ? 'selected' : '' }}>Aktif</option>
+                            </select>
+                            @error('status_kelembagaan')
+                                <div class="is-invalid">
+                                    <span class="text-danger">
+                                        {{$message}}
+                                    </span>
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
                 &nbsp;
-                <a href="{{route('category.index')}}" class="btn btn-sm btn-secondary">
+                <a href="{{route('c-doc-prov.index')}}" class="btn btn-sm btn-secondary">
                     Kembali
                 </a>
             </div>
@@ -54,4 +107,13 @@
     </div>
     
 @endsection
+
+@section('script')
+    <script>
+        $("#status_activity").select2();
+        $("#status_kelembagaan").select2();
+
+    </script>
+@endsection
+
 

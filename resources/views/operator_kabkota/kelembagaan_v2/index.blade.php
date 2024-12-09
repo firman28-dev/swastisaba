@@ -9,7 +9,7 @@
 
 @section('content')
    @php
-       $now = strtotime(now());
+        $now = strtotime(now());
         // echo($now);
         $start = strtotime($schedule->started_at);
         $end = strtotime($schedule->ended_at);
@@ -646,8 +646,77 @@
             </div>
         </div>
     </div>
-   
-    @else
+    
+    @elseif($category && $category->is_status == 0)
+    
+    <div class="card mb-5 mb-xl-10">
+        <div class="card-header">
+            <div class="card-title">
+                <h3>SK dan Renja {{$category->name}}</h3>
+            </div>
+            <div class="card-toolbar">
+                <button 
+                    @if ($now >= $start && $now <= $end)
+                        type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#pembinaCreate"
+                    @else
+                        class="btn  btn btn-primary btn-sm" disabled
+                    @endif>
+                    Edit
+                </button>
+            </div>
+        </div>
+        <div class="card-body p-9">
+            <div class="row mb-7">
+                <label class="col-lg-3 fw-semibold text-muted">No SK Tim Pembina</label>
+                <div class="col-lg-9 fv-row">
+                    <span class="fw-bold fs-6 text-gray-800">{{$pembina->sk_pembina ?? 'Belum ada'}}</span>
+                </div>
+            </div>
+            <div class="row mb-7">
+                <label class="col-lg-3 fw-semibold text-muted">No SK Rencana Kerja</label>
+                <div class="col-lg-9 fv-row">
+                    <span class="fw-semibold text-gray-800 fs-6" >{{$pembina->renja ?? 'Belum ada'}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @elseif($category && $category->is_status == 1)
+    <div class="card mb-5 mb-xl-10">
+        <div class="card-header">
+            <div class="card-title">
+                <h3>SK dan Renja {{$category->name}}</h3>
+            </div>
+            <div class="card-toolbar">
+                <button 
+                    @if ($now >= $start && $now <= $end)
+                        type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#FKabkotaCreate"
+                    @else
+                        class="btn  btn btn-primary btn-sm" disabled
+                    @endif>
+                    Edit
+                </button>
+            </div>
+        </div>
+        <div class="card-body p-9">
+            <div class="row mb-7">
+                <label class="col-lg-3 fw-semibold text-muted">Nomor SK Forum Kab/Kota</label>
+                <div class="col-lg-9 fv-row">
+                    <span class="fw-bold fs-6 text-gray-800">{{$forum_kabkota->sk_forum_kabkota ?? 'Belum ada'}}</span>
+                </div>
+            </div>
+            <div class="row mb-7">
+                <label class="col-lg-3 fw-semibold text-muted">No SK Rencana Kerja</label>
+                <div class="col-lg-9 fv-row">
+                    <span class="fw-semibold text-gray-800 fs-6" >{{$forum_kabkota->renja_forum_kabkota ?? 'Belum ada'}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @endif
+
+    @if ($category->is_status == 0 || $category->is_status == 1)
     <div class="card mb-5 mb-xl-10">
         <div class="card-header justify-content-between">
             <div class="card-title">
@@ -657,7 +726,7 @@
         <div class="card-body">
             <button 
                 @if ($now >= $start && $now <= $end)
-                    type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#confirmNewActivity"
+                    type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#confirmNewActivityV2"
                 @else
                     class="btn  btn btn-primary btn-sm" disabled
                 @endif>
@@ -750,7 +819,7 @@
         </div>
     </div>
 
-    <div class="modal modal-lg fade text-start" tabindex="-1" id="confirmNewActivity" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal modal-lg fade text-start" tabindex="-1" id="confirmNewActivityV2" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                     <div class="modal-header">
@@ -892,9 +961,158 @@
             </div>
         </div>
     </div>
-    @endif
+
     
+    @endif
+
+    @if ($category && $category->is_status == 1)
+        <div class="modal modal-lg fade text-start" tabindex="-1" id="FKabkotaCreate" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">
+                                Tambah SK dan Renja
+                            </h3>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{{ $forum_kabkota ? route('fkabkota.update', $forum_kabkota->id) : route('fkabkota.store')}}">
+                                @csrf
+                                @if($forum_kabkota)
+                                    @method('PUT')
+                                @endif
+                            <div class="row">
+                                <div class="col-lg-12 mb-4">
+                                    <div class="form-group w-100">
+                                        <label for="sk_forum_kabkota" class="form-label">No SK Forum Kab/Kota</label>
+                                        <input type="text"
+                                            class="form-control form-control-solid rounded rounded-4"
+                                            placeholder="Masukkan No SK Pembina"
+                                            name="sk_forum_kabkota"
+                                            id="sk_forum_kabkota"
+                                            required
+                                            oninvalid="this.setCustomValidity('No SK Forum Kab/Kota tidak boleh kosong.')"
+                                            oninput="this.setCustomValidity('')"
+                                            value="{{ old('sk_forum_kabkota', $forum_kabkota->sk_forum_kabkota ?? '') }}"
+                                >
+                                        
+                                        @error('sk_forum_kabkota')
+                                            <div class="is-invalid">
+                                                <span class="text-danger">
+                                                    {{$message}}
+                                                </span>
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 mb-4">
+                                    <div class="form-group w-100">
+                                        <label for="renja_forum_kabkota" class="form-label">No SK Rencana Kerja</label>
+                                        
+                                        <textarea name="renja_forum_kabkota" id="renja_forum_kabkota" cols="4" rows="4"
+                                            required
+                                            oninvalid="this.setCustomValidity('Rencana Kerja tidak boleh kosong.')"
+                                            oninput="this.setCustomValidity('')"
+                                            class="form-control form-control-solid rounded rounded-4"
+                                            placeholder="Masukkan Rencana Kerja"
+                                        >{{ old('renja_forum_kabkota', $forum_kabkota->renja_forum_kabkota ?? '') }}</textarea>
+                                        @error('renja_forum_kabkota')
+                                            <div class="is-invalid">
+                                                <span class="text-danger">
+                                                    {{$message}}
+                                                </span>
+                                            </div>
+                                        @enderror
+                                    </div>
+                                
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal" onclick="location.reload()" >Batal</button>
+                            &nbsp;
+                            <button type="submit" class="btn btn-primary rounded-4 hover-scale">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if ($category && $category->is_status == 0)
+        <div class="modal modal-lg fade text-start" tabindex="-1" id="pembinaCreate" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title">
+                                Tambah SK dan Renja
+                            </h3>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{{ $pembina ? route('pembina.update', $pembina->id) : route('pembina.store')}}">
+                                @csrf
+                                @if($pembina)
+                                    @method('PUT')
+                                @endif
+                            <div class="row">
+                                <div class="col-lg-12 mb-4">
+                                    <div class="form-group w-100">
+                                        <label for="sk_pembina" class="form-label">No SK Pembina</label>
+                                        <input type="text"
+                                            class="form-control form-control-solid rounded rounded-4"
+                                            placeholder="Masukkan No SK Pembina"
+                                            name="sk_pembina"
+                                            id="sk_pembina"
+                                            required
+                                            oninvalid="this.setCustomValidity('No SK Pembina tidak boleh kosong.')"
+                                            oninput="this.setCustomValidity('')"
+                                            value="{{ old('sk_pembina', $pembina->sk_pembina ?? '') }}"
+                                >
+                                        
+                                        @error('sk_pembina')
+                                            <div class="is-invalid">
+                                                <span class="text-danger">
+                                                    {{$message}}
+                                                </span>
+                                            </div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 mb-4">
+                                    <div class="form-group w-100">
+                                        <label for="renja" class="form-label">No SK Rencana Kerja</label>
+                                        
+                                        <textarea name="renja" id="renja" cols="4" rows="4"
+                                            required
+                                            oninvalid="this.setCustomValidity(' Rencana Kerja tidak boleh kosong.')"
+                                            oninput="this.setCustomValidity('')"
+                                            class="form-control form-control-solid rounded rounded-4"
+                                            placeholder="Masukkan Rencana Kerja"
+                                        >{{ old('renja', $pembina->renja ?? '') }}</textarea>
+                                        @error('renja')
+                                            <div class="is-invalid">
+                                                <span class="text-danger">
+                                                    {{$message}}
+                                                </span>
+                                            </div>
+                                        @enderror
+                                    </div>
+                                
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal" onclick="location.reload()" >Batal</button>
+                            &nbsp;
+                            <button type="submit" class="btn btn-primary rounded-4 hover-scale">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
    
+
+   
+
+ 
 @endsection
 
 @section('script')

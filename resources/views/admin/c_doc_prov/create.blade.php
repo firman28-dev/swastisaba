@@ -62,7 +62,60 @@
                             @enderror
                         </div>
                     </div>
-                    
+                    <div class="col-lg-6 mb-4">
+                        <div class="form-group w-100">
+                            <label for="status_activity" class="form-label">Status Kegiatan</label>
+                            <select 
+                                id="status_activity" 
+                                name="status_activity" 
+                                aria-label="Default select example"
+                                class="form-select form-select-solid rounded rounded-4" 
+                                required
+                                autocomplete="off"
+                                autofocus
+                                oninvalid="this.setCustomValidity('Status Kegiatan tidak boleh kosong.')"
+                                oninput="this.setCustomValidity('')"
+                            >
+                                <option value="">Pilih Status</option>
+                                <option value="1">Tidak Aktif</option>
+                                <option value="2">Aktif</option>
+                            </select>
+                            @error('status_activity')
+                                <div class="is-invalid">
+                                    <span class="text-danger">
+                                        {{$message}}
+                                    </span>
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="form-group w-100">
+                            <label for="status_kelembagaan" class="form-label">Status Kelembagaan</label>
+                            <select 
+                                id="status_kelembagaan" 
+                                name="status_kelembagaan" 
+                                aria-label="Default select example"
+                                class="form-select form-select-solid rounded rounded-4" 
+                                required
+                                autocomplete="off"
+                                autofocus
+                                oninvalid="this.setCustomValidity('Status Kelembagaan tidak boleh kosong.')"
+                                oninput="this.setCustomValidity('')"
+                            >
+                                <option value="">Pilih Status</option>
+                                <option value="1">Tidak Aktif</option>
+                                <option value="2">Aktif</option>
+                            </select>
+                            @error('status_kelembagaan')
+                                <div class="is-invalid">
+                                    <span class="text-danger">
+                                        {{$message}}
+                                    </span>
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -79,3 +132,10 @@
     
 @endsection
 
+@section('script')
+    <script>
+        $("#status_activity").select2();
+        $("#status_kelembagaan").select2();
+
+    </script>
+@endsection

@@ -569,6 +569,38 @@
                 @endif
 
                 @if(Auth::user()->id_group == 3)
+                    <div class="menu-item pt-5"><!--begin:Menu content-->
+                        <div class="menu-content"><span class="menu-heading fw-bold text-uppercase fs-7">Dokumen Provinsi</span>
+                        </div><!--end:Menu content-->
+                    </div>
+
+                    {{-- <div class="menu-item">
+                        <a class="menu-link {{ Route::is('gambaran-prov.indexGambaran') ? 'active' : '' }}" href="{{route('gambaran-prov.indexGambaran')}}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-folder fs-3"></i>
+                            </span>
+                            <span class="menu-title">Gambaran</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::is('gambaran-prov.indexGambaran') ? 'active' : '' }}" href="{{route('gambaran-prov.indexGambaran')}}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-folder fs-3"></i>
+                            </span>
+                            <span class="menu-title">Kelambagaan</span>
+                        </a>
+                    </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::is('gambaran-prov.indexGambaran') ? 'active' : '' }}" href="{{route('gambaran-prov.indexGambaran')}}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-folder fs-3"></i>
+                            </span>
+                            <span class="menu-title">Pendanaan</span>
+                        </a>
+                    </div> --}}
+
                     <div class="menu-item menu-accordion {{ Route::is('doc-prov.*') ? 'show' : '' }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">

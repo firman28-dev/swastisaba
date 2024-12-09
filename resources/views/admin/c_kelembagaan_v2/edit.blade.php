@@ -79,7 +79,8 @@
                                 oninput="this.setCustomValidity('')"
                             >
                                 <option value="">Pilih Status</option>
-                                <option value="1" {{ $c_kelembagaan_v2->is_status === '1' ? 'selected' : '' }}>Umum</option>
+                                <option value="0" {{ $c_kelembagaan_v2->is_status === '0' ? 'selected' : '' }}>Pembina</option>
+                                <option value="1" {{ $c_kelembagaan_v2->is_status === '1' ? 'selected' : '' }}>Kab/Kota</option>
                                 <option value="2" {{ $c_kelembagaan_v2->is_status === '2' ? 'selected' : '' }}>Kecamatan</option>
                                 <option value="3" {{ $c_kelembagaan_v2->is_status === '3' ? 'selected' : '' }}>Kelurahan</option>
                             </select>

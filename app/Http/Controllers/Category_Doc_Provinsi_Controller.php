@@ -30,14 +30,21 @@ class Category_Doc_Provinsi_Controller extends Controller
         $request->validate([
             'id_survey' => 'required',
             'name' => 'required',
+            'status_activity' => 'required',
+            'status_kelembagaan' => 'required'
         ],[
-            'name.required' => 'Tidak boleh kosong'
+            'name.required' => 'Tidak boleh kosong',
+            'status_activity.required' => 'Tidak boleh kosong',
+            'status_kelembagaan.required' => 'Tidak boleh kosong'
         ]);
 
         try{
             $category = new Category_Doc_Provinsi();
             $category->id_survey = $request->id_survey;
             $category->name = $request->name;
+            $category->status_activity = $request->status_activity;
+            $category->status_kelembagaan = $request->status_kelembagaan;
+
             $category->save();
             return redirect()->route('c-doc-prov.index')->with('success', 'Berhasil Menambahkan kategori dokumen provinsi');
         }
@@ -63,15 +70,23 @@ class Category_Doc_Provinsi_Controller extends Controller
    
     public function update(Request $request, $id)
     {
+        $session_date = Session::get('selected_year');
+
         $request->validate([
             'name' => 'required',
+            'status_activity' => 'required',
+            'status_kelembagaan' => 'required'
         ],[
-            'name.required' => 'Tidak boleh kosong'
+            'name.required' => 'Tidak boleh kosong',
+            'status_activity.required' => 'Tidak boleh kosong',
+            'status_kelembagaan.required' => 'Tidak boleh kosong'
         ]);
 
         try{
             $category = Category_Doc_Provinsi::find($id);
             $category->name = $request->name;
+            $category->status_activity = $request->status_activity;
+            $category->status_kelembagaan = $request->status_kelembagaan;
             $category->save();
             return redirect()->route('c-doc-prov.index')->with('success', 'Berhasil mengubah data kategori dokumen provinsi');
         }
