@@ -193,7 +193,10 @@
                             <span class="menu-arrow"></span>
                         </a>
                         <div class="menu-sub menu-sub-accordion">
-                            @foreach(\App\Models\Category_Doc_Provinsi::all() as $category)
+                            @php
+                                 $session_date = Session::get('selected_year');
+                            @endphp
+                            @foreach(\App\Models\Category_Doc_Provinsi::where('id_survey', $session_date)->get() as $category)
                                 <div class="menu-item">
                                     <a class="menu-link {{ request()->routeIs('v-pusat.showDocProv') && request()->id == $category->id ? 'active' : '' }}" href="{{ route('v-pusat.showDocProv', ['id' => $category->id]) }}">
                                         <span class="menu-icon">
