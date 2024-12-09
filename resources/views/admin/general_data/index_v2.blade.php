@@ -19,7 +19,7 @@ Data Umum
             <div class="row mb-7">
                 <label class="col-lg-3 fw-semibold text-muted">Nama Kabupaten Kota</label>
                 <div class="col-lg-9 fv-row">
-                    <span class="fw-bold fs-6 text-gray-800">{{$g_data->id_zona ?? 'Belum ada'}}</span>
+                    <span class="fw-bold fs-6 text-gray-800">{{$g_data->_zona->name ?? 'Belum ada'}}</span>
                 </div>
             </div>
             <div class="row mb-7">
@@ -37,7 +37,7 @@ Data Umum
             <div class="row mb-7">
                 <label class="col-lg-3 fw-semibold text-muted">Nama Pembina</label>
                 <div class="col-lg-9 fv-row">
-                    <span class="fw-semibold text-gray-800 fs-6">{{$g_data->alamat_kantor ?? 'Belum ada'}}</span>
+                    <span class="fw-semibold text-gray-800 fs-6">{{$g_data->nama_pembina ?? 'Belum ada'}}</span>
                 </div>
             </div>
             <div class="row mb-7">
