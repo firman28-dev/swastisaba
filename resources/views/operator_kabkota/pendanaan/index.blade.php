@@ -131,7 +131,7 @@
                                                             <div class="col-lg-12">
                                                                 <div class="form-group w-100">
                                                                     <label for="name" class="form-label">Dokumen</label>
-                                                                    <p class="text-danger">Dokumen berbentuk Pdf dan maksimal 2 MB</p>
+                                                                    <p class="text-danger">Dokumen berbentuk Pdf dan maksimal 10 MB</p>
                                                                     <input type="file" name="path" class="form-control form-control-solid rounded rounded-4" placeholder="File" accept=".pdf">
                                                                     @error('path')
                                                                         <div class="is-invalid">
