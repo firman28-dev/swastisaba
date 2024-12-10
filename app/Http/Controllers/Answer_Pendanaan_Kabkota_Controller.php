@@ -34,7 +34,7 @@ class Answer_Pendanaan_Kabkota_Controller extends Controller
     {
         $request->validate([
             'id_survey' => 'required',
-            'path' => 'required|mimes:pdf|max:2048',
+            'path' => 'required|mimes:pdf|max:10480',
         ],[
             'id_survey' => 'Tahun wajib disetting',
             'path.required' => 'Field wajib diisi',

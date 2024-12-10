@@ -231,7 +231,7 @@
     <script>
         document.querySelector('input[type="file"]').addEventListener('change', function(e) {
             const file = e.target.files[0];
-            const maxSize = 2 * 1024 * 1024; // 2 MB
+            const maxSize = 10 * 1024 * 1024; // 2 MB
 
             if (file && file.type !== 'application/pdf') {
                 alert('File harus berformat PDF.');
@@ -241,7 +241,7 @@
                 Swal.fire({
                     icon: 'warning',
                     title: 'Ukuran file terlalu besar',
-                    text: 'Ukuran maksimal file adalah 2 MB.',
+                    text: 'Ukuran maksimal file adalah 10 MB.',
                     confirmButtonText: 'Oke',
                 });
                 e.target.value = ''; // Reset input
