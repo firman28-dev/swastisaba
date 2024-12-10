@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -13,21 +13,12 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;600;700;800;900&family=Poppins:wght@400;500&display=swap" rel="stylesheet"/>
 		<link rel="icon" type="image/png" href="{{ asset('assets/img/swastisaba.png') }}" sizes="32x32">
-        
-        {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
         <meta
             name="author"
             content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
         />
         <meta name="generator" content="Hugo 0.87.0" />
         <title>Sign Swastisaba</title>
-
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
-            crossorigin="anonymous"
-        />
     </head>
 
     <body id="kt_body" class="app-blank">
@@ -115,8 +106,6 @@
                                 <img class="d-none d-lg-block mx-auto w-75px " src="{{asset('assets/media/icon-kabkota/Kota_Sawahlunto.png')}}" alt="">                 
                             </div>
                         </div>
-                        {{-- <img class="d-none d-lg-block mx-auto w-275px w-md-50 w-xl-500px mb-10 mb-lg-20" src="{{asset('assets/media/10-dark.png')}}" alt="">                  --}}
-                        
                     </div>
                 </div>
             </div>
@@ -131,4 +120,165 @@
     </body>
 
 
+</html> --}}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Aldi Duzha" />
+    <meta name="description" content="Free Bulma Login Template, part of Awesome Bulma Templates" />
+    <meta name="keywords" content="bulma, login, page, website, template, free, awesome" />
+    <link rel="canonical" href="https://aldi.github.io/bulma-login-template/" />
+    <title>Swastisaba - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@1/css/bulma.min.css"
+      integrity="sha256-efrxyTTvKJ2Q1/BD8p9dZFtTEcil+cMzxZeL/7hdO2g="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-social@1/bin/bulma-social.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css"
+      integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E="
+      crossorigin="anonymous"
+    />
+    <style>
+        html,
+        body {
+            font-family: 'Quicksand', serif;
+            font-size: 12px;
+            font-weight: 300;
+            overflow-y: hidden;
+            /* overflow-x: hidden; */
+            background: url("{{ asset('assets/img/testing.jpg') }}") center/cover no-repeat;
+        }
+        .box {
+            margin-top: 5rem;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        input {
+            font-weight: 300;
+        }
+
+        p {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        p.subtitle {
+            padding-top: 1rem;
+        }
+
+        a {
+            color: #fff;
+        }
+
+        a:hover {
+            color: #bababa;
+        }
+
+        .languages {
+            margin-top: 10px;
+        }
+    </style>
+  </head>
+  <body>
+    <section class="hero is-fullheight">
+        <div class="hero-body">
+            
+            <div class="container has-text-centered">
+                <div class="column is-4 is-offset-4">
+                    @include('layouts.partials.messages')
+                    <div class="is-flex-direction-row is-align-items-center	">
+                        <img src="{{asset('assets/img/SWASTISABA2.png')}}" alt="Logo" style="width: 25%"  class="mb-3">
+                        <img src="{{asset('assets/img/SUMBAR.png')}}" alt="Logo" style="width: 25%"  class="mb-3">
+                    </div>
+                    <div class="box p-6 mb-0 mt-0">
+                        <p class="subtitle is-4 pb-5 has-text-weight-bold has-text-white">Silahkan Login</p>
+                        <form method="post" action="{{ route('login.perform') }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                            <div class="field">
+                                <p class="control has-icons-left has-icons-right">
+                                <input 
+                                    class="input is-medium" 
+                                    type="text" 
+                                    placeholder="Username atau Email" 
+                                    name="username"
+                                    value="{{ old('username') }}"
+                                    autofocus
+                                    required
+                                    autocomplete="off"
+                                    oninvalid="this.setCustomValidity('Kolom tidak boleh kosong.')"
+                                    oninput="this.setCustomValidity('')"
+                                />
+                                <span class="icon is-medium is-left">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                                </p>
+                            </div>
+                            <div class="field">
+                                <p class="control has-icons-left">
+                                <input 
+                                    class="input is-medium" 
+                                    type="password" 
+                                    placeholder="Password" 
+                                    id="password"
+                                    name="password"
+                                    value="{{ old('password') }}"
+                                    required
+                                    autocomplete="new-password"
+                                    oninvalid="this.setCustomValidity('Kolom tidak boleh kosong.')"
+                                    oninput="this.setCustomValidity('')"
+                                />
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                                </p>
+                            </div>
+                        
+                            <div class="column is-flex is-half is-offset-one-quarter">
+                                <button class="button is-block is-info is-medium is-fullwidth has-text-weight-normal has-text-dark">
+                                Login
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <p class="mt-5 mb-3 text-muted has-text-white has-text-weight-bold">Copyright &copy; {{ date('Y') }}</p>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="is-flex-direction-column is-justify-content-center">
+
+        </div>
+    </section>
+   
+   
+
+    <script>
+        function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const passwordEye = document.getElementById('password-eye');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            passwordEye.classList.remove('fa-eye-slash');
+            passwordEye.classList.add('fa-eye');
+        } else {
+            passwordInput.type = 'password';
+            passwordEye.classList.remove('fa-eye');
+            passwordEye.classList.add('fa-eye-slash');
+        }
+    }
+    </script>
+  </body>
 </html>

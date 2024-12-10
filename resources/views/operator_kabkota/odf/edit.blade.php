@@ -67,7 +67,7 @@
 
                     <div class="col-lg-6 mb-4">
                         <div class="form-group">
-                            <label for="path" class="form-label">Dokumen ODF<span class="required"></span><span class="text-danger">2MB | PDF</span> </label>
+                            <label for="path" class="form-label">Dokumen ODF<span class="required"></span><span class="text-danger">Maks 10MB | PDF</span> </label>
                             <input type="file" id="path" name="path" class="form-control form-control-solid rounded rounded-4" placeholder="File" accept=".pdf">
                             @error('path')
                                 <div class="is-invalid">
@@ -100,7 +100,7 @@
         $("#id_proposal").select2();
         document.querySelector('input[type="file"]').addEventListener('change', function(e) {
             const file = e.target.files[0];
-            const maxSize = 2 * 1024 * 1024; // 2 MB
+            const maxSize = 10 * 1024 * 1024; // 2 MB
 
             if (file && file.type !== 'application/pdf') {
                 alert('File harus berformat PDF.');
@@ -110,7 +110,7 @@
                 Swal.fire({
                     icon: 'warning',
                     title: 'Ukuran file terlalu besar',
-                    text: 'Ukuran maksimal file adalah 2 MB.',
+                    text: 'Ukuran maksimal file adalah 10 MB.',
                     confirmButtonText: 'Oke',
                 });
                 e.target.value = ''; // Reset input

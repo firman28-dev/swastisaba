@@ -58,3 +58,18 @@ textarea .custom-textarea{
   transform: translateY(-10px); 
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
 }  */
+
+.bg-sidebar-custom-1{
+  background-color: #3184C2 !important;
+}
+
+.active-custom{
+  background-color: #78B3CE !important;
+}
+
+.bg-image {
+  background-image: url('path/to/your/image.jpg'); /* Ganti dengan path gambar Anda */
+  background-size: cover; /* Mengatur agar gambar menutupi seluruh background */
+  background-position: center; /* Menyesuaikan posisi gambar */
+  background-repeat: no-repeat; /* Menghindari pengulangan gambar */
+}

@@ -1,14 +1,19 @@
 @if (isset($errors) && count($errors) > 0)
-    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert">
+    <div class="notification is-danger is-light" id="errorAlert">
+        @foreach ($errors->all() as $error)
+            <strong>{{$error}}</strong> 
+        @endforeach
+    </div>
+    {{-- <div class="alert alert-danger alert-dismissible fade show" role="alert" id="errorAlert">
         <ul class="list-unstyled mb-0">
             @foreach ($errors->all() as $error)
             <li>{{$error}}</li>
             @endforeach
         </ul>
-    </div>
+    </div> --}}
 @endif
 
-@if (Session::get('success', false))
+{{-- @if (Session::get('success', false))
     <?php $data = Session::get('success'); ?>
     @if (is_array($data)) 
         @foreach ($data as $msg)
@@ -23,7 +28,7 @@
         {{ $data }}
     </div>
     @endif 
-@endif
+@endif --}}
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -34,6 +39,6 @@
                 alertElement.classList.add('fade');
                 alertElement.style.display = 'none';
             }
-        }, 4000);
+        }, 3000);
     });
 </script>

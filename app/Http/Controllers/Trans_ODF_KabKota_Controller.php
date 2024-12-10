@@ -46,12 +46,12 @@ class Trans_ODF_KabKota_Controller extends Controller
         $request->validate([
             'percentage' => 'required',
             'id_proposal' => 'required',
-            'path' => 'nullable|mimes:pdf|max:2048',
+            'path' => 'nullable|mimes:pdf|max:10480',
         ],[
             'id_proposal.required' => 'Usulan wajib diisi',
             'percentage.required' => 'Persentase ODF wajib dipilih',
             'path.mimes' => 'Wajib Pdf',
-            'path.max' => 'Ukuran Maksimal 2 MB',
+            'path.max' => 'Ukuran Maksimal 10 MB',
 
         ]);
 
@@ -111,12 +111,12 @@ class Trans_ODF_KabKota_Controller extends Controller
         $request->validate([
             'percentage' => 'required',
             'id_proposal' => 'required',
-            'path' => 'nullable|mimes:pdf|max:2048',
+            'path' => 'nullable|mimes:pdf|max:10480',
         ],[
             'id_proposal.required' => 'Usulan wajib diisi',
             'percentage.required' => 'Persentase ODF wajib dipilih',
             'path.mimes' => 'Wajib Pdf',
-            'path.max' => 'Ukuran Maksimal 2 MB',
+            'path.max' => 'Ukuran Maksimal 10 MB',
 
         ]);
 
