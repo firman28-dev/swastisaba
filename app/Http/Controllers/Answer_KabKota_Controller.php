@@ -69,14 +69,14 @@ class Answer_KabKota_Controller extends Controller
             'id_option' => 'required',
             'comment' => 'required',
             'achievement' => 'required',
-            'file_path' => 'nullable|mimes:pdf|max:2048',
+            'file_path' => 'nullable|mimes:pdf|max:10480',
         ],[
             'id_option.required' => 'Option wajib diisi',
             'id_survey.required' => 'Tahun wajib dipilih',
             'comment.required' => 'Penjelasan wajib diisi',
             'achievement.required' => 'Capaian wajib diisi',
             'file_path.mimes' => 'Wajib Pdf',
-            'file_path.max' => 'Ukuran Maksimal 2 MB',
+            'file_path.max' => 'Ukuran Maksimal 10 MB',
 
         ]);
 
@@ -127,11 +127,11 @@ class Answer_KabKota_Controller extends Controller
             foreach ($request->file() as $key => $file) {
                 if (strpos($key, 'file_') !== false) {
                     $this->validate($request, [
-                        $key => 'required|mimes:pdf|max:2048',
+                        $key => 'required|mimes:pdf|max:10480',
                     ], [
                         $key . '.required' => 'File ' . $key . ' harus diisi.',
                         $key . '.mimes' => 'File ' . $key . ' harus berformat PDF.',
-                        $key . '.max' => 'File ' . $key . ' tidak boleh lebih besar dari 2 MB.',
+                        $key . '.max' => 'File ' . $key . ' tidak boleh lebih besar dari 10 MB.',
                     ]);
 
                     $ids = str_replace('file_', '', $key);
