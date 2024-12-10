@@ -71,11 +71,17 @@ class Narasi_KabKota_Controller extends Controller
     {
         $doc = Trans_Narasi::find($id);
         if($doc){
-            $oldPhotoPath = $_SERVER['DOCUMENT_ROOT']. 'uploads/doc_narasi/' .$doc->path;
+            $oldPhotoPath = $_SERVER['DOCUMENT_ROOT']. '/uploads/doc_narasi/' .$doc->path;
             if (file_exists($oldPhotoPath)) {
                     unlink($oldPhotoPath);
             }
         }
+        // if($doc){
+        //     $oldPhotoPath = $_SERVER['DOCUMENT_ROOT']. '/uploads/doc_narasi/' .$doc->path;
+        //     if (file_exists($oldPhotoPath)) {
+        //         unlink($oldPhotoPath);
+        //     }
+        // }
         // if (file_exists(public_path('uploads/doc_narasi/'.$doc->path))) {
         //     unlink(public_path('uploads/doc_narasi/'.$doc->path));
         // }
