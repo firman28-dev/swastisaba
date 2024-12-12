@@ -40,6 +40,7 @@ use App\Http\Controllers\TestingController;
 use App\Http\Controllers\Trans_Doc_Prov_Controller;
 use App\Http\Controllers\Trans_Forum_KabKota_Controller;
 use App\Http\Controllers\Trans_ODF_KabKota_Controller;
+use App\Http\Controllers\Trans_ODF_New_Controller;
 use App\Http\Controllers\Trans_Pembina_Controller;
 use App\Http\Controllers\Trans_Survey_H_Controller;
 use App\Http\Controllers\User_Controller;
@@ -377,6 +378,13 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/kabkota/odf/store', [Trans_ODF_KabKota_Controller::class,'store'])->name('odf.storeKabKota');
             Route::get('/kabkota/odf/edit/{id}', [Trans_ODF_KabKota_Controller::class,'edit'])->name('odf.editKabKota');
             Route::put('/kabkota/odf/update/{id}', [Trans_ODF_KabKota_Controller::class,'update'])->name('odf.updateKabKota');
+
+
+            //ODF New
+            Route::get('/kabkota/data-odf', [Trans_ODF_New_Controller::class,'index'])->name('data-odf.index');
+            Route::get('/kabkota/create-data-odf', [Trans_ODF_New_Controller::class,'create'])->name('data-odf.create');
+            Route::post('/kabkota/data-odf/store', [Trans_ODF_New_Controller::class,'store'])->name('data-odf.store');
+            Route::get('/kabkota/data-odf/edit/{id}', [Trans_ODF_New_Controller::class,'edit'])->name('data-odf.edit');
 
 
             //sk dan renja pembina

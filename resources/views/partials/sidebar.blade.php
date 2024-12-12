@@ -856,14 +856,24 @@
                         </a>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link {{ Route::is('odf.index') || Route::is('odf.createKabKota') || Route::is('odf.editKabKota')   ? 'active-custom' : '' }}" href="{{route('odf.index')}}">
+                        <a class="menu-link {{ Route::is('data-odf.index') || Route::is('data-odf.create') || Route::is('data-odf.edit')   ? 'active-custom' : '' }}" href="{{route('data-odf.index')}}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-file-lines fs-3 text-white"></i>
                                 {{-- <i class="fa-solid fa-house fs-3"></i> --}}
                             </span>
-                            <span class="menu-title text-white">Persentase ODF</span>
+                            <span class="menu-title text-white">Open Defecation Free</span>
                         </a>
                     </div>
+
+                    {{-- <div class="menu-item">
+                        <a class="menu-link {{ Route::is('odf.index') || Route::is('odf.createKabKota') || Route::is('odf.editKabKota')   ? 'active-custom' : '' }}" href="{{route('odf.index')}}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-file-lines fs-3 text-white"></i>
+                            </span>
+                            <span class="menu-title text-white">Open Defecation Free</span>
+                        </a>
+                    </div> --}}
+
                     <div class="menu-item menu-accordion {{
                             request()->routeIs('kelembagaan.*') ||
                             Route::is('kelembagaan-v2.show') ||
@@ -884,7 +894,7 @@
                             <span class="menu-icon">
                                 <i class="fa-solid fa-industry fs-3 text-white"></i>
                             </span>
-                            <span class="menu-title text-white">Data Kelembagaan</span>
+                            <span class="menu-title text-white">Kelembagaan</span>
                             <span class="menu-arrow"></span>
                         </a>
                         <div class="menu-sub menu-sub-accordion">
@@ -927,7 +937,7 @@
                             <span class="menu-icon">
                                 <i class="fa-solid fa-book fs-3 text-white"></i>
                             </span>
-                            <span class="menu-title text-white">Data Tatanan</span>
+                            <span class="menu-title text-white">Tatanan</span>
                             <span class="menu-arrow"></span>
                         </a>
                         <div class="menu-sub menu-sub-accordion ">
