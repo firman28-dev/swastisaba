@@ -318,6 +318,7 @@
                     <thead>
                         <tr>
                             <th class="min-w-60px text-center border-1 border">No.</th>
+                            <th class="min-w-60px text-center border-1 border">ID</th>
                             <th class="min-w-100px text-center border-1 border"></th>
                             <th class="min-w-200px border-1 border">Nama Kecamatan</th>
                             <th class="min-w-200px border-1 border">Forum Kecamatan</th>
@@ -340,6 +341,7 @@
                                     $forum2 = $forumKec->where('id_subdistrict', $item->id)->first();
                                 @endphp
                                 <td class="border-1 border text-center">{{ $loop->iteration }}</td>
+                                <td class="border-1 border text-center">{{ $item->id }}</td>
                                 <td class="border border-1 text-center">
                                     @if (is_null($forum2))
                                         <a href="{{ route('kelembagaan-v2.createForumKec', [$category->id, $item->id]) }}" class="btn btn-icon btn-primary w-35px h-35px mb-3 {{ $now >= $start && $now <= $end ? '' : 'disabled' }}">
