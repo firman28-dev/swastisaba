@@ -10,6 +10,8 @@ use Auth;
 use Hash;
 use Illuminate\Http\Request;
 use Storage;
+use PDF;
+
 
 class User_Controller extends Controller
 {
