@@ -351,7 +351,7 @@ class User_Controller extends Controller
         $users = User::where('id_group',6)->get();
         // return view('admin.export.user', compact('users'));
 
-        $htmlContent = view('admin.export.user', $users)->render();
+        $htmlContent = view('admin.export.user', compact('users'))->render();
         $pdf = PDF::loadHTML($htmlContent)
            ->setPaper([0, 0, 595, 1000], 'landscape')  
            ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
