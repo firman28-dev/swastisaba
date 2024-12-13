@@ -24,6 +24,7 @@ use App\Models\Trans_Kegiatan;
 use App\Models\Trans_Kelembagaan_H;
 use App\Models\Trans_Kelembagaan_V2;
 use App\Models\Trans_Narasi;
+use App\Models\Trans_ODF_New;
 use App\Models\Trans_Pendanaan_kabkota;
 use App\Models\Trans_Survey;
 use App\Models\Trans_Survey_D_Answer;
@@ -533,6 +534,20 @@ class Answer_Verifikator_Prov_Controller extends Controller
         } catch (\Throwable $th) {
             //throw $th;
         }
+    }
+
+    public function indexOdf(){
+        $session_date = Session::get('selected_year');
+        $zona = M_District::where('province_id',13)->get();
+        $odf = Trans_ODF_New::where('id_survey',$session_date)
+            ->get();
+        $sent = [
+            'zona' => $zona,
+            'odf' => $odf
+        ];
+        return view('verifikator_provinsi.odf.index', $sent);
+
+
     }
 
 

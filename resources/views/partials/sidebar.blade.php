@@ -701,8 +701,14 @@
                             @endforeach
                         </div>
                     </div> --}}
-
-
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::is('v-prov.indexOdf') ? 'active-custom' : '' }}" href="{{route('v-prov.indexOdf')}}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-house fs-3 text-white"></i>
+                            </span>
+                            <span class="menu-title text-white">Open Defecation Feee</span>
+                        </a>
+                    </div>
 
                     <div class="menu-item menu-accordion {{ Route::is('v-prov.indexGData') || Route::is('v-prov.indexGData') ? 'show' : '' }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
@@ -829,6 +835,7 @@
                         </div>
                     </div>
 
+                   
                    
 
 

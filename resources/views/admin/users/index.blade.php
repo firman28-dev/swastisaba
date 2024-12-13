@@ -23,6 +23,11 @@
                     <i class="nav-icon fas fa-folder-plus "></i>Tambah
                 </button>
             </a>
+            <a href="{{route('user.export')}}">
+                <button type="button" class="btn btn-success btn-sm">
+                    <i class="nav-icon fas fa-folder-plus "></i>Export
+                </button>
+            </a>
             <div class="table-responsive mt-3">
                 <table id="tableSKPD" class="table table-striped table-row-bordered border" style="width:100%">
                     <thead>

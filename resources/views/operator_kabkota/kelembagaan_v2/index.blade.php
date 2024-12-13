@@ -969,68 +969,68 @@
         <div class="modal modal-lg fade text-start" tabindex="-1" id="FKabkotaCreate" data-bs-backdrop="static" data-bs-keyboard="false">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 class="modal-title">
-                                Tambah SK dan Renja
-                            </h3>
-                        </div>
-                        <div class="modal-body">
-                            <form method="POST" action="{{ $forum_kabkota ? route('fkabkota.update', $forum_kabkota->id) : route('fkabkota.store')}}">
-                                @csrf
-                                @if($forum_kabkota)
-                                    @method('PUT')
-                                @endif
-                            <div class="row">
-                                <div class="col-lg-12 mb-4">
-                                    <div class="form-group w-100">
-                                        <label for="sk_forum_kabkota" class="form-label">No SK Forum Kab/Kota</label>
-                                        <input type="text"
-                                            class="form-control form-control-solid rounded rounded-4"
-                                            placeholder="Masukkan No SK Pembina"
-                                            name="sk_forum_kabkota"
-                                            id="sk_forum_kabkota"
-                                            required
-                                            oninvalid="this.setCustomValidity('No SK Forum Kab/Kota tidak boleh kosong.')"
-                                            oninput="this.setCustomValidity('')"
-                                            value="{{ old('sk_forum_kabkota', $forum_kabkota->sk_forum_kabkota ?? '') }}"
-                                >
-                                        
-                                        @error('sk_forum_kabkota')
-                                            <div class="is-invalid">
-                                                <span class="text-danger">
-                                                    {{$message}}
-                                                </span>
-                                            </div>
-                                        @enderror
-                                    </div>
+                    <div class="modal-header">
+                        <h3 class="modal-title">
+                            Tambah SK dan Renja
+                        </h3>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="{{ $forum_kabkota ? route('fkabkota.update', $forum_kabkota->id) : route('fkabkota.store')}}">
+                            @csrf
+                            @if($forum_kabkota)
+                                @method('PUT')
+                            @endif
+                        <div class="row">
+                            <div class="col-lg-12 mb-4">
+                                <div class="form-group w-100">
+                                    <label for="sk_forum_kabkota" class="form-label">No SK Forum Kab/Kota</label>
+                                    <input type="text"
+                                        class="form-control form-control-solid rounded rounded-4"
+                                        placeholder="Masukkan No SK Pembina"
+                                        name="sk_forum_kabkota"
+                                        id="sk_forum_kabkota"
+                                        required
+                                        oninvalid="this.setCustomValidity('No SK Forum Kab/Kota tidak boleh kosong.')"
+                                        oninput="this.setCustomValidity('')"
+                                        value="{{ old('sk_forum_kabkota', $forum_kabkota->sk_forum_kabkota ?? '') }}"
+                            >
+                                    
+                                    @error('sk_forum_kabkota')
+                                        <div class="is-invalid">
+                                            <span class="text-danger">
+                                                {{$message}}
+                                            </span>
+                                        </div>
+                                    @enderror
                                 </div>
-                                <div class="col-lg-12 mb-4">
-                                    <div class="form-group w-100">
-                                        <label for="renja_forum_kabkota" class="form-label">No SK Rencana Kerja</label>
-                                        
-                                        <textarea name="renja_forum_kabkota" id="renja_forum_kabkota" cols="4" rows="4"
-                                            required
-                                            oninvalid="this.setCustomValidity('Rencana Kerja tidak boleh kosong.')"
-                                            oninput="this.setCustomValidity('')"
-                                            class="form-control form-control-solid rounded rounded-4"
-                                            placeholder="Masukkan Rencana Kerja"
-                                        >{{ old('renja_forum_kabkota', $forum_kabkota->renja_forum_kabkota ?? '') }}</textarea>
-                                        @error('renja_forum_kabkota')
-                                            <div class="is-invalid">
-                                                <span class="text-danger">
-                                                    {{$message}}
-                                                </span>
-                                            </div>
-                                        @enderror
-                                    </div>
-                                
                             </div>
+                            <div class="col-lg-12 mb-4">
+                                <div class="form-group w-100">
+                                    <label for="renja_forum_kabkota" class="form-label">No SK Rencana Kerja</label>
+                                    
+                                    <textarea name="renja_forum_kabkota" id="renja_forum_kabkota" cols="4" rows="4"
+                                        required
+                                        oninvalid="this.setCustomValidity('Rencana Kerja tidak boleh kosong.')"
+                                        oninput="this.setCustomValidity('')"
+                                        class="form-control form-control-solid rounded rounded-4"
+                                        placeholder="Masukkan Rencana Kerja"
+                                    >{{ old('renja_forum_kabkota', $forum_kabkota->renja_forum_kabkota ?? '') }}</textarea>
+                                    @error('renja_forum_kabkota')
+                                        <div class="is-invalid">
+                                            <span class="text-danger">
+                                                {{$message}}
+                                            </span>
+                                        </div>
+                                    @enderror
+                                </div>
+                            
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal" onclick="location.reload()" >Batal</button>
-                            &nbsp;
-                            <button type="submit" class="btn btn-primary rounded-4 hover-scale">Simpan</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal" onclick="location.reload()" >Batal</button>
+                        &nbsp;
+                        <button type="submit" class="btn btn-primary rounded-4 hover-scale">Simpan</button>
+                    </div>
                     </form>
                 </div>
             </div>

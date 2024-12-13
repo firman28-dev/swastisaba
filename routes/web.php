@@ -110,7 +110,7 @@ Route::group(['middleware' => ['auth']], function () {
         });
 
         Route::group(['middleware' => ['superadmin']], function () {
-
+            
             //tatanan
             Route::get('/category/duplicate', [M_Category_Controller::class, 'copyCategoriesToNewYear'])->name('category.copyCategoriesToNewYear');
             Route::get('/category/deleteAll', [M_Category_Controller::class, 'deleteAll'])->name('category.deleteAll');
@@ -201,6 +201,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/check-username', [User_Controller::class, 'checkUsername'])->name('user.checkUsername');
             Route::patch('/user/{id}/reset-password', [User_Controller::class, 'resetPassword'])->name('user.resetPassword');
             Route::get('/user/reset-session/{id}', [User_Controller::class, 'resetSession'])->name('user.resetSession');
+            Route::get('/user/export', [User_Controller::class, 'exportPDF'])->name('user.export');
             Route::resource('user', User_Controller::class);
 
             //document general data
@@ -455,6 +456,9 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/v-prov/kabkota/store-skpokja/{id}',[Answer_Verifikator_Prov_Controller::class, 'storeSKPokja'])->name('v-prov.storeSKPokja');
 
             // Route::get('/v-prov/kabkota/{id}/general-data', [Answer_Verifikator_Prov_Controller::class, 'indexGData'])->name('v-prov.indexGData');
+
+            //ODF prov
+            Route::get('/v-prov/data-odf', [Answer_Verifikator_Prov_Controller::class, 'indexOdf'])->name('v-prov.indexOdf');
 
         });
 
