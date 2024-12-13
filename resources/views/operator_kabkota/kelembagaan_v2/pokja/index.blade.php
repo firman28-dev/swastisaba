@@ -45,6 +45,7 @@
                         <tr>
                             <th class="min-w-60px text-center border-1 border">No.</th>
                             <th class="min-w-60px text-center border-1 border">ID</th>
+                            <th class="min-w-60px text-center border-1 border">SubID</th>
                             <th class="min-w-100px text-center border-1 border"></th>
                             <th class="min-w-200px border-1 border">Nama Kelurahan/Desa</th>
                             <th class="min-w-200px border-1 border">Nama Pokja Desa</th>
@@ -68,6 +69,8 @@
                                 @endphp
                                 <td class="border-1 border text-center">{{ $loop->iteration }}</td>
                                 <td class="border-1 border text-center">{{ $item->id }}</td>
+                                <td class="border-1 border text-center">{{ $item->subdistrict_id }}</td>
+
 
                                 <td class="border border-1 text-center">
                                     @if (is_null($forumKel2))
