@@ -30,6 +30,8 @@
                                 name="sum_subdistricts"
                                 min="0"
                                 max="100"
+                                value="{{$sum_distirct}}"
+                                readonly
                             >
                             @error('sum_subdistricts')
                                 <div class="is-invalid">
@@ -54,6 +56,8 @@
                                 name="sum_villages"
                                 min="1"
                                 max="100"
+                                value="{{$sum_village}}"
+                                readonly
                             >
                             @error('sum_villages')
                                 <div class="is-invalid">
@@ -73,11 +77,10 @@
                                 class="form-control form-control-solid rounded rounded-4"
                                 placeholder="Masukkan Jumlah Kelurahan/Desa Stop BABS"
                                 required
-                                oninvalid="this.setCustomValidity('Kelurahan/Desa Stop BABS harus antara 0 dan 100.')"
-                                oninput="this.setCustomValidity('')"
+                                oninput="this.setCustomValidity(''); calculatePercentage()"
+                                oninvalid="this.setCustomValidity('Maksimal Kelurahan/Desa Stop BABS {{ $sum_village }}.')"
                                 name="s_villages_stop_babs"
-                                min="0"
-                                max="100"
+                                max="{{$sum_village}}"
                             >
                             @error('s_villages_stop_babs')
                                 <div class="is-invalid">
@@ -97,11 +100,11 @@
                                 class="form-control form-control-solid rounded rounded-4"
                                 placeholder="Masukkan Persentase Kelurahan/Desa Stop BABS"
                                 required
+                                oninput="calculatePercentage()"
                                 oninvalid="this.setCustomValidity('Persentase Kelurahan/Desa Stop BABS harus antara 1 dan 100.')"
-                                oninput="this.setCustomValidity('')"
                                 name="p_villages_stop_babs"
-                                min="1"
-                                max="100"
+                                readonly
+
                             >
                             @error('p_villages_stop_babs')
                                 <div class="is-invalid">
@@ -133,24 +136,26 @@
 
 @section('script')
     <script>
-        $("#id_proposal").select2();
-        document.querySelector('input[type="file"]').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            const maxSize = 10 * 1024 * 1024; // 2 MB
+        const sum_villages = {{$sum_village}};
+        // console.log(sum_villages);
+        function calculatePercentage() {
+            // Ambil elemen input jumlah kelurahan dan persentase
+            const capaianInput = document.getElementById('s_villages_stop_babs');
+            const persentaseInput = document.getElementById('p_villages_stop_babs');
 
-            if (file && file.type !== 'application/pdf') {
-                alert('File harus berformat PDF.');
-                e.target.value = ''; // Reset input
-            } else if (file && file.size > maxSize) {
-                // alert('Ukuran file tidak boleh lebih dari 2 MB.');
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Ukuran file terlalu besar',
-                    text: 'Ukuran maksimal file adalah 10 MB.',
-                    confirmButtonText: 'Oke',
-                });
-                e.target.value = ''; // Reset input
+            // Ambil nilai jumlah kelurahan dan total kelurahan
+            const capaianValue = parseFloat(capaianInput.value) || 0; // Default ke 0 jika kosong
+            const totalKelurahan = sum_villages; // Ganti dengan jumlah kelurahan yang sesuai, atau ambil dari API
+
+            // Validasi agar tidak ada pembagian nol
+            if (totalKelurahan > 0) {
+                const percentage = (capaianValue / sum_villages) * 100;
+                persentaseInput.value = percentage.toFixed(2); // Format angka ke 2 desimal
+            } else {
+                persentaseInput.value = ''; // Kosongkan jika totalKelurahan tidak valid
             }
-        });
+        }
+     
+
     </script>
 @endsection

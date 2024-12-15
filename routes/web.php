@@ -386,6 +386,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/kabkota/create-data-odf', [Trans_ODF_New_Controller::class,'create'])->name('data-odf.create');
             Route::post('/kabkota/data-odf/store', [Trans_ODF_New_Controller::class,'store'])->name('data-odf.store');
             Route::get('/kabkota/data-odf/edit/{id}', [Trans_ODF_New_Controller::class,'edit'])->name('data-odf.edit');
+            Route::put('/kabkota/data-odf/update/{id}', [Trans_ODF_New_Controller::class,'update'])->name('data-odf.update');
 
 
             //sk dan renja pembina
