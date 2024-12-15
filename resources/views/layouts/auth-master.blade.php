@@ -129,13 +129,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Aldi Duzha" />
-    <meta name="description" content="Free Bulma Login Template, part of Awesome Bulma Templates" />
-    <meta name="keywords" content="bulma, login, page, website, template, free, awesome" />
-    <link rel="canonical" href="https://aldi.github.io/bulma-login-template/" />
+    <meta name="description" content="Swastisaba aplikasi KKS Provinsi Sumbar" />
+    <meta name="keywords" content="swastisaba, kks, sumbar, tatanan, odf" />
+    <link rel="canonical" href="https://swastisaba.sumbarprov.go.id/" />
     <title>Swastisaba - Login</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
+	<link rel="icon" type="image/png" href="{{ asset('assets/img/swastisaba.png') }}" sizes="32x32">
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@1/css/bulma.min.css"
