@@ -35,7 +35,9 @@ class Answer_Kelembagaan_New_Controller extends Controller
             ->get();
         // return $q_kelembagaan;
 
-        $subdistrict = M_SubDistrict::where('district_id', $idZona)->get();
+        $subdistrict = M_SubDistrict::where('district_id', $idZona)
+        ->where('is_active',1)
+        ->get();
         // return $subdistrict;
         
         
@@ -1134,7 +1136,9 @@ class Answer_Kelembagaan_New_Controller extends Controller
         $category = M_C_Kelembagaan_New::find($idCKelembagaan);
 
         $subdistrict = M_SubDistrict::find($idSubdistrict);
-        $village = M_Village::where('subdistrict_id', $idSubdistrict)->get();
+        $village = M_Village::where('subdistrict_id', $idSubdistrict)
+        ->where('is_active',1)
+        ->get();
 
         $forumKel = Trans_Forum_Kel::where('id_zona', $idZona)
             ->where('id_survey', $session_date)
