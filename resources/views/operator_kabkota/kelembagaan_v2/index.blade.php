@@ -1071,7 +1071,7 @@
                             </div>
                             <div class="col-lg-6 mb-4">
                                 <div class="form-group w-100">
-                                    <label for="path" class="form-label">Bukti Kegiatan <span class="text-danger">*pdf | Max 2MB</span> </label>
+                                    <label for="path" class="form-label">Bukti Kegiatan <span class="text-danger">*pdf | Max 4 MB</span> </label>
                                     <input type="file" class="form-control form-control-solid" name="path" id="path" accept=".pdf">
                                     @error('path')
                                         <div class="is-invalid">
