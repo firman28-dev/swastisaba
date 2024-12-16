@@ -383,16 +383,14 @@
                                                         </div>
                                                         <div class="col-6 mb-4">
                                                             <div class="form-group w-100">
-                                                                <label for="achievement" class="form-label">Capaian {{$date->trans_date}}</label>
-                                                                <input type="number"
+                                                                <label for="achievement" class="form-label">Capaian  {{$date->trans_date}} <span class="required"></span></label>
+                                                                <input type="text"
                                                                     id="achievement"
                                                                     name="achievement"
                                                                     class="form-control form-control-solid rounded rounded-4"
-                                                                    placeholder="0.00"
+                                                                    placeholder="Capaian"
                                                                     oninvalid="this.setCustomValidity('Capaian tidak boleh kosong.')"
                                                                     oninput="this.setCustomValidity('')"
-                                                                    step="0.01"
-                                                                    min="0"
                                                                     required
                                                                     onchange="validateDecimal(this)"
                                                                     @if ($relatedAnswer)
@@ -410,7 +408,7 @@
                                                         </div>
                                                         <div class="col-6 mb-4">
                                                             <div class="form-group w-100">
-                                                                <label for="comment" class="form-label">Penjelasan</label>
+                                                                <label for="comment" class="form-label">Penjelasan<span class="required"></span></label>
                                                                 <textarea 
                                                                     name="comment" 
                                                                     id="comment" 

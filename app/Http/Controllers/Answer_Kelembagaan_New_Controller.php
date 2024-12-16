@@ -16,6 +16,7 @@ use App\Models\Trans_Kegiatan;
 use App\Models\Trans_Kelembagaan_V2;
 use App\Models\Trans_Pembina_KabKota;
 use App\Models\Trans_Sekre_Kec;
+use App\Models\Trans_Survey;
 use Auth;
 use Illuminate\Http\Request;
 use Session;
@@ -28,6 +29,8 @@ class Answer_Kelembagaan_New_Controller extends Controller
         $user = Auth::user();
         $idZona = $user->id_zona;
         $session_date = Session::get('selected_year');
+        $date = Trans_Survey::find($session_date);
+
 
         $category = M_C_Kelembagaan_New::find($id);
         $q_kelembagaan = M_Q_Kelembagaan_New::where('id_c_kelembagaan_v2', $id)
@@ -72,7 +75,16 @@ class Answer_Kelembagaan_New_Controller extends Controller
             ->where('id_zona', $idZona)
             ->first();
 
+        $sum_subdistrict = M_SubDistrict::where('district_id',$idZona)
+            ->where('is_active', 1)
+            ->count();
+        $distirctId = M_SubDistrict::where('district_id',$idZona)
+            ->where('is_active', 1)
+            ->pluck('id');
 
+        $sum_village = M_Village::whereIn('subdistrict_id',$distirctId)
+            ->where('is_active', 1)
+            ->count();
        
         // return $forumKec;
         $schedule = Setting_Time::where('id_group', $user->id_group)->first();
@@ -88,7 +100,10 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'subdistrict' => $subdistrict,
             'schedule' => $schedule,
             'pembina' => $pembina,
-            'forum_kabkota' => $forum_kabkota
+            'forum_kabkota' => $forum_kabkota,
+            'sum_subdistrict' => $sum_subdistrict,
+            'sum_village' => $sum_village,
+            'date' => $date
         ];
         // return $q_kelembagaan;
         return view('operator_kabkota.kelembagaan_v2.index', $sent);
@@ -101,14 +116,24 @@ class Answer_Kelembagaan_New_Controller extends Controller
         $request->validate([
             'id_survey' => 'required',
             'id_option' => 'required',
-            'file_path' => 'nullable|mimes:pdf|max:2048',
+            'sum_village' => 'nullable',
+            'sum_distirct' => 'nullable',
+            'note' => 'nullable',
+            'achievement' => 'nullable',
+            'file_path' => 'nullable|mimes:pdf|max:2048'
         ],[
             'id_option.required' => 'Option wajib diisi',
             'id_survey' => 'Tahun wajib dipilih',
             'file_path.mimes' => 'Wajib Pdf',
             'file_path.max' => 'Ukuran Maksimal 25MB',
         ]);
+        $sum_village = $request->sum_village;
+        $sum_subdistrict = $request->sum_subdistrict;
+        $achievement = $request->achievement;
+        $note = $request->note;
 
+
+        // return $ok;
         $files = $request->file('file_path'); 
 
         $user = Auth::user();
@@ -125,20 +150,75 @@ class Answer_Kelembagaan_New_Controller extends Controller
                 ->first();
 
             if ($relatedAnswer) {
-                $relatedAnswer->update([
-                    'id_opt_kelembagaan' => $request->id_option,
-                ]);
+                if($sum_village){
+                    $relatedAnswer->update([
+                        'sum_village' => $sum_village,
+                        'achievement' => $achievement,
+                        'note' => $note,
+                        'id_opt_kelembagaan' => $request->id_option,
+                        'updated_by' => $user->id
+                    ]);
+                }
+                elseif($sum_subdistrict){
+                    $relatedAnswer->update([
+                        'sum_subdistrict' => $sum_subdistrict,
+                        'achievement' => $achievement,
+                        'note' => $note,
+                        'id_opt_kelembagaan' => $request->id_option,
+                        'updated_by' => $user->id
+                    ]);
+                }
+                else{
+                    $relatedAnswer->update([
+                        'achievement' => $achievement,
+                        'note' => $note,
+                        'id_opt_kelembagaan' => $request->id_option,
+                        'updated_by' => $user->id
+                    ]);
+                }
+                
             }
 
             else {
-                $relatedAnswer = Trans_Kelembagaan_V2::create([
-                    'id_survey' => $session_date,
-                    'id_zona' => $idZona,
-                    'id_opt_kelembagaan' => $request->id_option,
-                    'id_q_kelembagaan' => $question->id,
-                    'created_by' => $user->id,
-                    'updated_by' => $user->id
-                ]);
+                if($sum_village){
+                    $relatedAnswer = Trans_Kelembagaan_V2::create([
+                        'id_survey' => $session_date,
+                        'id_zona' => $idZona,
+                        'id_opt_kelembagaan' => $request->id_option,
+                        'id_q_kelembagaan' => $question->id,
+                        'sum_village' => $sum_village,
+                        'achievement' => $achievement,
+                        'note' => $note,
+                        'created_by' => $user->id,
+                        'updated_by' => $user->id
+                    ]);
+                }
+                elseif($sum_subdistrict){
+                    $relatedAnswer = Trans_Kelembagaan_V2::create([
+                        'id_survey' => $session_date,
+                        'id_zona' => $idZona,
+                        'id_opt_kelembagaan' => $request->id_option,
+                        'id_q_kelembagaan' => $question->id,
+                        'sum_subdistrict' => $sum_subdistrict,
+                        'achievement' => $achievement,
+                        'note' => $note,
+                        'created_by' => $user->id,
+                        'updated_by' => $user->id
+                    ]);
+                }
+                else{
+                    $relatedAnswer = Trans_Kelembagaan_V2::create([
+                        'id_survey' => $session_date,
+                        'id_zona' => $idZona,
+                        'id_opt_kelembagaan' => $request->id_option,
+                        'id_q_kelembagaan' => $question->id,
+                        'achievement' => $achievement,
+                        'note' => $note,
+                        'created_by' => $user->id,
+                        'updated_by' => $user->id
+                    ]);
+                }
+                
             }
 
             if($files){

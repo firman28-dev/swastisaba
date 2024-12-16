@@ -226,6 +226,138 @@
                                                                     @endif
                                                                 </tbody>
                                                             </table>
+                                                           
+                                                            <div class="row mb-2">
+                                                                
+                                                                @if ($category && $category->is_status == 0 || $category->is_status == 1)
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group w-100">
+                                                                            <label for="achievement1" class="form-label">Capaian {{$date->trans_date}}<span class="required"></span></label>
+                                                                            <input type="text"
+                                                                                name="achievement"
+                                                                                id="achievement1"
+                                                                                class="form-control form-control-solid rounded rounded-4"
+                                                                                oninvalid="this.setCustomValidity('Capaian tidak boleh kosong.')"
+                                                                                oninput="this.setCustomValidity('')"
+                                                                                required
+                                                                                placeholder="Capaian"
+                                                                                @if ($relatedAnswer)
+                                                                                    value="{{$relatedAnswer->achievement}}"
+                                                                                @endif
+                                                                            >
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group w-100">
+                                                                            <label for="notes1" class="form-label">Penjelasan <span class="required"></span></label>
+                                                                            <textarea 
+                                                                                name="note" 
+                                                                                id="notes1" cols="3" rows="3" 
+                                                                                class="form-control form-control-solid" placeholder="Penjelasan"
+                                                                                required
+                                                                            >@if ($relatedAnswer){{$relatedAnswer->achievement}}@endif</textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                @elseif($category && $category->is_status == 2)
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group w-100">
+                                                                            <label for="sum_subdistrict" class="form-label">Jumlah Kecamatan </label>
+                                                                            <input type="text"
+                                                                                name="sum_subdistrict"
+                                                                                id="sum_subdistrict"
+                                                                                class="form-control form-control-solid rounded rounded-4"
+                                                                                oninvalid="this.setCustomValidity('Kecamatan tidak boleh kosong.')"
+                                                                                oninput="this.setCustomValidity('')"
+                                                                                required
+                                                                                placeholder="Kecamatan"
+                                                                                value="{{$sum_subdistrict}}"
+                                                                                readonly
+                                                                                @if ($relatedAnswer)
+                                                                                    value="{{$relatedAnswer->sum_subdistrict}}"
+                                                                                @endif
+                                                                            >
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group w-100">
+                                                                            <label for="achievement2" class="form-label">Capaian {{$date->trans_date}}<span class="required"></span></label>
+                                                                            <input type="number"
+                                                                                name="achievement"
+                                                                                id="achievement2"
+                                                                                class="form-control form-control-solid rounded rounded-4"
+                                                                                oninvalid="this.setCustomValidity('Capaian tidak boleh kosong dan maksimal {{$sum_subdistrict}}.')"
+                                                                                oninput="this.setCustomValidity('')"
+                                                                                required
+                                                                                placeholder="Capaian"
+                                                                                max="{{$sum_subdistrict}}"
+                                                                                @if ($relatedAnswer)
+                                                                                    value="{{$relatedAnswer->achievement}}"
+                                                                                @endif
+                                                                            >
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group w-100">
+                                                                            <label for="notes2" class="form-label">Penjelasan <span class="required"></span></label>
+                                                                            <textarea 
+                                                                                name="note" 
+                                                                                id="notes2" cols="3" rows="3" 
+                                                                                class="form-control form-control-solid" placeholder="Penjelasan"
+                                                                                required
+                                                                            >@if ($relatedAnswer){{$relatedAnswer->note}}@endif</textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                @else
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group w-100">
+                                                                            <label for="sum_village" class="form-label">Jumlah Kelurahan </label>
+                                                                            <input type="text"
+                                                                                name="sum_village"
+                                                                                id="sum_village"
+                                                                                class="form-control form-control-solid rounded rounded-4"
+                                                                                oninvalid="this.setCustomValidity('Kelurahan tidak boleh kosong.')"
+                                                                                oninput="this.setCustomValidity('')"
+                                                                                required
+                                                                                placeholder="Kelurahan"
+                                                                                readonly
+                                                                                value="{{$sum_village}}"
+                                                                                @if ($relatedAnswer)
+                                                                                    value="{{$relatedAnswer->sum_village}}"
+                                                                                @endif
+                                                                            >
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group w-100">
+                                                                            <label for="achievement3" class="form-label">Capaian {{$date->trans_date}} <span class="required"></span></label>
+                                                                            <input type="number"
+                                                                                name="achievement"
+                                                                                id="achievement3"
+                                                                                class="form-control form-control-solid rounded rounded-4"
+                                                                                oninvalid="this.setCustomValidity('Capaian tidak boleh kosong dan maksimal {{$sum_village}}.')"
+                                                                                oninput="this.setCustomValidity('')"
+                                                                                required
+                                                                                placeholder="Capaian"
+                                                                                max="{{$sum_village}}"
+                                                                                @if ($relatedAnswer)
+                                                                                    value="{{$relatedAnswer->achievement}}"
+                                                                                @endif
+                                                                            >
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group w-100">
+                                                                            <label for="notes3" class="form-label">Penjelasan <span class="required"></span></label>
+                                                                            <textarea 
+                                                                                name="note" 
+                                                                                id="notes3" cols="3" rows="3" 
+                                                                                class="form-control form-control-solid" placeholder="Penjelasan"
+                                                                                required
+                                                                            >@if ($relatedAnswer){{$relatedAnswer->note}}@endif</textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
+                                                            </div>
                                                             <div class="mb-2">
                                                                 <span class="required">Data Dukung berupa Pdf dan maksimal 2 MB</span>
                                                             </div>

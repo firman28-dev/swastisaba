@@ -74,7 +74,9 @@
                                 </td>
                                 <td class="text-capitalize border border-1">{{ $data->name }}</td>
                                 <td class="text-capitalize border border-1">
-                                    @if($data->is_status == '1')
+                                    @if($data->is_status == '0')
+                                        Pembina
+                                    @elseif($data->is_status == '1')
                                         Umum
                                     @elseif($data->is_status == '2')
                                         Kecamatan

@@ -19,6 +19,10 @@ class Trans_Kelembagaan_V2 extends Model
         'comment_prov',
         'id_opt_kelembagaan_pusat',
         'comment_pusat',
+        'achievement',
+        'note',
+        'sum_subdistrict',
+        'sum_village',
         'created_by',
         'updated_by'
     ];  
