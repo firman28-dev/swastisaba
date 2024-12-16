@@ -1478,5 +1478,24 @@
         
     </script>
 
-    
+    <script>
+        document.querySelector('input[type="file"]').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const maxSize = 4 * 1024 * 1024; // 2 MB
+
+            if (file && file.type !== 'application/pdf') {
+                alert('File harus berformat PDF.');
+                e.target.value = ''; // Reset input
+            } else if (file && file.size > maxSize) {
+                // alert('Ukuran file tidak boleh lebih dari 2 MB.');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Ukuran file terlalu besar',
+                    text: 'Ukuran maksimal file adalah 4 MB.',
+                    confirmButtonText: 'Oke',
+                });
+                e.target.value = ''; // Reset input
+            }
+        });
+    </script>
 @endsection

@@ -174,7 +174,7 @@ Kegiatan Pokja Desa
         $("#time").flatpickr();
         document.querySelector('input[type="file"]').addEventListener('change', function(e) {
             const file = e.target.files[0];
-            const maxSize = 2 * 1024 * 1024; // 2 MB
+            const maxSize = 4 * 1024 * 1024; // 2 MB
 
             if (file && file.type !== 'application/pdf') {
                 alert('File harus berformat PDF.');
@@ -184,7 +184,7 @@ Kegiatan Pokja Desa
                 Swal.fire({
                     icon: 'warning',
                     title: 'Ukuran file terlalu besar',
-                    text: 'Ukuran maksimal file adalah 2 MB.',
+                    text: 'Ukuran maksimal file adalah 4 MB.',
                     confirmButtonText: 'Oke',
                 });
                 e.target.value = ''; // Reset input

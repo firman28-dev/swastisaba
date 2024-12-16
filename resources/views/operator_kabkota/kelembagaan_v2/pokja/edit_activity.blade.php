@@ -130,7 +130,7 @@
                     
                     <div class="col-lg-6 mb-4">
                         <div class="form-group w-100">
-                            <label for="path" class="form-label">Bukti Kegiatan <span class="text-danger">*pdf | Max 2MB</span> </label>
+                            <label for="path" class="form-label">Bukti Kegiatan <span class="text-danger">* pdf | Max 4 MB</span> </label>
                             <input type="file" class="form-control form-control-solid" name="path" id="path" accept=".pdf">
                             @error('path')
                                 <div class="is-invalid">
@@ -182,7 +182,7 @@
         $("#time").flatpickr();
         document.querySelector('input[type="file"]').addEventListener('change', function(e) {
             const file = e.target.files[0];
-            const maxSize = 2 * 1024 * 1024; // 2 MB
+            const maxSize = 4 * 1024 * 1024; // 2 MB
 
             if (file && file.type !== 'application/pdf') {
                 alert('File harus berformat PDF.');
@@ -192,7 +192,7 @@
                 Swal.fire({
                     icon: 'warning',
                     title: 'Ukuran file terlalu besar',
-                    text: 'Ukuran maksimal file adalah 2 MB.',
+                    text: 'Ukuran maksimal file adalah 4 MB.',
                     confirmButtonText: 'Oke',
                 });
                 e.target.value = ''; // Reset input

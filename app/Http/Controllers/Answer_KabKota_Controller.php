@@ -76,7 +76,7 @@ class Answer_KabKota_Controller extends Controller
             'comment.required' => 'Penjelasan wajib diisi',
             'achievement.required' => 'Capaian wajib diisi',
             'file_path.mimes' => 'Wajib Pdf',
-            'file_path.max' => 'Ukuran Maksimal 10 MB',
+            'file_path.max' => 'Ukuran Maksimal 4 MB',
 
         ]);
 

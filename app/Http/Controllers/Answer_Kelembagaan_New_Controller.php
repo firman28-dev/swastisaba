@@ -120,12 +120,12 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'sum_distirct' => 'nullable',
             'note' => 'nullable',
             'achievement' => 'nullable',
-            'file_path' => 'nullable|mimes:pdf|max:2048'
+            'file_path' => 'nullable|mimes:pdf|max:4096'
         ],[
             'id_option.required' => 'Option wajib diisi',
             'id_survey' => 'Tahun wajib dipilih',
             'file_path.mimes' => 'Wajib Pdf',
-            'file_path.max' => 'Ukuran Maksimal 25MB',
+            'file_path.max' => 'Ukuran Maksimal 4MB',
         ]);
         $sum_village = $request->sum_village;
         $sum_subdistrict = $request->sum_subdistrict;
@@ -292,7 +292,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'participant' => 'required',
             'result' => 'required',
             'note' => 'required',
-            'path' => 'nullable|mimes:pdf|max:2048',
+            'path' => 'nullable|mimes:pdf|max:4096',
         ],[
             'name.required' => 'Option wajib diisi',
             'id_kode.required' => 'Kode Kecamatan wajib diisi',
@@ -300,7 +300,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'result.required' => 'Hasil wajib dipilih',
             'note.required' => 'Keterangan wajib dipilih',
             'path.mimes' => 'File Wajib Pdf',
-            'path.max' => 'FIle Ukuran Maksimal 2MB',
+            'path.max' => 'FIle Ukuran Maksimal 4 MB',
         ]);
 
         $c_kelembagaan = M_C_Kelembagaan_New::find($id);
@@ -384,14 +384,14 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'participant' => 'required',
             'result' => 'required',
             'note' => 'required',
-            'path' => 'nullable|mimes:pdf|max:2048',
+            'path' => 'nullable|mimes:pdf|max:4096',
         ],[
             'name.required' => 'Option wajib diisi',
             'time.required' => 'Waktu wajib dipilih',
             'result.required' => 'Hasil wajib dipilih',
             'note.required' => 'Keterangan wajib dipilih',
             'path.mimes' => 'File Wajib Pdf',
-            'path.max' => 'FIle Ukuran Maksimal 2MB',
+            'path.max' => 'FIle Ukuran Maksimal 4 MB',
         ]);
 
         $c_kelembagaan = M_C_Kelembagaan_New::find($id);
@@ -476,14 +476,14 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'participant' => 'required',
             'result' => 'required',
             'note' => 'required',
-            'path' => 'nullable|mimes:pdf|max:2048',
+            'path' => 'nullable|mimes:pdf|max:4096',
         ],[
             'name.required' => 'Option wajib diisi',
             'time.required' => 'Waktu wajib dipilih',
             'result.required' => 'Hasil wajib dipilih',
             'note.required' => 'Keterangan wajib dipilih',
             'path.mimes' => 'File Wajib Pdf',
-            'path.max' => 'FIle Ukuran Maksimal 2MB',
+            'path.max' => 'FIle Ukuran Maksimal 4 MB',
         ]);
 
         $path = $request->file('path'); 
@@ -609,10 +609,10 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'f_budget' => 'required',
             's_address' => 'required',
 
-            'path_sk_f' => 'nullable|mimes:pdf|max:2048',
-            'path_plan_f' => 'nullable|mimes:pdf|max:2048',
-            'path_s' => 'nullable|mimes:pdf|max:2048',
-            'path_budget' => 'nullable|mimes:pdf|max:2048',
+            'path_sk_f' => 'nullable|mimes:pdf|max:4096',
+            'path_plan_f' => 'nullable|mimes:pdf|max:4096',
+            'path_s' => 'nullable|mimes:pdf|max:4096',
+            'path_budget' => 'nullable|mimes:pdf|max:4096',
 
         ],[
             'id_subdistrict.required' => 'Nama Kecamatan wajib diisi',
@@ -623,16 +623,16 @@ class Answer_Kelembagaan_New_Controller extends Controller
             's_address.required' => 'Alamat Sekretariat Forum wajib diisi',
 
             'path_sk_f.mimes' => 'File Wajib Pdf',
-            'path_sk_f.max' => 'Ukuran file tidak boleh melebihi 2MB.',
+            'path_sk_f.max' => 'Ukuran file tidak boleh melebihi 4 MB.',
 
             'path_plan_f.mimes' => 'File Wajib Pdf',
-            'path_plan_f.max' => 'Ukuran file tidak boleh melebihi 2MB.',
+            'path_plan_f.max' => 'Ukuran file tidak boleh melebihi 4 MB.',
 
             'path_s.mimes' => 'File Wajib Pdf',
-            'path_s.max' => 'Ukuran file tidak boleh melebihi 2MB.',
+            'path_s.max' => 'Ukuran file tidak boleh melebihi 4 MB.',
 
             'path_budget.mimes' => 'File Wajib Pdf',
-            'path_budget.max' => 'Ukuran file tidak boleh melebihi 2MB.',
+            'path_budget.max' => 'Ukuran file tidak boleh melebihi 4 MB.',
         ]);
 
         $c_kelembagaan = M_C_Kelembagaan_New::find($id);
@@ -733,10 +733,10 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'f_budget' => 'required',
             's_address' => 'required',
 
-            'path_sk_f' => 'nullable|mimes:pdf|max:2048',
-            'path_plan_f' => 'nullable|mimes:pdf|max:2048',
-            'path_s' => 'nullable|mimes:pdf|max:2048',
-            'path_budget' => 'nullable|mimes:pdf|max:2048',
+            'path_sk_f' => 'nullable|mimes:pdf|max:4096',
+            'path_plan_f' => 'nullable|mimes:pdf|max:4096',
+            'path_s' => 'nullable|mimes:pdf|max:4096',
+            'path_budget' => 'nullable|mimes:pdf|max:4096',
 
         ],[
             'f_district.required' => 'Forum Kecamatan wajib diisi',
@@ -745,10 +745,10 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'f_budget.required' => 'Anggaran wajib diisi',
             's_address.required' => 'Alamat Sekretariat Forum wajib diisi',
 
-            'path_sk_f' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 2MB'],
-            'path_plan_f' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 2MB'],
-            'path_s' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 2MB'],
-            'path_budget' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 2MB'],
+            'path_sk_f' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 4 MB'],
+            'path_plan_f' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 4 MB'],
+            'path_s' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 4 MB'],
+            'path_budget' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 4 MB'],
         ]);
 
         $path = $request->file('path'); 
@@ -904,10 +904,10 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'f_budget' => 'required',
             's_address' => 'required',
 
-            'path_sk_f' => 'nullable|mimes:pdf|max:2048',
-            'path_plan_f' => 'nullable|mimes:pdf|max:2048',
-            'path_s' => 'nullable|mimes:pdf|max:2048',
-            'path_budget' => 'nullable|mimes:pdf|max:2048',
+            'path_sk_f' => 'nullable|mimes:pdf|max:4096',
+            'path_plan_f' => 'nullable|mimes:pdf|max:4096',
+            'path_s' => 'nullable|mimes:pdf|max:4096',
+            'path_budget' => 'nullable|mimes:pdf|max:4096',
 
         ],[
             'district.required' => 'Nama Kecamatan wajib diisi',
@@ -919,16 +919,16 @@ class Answer_Kelembagaan_New_Controller extends Controller
             's_address.required' => 'Alamat Sekretariat Pokja wajib diisi',
 
             'path_sk_f.mimes' => 'File Wajib Pdf',
-            'path_sk_f.max' => 'Ukuran file tidak boleh melebihi 2MB.',
+            'path_sk_f.max' => 'Ukuran file tidak boleh melebihi 4 MB.',
 
             'path_plan_f.mimes' => 'File Wajib Pdf',
-            'path_plan_f.max' => 'Ukuran file tidak boleh melebihi 2MB.',
+            'path_plan_f.max' => 'Ukuran file tidak boleh melebihi 4 MB.',
 
             'path_s.mimes' => 'File Wajib Pdf',
-            'path_s.max' => 'Ukuran file tidak boleh melebihi 2MB.',
+            'path_s.max' => 'Ukuran file tidak boleh melebihi 4 MB.',
 
             'path_budget.mimes' => 'File Wajib Pdf',
-            'path_budget.max' => 'Ukuran file tidak boleh melebihi 2MB.',
+            'path_budget.max' => 'Ukuran file tidak boleh melebihi 4 MB.',
             
         ]);
 
@@ -1036,10 +1036,10 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'f_budget' => 'required',
             's_address' => 'required',
 
-            'path_sk_f' => 'nullable|mimes:pdf|max:2048',
-            'path_plan_f' => 'nullable|mimes:pdf|max:2048',
-            'path_s' => 'nullable|mimes:pdf|max:2048',
-            'path_budget' => 'nullable|mimes:pdf|max:2048',
+            'path_sk_f' => 'nullable|mimes:pdf|max:4096',
+            'path_plan_f' => 'nullable|mimes:pdf|max:4096',
+            'path_s' => 'nullable|mimes:pdf|max:4096',
+            'path_budget' => 'nullable|mimes:pdf|max:4096',
 
         ],[
             'district.required' => 'Nama Kecamatan wajib diisi',
@@ -1050,10 +1050,10 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'f_budget.required' => 'Anggaran wajib diisi',
             's_address.required' => 'Alamat Sekretariat Pokja Desa wajib diisi',
 
-            'path_sk_f' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 2MB'],
-            'path_plan_f' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 2MB'],
-            'path_s' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 2MB'],
-            'path_budget' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 2MB'],
+            'path_sk_f' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 4 MB'],
+            'path_plan_f' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 4 MB'],
+            'path_s' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 4 MB'],
+            'path_budget' => ['mimes' => 'File Wajib Pdf', 'max' => 'File Ukuran Maksimal 4 MB'],
         ]);
 
         $path = $request->file('path'); 
@@ -1266,10 +1266,10 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'f_budget' => 'required',
             's_address' => 'required',
 
-            'path_sk_f' => 'nullable|mimes:pdf|max:2048',
-            'path_plan_f' => 'nullable|mimes:pdf|max:2048',
-            'path_s' => 'nullable|mimes:pdf|max:2048',
-            'path_budget' => 'nullable|mimes:pdf|max:2048',
+            'path_sk_f' => 'nullable|mimes:pdf|max:4096',
+            'path_plan_f' => 'nullable|mimes:pdf|max:4096',
+            'path_s' => 'nullable|mimes:pdf|max:4096',
+            'path_budget' => 'nullable|mimes:pdf|max:4096',
 
         ],[
             'id_village.required' => 'Nama Kelurahan wajib diisi',
@@ -1280,16 +1280,16 @@ class Answer_Kelembagaan_New_Controller extends Controller
             's_address.required' => 'Alamat Sekretariat Pokja wajib diisi',
 
             'path_sk_f.mimes' => 'File SK Pokja Desa Wajib Pdf',
-            'path_sk_f.max' => 'Ukuran file SK Pokja Desa tidak boleh melebihi 2MB.',
+            'path_sk_f.max' => 'Ukuran file SK Pokja Desa tidak boleh melebihi 4 MB.',
 
             'path_plan_f.mimes' => 'File Renja Wajib Pdf',
-            'path_plan_f.max' => 'Ukuran file Renja tidak boleh melebihi 2MB.',
+            'path_plan_f.max' => 'Ukuran file Renja tidak boleh melebihi 4 MB.',
 
             'path_s.mimes' => 'File Sekretariat Pokja Wajib Pdf',
-            'path_s.max' => 'Ukuran file Sekretariat Pokja tidak boleh melebihi 2MB.',
+            'path_s.max' => 'Ukuran file Sekretariat Pokja tidak boleh melebihi 4 MB.',
 
             'path_budget.mimes' => 'File Anggaran Pokja Wajib Pdf',
-            'path_budget.max' => 'Ukuran file Anggaran Pokja tidak boleh melebihi 2MB.',
+            'path_budget.max' => 'Ukuran file Anggaran Pokja tidak boleh melebihi 4 MB.',
             
         ]);
 
@@ -1407,10 +1407,10 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'f_budget' => 'required',
             's_address' => 'required',
 
-            'path_sk_f' => 'nullable|mimes:pdf|max:2048',
-            'path_plan_f' => 'nullable|mimes:pdf|max:2048',
-            'path_s' => 'nullable|mimes:pdf|max:2048',
-            'path_budget' => 'nullable|mimes:pdf|max:2048',
+            'path_sk_f' => 'nullable|mimes:pdf|max:4096',
+            'path_plan_f' => 'nullable|mimes:pdf|max:4096',
+            'path_s' => 'nullable|mimes:pdf|max:4096',
+            'path_budget' => 'nullable|mimes:pdf|max:4096',
 
         ],[
             'f_village.required' => 'Pokja Desa wajib diisi',
@@ -1420,16 +1420,16 @@ class Answer_Kelembagaan_New_Controller extends Controller
             's_address.required' => 'Alamat Sekretariat Pokja Desa wajib diisi',
 
             'path_sk_f.mimes' => 'File SK Pokja Desa Wajib Pdf',
-            'path_sk_f.max' => 'Ukuran file SK Pokja Desa tidak boleh melebihi 2MB.',
+            'path_sk_f.max' => 'Ukuran file SK Pokja Desa tidak boleh melebihi 4 MB.',
 
             'path_plan_f.mimes' => 'File Renja Wajib Pdf',
-            'path_plan_f.max' => 'Ukuran file Renja tidak boleh melebihi 2MB.',
+            'path_plan_f.max' => 'Ukuran file Renja tidak boleh melebihi 4 MB.',
 
             'path_s.mimes' => 'File Sekretariat Pokja Wajib Pdf',
-            'path_s.max' => 'Ukuran file Sekretariat Pokja tidak boleh melebihi 2MB.',
+            'path_s.max' => 'Ukuran file Sekretariat Pokja tidak boleh melebihi 4 MB.',
 
             'path_budget.mimes' => 'File Anggaran Pokja Wajib Pdf',
-            'path_budget.max' => 'Ukuran file Anggaran Pokja tidak boleh melebihi 2MB.',
+            'path_budget.max' => 'Ukuran file Anggaran Pokja tidak boleh melebihi 4 MB.',
         ]);
 
         $path = $request->file('path'); 
@@ -1671,7 +1671,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'participant' => 'required',
             'result' => 'required',
             'note' => 'required',
-            'path' => 'nullable|mimes:pdf|max:2048',
+            'path' => 'nullable|mimes:pdf|max:4096',
         ],[
             'name.required' => 'Option wajib diisi',
             'id_kode.required' => 'Kode Kecamatan wajib diisi',
@@ -1679,7 +1679,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'result.required' => 'Hasil wajib dipilih',
             'note.required' => 'Keterangan wajib dipilih',
             'path.mimes' => 'File Wajib Pdf',
-            'path.max' => 'FIle Ukuran Maksimal 2MB',
+            'path.max' => 'FIle Ukuran Maksimal 4 MB',
         ]);
 
         $c_kelembagaan = M_C_Kelembagaan_New::find($id);
@@ -1784,14 +1784,14 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'participant' => 'required',
             'result' => 'required',
             'note' => 'required',
-            'path' => 'nullable|mimes:pdf|max:2048',
+            'path' => 'nullable|mimes:pdf|max:4096',
         ],[
             'name.required' => 'Option wajib diisi',
             'time.required' => 'Waktu wajib dipilih',
             'result.required' => 'Hasil wajib dipilih',
             'note.required' => 'Keterangan wajib dipilih',
             'path.mimes' => 'File Wajib Pdf',
-            'path.max' => 'FIle Ukuran Maksimal 2MB',
+            'path.max' => 'FIle Ukuran Maksimal 4 MB',
         ]);
 
         $village = M_Village::find($request->id_kode);
