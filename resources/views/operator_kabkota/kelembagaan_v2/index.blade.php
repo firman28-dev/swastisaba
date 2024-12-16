@@ -255,7 +255,7 @@
                                                                                 id="notes1" cols="3" rows="3" 
                                                                                 class="form-control form-control-solid" placeholder="Penjelasan"
                                                                                 required
-                                                                            >@if ($relatedAnswer){{$relatedAnswer->achievement}}@endif</textarea>
+                                                                            >@if ($relatedAnswer){{$relatedAnswer->note}}@endif</textarea>
                                                                         </div>
                                                                     </div>
                                                                 @elseif($category && $category->is_status == 2)
