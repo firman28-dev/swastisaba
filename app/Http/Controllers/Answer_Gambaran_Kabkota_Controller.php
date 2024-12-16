@@ -39,7 +39,7 @@ class Answer_Gambaran_Kabkota_Controller extends Controller
             'id_survey' => 'Tahun wajib disetting',
             'path.required' => 'Field wajib diisi',
             'path.mimes' => 'Dokumen wajib berupa pdf',
-            'path.max' => 'Dokumen maksimal berukuran 10 MB'
+            'path.max' => 'Dokumen maksimal berukuran 4 MB'
         ]);
 
         $user = Auth::user();

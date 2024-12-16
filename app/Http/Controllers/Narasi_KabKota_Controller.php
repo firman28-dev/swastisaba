@@ -33,12 +33,12 @@ class Narasi_KabKota_Controller extends Controller
     {
         $request->validate([
             'id_survey' => 'required',
-            'path' => 'required|mimes:pdf|max:10480',
+            'path' => 'required|mimes:pdf|max:4096',
         ],[
             'id_survey' => 'Tahun wajib disetting',
             'path.required' => 'Field wajib diisi',
             'path.mimes' => 'Dokumen wajib berupa pdf',
-            'path.max' => 'Dokumen maksimal berukuran 10 MB'
+            'path.max' => 'Dokumen maksimal berukuran 4 MB'
         ]);
 
         $user = Auth::user();

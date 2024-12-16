@@ -131,7 +131,7 @@
                                                             <div class="col-lg-12">
                                                                 <div class="form-group w-100">
                                                                     <label for="name" class="form-label">Dokumen</label>
-                                                                    <p class="text-danger">Dokumen berbentuk Pdf dan maksimal 10 MB</p>
+                                                                    <p class="text-danger">Dokumen berbentuk Pdf dan maksimal 4 MB</p>
                                                                     <input type="file" name="path" class="form-control form-control-solid rounded rounded-4" placeholder="File" accept=".pdf">
                                                                     @error('path')
                                                                         <div class="is-invalid">
@@ -231,7 +231,7 @@
     <script>
         document.querySelector('input[type="file"]').addEventListener('change', function(e) {
             const file = e.target.files[0];
-            const maxSize = 10 * 1024 * 1024; // 2 MB
+            const maxSize = 4 * 1024 * 1024; // 2 MB
 
             if (file && file.type !== 'application/pdf') {
                 alert('File harus berformat PDF.');
@@ -241,7 +241,7 @@
                 Swal.fire({
                     icon: 'warning',
                     title: 'Ukuran file terlalu besar',
-                    text: 'Ukuran maksimal file adalah 10 MB.',
+                    text: 'Ukuran maksimal file adalah 4 MB.',
                     confirmButtonText: 'Oke',
                 });
                 e.target.value = ''; // Reset input
