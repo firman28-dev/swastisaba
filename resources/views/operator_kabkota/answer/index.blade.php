@@ -429,7 +429,7 @@
                                                     </div>
                                                     
                                                     <div class="mb-2">
-                                                        <span class="required">Data Dukung berupa Pdf dan maksimal 10 MB</span>
+                                                        <span class="required">Data Dukung berupa Pdf dan maksimal 4 MB</span>
                                                     </div>
                                                     
                                                     <table class="table mb-3 table-striped table-row-bordered border rounded">
@@ -795,7 +795,7 @@
     <script>
         document.querySelector('input[type="file"]').addEventListener('change', function(e) {
             const file = e.target.files[0];
-            const maxSize = 10 * 1024 * 1024; // 10 MB
+            const maxSize = 4 * 1024 * 1024; // 10 MB
 
             if (file && file.type !== 'application/pdf') {
                 alert('File harus berformat PDF.');
@@ -805,7 +805,7 @@
                 Swal.fire({
                     icon: 'warning',
                     title: 'Ukuran file terlalu besar',
-                    text: 'Ukuran maksimal file adalah 10 MB.',
+                    text: 'Ukuran maksimal file adalah 4 MB.',
                     confirmButtonText: 'Oke',
                 });
                 e.target.value = ''; // Reset input

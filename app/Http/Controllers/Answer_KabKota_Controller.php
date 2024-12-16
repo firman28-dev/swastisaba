@@ -69,7 +69,7 @@ class Answer_KabKota_Controller extends Controller
             'id_option' => 'required',
             'comment' => 'required',
             'achievement' => 'required',
-            'file_path' => 'nullable|mimes:pdf|max:10480',
+            'file_path' => 'nullable|mimes:pdf|max:4096',
         ],[
             'id_option.required' => 'Option wajib diisi',
             'id_survey.required' => 'Tahun wajib dipilih',

@@ -189,6 +189,11 @@
         .languages {
             margin-top: 10px;
         }
+        .pointer-icon {
+            /* display: inline-block; Pastikan span tampil sebagai blok */
+            cursor: pointer !important;
+            user-select: none; /* Nonaktifkan seleksi teks saat diklik */
+        }
     </style>
   </head>
   <body>
@@ -207,42 +212,45 @@
                         <form method="post" action="{{ route('login.perform') }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
                             <div class="field">
-                                <p class="control has-icons-left has-icons-right">
-                                <input 
-                                    class="input is-medium" 
-                                    type="text" 
-                                    placeholder="Username atau Email" 
-                                    name="username"
-                                    value="{{ old('username') }}"
-                                    autofocus
-                                    required
-                                    autocomplete="off"
-                                    oninvalid="this.setCustomValidity('Kolom tidak boleh kosong.')"
-                                    oninput="this.setCustomValidity('')"
-                                />
-                                <span class="icon is-medium is-left">
-                                    <i class="fas fa-envelope"></i>
-                                </span>
-                                </p>
+                                <div class="control has-icons-left has-icons-right">
+                                    <input 
+                                        class="input is-medium" 
+                                        type="text" 
+                                        placeholder="Username atau Email" 
+                                        name="username"
+                                        value="{{ old('username') }}"
+                                        autofocus
+                                        required
+                                        autocomplete="off"
+                                        oninvalid="this.setCustomValidity('Kolom tidak boleh kosong.')"
+                                        oninput="this.setCustomValidity('')"
+                                    />
+                                    <span class="icon is-medium is-left">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </div>
                             </div>
                             <div class="field">
-                                <p class="control has-icons-left">
-                                <input 
-                                    class="input is-medium" 
-                                    type="password" 
-                                    placeholder="Password" 
-                                    id="password"
-                                    name="password"
-                                    value="{{ old('password') }}"
-                                    required
-                                    autocomplete="new-password"
-                                    oninvalid="this.setCustomValidity('Kolom tidak boleh kosong.')"
-                                    oninput="this.setCustomValidity('')"
-                                />
-                                <span class="icon is-small is-left">
-                                    <i class="fas fa-lock"></i>
-                                </span>
-                                </p>
+                                <div class="control has-icons-left has-icons-right">
+                                    <input 
+                                        class="input is-medium" 
+                                        type="password" 
+                                        placeholder="Password" 
+                                        id="password"
+                                        name="password"
+                                        value="{{ old('password') }}"
+                                        required
+                                        autocomplete="new-password"
+                                        oninvalid="this.setCustomValidity('Kolom tidak boleh kosong.')"
+                                        oninput="this.setCustomValidity('')"
+                                    />
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-lock"></i>
+                                    </span>
+                                    <span class="icon is-small is-right" style="pointer-events: all; cursor: pointer"  onclick="togglePassword()">
+                                        <i id="toggle-icon" class="fas fa-eye-slash"></i>
+                                    </span>
+                                </div>
                             </div>
                         
                             <div class="column is-flex is-half is-offset-one-quarter">
@@ -267,19 +275,22 @@
 
     <script>
         function togglePassword() {
-        const passwordInput = document.getElementById('password');
-        const passwordEye = document.getElementById('password-eye');
-
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            passwordEye.classList.remove('fa-eye-slash');
-            passwordEye.classList.add('fa-eye');
-        } else {
-            passwordInput.type = 'password';
-            passwordEye.classList.remove('fa-eye');
-            passwordEye.classList.add('fa-eye-slash');
+            console.log('hh');
+            
+            const passwordField = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggle-icon');
+            
+            // Check the current type of password input
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text'; // Show the password
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye'); // Update icon
+            } else {
+                passwordField.type = 'password'; // Hide the password
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash'); // Update icon
+            }
         }
-    }
     </script>
   </body>
 </html>
