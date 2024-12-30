@@ -140,14 +140,14 @@
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@1/css/bulma.min.css"
-      integrity="sha256-efrxyTTvKJ2Q1/BD8p9dZFtTEcil+cMzxZeL/7hdO2g="
+      {{-- integrity="sha256-efrxyTTvKJ2Q1/BD8p9dZFtTEcil+cMzxZeL/7hdO2g=" --}}
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-social@1/bin/bulma-social.min.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css"
-      integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E="
+      {{-- integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" --}}
       crossorigin="anonymous"
     />
     <style>

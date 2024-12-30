@@ -10,13 +10,13 @@ class DataController extends Controller
 {
     public function index()
     {
-        // Ambil data dari model
         $data = M_District::where('province_id',13)->get();
+        $count = M_District::where('province_id',13)->count();
 
-        // Kembalikan data dalam format JSON
         return response()->json([
             'status' => 'success',
             'data' => $data,
+            'total' => $count
         ], 200);
     }
 }
