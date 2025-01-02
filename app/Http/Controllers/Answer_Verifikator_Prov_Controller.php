@@ -309,7 +309,10 @@ class Answer_Verifikator_Prov_Controller extends Controller
         $session_date = Session::get('selected_year');
         $category = M_C_Kelembagaan_New::find($idCKelembagaan);
         $subdistrict = M_SubDistrict::find($idSubdistrict);
-        $village = M_Village::where('subdistrict_id', $idSubdistrict)->get();
+        $village = M_Village::where('subdistrict_id', $idSubdistrict)
+        ->where('is_active',1)
+        ->get();
+
 
         $forumKel = Trans_Forum_Kel::where('id_zona', $subdistrict->district_id)
             ->where('id_survey', $session_date)
