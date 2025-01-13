@@ -1010,7 +1010,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
 
             
         } catch (\Throwable $th) {
-            throw $th;
+            // throw $th;
             return redirect()->back()->with('error', 'Gagal menambahkan data');
         }
 
@@ -1351,7 +1351,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
                     // $activity->path_s = $fileName3; // Simpan jika tidak null
 
                     $fileName3 = $user->id . '_Sekretariat_' . $path3->getClientOriginalName();
-                    $path2->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/', $fileName3);
+                    $path3->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/', $fileName3);
                     $activity->path_sk_f = $fileName3;
                 }
                 
