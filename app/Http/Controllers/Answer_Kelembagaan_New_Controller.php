@@ -1010,7 +1010,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
 
             
         } catch (\Throwable $th) {
-            // throw $th;
+            throw $th;
             return redirect()->back()->with('error', 'Gagal menambahkan data');
         }
 
