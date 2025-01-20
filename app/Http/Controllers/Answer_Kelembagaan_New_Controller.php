@@ -602,7 +602,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
     {
 
         $request->validate([
-            'id_subdistrict' => 'required|unique:trans_forum_kec',
+            'id_subdistrict' => 'required',
             'f_district' => 'required',
             'no_sk' => 'required',
             'expired_sk' => 'required',
