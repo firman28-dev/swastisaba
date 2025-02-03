@@ -45,7 +45,7 @@
                     <label for="opsi" class="form-label">Opsi</label>
                     <div class="row mb-3" id="field-1">
                         <div class="col-md-5">
-                            <textarea name="name" class="form-control form-control-solid" required id="name" placeholder="Opsi">{{$q_option->name}}</textarea>
+                            <textarea name="name" class="form-control form-control-solid" required id="name" placeholder="Opsi" rows="5">{{$q_option->name}}</textarea>
                             {{-- <input type="text" name="name" class="form-control form-control-solid" placeholder="Opsi" required value="{{$q_option->name}}"> --}}
                         </div>
                         <div class="col-md-5">
