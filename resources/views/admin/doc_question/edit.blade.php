@@ -57,6 +57,23 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="col-lg-6 mb-4">
+                        <div class="form-group">
+                            <label for="ket" class="form-label">Keterangan</label>
+                            <textarea name="ket" id="" cols="2" rows="5" 
+                                id="ket"
+                                class="form-control form-control-solid rounded"
+                                oninvalid="this.setCustomValidity('keterangan tidak boleh kosong.')"
+                                oninput="this.setCustomValidity('')">{{$doc->ket}}</textarea>
+                            @error('ket')
+                                <div class="is-invalid">
+                                    <span class="text-danger">
+                                        {{$message}}
+                                    </span>
+                                </div>
+                            @enderror
+                        </div>
+                    </div>
                     
                 </div>
                 
