@@ -45,7 +45,8 @@
                     <label for="opsi" class="form-label">Opsi</label>
                     <div class="row mb-3" id="field-1">
                         <div class="col-md-5">
-                            <input type="text" name="name" class="form-control form-control-solid" placeholder="Opsi" required value="{{$q_option->name}}">
+                            <textarea name="name" class="form-control form-control-solid" required id="name" placeholder="Opsi">{{$q_option->name}}</textarea>
+                            {{-- <input type="text" name="name" class="form-control form-control-solid" placeholder="Opsi" required value="{{$q_option->name}}"> --}}
                         </div>
                         <div class="col-md-5">
                             <input type="number" name="score" class="form-control form-control-solid" placeholder="Score" required value="{{$q_option->score}}">
