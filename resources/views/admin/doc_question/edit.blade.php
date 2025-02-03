@@ -42,7 +42,7 @@
                     </div>
                     <div class="col-lg-6 mb-4">
                         <div class="form-group">
-                            <label for="name" class="form-label">Pertanyaan</label>
+                            <label for="name" class="form-label">Nama Data Dukung</label>
                             <textarea name="name" id="" cols="2" rows="2" 
                                 id="name"
                                 class="form-control form-control-solid rounded"
