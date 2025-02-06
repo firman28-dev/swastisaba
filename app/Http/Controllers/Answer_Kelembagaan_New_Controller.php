@@ -1340,7 +1340,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
 
                     $fileName2 = $user->id . '_Renja_' . $path2->getClientOriginalName();
                     $path2->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/', $fileName2);
-                    $activity->path_sk_f = $fileName2;
+                    $activity->path_plan_f = $fileName2;
                 }
                 
                 // Cek dan proses file Sekre
@@ -1352,7 +1352,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
 
                     $fileName3 = $user->id . '_Sekretariat_' . $path3->getClientOriginalName();
                     $path3->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_pokja_desa/', $fileName3);
-                    $activity->path_sk_f = $fileName3;
+                    $activity->path_s = $fileName3;
                 }
                 
                 // Cek dan proses file Budget/Anggaran

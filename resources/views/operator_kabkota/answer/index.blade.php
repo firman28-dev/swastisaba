@@ -368,29 +368,29 @@
                                                                     
                                                                 @endphp --}}
                                                                 @php
-    $datesV2 = $dates->where('trans_date', $date->trans_date - 1)->first();
+                                                                    $datesV2 = $dates->where('trans_date', $date->trans_date - 1)->first();
 
-    if ($datesV2) {
-        $questionByYear = \App\Models\M_Questions::where('id', $question->id)->first();
+                                                                    if ($datesV2) {
+                                                                        $questionByYear = \App\Models\M_Questions::where('id', $question->id)->first();
 
-        if ($questionByYear) {
-            $questionByYearV2 = \App\Models\M_Questions::where('name', $questionByYear->name)
-                ->where('id_survey', $datesV2->id)->first();
+                                                                        if ($questionByYear) {
+                                                                            $questionByYearV2 = \App\Models\M_Questions::where('name', $questionByYear->name)
+                                                                                ->where('id_survey', $datesV2->id)->first();
 
-            if ($questionByYearV2) {
-                $answerV2 = \App\Models\Trans_Survey_D_Answer::where('id_question', $questionByYearV2->id)
-                    ->where('id_zona', $idZona)
-                    ->where('id_survey', $datesV2->id)->first();
-            } else {
-                $answerV2 = null;
-            }
-        } else {
-            $answerV2 = null;
-        }
-    } else {
-        $answerV2 = null;
-    }
-@endphp
+                                                                            if ($questionByYearV2) {
+                                                                                $answerV2 = \App\Models\Trans_Survey_D_Answer::where('id_question', $questionByYearV2->id)
+                                                                                    ->where('id_zona', $idZona)
+                                                                                    ->where('id_survey', $datesV2->id)->first();
+                                                                            } else {
+                                                                                $answerV2 = null;
+                                                                            }
+                                                                        } else {
+                                                                            $answerV2 = null;
+                                                                        }
+                                                                    } else {
+                                                                        $answerV2 = null;
+                                                                    }
+                                                                @endphp
                                                                 <input type="number"
                                                                     class="form-control form-control-solid rounded rounded-4"
                                                                     {{-- {{$questionByYear ? $questionByYear->name : 'o'}} --}}
