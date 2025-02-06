@@ -123,7 +123,9 @@
         <div class="card-header">
             <div class="card-title">
                 <h3>
-                    Total Nilai dan Jawaban Kabupaten/Kota
+                    {{-- Total Nilai dan Jawaban Kabupaten/Kota --}}
+                    Total Jawaban Kabupaten/Kota
+
                 </h3>
             </div>
             <div class="card-toolbar">
@@ -177,6 +179,22 @@
         </div>
     </div>
 
+    <div class="card card-bordered mb-5">
+        <div class="card-header">
+            <div class="card-title">
+                <h3>
+                    Total Score Tatanan Kab/Kota
+                </h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="kt_apexcharts_4" style="overflow-x: auto">
+                <div id="chartV2" style="height: 100%;"> 
+                </div>
+            </div>
+        </div>
+    </div>
+
     @elseif($userprofile->id_group === 6)
     
     <div class="card card-bordered mb-5">
@@ -194,6 +212,8 @@
             </div>
         </div>
     </div>
+
+    
 
     <div class="card card-bordered mb-5">
         <div class="card-header">
@@ -235,6 +255,20 @@
             const labels = @json($districtNames); // District names
             const dataAnswerDistrict = @json($totalAnswers); // Total answers
             const dataScoreDistrict = @json($totalScore); // Total answers
+
+            const dataQuestions = @json($questions);
+
+            const percentageAnswers = dataAnswerDistrict.map((total_answers, index) => ({
+                total_answers: total_answers,
+                percentage: ((total_answers / dataQuestions) * 100).toFixed(2) // Persentase
+            }));
+
+
+            // const percentages = calculateAnswerPercentage(dataAnswerDistrict, dataQuestions);
+            console.log(percentageAnswers);
+
+            // console.log(percentageAnswer2);
+            
 
             // console.log(labels);
 
@@ -339,15 +373,131 @@
 
             if(idGroup === 2 || idGroup === 1 || idGroup === 5){
                 var element = document.getElementById('kt_apexcharts_1');
+                var element2 = document.getElementById('kt_apexcharts_4');
+
 
                 var options = {
-                    series: [ {
-                        name: 'Total Jawaban',
-                        data: dataAnswerDistrict
-                    },{
-                        name: 'Total Nilai',
-                        data: dataScoreDistrict
-                    }],
+                    series: [ 
+                        {
+                            name: 'Total Jawaban',
+                            data: dataAnswerDistrict
+                        },
+                        // {
+                        //     name: 'Total Nilai',
+                        //     data: dataScoreDistrict
+                        // }
+                    ],
+                    chart: {
+                        fontFamily: 'inherit',
+                        type: 'bar',
+                        // height: 600,
+                        toolbar: {
+                            show: true
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: true,
+                            columnWidth: ['50%'],
+                            endingShape: 'rounded'
+                        },
+                    },
+                    legend: {
+                        show: true,
+                        position: 'top'
+                    },
+                    dataLabels: {
+                        enabled: true
+                    },
+                    stroke: {
+                        show: true,
+                        width: 2,
+                        colors: ['transparent']
+                    },
+                    xaxis: {
+                        categories: labels,
+                        axisBorder: {
+                            show: true,
+                        },
+                        axisTicks: {
+                            show: false
+                        },
+                        labels: {
+                            style: {
+                                colors: labelColor,
+                                fontSize: '12px'
+                            }
+                        }
+                    },
+                    yaxis: {
+                        labels: {
+                            style: {
+                                colors: labelColor,
+                                fontSize: '12px'
+                            }
+                        }
+                    },
+                    fill: {
+                        opacity: 1
+                    },
+                    states: {
+                        normal: {
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        },
+                        hover: {
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        },
+                        active: {
+                            allowMultipleDataPointsSelection: false,
+                            filter: {
+                                type: 'none',
+                                value: 0
+                            }
+                        }
+                    },
+                    tooltip: {
+                        style: {
+                            fontSize: '12px'
+                        },
+                        y: {
+                            formatter: function (val, opts) {
+                                return val + " (" + percentageAnswers[opts.dataPointIndex].percentage + "%)"; // Menampilkan nilai + persentase di tooltip
+                            }
+                            // formatter: function (val) {
+                            //     return val 
+                            // }
+                        }
+                    },
+                    colors: [baseColor, secondaryColor],
+                    grid: {
+                        borderColor: borderColor,
+                        yaxis: {
+                            lines: {
+                                show: true
+                            }
+                        },
+                    }
+                };
+                
+                
+
+                var optionsV2 = {
+                    series: [ 
+                        // {
+                        //     name: 'Total Jawaban',
+                        //     data: dataAnswerDistrict
+                        // },
+                        {
+                            name: 'Total Nilai',
+                            data: dataScoreDistrict
+                        }
+                    ],
                     chart: {
                         fontFamily: 'inherit',
                         type: 'bar',
@@ -430,6 +580,7 @@
                             formatter: function (val) {
                                 return val 
                             }
+                            
                         }
                     },
                     colors: [baseColor, secondaryColor],
@@ -442,8 +593,13 @@
                         },
                     }
                 };
+                
                 var chart = new ApexCharts(document.querySelector("#chart"), options);
                 chart.render();
+
+                var chartV2 = new ApexCharts(document.querySelector("#chartV2"), optionsV2);
+                chartV2.render();
+
             }
 
             if(idGroup === 6){
