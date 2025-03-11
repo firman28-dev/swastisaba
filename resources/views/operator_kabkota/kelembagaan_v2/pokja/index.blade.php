@@ -371,7 +371,6 @@
         var endTime = @json($end);
         var now = Math.floor(Date.now() / 1000); // Waktu saat ini dalam detik
 
-        // Fungsi untuk menghitung dan menampilkan waktu tersisa
         function updateTime() {
             now = Math.floor(Date.now() / 1000); // Update waktu saat ini
 
