@@ -1866,7 +1866,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
 
         } catch (\Throwable $th) {
             // throw $th;
-            return redirect()->back()->with('error', 'Gagal menambahkan kegiatan');
+            return redirect()->back()->with('error', 'Gagal menambahkan kegiatanccccccc');
 
         }
 
