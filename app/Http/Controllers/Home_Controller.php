@@ -265,7 +265,7 @@ class Home_Controller extends Controller
             ->with(['_transDAnswer' => function ($query) use ($session_date, $district) {
                 $query->where('id_survey', $session_date)
                       ->where('id_zona', $district)
-                      ->with('_q_option'); 
+                      ->with('_q_option','_q_option_prov'); 
             }])
             ->get();
 
@@ -273,12 +273,16 @@ class Home_Controller extends Controller
             $totalScore = $category->_transDAnswer->sum(function ($answer) {
                 return $answer->_q_option ? $answer->_q_option->score : 0;
             });
+            $totalScoreProv = $category->_transDAnswer->sum(function ($answer) {
+                return $answer->_q_option_prov ? $answer->_q_option_prov->score : 0;
+            });
 
             return [
                 'kategori' => $category->name,  // atau gunakan field yang sesuai untuk nama kategori
                 'total_jawaban' => $category->total_jawaban,
                 'total_pertanyaan' => $category->total_pertanyaan,
-                'total_score' => $totalScore
+                'total_score' => $totalScore,
+                'total_score_prov' => $totalScoreProv
             ];
         });
 

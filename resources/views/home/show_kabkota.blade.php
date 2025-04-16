@@ -106,6 +106,7 @@
             var borderColor = KTUtil.getCssVariableValue('--kt-gray-200');
             var baseColor = KTUtil.getCssVariableValue('--kt-primary');
             var secondaryColor = KTUtil.getCssVariableValue('--kt-success');
+            var thirdColor = KTUtil.getCssVariableValue('--kt-danger');
         
 
             var element = document.getElementById('kt_apexcharts_2');
@@ -121,6 +122,7 @@
             // const totalAllScore = dataQuestion*100;
             const dataallScore = chartData.map(item => item.total_pertanyaan *100);
             const totalScoreKabkota = chartData.map(item => item.total_score);
+            const totalScoreFromProv = chartData.map(item => item.total_score_prov);
 
             // console.log(dataallScore);
             
@@ -237,7 +239,12 @@
                 },{
                     name: 'Total Score Max',
                     data: dataallScore
-                }],
+                },
+                {
+                    name: 'Total Score Prov',
+                    data: totalScoreFromProv
+                },
+            ],
                 chart: {
                     fontFamily: 'inherit',
                     type: 'bar',
@@ -322,7 +329,7 @@
                         }
                     }
                 },
-                colors: [baseColor, secondaryColor],
+                colors: [baseColor, secondaryColor, thirdColor],
                 grid: {
                     borderColor: borderColor,
                     yaxis: {
