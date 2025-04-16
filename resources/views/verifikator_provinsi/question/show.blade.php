@@ -384,7 +384,7 @@
                                                         <div class="col-12">
                                                             <div class="form-group w-100">
                                                                 <label for="name" class="form-label">Komentar</label>
-                                                                <textarea name="comment_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Komentar"></textarea>
+                                                                <textarea required name="comment_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Komentar"></textarea>
                                                                 
                                                                 @error('comment_prov')
                                                                     <div class="is-invalid">

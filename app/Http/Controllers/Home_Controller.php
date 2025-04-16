@@ -45,8 +45,14 @@ class Home_Controller extends Controller
             $join->on('district.id', '=', 'trans_survey_d_answer.id_zona')
                 ->where('trans_survey_d_answer.id_survey', $session_date);
             })
-            ->leftJoin('m_question_options', 'trans_survey_d_answer.id_option','=', 'm_question_options.id')
-            ->select('district.name as district_name', DB::raw('COUNT(trans_survey_d_answer.id) as total_jawaban'), DB::raw('SUM(m_question_options.score) as total_nilai'))
+            ->leftJoin('m_question_options as opt_kabkota', 'trans_survey_d_answer.id_option','=', 'opt_kabkota.id')
+            ->leftJoin('m_question_options as opt_prov', 'trans_survey_d_answer.id_option_prov', '=', 'opt_prov.id')
+            ->select(
+                'district.name as district_name',
+                DB::raw('COUNT(trans_survey_d_answer.id) as total_jawaban'),
+                DB::raw('SUM(opt_kabkota.score) as total_nilai'),
+                DB::raw('SUM(opt_prov.score) as total_nilai_prov')
+            )
             ->groupBy('district.name')
             ->orderBy('total_jawaban', 'desc')
             ->get();
@@ -54,6 +60,8 @@ class Home_Controller extends Controller
         $districtNames = $answers->pluck('district_name');
         $totalAnswers = $answers->pluck('total_jawaban');
         $totalScore = $answers->pluck('total_nilai');
+        $totalScoreProv = $answers->pluck('total_nilai_prov');
+
 
         $chart = M_Category::where('id_survey', $session_date)
             ->withCount(['_transDAnswer as total_jawaban' => function ($query) use ($session_date, $idZona) {
@@ -62,7 +70,7 @@ class Home_Controller extends Controller
             ->with(['_transDAnswer' => function ($query) use ($session_date, $idZona) {
                 $query->where('id_survey', $session_date)
                       ->where('id_zona', $idZona)
-                      ->with('_q_option'); 
+                      ->with('_q_option','_q_option_prov'); 
             }])
             ->get();
 
@@ -70,12 +78,16 @@ class Home_Controller extends Controller
             $totalScore = $category->_transDAnswer->sum(function ($answer) {
                 return $answer->_q_option ? $answer->_q_option->score : 0;
             });
+            $totalScoreProv = $category->_transDAnswer->sum(function ($answer) {
+                return $answer->_q_option_prov ? $answer->_q_option_prov->score : 0;
+            });
 
             return [
                 'kategori' => $category->name,  // atau gunakan field yang sesuai untuk nama kategori
                 'total_jawaban' => $category->total_jawaban,
                 'total_pertanyaan' => $category->total_pertanyaan,
-                'total_score' => $totalScore
+                'total_score' => $totalScore,
+                'total_score_prov' => $totalScoreProv
             ];
         });
 
@@ -93,6 +105,7 @@ class Home_Controller extends Controller
             'districtNames' => $districtNames,
             'totalAnswers' => $totalAnswers,
             'totalScore' => $totalScore,
+            'totalScoreProv' => $totalScoreProv,
             'categoryV2' => $categoryV2,
             'chartData' => $chartData,
             'idGroup' => $idGroup,
@@ -101,6 +114,7 @@ class Home_Controller extends Controller
             // 'categoryData' =>$categoryData
 
         ];
+        // return $totalScoreProv;
         return view('home.index', $sent);
     }
 

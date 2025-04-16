@@ -195,6 +195,8 @@
         </div>
     </div>
 
+
+    {{-- operator kabkota --}}
     @elseif($userprofile->id_group === 6)
     
     <div class="card card-bordered mb-5">
@@ -212,8 +214,6 @@
             </div>
         </div>
     </div>
-
-    
 
     <div class="card card-bordered mb-5">
         <div class="card-header">
@@ -255,6 +255,8 @@
             const labels = @json($districtNames); // District names
             const dataAnswerDistrict = @json($totalAnswers); // Total answers
             const dataScoreDistrict = @json($totalScore); // Total answers
+            const dataScoreProv = @json($totalScoreProv); // Total answers
+
 
             const dataQuestions = @json($questions);
 
@@ -265,7 +267,7 @@
 
 
             // const percentages = calculateAnswerPercentage(dataAnswerDistrict, dataQuestions);
-            console.log(percentageAnswers);
+            // console.log(percentageAnswers);
 
             // console.log(percentageAnswer2);
             
@@ -363,6 +365,8 @@
             var borderColor = KTUtil.getCssVariableValue('--kt-gray-200');
             var baseColor = KTUtil.getCssVariableValue('--kt-primary');
             var secondaryColor = KTUtil.getCssVariableValue('--kt-success');
+            var thirdColor = KTUtil.getCssVariableValue('--kt-danger');
+
 
 
             
@@ -379,7 +383,7 @@
                 var options = {
                     series: [ 
                         {
-                            name: 'Total Jawaban',
+                            name: 'Total Jawaban Kab/Kota',
                             data: dataAnswerDistrict
                         },
                         // {
@@ -489,14 +493,16 @@
 
                 var optionsV2 = {
                     series: [ 
-                        // {
-                        //     name: 'Total Jawaban',
-                        //     data: dataAnswerDistrict
-                        // },
+                        
                         {
                             name: 'Total Nilai',
                             data: dataScoreDistrict
-                        }
+                        },
+                        {
+                            name: 'Total Nilai Prov',
+                            data: dataScoreProv
+                        },
+
                     ],
                     chart: {
                         fontFamily: 'inherit',
@@ -616,6 +622,8 @@
                 // const totalAllScore = dataQuestion*100;
                 const dataallScore = chartData.map(item => item.total_pertanyaan *100);
                 const totalScoreKabkota = chartData.map(item => item.total_score);
+                const totalScoreFromProv = chartData.map(item => item.total_score_prov);
+
 
 
                 // console.log(dataallScore);
@@ -733,7 +741,12 @@
                     },{
                         name: 'Total Score Max',
                         data: dataallScore
-                    }],
+                    },
+                    {
+                        name: 'Total Score Prov',
+                        data: totalScoreFromProv
+                    },
+                ],
                     chart: {
                         fontFamily: 'inherit',
                         type: 'bar',
@@ -818,7 +831,7 @@
                             }
                         }
                     },
-                    colors: [baseColor, secondaryColor],
+                    colors: [baseColor, secondaryColor,thirdColor],
                     grid: {
                         borderColor: borderColor,
                         yaxis: {
