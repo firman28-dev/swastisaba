@@ -32,6 +32,8 @@ use App\Models\Trans_Upload_KabKota;
 use Auth;
 use Illuminate\Http\Request;
 use Session;
+use DB;
+
 
 class Answer_Verifikator_Prov_Controller extends Controller
 {
@@ -551,6 +553,62 @@ class Answer_Verifikator_Prov_Controller extends Controller
         return view('verifikator_provinsi.odf.index', $sent);
 
 
+    }
+
+    public function indexRekap(){
+        $session_date = Session::get('selected_year');
+        $answers = M_District::where('province_id', 13)
+            ->leftJoin('trans_survey_d_answer', function($join) use ($session_date) {
+                $join->on('district.id', '=', 'trans_survey_d_answer.id_zona')
+                    ->where('trans_survey_d_answer.id_survey', $session_date);
+            })
+            ->leftJoin('m_question_options as opt_kabkota', 'trans_survey_d_answer.id_option','=', 'opt_kabkota.id')
+            ->leftJoin('m_question_options as opt_prov', 'trans_survey_d_answer.id_option_prov', '=', 'opt_prov.id')
+            ->select(
+                'district.id as district_id',
+                'district.name as district_name',
+                DB::raw('COUNT(trans_survey_d_answer.id) as total_jawaban'),
+                DB::raw('SUM(opt_kabkota.score) as total_nilai_kabkota'),
+                DB::raw('SUM(opt_prov.score) as total_nilai_provinsi')
+            )
+            ->groupBy('district.id', 'district.name')
+            ->orderBy('total_jawaban', 'desc')
+            ->get();
+
+        $sent = [
+            'zona' => $answers,
+        ];
+        return view('verifikator_provinsi.rekap.index', $sent);
+
+        return $sent;
+    }
+
+    public function indexRekapv2(){
+        $session_date = Session::get('selected_year');
+        $answers = M_District::where('province_id', 13)
+            ->leftJoin('trans_survey_d_answer', function($join) use ($session_date) {
+                $join->on('district.id', '=', 'trans_survey_d_answer.id_zona')
+                    ->where('trans_survey_d_answer.id_survey', $session_date);
+            })
+            ->leftJoin('m_question_options as opt_kabkota', 'trans_survey_d_answer.id_option','=', 'opt_kabkota.id')
+            ->leftJoin('m_question_options as opt_prov', 'trans_survey_d_answer.id_option_prov', '=', 'opt_prov.id')
+            ->select(
+                'district.id as district_id',
+                'district.name as district_name',
+                DB::raw('COUNT(trans_survey_d_answer.id) as total_jawaban'),
+                DB::raw('SUM(opt_kabkota.score) as total_nilai_kabkota'),
+                DB::raw('SUM(opt_prov.score) as total_nilai_provinsi')
+            )
+            ->groupBy('district.id', 'district.name')
+            ->orderBy('total_jawaban', 'desc')
+            ->get();
+
+        $sent = [
+            'zona' => $answers,
+        ];
+        return view('admin.rekap.index', $sent);
+
+        // return $sent;
     }
 
 

@@ -552,10 +552,20 @@
                             <span class="menu-title text-white">Dokumen Data Umum</span>
                         </a>
                     </div>
-                    
-                   
 
-                    
+                    <div class="menu-item pt-5"><!--begin:Menu content-->
+                        <div class="menu-content"><span class="fw-bold text-uppercase fs-7 text-white">Rekap</span>
+                        </div><!--end:Menu content-->
+                    </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::is('admin.indexRekap')  ? 'active-custom' : '' }}" href="{{route('admin.indexRekap')}}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-hard-drive fs-3 text-white"></i>
+                            </span>
+                            <span class="menu-title text-white">Rekap Penilaian</span>
+                        </a>
+                    </div>
                 @endif
 
                 @if(Auth::user()->id_group == 3)
@@ -701,6 +711,14 @@
                             @endforeach
                         </div>
                     </div> --}}
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::is('v-prov.indexRekap') ? 'active-custom' : '' }}" href="{{route('v-prov.indexRekap')}}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-house fs-3 text-white"></i>
+                            </span>
+                            <span class="menu-title text-white">Rekap Penilaian</span>
+                        </a>
+                    </div>
                     <div class="menu-item">
                         <a class="menu-link {{ Route::is('v-prov.indexOdf') ? 'active-custom' : '' }}" href="{{route('v-prov.indexOdf')}}">
                             <span class="menu-icon">

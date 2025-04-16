@@ -110,7 +110,9 @@ Route::group(['middleware' => ['auth']], function () {
         });
 
         Route::group(['middleware' => ['superadmin']], function () {
-            
+            //rekap
+            Route::get('/rekap-nilai', [Answer_Verifikator_Prov_Controller::class, 'indexRekapv2'])->name('admin.indexRekap');
+
             //tatanan
             Route::get('/category/duplicate', [M_Category_Controller::class, 'copyCategoriesToNewYear'])->name('category.copyCategoriesToNewYear');
             Route::get('/category/deleteAll', [M_Category_Controller::class, 'deleteAll'])->name('category.deleteAll');
@@ -460,6 +462,10 @@ Route::group(['middleware' => ['auth']], function () {
 
             //ODF prov
             Route::get('/v-prov/data-odf', [Answer_Verifikator_Prov_Controller::class, 'indexOdf'])->name('v-prov.indexOdf');
+
+
+            //rekap
+            Route::get('/v-prov/rekap-nilai', [Answer_Verifikator_Prov_Controller::class, 'indexRekap'])->name('v-prov.indexRekap');
 
         });
 
