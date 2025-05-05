@@ -198,7 +198,7 @@
                                     $uploadedCount = $uploadedDocs->count();
                                 @endphp
                                 @if($relatedAnswer)
-                                {{ $uploadedCount }}
+                                {{-- {{ $uploadedCount }} --}}
                                     <td class="border-1 border p-3">{{ $relatedAnswer->_q_option->name }}</td>
                                     <td class="border-1 border text-center p-3">{{ $relatedAnswer->_q_option->score }}</td>
                                     <td class="border-1 border text-center p-3">
