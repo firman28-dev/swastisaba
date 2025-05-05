@@ -40,13 +40,15 @@ class Answer_Verifikator_Prov_Controller extends Controller
     public function index($id)
     {
         $session_date = Session::get('selected_year');
+        $date = Trans_Survey::where('id', $session_date)->first();
         $zona = M_District::find($id);
 
         $category = M_Category::where('id_survey', $session_date)->get();
         // return $zona;
         $sent = [
             'zona' => $zona,
-            'category' => $category
+            'category' => $category,
+            'tahun' => $date,
         ];
         return view('verifikator_provinsi.question.index', $sent);
     }
@@ -609,6 +611,21 @@ class Answer_Verifikator_Prov_Controller extends Controller
         return view('admin.rekap.index', $sent);
 
         // return $sent;
+    }
+
+    public function printRekon(Request $request){
+        $request->validate([
+            'pembahas' => 'required',
+            'jabatan' => 'required',
+            'operator' => 'required',
+            'tahun' => 'required',
+            'kota' => 'required'
+        ]);
+
+        $district = M_District::find($request->kota);
+        $categories = M_Category::where('id_survey',$request->tahun)->get();
+        return $categories;
+        
     }
 
 

@@ -144,7 +144,9 @@ class Answer_KabKota_Controller extends Controller
                         $uploadedFile->save();
                     } else {
                         // Create file
-                        $fileName = $idZona. '_' . $file->getClientOriginalName();
+                        $timestamp = now()->format('YmdHis'); // contoh: 20250504153030
+                        $fileName = $idZona . '_' . $timestamp . '_' . $file->getClientOriginalName();
+                        // $fileName = $idZona. '_' . $file->getClientOriginalName();
                         // $file->move(public_path('uploads/doc_pendukung/'), $fileName);
                         $file->move($_SERVER['DOCUMENT_ROOT'].'/uploads/doc_pendukung/', $fileName);
 

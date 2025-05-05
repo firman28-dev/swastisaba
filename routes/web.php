@@ -44,6 +44,8 @@ use App\Http\Controllers\Trans_ODF_New_Controller;
 use App\Http\Controllers\Trans_Pembina_Controller;
 use App\Http\Controllers\Trans_Survey_H_Controller;
 use App\Http\Controllers\User_Controller;
+use App\Models\Doc_Question;
+use App\Models\M_Category;
 use Illuminate\Support\Facades\Route;
 
 
@@ -85,6 +87,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [Home_Controller::class, 'showYear'])->name('home.showYear');
     Route::post('/set-year', [Home_Controller::class, 'sessionYear'])->name('home.store');
     Route::get('/logout', [LogoutController::class, 'perform'])->name('logout.perform');
+
+    
+    
+
+    
 
     Route::group(['middleware' => ['checkSelectedYear']], function () {
         // Route::get('/dashboard', [Home_Controller::class, 'index2'])->name('home.index');
@@ -277,6 +284,47 @@ Route::group(['middleware' => ['auth']], function () {
             
             Route::resource('schedule', Setting_Time_Controller::class);
             Route::get('/schedule/create/{id}', [Setting_Time_Controller::class, 'create'])->name('schedule.create');
+
+            Route::get('/kategori-pertanyaan-doc', function () {
+       
+                $categories = M_Category::with(['_question._doc_question' => function ($query) {
+                    $query->where('id_survey', 5);
+                }])
+                ->whereHas('_question._doc_question', function ($query) {
+                    $query->where('id_survey', 5);
+                })
+                ->get();
+            
+                foreach ($categories as $category) {
+                    echo "<h2>Kategori: {$category->name}</h2>";
+            
+                    foreach ($category->_question as $question) {
+                        echo "<h4>&nbsp;&nbsp;Pertanyaan: {$question->name}</h4>";
+            
+                        foreach ($question->_doc_question as $doc) {
+                            echo "<p style='margin-left: 40px'>📄 Dokumen: {$doc->name}</p>";
+                        }
+                    }
+            
+                    echo "<hr>";
+                }
+            });
+
+            // Route::get('/tambah-doc-pertanyaan', function () {
+            //     $docQuestions = Doc_Question::where('id_survey', 5)->get();
+            //     return $docQuestions;
+            
+            //     foreach ($docQuestions as $doc) {
+            //         Doc_Question::create([
+            //             'id_question' => $doc->id_question,
+            //             'id_survey' => 5,
+            //             'name' => 'Dokumen 2023 dan 2024',
+            //             'ket' => $doc->name,
+            //         ]);
+            //     }
+            
+            //     return "Dokumen 2023 dan 2024 berhasil ditambahkan untuk setiap pertanyaan.";
+            // });
         });
 
         Route::group(['middleware' => ['operator_kab_kota']], function () {
@@ -424,6 +472,11 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/v-prov/kabkota/{id}/answer-data', [Answer_Verifikator_Prov_Controller::class, 'index'])->name('v-prov.index');
             Route::get('/v-prov/kabkota/{id_zona}/category/{id}', [Answer_Verifikator_Prov_Controller::class, 'showCategory'])->name('v-prov.showCategory');
             Route::post('v-prov/kabkota/{id_zona}/store-answer/{id}',[Answer_Verifikator_Prov_Controller::class, 'store'])->name('v-prov.store');
+
+
+            // print
+            Route::post('/v-prov/print', [Answer_Verifikator_Prov_Controller::class, 'printRekon'])->name('v-prov.print');
+
 
             //data_kelembagaan
             Route::get('/v-prov/kabkota/{id}/c-kelembagaan', [Answer_Verifikator_Prov_Controller::class, 'indexKelembagaan'])->name('v-prov.indexKelembagaan');

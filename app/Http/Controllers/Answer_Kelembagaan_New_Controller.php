@@ -223,7 +223,8 @@ class Answer_Kelembagaan_New_Controller extends Controller
 
             if($files){
                 // $file = $request->file('path'); 
-                $fileName = $idZona. '_' . $files->getClientOriginalName();
+                $timestamp = now()->format('YmdHis'); // contoh: 20250504153030
+                $fileName = $idZona.'_' . $timestamp . '_' . $files->getClientOriginalName();
                 $files->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_kelembagaan/', $fileName);
                 // $files->move(public_path('uploads/doc_kelembagaan/'), $fileName);
 
@@ -241,7 +242,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
 
 
 
-            return redirect()->back()->with('success', 'Berhasil memverifikasi data kelmabagaan');
+            return redirect()->back()->with('success', 'Berhasil memverifikasi data kelembagaan');
 
         } catch (\Throwable $th) {
             throw $th;

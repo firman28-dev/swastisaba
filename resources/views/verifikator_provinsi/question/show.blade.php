@@ -33,13 +33,14 @@
                     <i class="nav-icon fas fa-arrow-left"></i>Kembali
                 </button>
             </a>
+            
             <div class="table-responsive mt-3">
                 <table id="tableSKPD" class="table table-striped table-row-bordered gy-5 gs-7 border rounded" style="width:100%">
                     <thead>
                         <tr class="fw-semibold fs-6 text-muted text-center ">
                             <th class="w-60px text-center border-1 border p-3" rowspan="2">No.</th>
                             <th class="w-150px text-center border-1 border align-middle p-3" rowspan="2">Pertanyaan</th>
-                            <th class="w-200px text-center border-1 border align-middle" colspan="3">Self Assesment Kab/Kota</th>
+                            <th class="w-200px text-center border-1 border align-middle" colspan="4">Self Assesment Kab/Kota</th>
                             <th class="w-200px text-center border-1 border align-middle" colspan="3">Provinsi</th>
                             <th class="w-100px text-center border-1 border align-middle" colspan="3">Pusat</th>
                             <th class=" w-100px text-center border-1 border align-middle p-3" rowspan="2">Aksi</th>
@@ -49,6 +50,8 @@
                             <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
                             <th class="text-center border-1 border align-middle p-3">Nilai</th>
                             <th class="text-center border-1 border align-middle p-3">Keterangan</th>
+                            <th class="text-center border-1 border align-middle p-3">Status Dplumen</th>
+
 
                             <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
                             <th class="text-center border-1 border align-middle p-3">Nilai</th>
@@ -67,6 +70,11 @@
                             @php
                                 $relatedAnswer = $answer->where('id_question', $item->id)->first();
 
+                                $requiredDocs = $item->_doc_question ?? collect();
+                                $uploadedDocs = $uploadedFiles->where('id_question', $item->id);
+
+                                $requiredCount = $requiredDocs->count();
+                                $uploadedCount = $uploadedDocs->count();
                             @endphp
 
                             @if ($relatedAnswer)
@@ -74,6 +82,15 @@
                                 <td class="border-1 border text-center p-3">{{ $relatedAnswer->_q_option->score }}</td>
                                 <td class="border-1 border text-center p-3">
                                     <div class="badge badge-light-success">Sudah dijawab</div>
+                                </td>
+                                <td class="border-1 border text-center p-3">
+                                    @if ($uploadedCount >= $requiredCount && $requiredCount > 0)
+                                        <div class="badge badge-light-success">Semua dokumen diupload</div>
+                                    @elseif ($uploadedCount > 0 && $uploadedCount < $requiredCount)
+                                        <div class="badge badge-light-warning">Dokumen belum lengkap ({{$uploadedCount}} dari {{$requiredCount}})</div>
+                                    @else
+                                        <div class="badge badge-light-danger">Belum diupload</div>
+                                    @endif
                                 </td>
 
                                 <td class="border-1 border p-3">{{ $relatedAnswer->_q_option_prov->name?? '-' }}</td>
@@ -354,7 +371,7 @@
                                                                     </td>
                                                                 @else
                                                                     <td class="border border-1">
-                                                                        <div class="badge badge-light-danger">Tidak diupload</div>
+                                                                        <div class="badge badge-light-danger">Belum diupload</div>
                                                                     </td>
                                                                 @endif
                                                             </tr>

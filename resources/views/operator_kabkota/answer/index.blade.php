@@ -190,23 +190,29 @@
                                 <td class="border-1 border p-3">{{ $question->name }}</td>
                                 @php
                                     $relatedAnswer = $answer->where('id_question', $question->id)->first(); // This will return a single instance or null
-                                    $uploadedFile = $uploadedFiles->where('id_question', $question->id);
+                                    // $uploadedFile = $uploadedFiles->where('id_question', $question->id);
+                                    $requiredDocs = $question->_doc_question ?? collect();
+                                    $uploadedDocs = $uploadedFiles->where('id_question', $question->id);
+
+                                    $requiredCount = $requiredDocs->count();
+                                    $uploadedCount = $uploadedDocs->count();
                                 @endphp
                                 @if($relatedAnswer)
+                                {{ $uploadedCount }}
                                     <td class="border-1 border p-3">{{ $relatedAnswer->_q_option->name }}</td>
                                     <td class="border-1 border text-center p-3">{{ $relatedAnswer->_q_option->score }}</td>
                                     <td class="border-1 border text-center p-3">
                                         <div class="badge badge-light-success">Sudah dijawab</div>
                                     </td>
-                                    @if ($uploadedFile->isNotEmpty())
-                                        <td class="border-1 border text-center p-3">
-                                            <div class="badge badge-light-success">Sudah diupload</div>
-                                        </td>
-                                    @else
-                                        <td class="border-1 border text-center p-3">
+                                    <td class="border-1 border text-center p-3">
+                                        @if ($uploadedCount >= $requiredCount && $requiredCount > 0)
+                                            <div class="badge badge-light-success">Semua dokumen diupload</div>
+                                        @elseif ($uploadedCount > 0 && $uploadedCount < $requiredCount)
+                                            <div class="badge badge-light-warning">Dokumen belum lengkap ({{$uploadedCount}} dari {{$requiredCount}})</div>
+                                        @else
                                             <div class="badge badge-light-danger">Belum diupload</div>
-                                        </td>
-                                    @endif
+                                        @endif
+                                    </td>
                                     
 
                                     <td class="border-1 border p-3">{{ $relatedAnswer->_q_option_prov->name?? '-' }}</td>
