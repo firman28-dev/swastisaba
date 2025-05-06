@@ -33,6 +33,8 @@ use Auth;
 use Illuminate\Http\Request;
 use Session;
 use DB;
+use PDF;
+
 
 
 class Answer_Verifikator_Prov_Controller extends Controller
@@ -582,7 +584,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
         ];
         return view('verifikator_provinsi.rekap.index', $sent);
 
-        return $sent;
+        // return $sent;
     }
 
     public function indexRekapv2(){
@@ -622,11 +624,52 @@ class Answer_Verifikator_Prov_Controller extends Controller
             'kota' => 'required'
         ]);
 
+        $pembahas = $request->pembahas;
+        $operator = $request->operator;
+        $jabatan = $request->jabatan;
+
+
+        $trans_survey = Trans_Survey::find($request->tahun);
+
         $district = M_District::find($request->kota);
         $categories = M_Category::where('id_survey',$request->tahun)->get();
-        return $categories;
+        $questions = M_Questions::where('id_survey', $request->tahun)    
+            ->get();
+        $answer = Trans_Survey_D_Answer::where('id_zona',$request->kota)
+            ->where('id_survey', $request->tahun)
+            ->get();
+
+        $uploadedFiles = Trans_Upload_KabKota::where('id_zona',$request->kota)
+            ->where('id_survey', $request->tahun)
+            ->get();
+        
+        $sent = [
+            'categories' => $categories,
+            'questions' => $questions,
+            'answer' => $answer,
+            'uploadedFiles' => $uploadedFiles,
+            'idZona' => $request->kota,
+            'session_date' =>$request->tahun,
+            'district' => $district,
+            'trans_survey' => $trans_survey,
+            'pembahas' => $pembahas,
+            'operator' => $operator,
+            'jabatan' => $jabatan
+
+        ];
+        return view('verifikator_provinsi.export.export_all_tatanan', $sent);
+
+        // $htmlContent = view('verifikator_provinsi.export.export_all_tatanan', $sent)->render();
+
+        // $pdf = PDF::loadHTML($htmlContent)
+        //     ->setPaper('a4', 'landscape')
+        //     ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+       
+        
+        // return $pdf->download("Tatanan {$district->name} Tahun {$trans_survey->trans_date}.pdf");
         
     }
+
 
 
 }

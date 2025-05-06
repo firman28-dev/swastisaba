@@ -15,11 +15,11 @@
             </div>
         </div>
         <div class="card-body">
-            {{-- <button class="btn btn-success btn-outline btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#cetak">
+            <button class="btn btn-success btn-outline btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#cetak">
                 <div class="d-flex justify-content-center">
                     <i class="fa-solid fa-print"></i> Cetak
                 </div>
-            </button> --}}
+            </button>
             <div class="modal fade modal-dialog-scrollable" tabindex="-1" id="cetak" data-bs-backdrop="static" data-bs-keyboard="false">
                                     
                 <div class="modal-dialog modal-dialog-scrollable">
