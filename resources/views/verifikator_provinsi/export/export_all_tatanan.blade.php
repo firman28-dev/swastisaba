@@ -64,12 +64,12 @@
                 </tr>
                 <tr>
                     <th>Nilai Assessment</th>
-                    <th>Nilai</th>
+                    <th>Angka</th>
                     <th>Keterangan</th>
                     <th>Dokumen</th>
     
                     <th>Nilai Assessment</th>
-                    <th>Nilai</th>
+                    <th>Angka</th>
                     <th>Keterangan</th>
     
                 </tr>

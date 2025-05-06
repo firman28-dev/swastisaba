@@ -615,7 +615,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
         // return $sent;
     }
 
-    public function printRekon(Request $request){
+    public function printAllCategory(Request $request){
         $request->validate([
             'pembahas' => 'required',
             'jabatan' => 'required',
@@ -658,6 +658,62 @@ class Answer_Verifikator_Prov_Controller extends Controller
 
         ];
         return view('verifikator_provinsi.export.export_all_tatanan', $sent);
+
+        // $htmlContent = view('verifikator_provinsi.export.export_all_tatanan', $sent)->render();
+
+        // $pdf = PDF::loadHTML($htmlContent)
+        //     ->setPaper('a4', 'landscape')
+        //     ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+       
+        
+        // return $pdf->download("Tatanan {$district->name} Tahun {$trans_survey->trans_date}.pdf");
+        
+    }
+
+    public function printPerCategory(Request $request){
+        $request->validate([
+            'pembahas' => 'required',
+            'jabatan' => 'required',
+            'operator' => 'required',
+            'tahun' => 'required',
+            'kota' => 'required'
+        ]);
+
+        $pembahas = $request->pembahas;
+        $operator = $request->operator;
+        $jabatan = $request->jabatan;
+        $tahun = $request->tahun;
+        $kota = $request->kota;
+        $id_category = $request->idCategory;
+
+        $date = Trans_Survey::find($tahun);
+        $category = M_Category::find($id_category);
+
+        $questions = M_Questions::where('id_category', $id_category)
+            ->where('id_survey', $tahun)    
+            ->get();
+
+        $answer = Trans_Survey_D_Answer::where('id_zona',$kota)
+            ->where('id_survey', $tahun)
+            ->get();
+
+        $uploadedFiles = Trans_Upload_KabKota::where('id_zona',$kota)
+            ->where('id_survey', $tahun)
+            ->get();
+        
+        $sent = [
+            
+            'pembahas' => $pembahas,
+            'operator' => $operator,
+            'jabatan' => $jabatan,
+            'date' => $date,
+            'idZona' => $kota,
+            'questions' => $questions,
+            'answer' => $answer,
+            'uploadedFiles' => $uploadedFiles,
+            'category' => $category
+        ];
+        return view('verifikator_provinsi.export.export_pertatanan', $sent);
 
         // $htmlContent = view('verifikator_provinsi.export.export_all_tatanan', $sent)->render();
 

@@ -23,12 +23,12 @@
             <div class="modal fade modal-dialog-scrollable" tabindex="-1" id="cetak" data-bs-backdrop="static" data-bs-keyboard="false">
                                     
                 <div class="modal-dialog modal-dialog-scrollable">
-                    <form action="{{ route('v-prov.print')}}" method="POST">
+                    <form action="{{ route('v-prov.printAllCategory')}}" method="POST" target="_blank">
                         @csrf
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h3 class="modal-title">
-                                    Edit Verifikasi Pertanyaan
+                                    Input Berita Acara
                                 </h3>
                             </div>
                             <div class="modal-body">
