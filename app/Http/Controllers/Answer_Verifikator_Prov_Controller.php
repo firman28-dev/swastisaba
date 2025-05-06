@@ -688,6 +688,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
 
         $date = Trans_Survey::find($tahun);
         $category = M_Category::find($id_category);
+        $district = M_District::find($kota);
 
         $questions = M_Questions::where('id_category', $id_category)
             ->where('id_survey', $tahun)    
@@ -711,7 +712,8 @@ class Answer_Verifikator_Prov_Controller extends Controller
             'questions' => $questions,
             'answer' => $answer,
             'uploadedFiles' => $uploadedFiles,
-            'category' => $category
+            'category' => $category,
+            'district' => $district
         ];
         return view('verifikator_provinsi.export.export_pertatanan', $sent);
 

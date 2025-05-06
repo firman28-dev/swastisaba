@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tatanan {{$category->name}} - Tahun {{$date->trans_date}}</title>
+    <title>Tatanan_{{$category->name}}_{{$district->name}} _Tahun_{{$date->trans_date}}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -43,7 +43,7 @@
 </head>
 <body onload="print()">
     <h1>
-        Tatanan {{$category->name}} <br> Tahun {{$date->trans_date}}
+        Tatanan {{$category->name}}  <br> {{$district->name}} <br> Tahun {{$date->trans_date}}
     </h1>
     <table>
         <thead>
