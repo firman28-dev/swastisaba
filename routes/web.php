@@ -477,6 +477,7 @@ Route::group(['middleware' => ['auth']], function () {
             // print
             Route::post('/v-prov/print-all-category', [Answer_Verifikator_Prov_Controller::class, 'printAllCategory'])->name('v-prov.printAllCategory');
             Route::post('/v-prov/print-category', [Answer_Verifikator_Prov_Controller::class, 'printPerCategory'])->name('v-prov.printPerCategory');
+            Route::post('/v-prov/print-kelembagaan', [Answer_Verifikator_Prov_Controller::class, 'printAllKelembagaan'])->name('v-prov.printAllKelembagaan');
 
 
             //data_kelembagaan

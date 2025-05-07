@@ -15,6 +15,67 @@
             </div>
         </div>
         <div class="card-body">
+            <button class="btn btn-success btn-outline btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#cetak">
+                <div class="d-flex justify-content-center">
+                    <i class="fa-solid fa-print"></i> Cetak
+                </div>
+            </button>
+            <div class="modal fade modal-dialog-scrollable" tabindex="-1" id="cetak" data-bs-backdrop="static" data-bs-keyboard="false">
+                                    
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <form action="{{ route('v-prov.printAllKelembagaan')}}" method="POST" target="_blank">
+                        @csrf
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3 class="modal-title">
+                                    Input Berita Acara
+                                </h3>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row gap-3">
+                                    <div class="col-12">
+                                        <div class="form-group w-100">
+                                            <label for="achievement" class="form-label">Tahun</label>
+                                            <input type="text" value="{{ $tahun->trans_date }}"  readonly class="form-control form-control-solid rounded rounded-4">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group w-100">
+                                            <label for="achievement" class="form-label">Nama Kab/Kota</label>
+                                            <input type="text" value="{{ $zona->name  }}" readonly class="form-control form-control-solid rounded rounded-4">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group w-100">
+                                            <label for="achievement" class="form-label">Nama Pembahas</label>
+                                            <input type="text" required class="form-control form-control-solid rounded rounded-4" id="pembahas" name="pembahas">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group w-100">
+                                            <label for="achievement" class="form-label">Jabatan Pembahas</label>
+                                            <input type="text"  required class="form-control form-control-solid rounded rounded-4" id="jabatan" name="jabatan">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group w-100">
+                                            <label for="achievement" class="form-label">Operator</label>
+                                            <input type="text" required class="form-control form-control-solid rounded rounded-4" id="operator" name="operator">
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="tahun" value="{{ $tahun->id }}">
+                                <input type="hidden" name="kota" value="{{ $zona->id}}">
+                              
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary rounded-4" data-bs-dismiss="modal" onclick="location.reload()">Batal</button>
+                                <button type="submit" class="btn btn-primary rounded-4">Simpan</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
             <div class="table-responsive mt-3">
                 <table id="tableSKPD" class="table table-striped table-row-bordered gy-5 gs-7 border rounded" style="width:100%">
                     <thead>

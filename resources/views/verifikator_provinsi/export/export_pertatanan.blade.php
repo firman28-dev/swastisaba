@@ -121,7 +121,7 @@
 
                         <td class="border-1 border p-3" style="text-align: center">-</td>
                         <td class="border-1 border p-3" style="text-align: center">0</td>
-                        <td class="border-1 border p-3" style="text-align: center">-</td>
+                        <td class="border-1 border p-3" style="text-align: center">Belum dijawab</td>
 
                         
                     @endif

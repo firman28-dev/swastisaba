@@ -134,12 +134,15 @@ class Answer_Verifikator_Prov_Controller extends Controller
     {
         $session_date = Session::get('selected_year');
         $zona = M_District::find($id);
+        $date = Trans_Survey::where('id', $session_date)->first();
         
         $category = M_C_Kelembagaan_New::where('id_survey', $session_date)->get();
 
         $sent = [
             'zona' => $zona,
-            'category' => $category
+            'category' => $category,
+            'tahun' => $date,
+
         ];
         return view('verifikator_provinsi.kelembagaan.index', $sent);
 
@@ -148,6 +151,8 @@ class Answer_Verifikator_Prov_Controller extends Controller
     public function showKelembagaan($id_zona, $id )
     {
         $session_date = Session::get('selected_year');
+        $date = Trans_Survey::find($session_date);
+
         $zona = M_District::find($id_zona);
         $category = M_C_Kelembagaan_New::find($id);
         $questions = M_Q_Kelembagaan_New::where('id_c_kelembagaan_v2', $id)
@@ -177,6 +182,17 @@ class Answer_Verifikator_Prov_Controller extends Controller
             ->where('id_c_kelembagaan', $id)
             ->get();
 
+        $sum_subdistrict = M_SubDistrict::where('district_id',$id_zona)
+            ->where('is_active', 1)
+            ->count();
+        $distirctId = M_SubDistrict::where('district_id',$id_zona)
+            ->where('is_active', 1)
+            ->pluck('id');
+
+        $sum_village = M_Village::whereIn('subdistrict_id',$distirctId)
+            ->where('is_active', 1)
+            ->count();
+
         // return $answer;
         $sent = [
             'zona' => $zona,
@@ -188,6 +204,9 @@ class Answer_Verifikator_Prov_Controller extends Controller
             'forumKec' => $forumKec,
             'activity' => $activity,
             'forumKel' => $forumKel,
+            'date' => $date,
+            'sum_village' => $sum_village,
+            'sum_subdistrict' => $sum_subdistrict,
 
         ];
 
@@ -716,6 +735,63 @@ class Answer_Verifikator_Prov_Controller extends Controller
             'district' => $district
         ];
         return view('verifikator_provinsi.export.export_pertatanan', $sent);
+
+        // $htmlContent = view('verifikator_provinsi.export.export_all_tatanan', $sent)->render();
+
+        // $pdf = PDF::loadHTML($htmlContent)
+        //     ->setPaper('a4', 'landscape')
+        //     ->setOptions(['isHtml5ParserEnabled' => true, 'isPhpEnabled' => true]);
+       
+        
+        // return $pdf->download("Tatanan {$district->name} Tahun {$trans_survey->trans_date}.pdf");
+        
+    }
+
+    public function printAllKelembagaan(Request $request){
+        $request->validate([
+            'pembahas' => 'required',
+            'jabatan' => 'required',
+            'operator' => 'required',
+            'tahun' => 'required',
+            'kota' => 'required'
+        ]);
+
+        $pembahas = $request->pembahas;
+        $operator = $request->operator;
+        $jabatan = $request->jabatan;
+        $kota = $request->kota;
+        $tahun = $request->tahun;
+
+
+        $district = M_District::find($kota);
+        $date = Trans_Survey::find($tahun);
+        $categories = M_C_Kelembagaan_New::where('id_survey', $tahun)->get();
+        $questions = M_Q_Kelembagaan_New::where('id_survey', $tahun)
+            ->get();
+        $answer = Trans_Kelembagaan_V2::where('id_zona',$kota)
+            ->where('id_survey', $tahun)
+            ->get();
+        $uploadedFiles = Trans_Doc_Kelembagaan::where('id_zona',$kota)
+            ->where('id_survey', $tahun)
+            ->get();
+        // return $uploadedFiles;
+       
+        
+        $sent = [
+           
+            'pembahas' => $pembahas,
+            'operator' => $operator,
+            'jabatan' => $jabatan,
+            'district' => $district,
+            'date' => $date,
+            'categories' => $categories,
+            'questions' => $questions,
+            'answer'=> $answer,
+            'uploadedFiles' => $uploadedFiles
+
+
+        ];
+        return view('verifikator_provinsi.export.export_kelembagaan', $sent);
 
         // $htmlContent = view('verifikator_provinsi.export.export_all_tatanan', $sent)->render();
 

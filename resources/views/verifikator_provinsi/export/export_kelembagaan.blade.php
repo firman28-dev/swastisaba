@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tatanan {{$district->name}} - Tahun {{$trans_survey->trans_date}}</title>
+    <title>Kelembagaan {{$district->name}} - Tahun {{$date->trans_date}}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -43,7 +43,7 @@
 </head>
 <body onload="print()">
     <h1>
-        Tatanan Seluruh Kategori {{$district->name}} <br> Tahun {{$trans_survey->trans_date}}
+        Kelembagaan {{$district->name}} <br> Tahun {{$date->trans_date}}
     </h1>
    
     @foreach ($categories as $category)
@@ -51,7 +51,7 @@
             <div style="page-break-before: always;"></div> <!-- Tambahkan pemisah halaman -->
         @endif  
         <div class="category-title">
-            {{$loop->iteration}}. Tatanan {{$category->name}}
+            {{$loop->iteration}}. Kelembagaan {{$category->name}}
         </div>
         <table>
             <thead>
@@ -60,89 +60,85 @@
                     <th rowspan="2">Pertanyaan</th>
                     <th colspan="4">Self Assesment</th>
                     <th colspan="3">Provinsi</th>
-    
+
                 </tr>
                 <tr>
                     <th>Nilai Assessment</th>
                     <th>Angka</th>
                     <th>Keterangan</th>
                     <th>Dokumen</th>
-    
+
                     <th>Nilai Assessment</th>
                     <th>Angka</th>
                     <th>Keterangan</th>
-    
+
                 </tr>
             </thead>
             <tbody>
                 @php
-                    $questionsV2 = $questions->where('id_category', $category->id);
+                    $questionsV2 = $questions->where('id_c_kelembagaan_v2', $category->id);
 
                     $totalSelfAssessment = 0;
                     $totalProvScore = 0;
                     $totalPusatScore = 0;
                 @endphp
-                @if($questionsV2->isNotEmpty())
+                @if($questionsV2->isNotEmpty()) 
                     @foreach ($questionsV2 as $item)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td style="max-width: 200px">{{ $item->name }}</td>
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td style="max-width: 200px">{{ $item->indikator }}</td>
+                            @php
+                                $relatedAnswer = $answer->where('id_q_kelembagaan', $item->id)->first(); // This will return a single instance or null
+                                $uploadedFile = $uploadedFiles->where('id_q_kelembagaan', $item->id);
+                                
+                                $totalSelfAssessment += $relatedAnswer->_q_option->score ?? 0;
+                                $totalProvScore += $relatedAnswer->_q_option_prov->score ?? 0;
+                                $totalPusatScore += $relatedAnswer->_q_option_pusat->score ?? 0;
+                            @endphp
 
-                    @php
-                        $relatedAnswer = $answer->where('id_question', $item->id)->first(); // This will return a single instance or null
-                        $uploadedFile = $uploadedFiles->where('id_question', $item->id);
-                        
-                        $totalSelfAssessment += $relatedAnswer->_q_option->score ?? 0;
-                        $totalProvScore += $relatedAnswer->_q_option_prov->score ?? 0;
-                        $totalPusatScore += $relatedAnswer->_q_option_pusat->score ?? 0;
-                    @endphp
-
-                    @if($relatedAnswer)
-                        <td style="max-width: 400px">{{ $relatedAnswer->_q_option->name }}</td>
-                        <td style="text-align: center">{{ $relatedAnswer->_q_option->score }}</td>
-                        <td>
-                            <div>Sudah dijawab</div>
-                        </td>
-                        @if ($uploadedFile->isNotEmpty())
-                            <td>
-                                <div>Sudah diupload</div>
-                            </td>
-                        @else
-                            <td class="border-1 border text-center p-3">
-                                <div class="badge badge-light-danger">Belum diupload</div>
-                            </td>
-                        @endif
-
-
-                        <td>{{ $relatedAnswer->_q_option_prov->name?? '-' }}</td>
-                        <td style="text-align: center">{{ $relatedAnswer->_q_option_prov->score??'-'}}</td>
-                        <td>
-                            @if($relatedAnswer && $relatedAnswer->comment_prov)
-                                {{ $relatedAnswer->comment_prov }}
+                            @if($relatedAnswer)
+                                <td style="max-width: 400px">{{ $relatedAnswer->_q_option->name }}</td>
+                                <td style="text-align: center">{{ $relatedAnswer->_q_option->score }}</td>
+                                <td>
+                                    <div>Sudah dijawab</div>
+                                </td>
+                                @if ($uploadedFile->isNotEmpty())
+                                    <td>
+                                        <div>Sudah diupload</div>
+                                    </td>
+                                @else
+                                    <td class="border-1 border text-center p-3">
+                                        <div class="badge badge-light-danger">Belum diupload</div>
+                                    </td>
+                                @endif
+        
+        
+                                <td>{{ $relatedAnswer->_q_option_prov->name?? '-' }}</td>
+                                <td style="text-align: center">{{ $relatedAnswer->_q_option_prov->score??'-'}}</td>
+                                <td>
+                                    @if($relatedAnswer && $relatedAnswer->comment_prov)
+                                        {{ $relatedAnswer->comment_prov }}
+                                    @else
+                                        <div class="badge badge-light-danger">Belum dijawab</div>
+                                    @endif
+                                </td>
+        
                             @else
+                            <td>-</td>
+                            <td style="text-align: center">0</td>
+                            <td>
                                 <div class="badge badge-light-danger">Belum dijawab</div>
+                            </td>
+                            <td>-</td>
+
+                            <td>-</td>
+                            <td style="text-align: center">0</td>
+                            <td>Belum dijawab</td> 
+        
                             @endif
-                        </td>
-
-                    @else
-                    <td>-</td>
-                    <td style="text-align: center">0</td>
-                    <td>
-                        <div class="badge badge-light-danger">Belum dijawab</div>
-                    </td>
-                    <td>-</td>
-
-                    <td>-</td>
-                    <td style="text-align: center">Belum dijawab</td>
-                    <td>-</td>                    
-
-
-                    @endif
-                    </tr>
-
+                        </tr>
                     @endforeach
                 @endif
-                
                 <tr>
                     <td colspan="3"><strong>Total</strong></td>
                     <td  align="center"><strong>{{ $totalSelfAssessment }}</strong></td>
@@ -150,10 +146,10 @@
                     <td  align="center"><strong>{{ $totalProvScore }}</strong></td>
                     <td colspan="2" ></td>
                 </tr>
-            
             </tbody>
         </table>
     @endforeach
+    
     
     <table width="100%" border="0" style="margin-top: 50px">
         <tr>
