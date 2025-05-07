@@ -137,8 +137,17 @@
                                 $requiredDocs = $item->_doc_question ?? collect();
                                 $uploadedDocs = $uploadedFiles->where('id_question', $item->id);
 
+                                // $requiredCount = $requiredDocs->count();
+                                // $uploadedCount = $uploadedDocs->count();
+                                $uploadedCount = 0;
+
+                                foreach ($requiredDocs as $doc) {
+                                    $matched = $uploadedDocs->firstWhere('id_doc_question', $doc->id); 
+                                    if ($matched) {
+                                        $uploadedCount++;
+                                    }
+                                }
                                 $requiredCount = $requiredDocs->count();
-                                $uploadedCount = $uploadedDocs->count();
                             @endphp
 
                             @if ($relatedAnswer)
@@ -147,13 +156,28 @@
                                 <td class="border-1 border text-center p-3">
                                     <div class="badge badge-light-success">Sudah dijawab</div>
                                 </td>
-                                <td class="border-1 border text-center p-3">
+                                {{-- <td class="border-1 border text-center p-3">
                                     @if ($uploadedCount >= $requiredCount && $requiredCount > 0)
                                         <div class="badge badge-light-success">Semua dokumen diupload</div>
                                     @elseif ($uploadedCount > 0 && $uploadedCount < $requiredCount)
                                         <div class="badge badge-light-warning">Dokumen belum lengkap ({{$uploadedCount}} dari {{$requiredCount}})</div>
                                     @else
                                         <div class="badge badge-light-danger">Belum diupload</div>
+                                    @endif
+                                </td> --}}
+                                <td class="border-1 border text-center p-3">
+                                    @if ($requiredCount > 0)
+                                        @if ($uploadedCount >= $requiredCount)
+                                            <div class="badge badge-light-success">Semua dokumen diupload</div>
+                                        @elseif ($uploadedCount > 0)
+                                            <div class="badge badge-light-warning">
+                                                Dokumen belum lengkap ({{ $uploadedCount }} dari {{ $requiredCount }})
+                                            </div>
+                                        @else
+                                            <div class="badge badge-light-danger">Belum diupload</div>
+                                        @endif
+                                    @else
+                                        <div class="badge badge-light-secondary">Tidak ada dokumen</div>
                                     @endif
                                 </td>
 
