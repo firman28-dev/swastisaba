@@ -383,6 +383,7 @@
 
                                                                         if ($questionByYearV2) {
                                                                             $answerV2 = \App\Models\Trans_Survey_D_Answer::where('id_question', $questionByYearV2->id)
+                                                                                ->where('id_zona',$zona->id)
                                                                                 ->where('id_survey', $datesV2->id)->first();
                                                                         } else {
                                                                             $answerV2 = null;
