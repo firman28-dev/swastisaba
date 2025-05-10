@@ -911,8 +911,8 @@
         
     </script>
 
-    <script>
-        document.querySelector('input[type="file"]').addEventListener('change', function(e) {
+    {{-- <script>
+        document.querySelectorAll('input[type="file"]').addEventListener('change', function(e) {
             const file = e.target.files[0];
             const maxSize = 8 * 1024 * 1024; // 10 MB
 
@@ -931,11 +931,33 @@
             }
         });
        
-    </script>
+    </script> --}}
     <script>
-         $('.status_verifikasi').select2({
-            placeholder: 'Pilih',
-            allowClear: true
+        document.querySelectorAll('input[type="file"]').forEach(function(input) {
+            input.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                const maxSize = 8 * 1024 * 1024; // 8 MB
+    
+                if (file && file.type !== 'application/pdf') {
+                    alert('File harus berformat PDF.');
+                    e.target.value = ''; // Reset input
+                } else if (file && file.size > maxSize) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Ukuran file terlalu besar',
+                        text: 'Ukuran maksimal file adalah 8 MB.',
+                        confirmButtonText: 'Oke',
+                    });
+                    e.target.value = ''; // Reset input
+                }
+            });
         });
+    </script>
+    
+    <script>
+        //  $('.status_verifikasi').select2({
+        //     placeholder: 'Pilih',
+        //     allowClear: true
+        // });
     </script>
 @endsection
