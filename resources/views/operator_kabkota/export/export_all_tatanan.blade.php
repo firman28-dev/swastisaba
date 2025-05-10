@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tatanan Seluruh Kategori</title>
+    <title>Tatanan Seluruh Kategori - Tahun {{$trans_survey->trans_date}}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,11 +22,13 @@
             border: 1px solid #000;
             padding: 8px;
             word-wrap: break-word;
-            vertical-align: middle;
         }
 
         h1 {
             text-align: center;
+        }
+        tr {    
+            page-break-inside: avoid;
         }
 
         .category-title {
@@ -38,7 +40,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="print()">
     <h1>
         Tatanan Seluruh Kategori {{$district->name}} <br> Tahun {{$trans_survey->trans_date}}
     </h1>
@@ -57,22 +59,22 @@
                     <th rowspan="2">Pertanyaan</th>
                     <th colspan="4">Self Assesment</th>
                     <th colspan="3">Provinsi</th>
-                    <th colspan="3">Pusat</th>
+                    {{-- <th colspan="3">Pusat</th> --}}
     
                 </tr>
                 <tr class="fw-semibold fs-6 text-muted">
                     <th>Nilai Assessment</th>
-                    <th>Nilai</th>
+                    <th>Angka</th>
                     <th>Keterangan</th>
                     <th>Dokumen</th>
     
                     <th>Nilai Assessment</th>
-                    <th>Nilai</th>
-                    <th>Keterangan</th>
+                    <th>Angka</th>
+                    <th>Catatan Verifikasi</th>
     
-                    <th>Nilai Assessment</th>
+                    {{-- <th>Nilai Assessment</th>
                     <th>Nilai</th>
-                    <th>Keterangan</th>
+                    <th>Keterangan</th> --}}
                 </tr>
             </thead>
             <tbody>
@@ -125,7 +127,7 @@
                             @endif
                         </td>
 
-                        <td>{{ $relatedAnswer->_q_option_pusat->name?? '-' }}</td>
+                        {{-- <td>{{ $relatedAnswer->_q_option_pusat->name?? '-' }}</td>
                         <td style="text-align: center">{{ $relatedAnswer->_q_option_pusat->score??'0'}}</td>
                         <td>
                             @if($relatedAnswer && $relatedAnswer->comment_pusat)
@@ -133,7 +135,7 @@
                             @else
                                 <div class="badge badge-light-danger">Belum dijawab</div>
                             @endif
-                        </td>
+                        </td> --}}
 
                     @else
                     <td>-</td>
@@ -148,27 +150,27 @@
                     <td style="text-align: center">0</td>
                     <td>-</td>
 
-                    <td>-</td>
+                    {{-- <td>-</td>
                     <td style="text-align: center">0</td>
-                    <td>-</td>
+                    <td>-</td> --}}
                     @endif
                     </tr>
 
                     @endforeach
                 @endif
-                
-            
-            </tbody>
-            <tfoot>
                 <tr>
                     <td colspan="3" class="border-1 border text-center p-3"><strong>Total</strong></td>
                     <td class="border-1 border text-center p-3"><strong>{{ $totalSelfAssessment }}</strong></td>
                     <td colspan="3" class="border-1 border text-center p-3"></td>
                     <td class="border-1 border text-center p-3"><strong>{{ $totalProvScore }}</strong></td>
                     <td colspan="2" class="border-1 border text-center p-3"></td>
-                    <td class="border-1 border text-center p-3"><strong>{{ $totalPusatScore }}</strong></td>
-                    <td class="border-1 border text-center p-3"></td>
+                    {{-- <td class="border-1 border text-center p-3"><strong>{{ $totalPusatScore }}</strong></td>
+                    <td class="border-1 border text-center p-3"></td> --}}
                 </tr>
+            
+            </tbody>
+            <tfoot>
+                
             </tfoot>
         </table>
     @endforeach

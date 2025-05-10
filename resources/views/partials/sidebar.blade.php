@@ -1003,7 +1003,7 @@
                     </div>
 
                     <div class="menu-item">
-                        <a class="menu-link {{ Route::is('answer.exportAllCategory') ? 'active-custom' : '' }}" href="{{route('answer.exportAllCategory')}}">
+                        <a class="menu-link {{ Route::is('answer.exportAllCategory') ? 'active-custom' : '' }}" href="{{route('answer.exportAllCategory')}}" target="_blank">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-download fs-3 text-white"></i>
                             </span>

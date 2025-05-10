@@ -145,7 +145,7 @@
             </div>
             <div class="card-toolbar gap-2">
                 <!-- Export to PDF Button -->
-                <a href="{{route('answer.exportPDF', $category->id)}}" class="btn btn-primary btn-sm">
+                <a href="{{route('answer.exportPDF', $category->id)}}" class="btn btn-primary btn-sm" target="_blank">
                     <i class="fa-solid fa-file-pdf"></i> Export PDF
                 </a>
 
