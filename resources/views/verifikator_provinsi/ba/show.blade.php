@@ -39,7 +39,7 @@
     }
   </style>
 </head>
-<body>
+<body onload="print()">
     @php
         $districtFullName = $district->area_type_id == 1 ? str_replace('Kab.', 'Kabupaten', $district->name) : $district->name;
         $wali_bup = $district->area_type_id == 1 ? 'Bupati' : 'Wali Kota';
