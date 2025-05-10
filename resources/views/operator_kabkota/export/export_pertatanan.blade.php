@@ -22,10 +22,11 @@
             border: 1px solid #000;
             padding: 8px;
             word-wrap: break-word;
+            vertical-align: middle;
         }
 
-        th {
-            vertical-align: middle !important
+        tr {    
+            page-break-inside: avoid;
         }
 
         h1 {

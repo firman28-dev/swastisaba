@@ -22,6 +22,7 @@
             border: 1px solid #000;
             padding: 8px;
             word-wrap: break-word;
+            vertical-align: middle;
         }
 
         h1 {
