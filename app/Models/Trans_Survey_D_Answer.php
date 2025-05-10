@@ -20,6 +20,8 @@ class Trans_Survey_D_Answer extends Model
         'comment',
         'id_option_prov',
         'comment_prov',
+        'comment_detail_prov',
+        'status_verifikasi',
         'id_option_pusat',
         'comment_pusat',
         'created_by',

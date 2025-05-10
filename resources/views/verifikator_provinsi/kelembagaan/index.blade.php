@@ -47,20 +47,20 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group w-100">
-                                            <label for="achievement" class="form-label">Nama Pembahas</label>
-                                            <input type="text" required class="form-control form-control-solid rounded rounded-4" id="pembahas" name="pembahas">
+                                            <label for="achievement" class="form-label">Nama Penanggungjawab Kab/Kota</label>
+                                            <input type="text" required class="form-control form-control-solid rounded rounded-4" id="pembahas" name="pembahas" placeholder="Nama">
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group w-100">
-                                            <label for="achievement" class="form-label">Jabatan Pembahas</label>
-                                            <input type="text"  required class="form-control form-control-solid rounded rounded-4" id="jabatan" name="jabatan">
+                                            <label for="achievement" class="form-label">Jabatan Penanggungjawab Kab/Kota</label>
+                                            <input type="text"  required class="form-control form-control-solid rounded rounded-4" id="jabatan" name="jabatan" placeholder="Jabatah">
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group w-100">
-                                            <label for="achievement" class="form-label">Operator</label>
-                                            <input type="text" required class="form-control form-control-solid rounded rounded-4" id="operator" name="operator">
+                                            <label for="achievement" class="form-label">Tim Verifikasi Provinsi</label>
+                                            <input type="text" required class="form-control form-control-solid rounded rounded-4" id="operator" name="operator" placeholder="Nama">
                                         </div>
                                     </div>
                                 </div>
@@ -70,7 +70,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary rounded-4" data-bs-dismiss="modal" onclick="location.reload()">Batal</button>
-                                <button type="submit" class="btn btn-primary rounded-4">Simpan</button>
+                                <button type="submit" class="btn btn-primary rounded-4">Cetak</button>
                             </div>
                         </div>
                     </form>

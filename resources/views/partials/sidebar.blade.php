@@ -712,6 +712,14 @@
                         </div>
                     </div> --}}
                     <div class="menu-item">
+                        <a class="menu-link {{ Route::is('v-prov.indexBA') ? 'active-custom' : '' }}" href="{{route('v-prov.indexBA')}}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-house fs-3 text-white"></i>
+                            </span>
+                            <span class="menu-title text-white">Berita Acara</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
                         <a class="menu-link {{ Route::is('v-prov.indexRekap') ? 'active-custom' : '' }}" href="{{route('v-prov.indexRekap')}}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-house fs-3 text-white"></i>

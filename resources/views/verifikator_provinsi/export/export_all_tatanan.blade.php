@@ -58,8 +58,8 @@
                 <tr >
                     <th rowspan="2">No.</th>
                     <th rowspan="2">Pertanyaan</th>
-                    <th colspan="4">Self Assesment</th>
-                    <th colspan="3">Provinsi</th>
+                    <th colspan="4">Self Assesment Kab/Kota</th>
+                    <th colspan="4">Provinsi</th>
     
                 </tr>
                 <tr>
@@ -70,7 +70,9 @@
     
                     <th>Nilai Assessment</th>
                     <th>Angka</th>
-                    <th>Keterangan</th>
+                    <th>Catatan Verifikasi</th>
+                    <th>Dokumen</th>
+
     
                 </tr>
             </thead>
@@ -115,13 +117,16 @@
 
 
                         <td>{{ $relatedAnswer->_q_option_prov->name?? '-' }}</td>
-                        <td style="text-align: center">{{ $relatedAnswer->_q_option_prov->score??'-'}}</td>
+                        <td style="text-align: center">{{ $relatedAnswer->_q_option_prov->score??'0'}}</td>
                         <td>
                             @if($relatedAnswer && $relatedAnswer->comment_prov)
                                 {{ $relatedAnswer->comment_prov }}
                             @else
                                 <div class="badge badge-light-danger">Belum dijawab</div>
                             @endif
+                        </td>
+                        <td class="border-1 border p-3">
+                            Agar diuploadkan data dukung gabungan capaian tahun 2023 2024 pada menu 2024
                         </td>
 
                     @else
@@ -133,9 +138,9 @@
                     <td>-</td>
 
                     <td>-</td>
-                    <td style="text-align: center">Belum dijawab</td>
-                    <td>-</td>                    
-
+                    <td style="text-align: center">0</td>
+                    <td>Belum dijawab</td>  
+                    <td>Agar diuploadkan data dukung gabungan capaian tahun 2023 2024</td>
 
                     @endif
                     </tr>
@@ -155,7 +160,7 @@
         </table>
     @endforeach
     
-    <table width="100%" border="0" style="margin-top: 50px">
+    {{-- <table width="100%" border="0" style="margin-top: 50px">
         <tr>
             <td width="50%" align="center"><div>Tim Verifikasi Provinsi</div>
                 <p align="center">&nbsp;</p>
@@ -178,8 +183,7 @@
                     <div style="padding-left:10px;"><?php //echo $data->row()->jabatan_kabkota;?></div> 
                 </div>
             </td>
-            {{-- <td width="1%">&nbsp;</td> --}}
         </tr>
-    </table> 
+    </table>  --}}
 </body>
 </html>

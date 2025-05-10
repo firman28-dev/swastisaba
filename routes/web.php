@@ -522,6 +522,12 @@ Route::group(['middleware' => ['auth']], function () {
             //rekap
             Route::get('/v-prov/rekap-nilai', [Answer_Verifikator_Prov_Controller::class, 'indexRekap'])->name('v-prov.indexRekap');
 
+            //BA
+            Route::get('/v-prov/ba', [Answer_Verifikator_Prov_Controller::class, 'indexBA'])->name('v-prov.indexBA');
+            Route::get('/v-prov/create-ba/{id}', [Answer_Verifikator_Prov_Controller::class, 'createBA'])->name('v-prov.createBA');
+            Route::post('/v-prov/ba-print', [Answer_Verifikator_Prov_Controller::class, 'BA'])->name('v-prov.BA');
+
+
         });
 
         Route::group(['middleware' => ['v_pusat']], function (){

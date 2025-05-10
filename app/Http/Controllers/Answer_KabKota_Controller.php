@@ -69,14 +69,15 @@ class Answer_KabKota_Controller extends Controller
             'id_option' => 'required',
             'comment' => 'required',
             'achievement' => 'required',
-            'file_path' => 'nullable|mimes:pdf|max:4096',
+            // 'file_path' => 'nullable|mimes:pdf|max:4096',
+            'file_path' => 'nullable|mimes:pdf|max:8192',
         ],[
             'id_option.required' => 'Option wajib diisi',
             'id_survey.required' => 'Tahun wajib dipilih',
             'comment.required' => 'Penjelasan wajib diisi',
             'achievement.required' => 'Capaian wajib diisi',
             'file_path.mimes' => 'Wajib Pdf',
-            'file_path.max' => 'Ukuran Maksimal 4 MB',
+            'file_path.max' => 'Ukuran Maksimal 8 MB',
 
         ]);
 
@@ -103,6 +104,7 @@ class Answer_KabKota_Controller extends Controller
                     'id_option' => $request->id_option,
                     'comment' => $request->comment,
                     'achievement' => $request->achievement,
+                    'status_verifikasi' => $request->status_verifikasi,
                     'updated_by' => $user->id,
                 ]);
             }

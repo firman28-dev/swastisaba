@@ -17,6 +17,8 @@ class Trans_Kelembagaan_V2 extends Model
         'id_opt_kelembagaan',
         'id_opt_kelembagaan_prov',
         'comment_prov',
+        'comment_detail_prov',
+        'status_verifikasi',
         'id_opt_kelembagaan_pusat',
         'comment_pusat',
         'achievement',

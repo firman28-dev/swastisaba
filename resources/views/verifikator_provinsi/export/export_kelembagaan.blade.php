@@ -58,7 +58,7 @@
                 <tr >
                     <th rowspan="2">No.</th>
                     <th rowspan="2">Pertanyaan</th>
-                    <th colspan="4">Self Assesment</th>
+                    <th colspan="4">Self Assesment Kab/Kota</th>
                     <th colspan="3">Provinsi</th>
 
                 </tr>
@@ -70,7 +70,7 @@
 
                     <th>Nilai Assessment</th>
                     <th>Angka</th>
-                    <th>Keterangan</th>
+                    <th>Catatan Verifikasi</th>
 
                 </tr>
             </thead>

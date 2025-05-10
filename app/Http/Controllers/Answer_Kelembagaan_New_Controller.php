@@ -120,12 +120,12 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'sum_distirct' => 'nullable',
             'note' => 'nullable',
             'achievement' => 'nullable',
-            'file_path' => 'nullable|mimes:pdf|max:4096'
+            'file_path' => 'nullable|mimes:pdf|max:8096'
         ],[
             'id_option.required' => 'Option wajib diisi',
             'id_survey' => 'Tahun wajib dipilih',
             'file_path.mimes' => 'Wajib Pdf',
-            'file_path.max' => 'Ukuran Maksimal 4MB',
+            'file_path.max' => 'Ukuran Maksimal 8MB',
         ]);
         $sum_village = $request->sum_village;
         $sum_subdistrict = $request->sum_subdistrict;
@@ -156,6 +156,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
                         'achievement' => $achievement,
                         'note' => $note,
                         'id_opt_kelembagaan' => $request->id_option,
+                        'status_verifikasi' => $request->status_verifikasi,
                         'updated_by' => $user->id
                     ]);
                 }
@@ -165,6 +166,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
                         'achievement' => $achievement,
                         'note' => $note,
                         'id_opt_kelembagaan' => $request->id_option,
+                        'status_verifikasi' => $request->status_verifikasi,
                         'updated_by' => $user->id
                     ]);
                 }
@@ -173,6 +175,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
                         'achievement' => $achievement,
                         'note' => $note,
                         'id_opt_kelembagaan' => $request->id_option,
+                        'status_verifikasi' => $request->status_verifikasi,
                         'updated_by' => $user->id
                     ]);
                 }

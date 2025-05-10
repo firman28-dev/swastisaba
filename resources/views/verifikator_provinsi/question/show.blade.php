@@ -54,32 +54,32 @@
                                 <div class="row gap-3">
                                     <div class="col-12">
                                         <div class="form-group w-100">
-                                            <label for="achievement" class="form-label">Tahun</label>
+                                            <label class="form-label">Tahun</label>
                                             <input type="text" value="{{ $date->trans_date }}"  readonly class="form-control form-control-solid rounded rounded-4">
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group w-100">
-                                            <label for="achievement" class="form-label">Nama Kab/Kota</label>
+                                            <label class="form-label">Nama Kab/Kota</label>
                                             <input type="text" value="{{ $zona->name  }}" readonly class="form-control form-control-solid rounded rounded-4">
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group w-100">
-                                            <label for="achievement" class="form-label">Nama Pembahas</label>
-                                            <input type="text" required class="form-control form-control-solid rounded rounded-4" id="pembahas" name="pembahas">
+                                            <label for="pembahas" class="form-label">Nama Penanggungjawab Kab/Kota</label>
+                                            <input type="text" required class="form-control form-control-solid rounded rounded-4" id="pembahas" name="pembahas" placeholder="Nama">
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group w-100">
-                                            <label for="achievement" class="form-label">Jabatan Pembahas</label>
-                                            <input type="text"  required class="form-control form-control-solid rounded rounded-4" id="jabatan" name="jabatan">
+                                            <label for="jabatan" class="form-label">Jabatan Penanggungjawab Kab/Kota</label>
+                                            <input type="text"  required class="form-control form-control-solid rounded rounded-4" id="jabatan" name="jabatan" placeholder="Jabatan">
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group w-100">
-                                            <label for="achievement" class="form-label">Operator</label>
-                                            <input type="text" required class="form-control form-control-solid rounded rounded-4" id="operator" name="operator">
+                                            <label for="operator" class="form-label">Tim Verifikasi Provinsi</label>
+                                            <input type="text" required class="form-control form-control-solid rounded rounded-4" id="operator" name="operator" placeholder="Nama">
                                         </div>
                                     </div>
                                 </div>
@@ -105,25 +105,27 @@
                             <th class="w-60px text-center border-1 border p-3" rowspan="2">No.</th>
                             <th class="w-150px text-center border-1 border align-middle p-3" rowspan="2">Pertanyaan</th>
                             <th class="w-200px text-center border-1 border align-middle" colspan="4">Self Assesment Kab/Kota</th>
-                            <th class="w-200px text-center border-1 border align-middle" colspan="3">Provinsi</th>
-                            <th class="w-100px text-center border-1 border align-middle" colspan="3">Pusat</th>
+                            <th class="w-200px text-center border-1 border align-middle" colspan="4">Provinsi</th>
+                            {{-- <th class="w-100px text-center border-1 border align-middle" colspan="3">Pusat</th> --}}
                             <th class=" w-100px text-center border-1 border align-middle p-3" rowspan="2">Aksi</th>
 
                         </tr>
                         <tr class="fw-semibold fs-6 text-muted">
                             <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
-                            <th class="text-center border-1 border align-middle p-3">Nilai</th>
+                            <th class="text-center border-1 border align-middle p-3">Angka</th>
                             <th class="text-center border-1 border align-middle p-3">Keterangan</th>
-                            <th class="text-center border-1 border align-middle p-3">Status Dplumen</th>
+                            <th class="text-center border-1 border align-middle p-3">Status Dokumen</th>
 
 
                             <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
-                            <th class="text-center border-1 border align-middle p-3">Nilai</th>
-                            <th class="text-center border-1 border align-middle p-3">Keterangan</th>
+                            <th class="text-center border-1 border align-middle p-3">Angka</th>
+                            <th class="text-center border-1 border align-middle p-3">Catatan Umum</th>
+                            <th class="text-center border-1 border align-middle p-3">Catatan Detail</th>
 
-                            <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
+
+                            {{-- <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
                             <th class="text-center border-1 border align-middle p-3">Nilai</th>
-                            <th class="text-center border-1 border align-middle p-3">Keterangan</th>
+                            <th class="text-center border-1 border align-middle p-3">Keterangan</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -190,8 +192,16 @@
                                         <div class="badge badge-light-danger">Belum dijawab</div>
                                     @endif
                                 </td>
+                                <td class="border-1 border p-3">
+                                    @if($relatedAnswer && $relatedAnswer->comment_detail_prov)
+                                        {{ $relatedAnswer->comment_detail_prov }}
+                                    @else
+                                        <div class="badge badge-light-danger">-</div>
+                                    @endif
+                                </td>
+                                {{-- <td class="border-1 border p-3">-</td> --}}
 
-                                <td class="border-1 border p-3">{{ $relatedAnswer->_q_option_pusat->name?? '-' }}</td>
+                                {{-- <td class="border-1 border p-3">{{ $relatedAnswer->_q_option_pusat->name?? '-' }}</td>
                                 <td class="border-1 border text-center p-3">{{ $relatedAnswer->_q_option_pusat->score??'-'}}</td>
                                 <td class="border-1 border p-3">
                                     @if($relatedAnswer && $relatedAnswer->comment_pusat)
@@ -199,21 +209,24 @@
                                     @else
                                         <div class="badge badge-light-danger">Belum dijawab</div>
                                     @endif
-                                </td>
+                                </td> --}}
                             @else
                                 <td class="border-1 border p-3">-</td>
                                 <td class="border-1 border p-3">-</td>
                                 <td class="border-1 border p-3">
                                     <div class="badge badge-light-danger">Belum dijawab</div>
                                 </td>
+                                <td class="border-1 border p-3">-</td>
+
 
                                 <td class="border-1 border p-3">-</td>
                                 <td class="border-1 border p-3">-</td>
                                 <td class="border-1 border p-3">-</td>
+                                <td class="border-1 border p-3">-</td>
 
+                                {{-- <td class="border-1 border p-3">-</td>
                                 <td class="border-1 border p-3">-</td>
-                                <td class="border-1 border p-3">-</td>
-                                <td class="border-1 border p-3">-</td>
+                                <td class="border-1 border p-3">-</td> --}}
                             @endif
 
                             <td>
@@ -469,11 +482,11 @@
                                                 </table>
 
                                                 @if ($relatedAnswer && $relatedAnswer->id_option_prov)
-                                                    <div class="row mb-3">
+                                                    <div class="row mb-3 gap-3">
                                                         <div class="col-12">
                                                             <div class="form-group w-100">
-                                                                <label for="name" class="form-label">Komentar</label>
-                                                                <textarea name="comment_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Komentar">{{$relatedAnswer->comment_prov}}</textarea>
+                                                                <label for="comment_prov" class="form-label">Catatan Umum Verifikasi<span class="required"></span></label>
+                                                                <textarea name="comment_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Catatan Umum">{{$relatedAnswer->comment_prov}}</textarea>
                                                                 
                                                                 @error('comment_prov')
                                                                     <div class="is-invalid">
@@ -484,15 +497,43 @@
                                                                 @enderror
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                @else
-                                                    <div class="row mb-3">
                                                         <div class="col-12">
                                                             <div class="form-group w-100">
-                                                                <label for="name" class="form-label">Komentar</label>
-                                                                <textarea required name="comment_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Komentar"></textarea>
+                                                                <label for="comment_detail_prov" class="form-label">Catatan Detail Verifikasi<span class="required"></span></label>
+                                                                <textarea name="comment_detail_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Catatan Detail">{{$relatedAnswer->comment_detail_prov}}</textarea>
+                                                                
+                                                                @error('comment_detail_prov')
+                                                                    <div class="is-invalid">
+                                                                        <span class="text-danger">
+                                                                            {{$message}}
+                                                                        </span>
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="row mb-3 gap-3">
+                                                        <div class="col-12">
+                                                            <div class="form-group w-100">
+                                                                <label for="name" class="form-label">Catatan Umum Verifikasi <span class="required"></span> </label>
+                                                                <textarea required name="comment_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Catatan Umum"></textarea>
                                                                 
                                                                 @error('comment_prov')
+                                                                    <div class="is-invalid">
+                                                                        <span class="text-danger">
+                                                                            {{$message}}
+                                                                        </span>
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group w-100">
+                                                                <label for="comment_detail_prov" class="form-label">Catatan Detail Verifikasi<span class="required"></span></label>
+                                                                <textarea name="comment_detail_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Catatan Detail"></textarea>
+                                                                
+                                                                @error('comment_detail_prov')
                                                                     <div class="is-invalid">
                                                                         <span class="text-danger">
                                                                             {{$message}}

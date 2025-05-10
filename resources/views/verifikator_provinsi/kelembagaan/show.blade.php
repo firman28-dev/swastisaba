@@ -224,8 +224,8 @@
                             <th class="w-60px text-center border-1 border p-3" rowspan="2">No.</th>
                             <th class="w-50px text-center border-1 border align-middle p-3" rowspan="2">Pertanyaan</th>
                             <th class="text-center border-1 border align-middle" colspan="4">Self Assesment Kab/Kota</th>
-                            <th class="text-center border-1 border align-middle" colspan="3">Provinsi</th>
-                            <th class="text-center border-1 border align-middle" colspan="3">Pusat</th>
+                            <th class="text-center border-1 border align-middle" colspan="4">Provinsi</th>
+                            {{-- <th class="text-center border-1 border align-middle" colspan="3">Pusat</th> --}}
                             <th class="w-100px text-center border-1 border align-middle p-3" rowspan="2">Aksi</th>
 
                         </tr>
@@ -233,15 +233,16 @@
                             <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
                             <th class="text-center border-1 border align-middle p-3">Nilai</th>
                             <th class="text-center border-1 border align-middle p-3">Keterangan</th>
-                            <th class="text-center border-1 border align-middle p-3">Dokumen</th>
+                            <th class="text-center border-1 border align-middle p-3">Status Dokumen</th>
 
                             <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
                             <th class="text-center border-1 border align-middle p-3">Nilai</th>
-                            <th class="text-center border-1 border align-middle p-3">Keterangan</th>
+                            <th class="text-center border-1 border align-middle p-3">Catatan Umum</th>
+                            <th class="text-center border-1 border align-middle p-3">Catatan Detail</th>
 
-                            <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
+                            {{-- <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
                             <th class="text-center border-1 border align-middle p-3">Nilai</th>
-                            <th class="text-center border-1 border align-middle p-3">Keterangan</th>
+                            <th class="text-center border-1 border align-middle p-3">Keterangan</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -278,8 +279,15 @@
                                         <div class="badge badge-light-danger">Belum dijawab</div>
                                     @endif
                                 </td>
+                                <td class="border-1 border p-3">
+                                    @if($relatedAnswer && $relatedAnswer->comment_detail_prov)
+                                        {{ $relatedAnswer->comment_detail_prov }}
+                                    @else
+                                        <div class="badge badge-light-danger">-</div>
+                                    @endif
+                                </td>
 
-                                <td class="border-1 border p-3">{{ $relatedAnswer->_q_option_pusat->name?? '-' }}</td>
+                                {{-- <td class="border-1 border p-3">{{ $relatedAnswer->_q_option_pusat->name?? '-' }}</td>
                                 <td class="border-1 border text-center p-3">{{ $relatedAnswer->_q_option_pusat->score??'-'}}</td>
                                 <td class="border-1 border p-3">
                                     @if($relatedAnswer && $relatedAnswer->comment_pusat)
@@ -287,7 +295,7 @@
                                     @else
                                         <div class="badge badge-light-danger">Belum dijawab</div>
                                     @endif
-                                </td>
+                                </td> --}}
                             @else
                                 <td class="border-1 border p-3">-</td>
                                 <td class="border-1 border p-3">-</td>
@@ -300,10 +308,12 @@
                                 <td class="border-1 border p-3">-</td>
                                 <td class="border-1 border p-3">-</td>
                                 <td class="border-1 border p-3">-</td>
+                                <td class="border-1 border p-3">-</td>
 
+
+                                {{-- <td class="border-1 border p-3">-</td>
                                 <td class="border-1 border p-3">-</td>
-                                <td class="border-1 border p-3">-</td>
-                                <td class="border-1 border p-3">-</td>
+                                <td class="border-1 border p-3">-</td> --}}
                             @endif
 
                             <td class="border-1 border p-3 text-center">
@@ -571,14 +581,14 @@
                                                         </tbody>
                                                     </table>
 
-                                                    <div class="row mb-3 mt-3">
+                                                    <div class="row mb-3 mt-3 gap-3">
                                                         <div class="col-12">
                                                             <div class="form-group w-100">
-                                                                <label for="comment_prov" class="form-label bold">Komentar<span class="required"></span></label>
+                                                                <label for="comment_prov" class="form-label bold">Catatan Umum Verifikasi<span class="required"></span></label>
                                                                 @if (!empty($relatedAnswer->comment_prov))
-                                                                    <textarea name="comment_prov" id="comment_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Komentar" required>{{$relatedAnswer->comment_prov}}</textarea>
+                                                                    <textarea name="comment_prov" id="comment_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Catatan Umum" required>{{$relatedAnswer->comment_prov}}</textarea>
                                                                 @else
-                                                                    <textarea name="comment_prov" id="comment_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Komentar" required></textarea>
+                                                                    <textarea name="comment_prov" id="comment_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Catatan Umum" required></textarea>
                                                                 @endif
                                                                 @error('comment_prov')
                                                                     <div class="is-invalid">
@@ -589,7 +599,25 @@
                                                                 @enderror
                                                             </div>
                                                         </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group w-100">
+                                                                <label for="comment_prov" class="form-label bold">Catatan Detail Verifikasi<span class="required"></span></label>
+                                                                @if (!empty($relatedAnswer->comment_detail_prov))
+                                                                    <textarea name="comment_detail_prov" id="comment_detail_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Catatan Detail" required>{{$relatedAnswer->comment_detail_prov}}</textarea>
+                                                                @else
+                                                                    <textarea name="comment_detail_prov" id="comment_detail_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Catatan Detail" required></textarea>
+                                                                @endif
+                                                                @error('comment_detail_prov')
+                                                                    <div class="is-invalid">
+                                                                        <span class="text-danger">
+                                                                            {{$message}}
+                                                                        </span>
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
                                                     </div>
+
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal" onclick="location.reload()">Batal</button>

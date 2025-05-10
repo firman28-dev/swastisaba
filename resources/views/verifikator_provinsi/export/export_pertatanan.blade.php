@@ -50,8 +50,8 @@
             <tr >
                 <th rowspan="2">No.</th>
                 <th rowspan="2">Pertanyaan</th>
-                <th colspan="4">Self Assesment</th>
-                <th colspan="3">Provinsi</th>
+                <th colspan="4">Self Assesment Kab/Kota</th>
+                <th colspan="4">Provinsi</th>
 
             </tr>
             <tr class="fw-semibold fs-6 text-muted">
@@ -62,7 +62,9 @@
 
                 <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
                 <th class="text-center border-1 border align-middle p-3">Angka</th>
-                <th class="text-center border-1 border align-middle p-3">Keterangan</th>
+                <th class="text-center border-1 border align-middle p-3">Catatan Verifikasi</th>
+                <th class="text-center border-1 border align-middle p-3">Status Dokumen</th>
+
             </tr>
         </thead>
         <tbody>
@@ -106,9 +108,13 @@
                             @if($relatedAnswer && $relatedAnswer->comment_prov)
                                 {{ $relatedAnswer->comment_prov }}
                             @else
-                                <div class="badge badge-light-danger">Belum dijawab</div>
+                                <div class="badge badge-light-danger">-</div>
                             @endif
                         </td>
+                        <td class="border-1 border p-3">
+                            Agar diuploadkan data dukung gabungan capaian tahun 2023 2024 pada menu 2024
+                        </td>
+
 
                     @else
                         <td class="border-1 border p-3" style="text-align: center">-</td>
@@ -121,7 +127,11 @@
 
                         <td class="border-1 border p-3" style="text-align: center">-</td>
                         <td class="border-1 border p-3" style="text-align: center">0</td>
-                        <td class="border-1 border p-3" style="text-align: center">Belum dijawab</td>
+                        <td class="border-1 border p-3">Belum dijawab</td>
+                        <td class="border-1 border p-3" >
+                            Agar diuploadkan data dukung gabungan capaian tahun 2023 2024 pada menu 2024
+                        </td>
+
 
                         
                     @endif

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BA_Bappeda;
+use App\Models\BA_Dinkes;
 use App\Models\Gambaran_KabKota;
 use App\Models\M_C_Kelembagaan_New;
 use App\Models\M_Category;
@@ -15,6 +17,7 @@ use App\Models\M_SubDistrict;
 use App\Models\M_Village;
 use App\Models\M_Zona;
 use App\Models\Pendanaan_KabKota;
+use App\Models\SKPD;
 use App\Models\Trans_Doc_G_Data;
 use App\Models\Trans_Doc_Kelembagaan;
 use App\Models\Trans_Forum_Kec;
@@ -92,10 +95,13 @@ class Answer_Verifikator_Prov_Controller extends Controller
     {
         $request->validate([
             'id_option_prov' => 'required',
-            'comment_prov' => 'required',
+            'comment_prov' => 'required|string',
+            'comment_detail_prov' => 'required|string',
+
         ],[
             'id_option_prov.required' => 'Option wajib diisi',
             'comment_prov.required' => 'Komentar wajib diisi',
+            'comment_detail_prov.required' => 'Komentar wajib diisi',
         ]);
 
         $user = Auth::user();
@@ -114,6 +120,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
                 $relatedAnswer->update([
                     'id_option_prov' => $request->id_option_prov,
                     'comment_prov' => $request->comment_prov,
+                    'comment_detail_prov' => $request->comment_detail_prov,
                     'updated_by_prov' => $user->id
                 ]);
 
@@ -219,9 +226,11 @@ class Answer_Verifikator_Prov_Controller extends Controller
             'id_survey' => 'required',
             'id_option' => 'required',
             'comment_prov' => 'required',
+            'comment_detail_prov' => 'required|string',
         ],[
             'id_option.required' => 'Option wajib diisi',
             'comment_prov.required' => 'Komentar wajib diisi',
+            'comment_detail_prov.required' => 'Komentar wajib diisi',
         ]);
 
         // return $request->answer_prov;
@@ -241,6 +250,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
                 $relatedAnswer->update([
                     'id_opt_kelembagaan_prov' => $request->id_option,
                     'comment_prov' => $request->comment_prov,
+                    'comment_detail_prov' => $request->comment_detail_prov,
                 ]);
                 return redirect()->back()->with('success', 'Berhasil memverifikasi kelembagaan');
 
@@ -635,17 +645,17 @@ class Answer_Verifikator_Prov_Controller extends Controller
     }
 
     public function printAllCategory(Request $request){
-        $request->validate([
-            'pembahas' => 'required',
-            'jabatan' => 'required',
-            'operator' => 'required',
-            'tahun' => 'required',
-            'kota' => 'required'
-        ]);
+        // $request->validate([
+        //     'pembahas' => 'required',
+        //     'jabatan' => 'required',
+        //     'operator' => 'required',
+        //     'tahun' => 'required',
+        //     'kota' => 'required'
+        // ]);
 
-        $pembahas = $request->pembahas;
-        $operator = $request->operator;
-        $jabatan = $request->jabatan;
+        // $pembahas = $request->pembahas;
+        // $operator = $request->operator;
+        // $jabatan = $request->jabatan;
 
 
         $trans_survey = Trans_Survey::find($request->tahun);
@@ -671,9 +681,9 @@ class Answer_Verifikator_Prov_Controller extends Controller
             'session_date' =>$request->tahun,
             'district' => $district,
             'trans_survey' => $trans_survey,
-            'pembahas' => $pembahas,
-            'operator' => $operator,
-            'jabatan' => $jabatan
+            // 'pembahas' => $pembahas,
+            // 'operator' => $operator,
+            // 'jabatan' => $jabatan
 
         ];
         return view('verifikator_provinsi.export.export_all_tatanan', $sent);
@@ -803,7 +813,124 @@ class Answer_Verifikator_Prov_Controller extends Controller
         // return $pdf->download("Tatanan {$district->name} Tahun {$trans_survey->trans_date}.pdf");
         
     }
+    
 
+    public function indexBA(){
+        $district = M_District::where('province_id', 13)->get();
+        $bappeda = BA_Bappeda::where('is_active',1)->get();
+        $dinkes = BA_Dinkes::where('is_active',1)->get();
+        $skpd = SKPD::where('is_active',1)->get();
+
+
+        // return $district;
+        $sent = [
+            'district' => $district,
+            'dinkes' => $dinkes,
+            'bappeda'=> $bappeda,
+            'skpd' => $skpd
+        ];
+        return view('verifikator_provinsi.ba.index', $sent);
+    }
+    public function createBA($id){
+
+        $bappeda = BA_Bappeda::where('is_active',1)->get();
+        $dinkes = BA_Dinkes::where('is_active',1)->get();
+        $skpd = SKPD::where('is_active',1)->get();
+        $district = M_District::find($id);
+
+        $sent = [
+            'district' => $district,
+            'dinkes' => $dinkes,
+            'bappeda'=> $bappeda,
+            'skpd' => $skpd
+        ];
+        return view('verifikator_provinsi.ba.create', $sent);
+    }   
+
+    public function BA(Request $request){
+        $request->validate([
+            'ba_bappeda_prov' => 'required',
+            'ba_dinkes_prov' => 'required',
+            'skpd_prov' => 'required',
+            'nama_skpd_prov' => 'required',
+            'jb_skpd_prov' => 'required',
+            'nama_bappeda_kab_kota' => 'required',
+            'jb_bappeda_kab_kota' => 'required',
+            'nama_dinkes_kab_kota' => 'required',
+            'jb_dinkes_kab_kota' => 'required',
+            'nama_forum_kab_kota' => 'required',
+            'jb_forum_kab_kota' => 'required',
+        ]);
+
+
+        $ba_bappeda_prov = $request->ba_bappeda_prov;
+        $ba_dinkes_prov = $request->ba_dinkes_prov;
+
+        $skpd_prov = $request->skpd_prov;
+        $nama_skpd_prov = $request->nama_skpd_prov;
+        $jb_skpd_prov = $request->jb_skpd_prov;
+
+        $nama_bappeda_kab_kota = $request->nama_bappeda_kab_kota;
+        $jb_bappeda_kab_kota = $request->jb_bappeda_kab_kota;
+
+        $nama_dinkes_kab_kota = $request->nama_dinkes_kab_kota;
+        $jb_dinkes_kab_kota = $request->jb_dinkes_kab_kota;
+
+        $nama_forum_kab_kota = $request->nama_forum_kab_kota;
+        $jb_forum_kab_kota = $request->jb_forum_kab_kota;
+
+        $kota = $request->kota;
+
+        $district = M_District::find($kota);
+        $bappeda_prov = BA_Bappeda::find($ba_bappeda_prov);
+        $dinkes_prov = BA_Dinkes::find($ba_dinkes_prov);
+        $skpd = SKPD::find($skpd_prov);
+
+
+        $now = date('Y-m-d');
+        $days = [
+            'Sunday' => 'Minggu',
+            'Monday' => 'Senin',
+            'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis',
+            'Friday' => 'Jumat',
+            'Saturday' => 'Sabtu'
+        ];
+        $day_en = date('l', strtotime($now));
+        $day_id = $days[$day_en];
+        $date_id = date('d', strtotime($now));
+        // $date_id = date('d-m-Y', strtotime($now));
+
+        $sent = [
+            'nama_skpd_prov' => $nama_skpd_prov,
+            'jb_skpd_prov' => $jb_skpd_prov,
+
+            'nama_bappeda_kab_kota' => $nama_bappeda_kab_kota,
+            'jb_bappeda_kab_kota' => $jb_bappeda_kab_kota,
+
+            'nama_dinkes_kab_kota' => $nama_dinkes_kab_kota,
+            'jb_dinkes_kab_kota' => $jb_dinkes_kab_kota,
+
+            'nama_forum_kab_kota' => $nama_forum_kab_kota,
+            'jb_forum_kab_kota' => $jb_forum_kab_kota,
+
+            'bappeda_prov' => $bappeda_prov,
+            'dinkes_prov' => $dinkes_prov,
+            'district' => $district,
+            'date' => $now,
+            'skpd' => $skpd,
+            'day_id' => $day_id,
+            'date_id' => $date_id
+
+        ];
+
+        // return view('')
+        return view('verifikator_provinsi.ba.show', $sent);
+
+        // return $now;
+
+    }
 
 
 }

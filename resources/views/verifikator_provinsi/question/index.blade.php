@@ -45,7 +45,7 @@
                                             <input type="text" value="{{ $zona->name  }}" readonly class="form-control form-control-solid rounded rounded-4">
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    {{-- <div class="col-12">
                                         <div class="form-group w-100">
                                             <label for="achievement" class="form-label">Nama Pembahas</label>
                                             <input type="text" required class="form-control form-control-solid rounded rounded-4" id="pembahas" name="pembahas">
@@ -62,7 +62,7 @@
                                             <label for="achievement" class="form-label">Operator</label>
                                             <input type="text" required class="form-control form-control-solid rounded rounded-4" id="operator" name="operator">
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <input type="hidden" name="tahun" value="{{ $tahun->id }}">
                                 <input type="hidden" name="kota" value="{{ $zona->id}}">
@@ -70,7 +70,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary rounded-4" data-bs-dismiss="modal" onclick="location.reload()">Batal</button>
-                                <button type="submit" class="btn btn-primary rounded-4">Simpan</button>
+                                <button type="submit" class="btn btn-primary rounded-4">Cetak</button>
                             </div>
                         </div>
                     </form>

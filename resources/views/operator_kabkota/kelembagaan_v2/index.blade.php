@@ -44,9 +44,9 @@
                         <tr class="fw-semibold fs-6 text-muted text-center ">
                             <th class="w-60px text-center border-1 border p-3" rowspan="2">No.</th>
                             <th class="w-50px text-center border-1 border align-middle p-3" rowspan="2">Pertanyaan</th>
-                            <th class="text-center border-1 border align-middle" colspan="4">Self Assesment</th>
-                            <th class="text-center border-1 border align-middle" colspan="3">Provinsi</th>
-                            <th class="text-center border-1 border align-middle" colspan="3">Pusat</th>
+                            <th class="text-center border-1 border align-middle" colspan="5">Self Assesment</th>
+                            <th class="text-center border-1 border align-middle" colspan="4">Provinsi</th>
+                            {{-- <th class="text-center border-1 border align-middle" colspan="3">Pusat</th> --}}
                             <th class=" w-100px text-center border-1 border align-middle p-3" rowspan="2">Aksi</th>
 
                         </tr>
@@ -55,14 +55,17 @@
                             <th class="text-center border-1 border align-middle p-3">Nilai</th>
                             <th class="text-center border-1 border align-middle p-3">Keterangan</th>
                             <th class="text-center border-1 border align-middle p-3">Dokumen</th>
+                            <th class="text-center border-1 border align-middle p-3">Status Verifikasi</th>
+
 
                             <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
                             <th class="text-center border-1 border align-middle p-3">Nilai</th>
-                            <th class="text-center border-1 border align-middle p-3">Keterangan</th>
+                            <th class="text-center border-1 border align-middle p-3">Catatan Umum</th>
+                            <th class="text-center border-1 border align-middle p-3">Catatan Detail</th>
 
-                            <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
+                            {{-- <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
                             <th class="text-center border-1 border align-middle p-3">Nilai</th>
-                            <th class="text-center border-1 border align-middle p-3">Keterangan</th>
+                            <th class="text-center border-1 border align-middle p-3">Keterangan</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -89,7 +92,16 @@
                                             <div class="badge badge-light-danger">Belum diupload</div>
                                         </td>
                                     @endif
-                                    
+                                    <td class="border-1 border p-3 text-center">
+                                        @if ($relatedAnswer->status_verifikasi == 1)
+                                            <div class="badge badge-light-danger">Belum diperbaiki</div>
+                                        @elseif ($relatedAnswer->status_verifikasi == 2)
+                                            <div class="badge badge-light-success">Sudah diperbaiki</div>
+                                        @else
+                                            <div class="badge badge-light-secondary">-</div>
+                                        @endif
+                                    </td>
+
 
                                     <td class="border-1 border p-3">{{ $relatedAnswer->_q_option_prov->name?? '-' }}</td>
                                     <td class="border-1 border text-center p-3">{{ $relatedAnswer->_q_option_prov->score??'-'}}</td>
@@ -100,8 +112,15 @@
                                             <div class="badge badge-light-danger">Belum dijawab</div>
                                         @endif
                                     </td>
+                                    <td class="border-1 border p-3">
+                                        @if($relatedAnswer && $relatedAnswer->comment_detail_prov)
+                                            {{ $relatedAnswer->comment_detail_prov }}
+                                        @else
+                                            <div class="badge badge-light-danger">-</div>
+                                        @endif
+                                    </td>
 
-                                    <td class="border-1 border p-3">{{ $relatedAnswer->_q_option_pusat->name?? '-' }}</td>
+                                    {{-- <td class="border-1 border p-3">{{ $relatedAnswer->_q_option_pusat->name?? '-' }}</td>
                                     <td class="border-1 border text-center p-3">{{ $relatedAnswer->_q_option_pusat->score??'-'}}</td>
                                     <td class="border-1 border p-3">
                                         @if($relatedAnswer && $relatedAnswer->comment_pusat)
@@ -109,7 +128,7 @@
                                         @else
                                             <div class="badge badge-light-danger">Belum dijawab</div>
                                         @endif
-                                    </td>
+                                    </td> --}}
                                 @else
                                     <td class="border-1 border p-3">-</td>
                                     <td class="border-1 border p-3">-</td>
@@ -117,15 +136,17 @@
                                         <div class="badge badge-light-danger">Belum dijawab</div>
                                     </td>
                                     <td class="border-1 border p-3">-</td>
+                                    <td></td>
 
 
                                     <td class="border-1 border p-3">-</td>
                                     <td class="border-1 border p-3">-</td>
                                     <td class="border-1 border p-3">-</td>
+                                    <td class="border-1 border p-3">-</td>
 
+                                    {{-- <td class="border-1 border p-3">-</td>
                                     <td class="border-1 border p-3">-</td>
-                                    <td class="border-1 border p-3">-</td>
-                                    <td class="border-1 border p-3">-</td>
+                                    <td class="border-1 border p-3">-</td> --}}
                                 @endif
 
                                 <td class="border-1 border p-3 text-center">
@@ -359,7 +380,7 @@
                                                                 @endif
                                                             </div>
                                                             <div class="mb-2">
-                                                                <span class="required">Data Dukung berupa Pdf dan maksimal 2 MB</span>
+                                                                <span class="required">Data Dukung berupa Pdf dan maksimal 8 MB</span>
                                                             </div>
                                                             <table class="table mb-3 table-striped table-row-bordered border rounded">
                                                                 <thead>
@@ -401,6 +422,29 @@
                                                                     
                                                                 </tbody>
                                                             </table>
+
+                                                            @if($relatedAnswer && !is_null($relatedAnswer->id_opt_kelembagaan_prov))
+
+                                                            <div class="form-group w-100">
+                                                                <label for="status_verifikasi" class="form-label">Status<span class="required"></span></label>
+                                                                <select 
+                                                                    name="status_verifikasi" 
+                                                                    aria-label="Default select example"
+                                                                    class="form-select form-select-solid rounded rounded-4" 
+                                                                    required
+                                                                    autocomplete="off"
+                                                                >
+                                                                <option value="" disabled {{ is_null($relatedAnswer->status_verifikasi) ? 'selected' : '' }}>Pilih</option>
+                                                                <option value="1" {{ $relatedAnswer->status_verifikasi == 1 ? 'selected' : '' }}>Belum diperbaiki</option>
+                                                                <option value="2" {{ $relatedAnswer->status_verifikasi == 2 ? 'selected' : '' }}>Sudah diperbaiki</option>
+                                                                {{-- <option value="" disabled selected>Pilih</option>
+                                                                <option value="1">Belum diperbaiki</option>
+                                                                <option value="2">Sudah diperbaiki</option> --}}
+                                                                
+                                                                </select>
+                                                                
+                                                            </div>
+                                                            @endif
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal" onclick="location.reload()">Batal</button>
@@ -1255,7 +1299,7 @@
         document.addEventListener('change', function (e) {
             if (e.target && e.target.type === 'file') {
                 const file = e.target.files[0];
-                const maxSize = 4 * 1024 * 1024; // 2 MB
+                const maxSize = 8 * 1024 * 1024; // 2 MB
 
                 if (file && file.type !== 'application/pdf') {
                     Swal.fire({
@@ -1269,7 +1313,7 @@
                     Swal.fire({
                         icon: 'warning',
                         title: 'Ukuran file terlalu besar',
-                        text: 'Ukuran maksimal file adalah 4 MB.',
+                        text: 'Ukuran maksimal file adalah 8 MB.',
                         confirmButtonText: 'Oke',
                     });
                     e.target.value = ''; // Reset input
