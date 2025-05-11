@@ -461,14 +461,17 @@
                                                         @endphp
                                                         @foreach ($docQuestions23 as $doc2)
                                                             <tr>
-                                                                <td class="border border-1">{{$doc2->name}}{{$doc2->id}}</td>
+                                                                <td class="border border-1">{{$doc2->name}}</td>
                                                                 <td class="border border-1 text-center">
                                                                     <button type="button" class="btn btn-secondary btn-sm btn-icon" data-bs-toggle="popover" data-bs-placement="right" title="Keterangan" data-bs-custom-class="popover-inverse" data-bs-dismiss="true" data-bs-content="{{$doc2->ket}}">
                                                                         <i class="fa fa-info-circle"></i>
                                                                     </button>
                                                                 </td>
                                                                  @php
-                                                                    $uploadedFile2 = \App\Models\Trans_Upload_KabKota::where('id_zona',$zona->id)->where('id_survey', 7)->where('id_doc_question', $doc2->id)->first();
+                                                                    $uploadedFile2 = \App\Models\Trans_Upload_KabKota::where('id_zona',$zona->id)
+                                                                    ->where('id_survey', 7)
+                                                                    ->where('id_doc_question', $doc2->id)
+                                                                    ->first();
                                                                 @endphp
                                                                  @if ($uploadedFile2 && $uploadedFile2->file_path)
                                                                     <td class="border border-1">
@@ -505,7 +508,7 @@
                                                         @endphp
                                                         @foreach ($docQuestions as $doc)
                                                             <tr>
-                                                                <td class="border border-1">{{$doc->name}}{{$doc->id}}</td>
+                                                                <td class="border border-1">{{$doc->name}}</td>
                                                                 <td class="border border-1 text-center">
                                                                     <button type="button" class="btn btn-secondary btn-sm btn-icon" data-bs-toggle="popover" data-bs-placement="right" title="Keterangan" data-bs-custom-class="popover-inverse" data-bs-dismiss="true" data-bs-content="{{$doc->ket}}">
                                                                         <i class="fa fa-info-circle"></i>
