@@ -439,8 +439,59 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                @if ($date->id == 5)
+                                                <span>Data Dukung Tahun 2023</span>
+                                                <table class="table mb-4 table-striped table-row-bordered border rounded">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="w-50 border border-1">Data Pendukung</th>
+                                                            <th class="w-60px border border-1">Penjelasan</th>
+                                                            <th class="border border-1">File</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @php
+                                                            $question2023 = \App\Models\M_Questions::where('name', $item->name)
+                                                                ->whereHas('_category', function ($q) {
+                                                                    $q->where('id_survey', 7); // kategori tahun 2023
+                                                                })->first();;
+                                                            $docQuestions23 = $question2023 
+                                                                ? \App\Models\Doc_Question::where('id_question', $question2023->id)->get()
+                                                                : collect();
+                                                        @endphp
+                                                        @foreach ($docQuestions23 as $doc2)
+                                                            <tr>
+                                                                <td class="border border-1">{{$doc2->name}}{{$doc2->id}}</td>
+                                                                <td class="border border-1 text-center">
+                                                                    <button type="button" class="btn btn-secondary btn-sm btn-icon" data-bs-toggle="popover" data-bs-placement="right" title="Keterangan" data-bs-custom-class="popover-inverse" data-bs-dismiss="true" data-bs-content="{{$doc2->ket}}">
+                                                                        <i class="fa fa-info-circle"></i>
+                                                                    </button>
+                                                                </td>
+                                                                 @php
+                                                                    $uploadedFile2 = \App\Models\Trans_Upload_KabKota::where('id_zona',$zona->id)->where('id_survey', 7)->where('id_doc_question', $doc2->id)->first();
+                                                                @endphp
+                                                                 @if ($uploadedFile2 && $uploadedFile2->file_path)
+                                                                    <td class="border border-1">
+                                                                        <a href="{{ asset('uploads/doc_pendukung/'.$uploadedFile2->file_path) }}" target="_blank" class="btn btn-success btn-sm ">
+                                                                            <div class="d-flex justify-content-center">
+                                                                                Lihat
+                                                                            </div>
+                                                                        </a>
+                                                                    </td>
+                                                                @else
+                                                                    <td class="border border-1">
+                                                                        <div class="badge badge-light-danger">Belum diupload</div>
+                                                                    </td>
+                                                                @endif
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                                @endif
 
-                                                <table class="table mb-3 table-striped table-row-bordered border rounded">
+                                               
+                                                <span>Data Dukung Tahun {{$date->trans_date}}</span>
+                                                <table class="table mb-4 table-striped table-row-bordered border rounded">
                                                     <thead>
                                                         <tr>
                                                             <th class="w-50 border border-1">Data Pendukung</th>
@@ -454,7 +505,7 @@
                                                         @endphp
                                                         @foreach ($docQuestions as $doc)
                                                             <tr>
-                                                                <td class="border border-1">{{$doc->name}}</td>
+                                                                <td class="border border-1">{{$doc->name}}{{$doc->id}}</td>
                                                                 <td class="border border-1 text-center">
                                                                     <button type="button" class="btn btn-secondary btn-sm btn-icon" data-bs-toggle="popover" data-bs-placement="right" title="Keterangan" data-bs-custom-class="popover-inverse" data-bs-dismiss="true" data-bs-content="{{$doc->ket}}">
                                                                         <i class="fa fa-info-circle"></i>
