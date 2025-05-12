@@ -714,7 +714,7 @@
                     <div class="menu-item">
                         <a class="menu-link {{ Route::is('v-prov.indexBA') ? 'active-custom' : '' }}" href="{{route('v-prov.indexBA')}}">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-house fs-3 text-white"></i>
+                                <i class="fas fa-file-contract fs-3 text-white"></i>
                             </span>
                             <span class="menu-title text-white">Berita Acara</span>
                         </a>
@@ -722,7 +722,7 @@
                     <div class="menu-item">
                         <a class="menu-link {{ Route::is('v-prov.indexRekap') ? 'active-custom' : '' }}" href="{{route('v-prov.indexRekap')}}">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-house fs-3 text-white"></i>
+                                <i class="fa-solid fa-clipboard fs-3 text-white"></i>
                             </span>
                             <span class="menu-title text-white">Rekap Penilaian</span>
                         </a>
@@ -730,7 +730,7 @@
                     <div class="menu-item">
                         <a class="menu-link {{ Route::is('v-prov.indexOdf') ? 'active-custom' : '' }}" href="{{route('v-prov.indexOdf')}}">
                             <span class="menu-icon">
-                                <i class="fa-solid fa-house fs-3 text-white"></i>
+                                <i class="fas fa-toilet fs-3 text-white"></i>
                             </span>
                             <span class="menu-title text-white">Open Defecation Feee</span>
                         </a>
