@@ -540,7 +540,7 @@
                                                         <div class="col-12">
                                                             <div class="form-group w-100">
                                                                 <label for="comment_prov" class="form-label">Catatan Umum Verifikasi<span class="required"></span></label>
-                                                                <textarea name="comment_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Catatan Umum">{{$relatedAnswer->comment_prov}}</textarea>
+                                                                <textarea name="comment_prov" required class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Catatan Umum">{{$relatedAnswer->comment_prov}}</textarea>
                                                                 
                                                                 @error('comment_prov')
                                                                     <div class="is-invalid">
@@ -554,7 +554,7 @@
                                                         <div class="col-12">
                                                             <div class="form-group w-100">
                                                                 <label for="comment_detail_prov" class="form-label">Catatan Detail Verifikasi<span class="required"></span></label>
-                                                                <textarea name="comment_detail_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Catatan Detail">{{$relatedAnswer->comment_detail_prov}}</textarea>
+                                                                <textarea name="comment_detail_prov" required class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Catatan Detail">{{$relatedAnswer->comment_detail_prov}}</textarea>
                                                                 
                                                                 @error('comment_detail_prov')
                                                                     <div class="is-invalid">
@@ -571,7 +571,7 @@
                                                         <div class="col-12">
                                                             <div class="form-group w-100">
                                                                 <label for="name" class="form-label">Catatan Umum Verifikasi <span class="required"></span> </label>
-                                                                <textarea required name="comment_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Catatan Umum"></textarea>
+                                                                <textarea required name="comment_prov" required class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Catatan Umum"></textarea>
                                                                 
                                                                 @error('comment_prov')
                                                                     <div class="is-invalid">
@@ -585,7 +585,7 @@
                                                         <div class="col-12">
                                                             <div class="form-group w-100">
                                                                 <label for="comment_detail_prov" class="form-label">Catatan Detail Verifikasi<span class="required"></span></label>
-                                                                <textarea name="comment_detail_prov" class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Catatan Detail"></textarea>
+                                                                <textarea name="comment_detail_prov" required class="form-control form-control-solid rounded rounded-4" cols="3" rows="2" placeholder="Catatan Detail"></textarea>
                                                                 
                                                                 @error('comment_detail_prov')
                                                                     <div class="is-invalid">
