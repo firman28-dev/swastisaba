@@ -617,41 +617,44 @@
                                                     @endphp
                                                     @if($relatedAnswer && !is_null($relatedAnswer->id_option_prov))
 
-                                                    <div class="form-group w-100 mb-3">
-                                                        <label for="status_verifikasi" class="form-label">Status</label>
-                                                        <select 
-                                                            name="status_verifikasi" 
-                                                            aria-label="Default select example"
-                                                            class="form-select form-select-solid rounded rounded-4" 
-                                                            required
-                                                            autocomplete="off"
-                                                        >
-                                                        <option value="" disabled {{ is_null($relatedAnswer->status_verifikasi) ? 'selected' : '' }}>Pilih</option>
-                                                        <option value="1" {{ $relatedAnswer->status_verifikasi == 1 ? 'selected' : '' }}>Belum diperbaiki</option>
-                                                        <option value="2" {{ $relatedAnswer->status_verifikasi == 2 ? 'selected' : '' }}>Sudah diperbaiki</option>
-                                                        {{-- <option value="" disabled selected>Pilih</option>
-                                                        <option value="1">Belum diperbaiki</option>
-                                                        <option value="2">Sudah diperbaiki</option> --}}
-                                                        
-                                                        </select>
-                                                        
-                                                    </div>
+                                                   
 
                                                     <div class="row mb-3 gap-3">
                                                         <div class="col-12">
                                                             <div class="form-group w-100">
-                                                                <label for="comment_prov" class="form-label">Catatan Umum Verifikasi<span class="required"></span></label>
+                                                                <label for="comment_prov" class="form-label">Catatan Umum Verifikasi</label>
                                                                 <textarea name="comment_prov" readonly class="form-control form-control-solid rounded rounded-4" cols="3" rows="3">{{$relatedAnswer->comment_prov}}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="form-group w-100">
-                                                                <label for="comment_detail_prov" class="form-label">Catatan Detail Verifikasi<span class="required"></span></label>
+                                                                <label for="comment_detail_prov" class="form-label">Catatan Detail Verifikasi</label>
                                                                 <textarea name="comment_detail_prov" readonly class="form-control form-control-solid rounded rounded-4" cols="3" rows="3">{{$relatedAnswer->comment_detail_prov}}</textarea>
                                                             </div>
                                                         </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group w-100">
+                                                                <label for="status_verifikasi" class="form-label">Status</label>
+                                                                <select 
+                                                                    name="status_verifikasi" 
+                                                                    aria-label="Default select example"
+                                                                    class="form-select form-select-solid rounded rounded-4" 
+                                                                    required
+                                                                    autocomplete="off"
+                                                                >
+                                                                <option value="" disabled {{ is_null($relatedAnswer->status_verifikasi) ? 'selected' : '' }}>Pilih</option>
+                                                                <option value="1" {{ $relatedAnswer->status_verifikasi == 1 ? 'selected' : '' }}>Belum diperbaiki</option>
+                                                                <option value="2" {{ $relatedAnswer->status_verifikasi == 2 ? 'selected' : '' }}>Sudah diperbaiki</option>
+                                                                {{-- <option value="" disabled selected>Pilih</option>
+                                                                <option value="1">Belum diperbaiki</option>
+                                                                <option value="2">Sudah diperbaiki</option> --}}
+                                                                
+                                                                </select>
+                                                                
+                                                            </div>
+                                                        </div>
                                                     </div>
-
+                                                    
 
                                                     @endif
 
