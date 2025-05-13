@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tatanan {{$district->name}} - Tahun {{$trans_survey->trans_date}}</title>
+    <title>Tatanan {{$district->name}}_Tahun 2023-2024</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -43,7 +43,7 @@
 </head>
 <body onload="print()">
     <h1>
-        Tatanan Seluruh Kategori {{$district->name}} <br> Tahun {{$trans_survey->trans_date}}
+        Tatanan Seluruh Kategori {{$district->name}} <br> Tahun 2023-2024
     </h1>
    
     @foreach ($categories as $category)

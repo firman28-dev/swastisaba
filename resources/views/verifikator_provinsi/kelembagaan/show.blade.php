@@ -223,7 +223,7 @@
                         <tr class="fw-semibold fs-6 text-muted text-center ">
                             <th class="w-60px text-center border-1 border p-3" rowspan="2">No.</th>
                             <th class="w-50px text-center border-1 border align-middle p-3" rowspan="2">Pertanyaan</th>
-                            <th class="text-center border-1 border align-middle" colspan="4">Self Assesment Kab/Kota</th>
+                            <th class="text-center border-1 border align-middle" colspan="5">Self Assesment Kab/Kota</th>
                             <th class="text-center border-1 border align-middle" colspan="4">Provinsi</th>
                             {{-- <th class="text-center border-1 border align-middle" colspan="3">Pusat</th> --}}
                             <th class="w-100px text-center border-1 border align-middle p-3" rowspan="2">Aksi</th>
@@ -234,6 +234,7 @@
                             <th class="text-center border-1 border align-middle p-3">Nilai</th>
                             <th class="text-center border-1 border align-middle p-3">Keterangan</th>
                             <th class="text-center border-1 border align-middle p-3">Status Dokumen</th>
+                            <th class="text-center border-1 border align-middle p-3">Status Verifikasi</th>
 
                             <th class="text-center border-1 border align-middle p-3">Nilai Assessment</th>
                             <th class="text-center border-1 border align-middle p-3">Nilai</th>
@@ -269,6 +270,16 @@
                                         <div class="badge badge-light-danger">Belum diupload</div>
                                     </td>
                                 @endif
+                                <td class="border-1 border p-3 text-center">
+                                    @if ($relatedAnswer->status_verifikasi == 1)
+                                        <div class="badge badge-light-danger">Belum diperbaiki</div>
+                                    @elseif ($relatedAnswer->status_verifikasi == 2)
+                                        <div class="badge badge-light-success">Sudah diperbaiki</div>
+                                    @else
+                                        <div class="badge badge-light-secondary">-</div>
+                                    @endif
+                                </td>
+
 
                                 <td class="border-1 border p-3">{{ $relatedAnswer->_q_option_prov->name?? '-' }}</td>
                                 <td class="border-1 border text-center p-3">{{ $relatedAnswer->_q_option_prov->score??'-'}}</td>
@@ -303,6 +314,8 @@
                                     <div class="badge badge-light-danger">Belum dijawab</div>
                                 </td>
                                 <td class="border-1 border p-3">-</td>
+                                <td class="border-1 border p-3">-</td>
+
 
 
                                 <td class="border-1 border p-3">-</td>
