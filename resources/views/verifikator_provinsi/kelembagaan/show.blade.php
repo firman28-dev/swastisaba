@@ -558,7 +558,55 @@
                                                             </div>
                                                         @endif
                                                     </div>
+
+                                                     @if ($date->id == 5)
+                                                    <span>Data Dukung Tahun 2023</span>
+                                                        <table class="table mb-4 table-striped table-row-bordered border rounded">
+                                                             <thead>
+                                                                <tr>
+                                                                    <th class="w-50 border border-1">Data Pendukung</th>
+                                                                    <th class="border border-1">File</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @php
+                                                                    $questions2023 = \App\Models\M_Q_Kelembagaan_New::where('indikator', $item->indikator)
+                                                                        ->where('id_survey', 7)
+                                                                        ->first();
+                                                                @endphp
+                                                                <tr>
+                                                                    <td class="border border-1">
+                                                                        {{$questions2023->data_dukung}}
+                                                                    </td>
+                                                                     @php
+                                                                        $uploadedFile2 = \App\Models\Trans_Doc_Kelembagaan::where('id_zona',$zona->id)
+                                                                        ->where('id_survey', 7)
+                                                                        ->where('id_q_kelembagaan', $questions2023->id)
+                                                                        ->first();
+                                                                    @endphp
+                                                                    @if ($uploadedFile2 && $uploadedFile2->path)
+                                                                        <td class="border border-1">
+                                                                            <a href="{{ asset('uploads/doc_kelembagaan/'.$uploadedFile2->path) }}" target="_blank" class="btn btn-success btn-sm ">
+                                                                                <div class="d-flex justify-content-center">
+                                                                                    Lihat
+                                                                                </div>
+                                                                            </a>
+                                                                        </td>
+                                                                    @else
+                                                                        <td class="border border-1">
+                                                                            <div class="badge badge-light-danger">Belum diupload</div>
+                                                                        </td>
+                                                                    @endif
+                                                                    <td>
+
+                                                                    </td>
+                                                                </tr>
+                                                                
+                                                            </tbody>
+                                                        </table>
+                                                    @endif
                                                     
+                                                    <span>Data Dukung Tahun {{$date->trans_date}}</span>
                                                     <table class="table mb-3 table-striped table-row-bordered border rounded">
                                                         <thead>
                                                             <tr>
@@ -567,6 +615,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+                                                            
                                                             <tr>
                                                                 <td class="border border-1">
                                                                     {{$item->data_dukung}}
