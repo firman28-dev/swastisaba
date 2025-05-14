@@ -25,6 +25,7 @@
                         <th class="w-60px border border-1 text-center p-3 align-middle">No.</th>
                         <th class="w-200px border border-1">Nama Kab/Kota</th>
                         <th class="w-200px border border-1">Tipe</th>
+                        <th class="w-200px border border-1 text-center">Status Berita Acara</th>
                         <th class="w-200px border border-1 text-center">Aksi</th>
                     </tr>
                    
@@ -214,6 +215,17 @@
                                     </div>
                                 </div>
                             </td> --}}
+                           
+                            <td class="border border-1 text-center">
+                                @php
+                                    $ba_general = \App\Models\BA_General::where('zona_id', $item->id)->first();
+                                @endphp
+                                 @if ($ba_general)
+                                    <span class="badge badge-success"><i class="fa-solid fa-check text-white "></i></span>
+                                @else
+                                    <span class="badge badge-danger"><i class="fa-solid fa-xmark text-white"></i></span>
+                                @endif
+                            </td>
                             <td class="border border-1 text-center">
                                 <a href="{{route('v-prov.indexFirstBAGeneral',$item->id)}}">
                                     <button type="button" class="btn btn-outline-success btn-outline btn-sm">
