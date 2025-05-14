@@ -527,6 +527,11 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/v-prov/create-ba/{id}', [Answer_Verifikator_Prov_Controller::class, 'createBA'])->name('v-prov.createBA');
             Route::post('/v-prov/ba-print', [Answer_Verifikator_Prov_Controller::class, 'BA'])->name('v-prov.BA');
 
+            //BA NEW
+            // Route::post('/v-prov/ba-prin', [Answer_Verifikator_Prov_Controller::class, 'BA'])->name('v-prov.BA');
+            Route::get('/v-prov/ba-kelembagaan/{id}', [Answer_Verifikator_Prov_Controller::class, 'indexBAKelembagaan'])->name('v-prov.indexBAKelembagaan');
+            Route::post('/v-prov/store/ba-kelembagaan', [Answer_Verifikator_Prov_Controller::class, 'storeBAKelembagaan'])->name('v-prov.storeBAKelembagaan');
+            Route::get('/v-prov/ba-kelembagaan-print/{id}', [Answer_Verifikator_Prov_Controller::class, 'printKelembagaanNew'])->name('v-prov.printKelembagaanNew');
 
         });
 

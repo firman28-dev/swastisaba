@@ -15,11 +15,22 @@
             </div>
         </div>
         <div class="card-body">
-            <button class="btn btn-success btn-outline btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#cetak">
+            <a href="{{route('v-prov.indexBAKelembagaan',$zona->id)}}" class="btn btn-success btn-outline btn-outline-success btn-sm">
+                <div class="d-flex justify-content-center">
+                    <i class="fa-solid fa-print"></i> Lihat BA
+                </div>
+            </a>
+            &nbsp;
+            <a href="{{route('v-prov.printKelembagaanNew',$zona->id)}}" target="_blank" class="btn btn-success btn-outline btn-outline-success btn-sm">
                 <div class="d-flex justify-content-center">
                     <i class="fa-solid fa-print"></i> Cetak
                 </div>
-            </button>
+            </a>
+            {{-- <button class="btn btn-success btn-outline btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#cetak">
+                <div class="d-flex justify-content-center">
+                    <i class="fa-solid fa-print"></i> Cetak
+                </div>
+            </button> --}}
             <div class="modal fade modal-dialog-scrollable" tabindex="-1" id="cetak" data-bs-backdrop="static" data-bs-keyboard="false">
                                     
                 <div class="modal-dialog modal-dialog-scrollable">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BA_Bappeda;
 use App\Models\BA_Dinkes;
+use App\Models\BA_Kelembagaan;
 use App\Models\Gambaran_KabKota;
 use App\Models\M_C_Kelembagaan_New;
 use App\Models\M_Category;
@@ -812,6 +813,114 @@ class Answer_Verifikator_Prov_Controller extends Controller
         
         // return $pdf->download("Tatanan {$district->name} Tahun {$trans_survey->trans_date}.pdf");
         
+    }
+
+    
+    public function indexBAKelembagaan($id){
+        
+        $zona = M_District::find($id);
+        $session_date = Session::get('selected_year');
+        $date = Trans_Survey::find($session_date);
+        $ba_kelembagaan = BA_Kelembagaan::where('id_zona', $id)->first();
+
+
+        $sent = [
+            'zona' => $zona,
+            'date' => $date,
+            'ba' => $ba_kelembagaan
+        ];
+
+        // return $ba_kelembagaan;
+        return view('verifikator_provinsi.kelembagaan.index_ba', $sent);
+    }
+
+    public function storeBAKelembagaan(Request $request){
+        $request->validate([
+            'pembahas' => 'required',
+            'jabatan' => 'required',
+            'operator' => 'required',
+            'tahun' => 'required',
+            'kota' => 'required'
+        ]);
+
+        $user= Auth::user();
+        
+        try {
+            $session_date = Session::get('selected_year');
+            $ba = BA_Kelembagaan::where('id_zona', $request->kota)
+                ->where('id_survey', $session_date)
+                ->first();
+
+            if($ba)
+            {
+                $ba->update([
+                    'nama_pj_kabkota' => $request->pembahas,
+                    'jb_pj_kabkota' => $request->jabatan,
+                    'tim_verifikasi' => $request->operator,
+                    'updated_by' => $user->id
+                ]);
+
+                // return redirect()->back()->with('success', 'Berhasil memverifikasi pertanyaan');
+                return redirect()->route('v-prov.indexKelembagaan',[
+                    'id' => $request->kota, // atau nilai lain yang sesuai
+                ])->with('success', 'Berhasil mengubah data');
+                
+            }
+            else{
+                BA_Kelembagaan::create([
+                    'id_zona' =>$request->kota,
+                    'id_survey' =>$request->tahun,
+                    'nama_pj_kabkota' => $request->pembahas,
+                    'jb_pj_kabkota' => $request->jabatan,
+                    'tim_verifikasi' => $request->operator,
+                    'created_by' => $user->id,
+                    'updated_by' => $user->id
+
+                ]);
+                return redirect()->route('v-prov.indexKelembagaan',[
+                    'id' => $request->kota, // atau nilai lain yang sesuai
+                ])->with('success', 'Berhasil mengubah data');
+                // return redirect()->route('v-prov.indexBAKelembagaan',$request->kota)->with('success', 'Berhasil mengubah data');
+            }
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+    }
+    public function printKelembagaanNew($id){
+        $session_date = Session::get('selected_year');
+        $date = Trans_Survey::find($session_date);
+
+
+        $ba = BA_Kelembagaan::where('id_survey',$session_date)
+            ->where('id_zona', $id)
+            ->first();
+        $district = M_District::find($id);
+        
+
+        $categories = M_C_Kelembagaan_New::where('id_survey', $session_date)->get();
+        $questions = M_Q_Kelembagaan_New::where('id_survey', $session_date)
+            ->get();
+        $answer = Trans_Kelembagaan_V2::where('id_zona',$id)
+            ->where('id_survey', $session_date)
+            ->get();
+        $uploadedFiles = Trans_Doc_Kelembagaan::where('id_zona',$id)
+            ->where('id_survey', $session_date)
+            ->get();
+
+        $sent =[
+            'district' => $district,
+            'date' => $date,
+            'categories' => $categories,
+            'questions' => $questions,
+            'answer'=> $answer,
+            'uploadedFiles' => $uploadedFiles,
+            'ba' => $ba
+        ];
+        return view('verifikator_provinsi.kelembagaan.show_ba', $sent);
+
+        // return $ba;
     }
     
 

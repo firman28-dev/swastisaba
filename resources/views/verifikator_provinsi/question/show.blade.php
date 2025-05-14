@@ -468,7 +468,7 @@
                                                             $question2023 = \App\Models\M_Questions::where('name', $item->name)
                                                                 ->whereHas('_category', function ($q) {
                                                                     $q->where('id_survey', 7); // kategori tahun 2023
-                                                                })->first();;
+                                                                })->first();
                                                             $docQuestions23 = $question2023 
                                                                 ? \App\Models\Doc_Question::where('id_question', $question2023->id)->get()
                                                                 : collect();
@@ -481,7 +481,7 @@
                                                                         <i class="fa fa-info-circle"></i>
                                                                     </button>
                                                                 </td>
-                                                                 @php
+                                                                @php
                                                                     $uploadedFile2 = \App\Models\Trans_Upload_KabKota::where('id_zona',$zona->id)
                                                                     ->where('id_survey', 7)
                                                                     ->where('id_doc_question', $doc2->id)
