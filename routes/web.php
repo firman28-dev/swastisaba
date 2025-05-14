@@ -538,6 +538,11 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/v-prov/store/ba-general', [Answer_Verifikator_Prov_Controller::class, 'storeBAGeneral'])->name('v-prov.storeBAGeneral');
             Route::get('/v-prov/ba-general-print/{id}', [Answer_Verifikator_Prov_Controller::class, 'printBAGeneral'])->name('v-prov.printBAGeneral');
 
+            // BA pertatanan
+            Route::get('/v-prov/ba-pertatanan/{id}/{id_zona}', [Answer_Verifikator_Prov_Controller::class, 'indexBAPertatanan'])->name('v-prov.indexBAPertatanan');
+            Route::post('/v-prov/store/ba-pertatanan', [Answer_Verifikator_Prov_Controller::class, 'storeBAPertatanan'])->name('v-prov.storeBAPertatanan');
+            Route::get('/v-prov/ba-pertatanan-print/{id}/{id_zona}', [Answer_Verifikator_Prov_Controller::class, 'printBAPertatanan'])->name('v-prov.printBAPertatanan');
+
 
 
         });

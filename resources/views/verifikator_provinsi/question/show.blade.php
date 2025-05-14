@@ -34,11 +34,22 @@
                 </button>
             </a>
             &nbsp;
-            <button class="btn btn-success btn-outline btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#cetak">
+            <a href="{{ route('v-prov.indexBAPertatanan', ['id' => $category->id, 'id_zona' => $zona->id])}}">
+                <button type="button" class="btn btn-outline btn-outline-success btn-sm">
+                    <i class="fa-solid fa-eye"></i>Lihat BA
+                </button>
+            </a>
+            &nbsp;
+            <a href="{{ route('v-prov.printBAPertatanan', ['id' => $category->id, 'id_zona' => $zona->id]),}}" target="_blank">
+                <button type="button" class="btn btn-success btn-sm">
+                    <i class="fa-solid fa-print"></i>Cetak
+                </button>
+            </a>
+            {{-- <button class="btn btn-success btn-outline btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#cetak">
                 <div class="d-flex justify-content-center">
                     <i class="fa-solid fa-print"></i> Cetak
                 </div>
-            </button>
+            </button> --}}
             <div class="modal fade modal-dialog-scrollable" tabindex="-1" id="cetak" data-bs-backdrop="static" data-bs-keyboard="false">
                                     
                 <div class="modal-dialog modal-dialog-scrollable">

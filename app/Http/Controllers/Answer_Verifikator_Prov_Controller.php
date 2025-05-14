@@ -6,6 +6,7 @@ use App\Models\BA_Bappeda;
 use App\Models\BA_Dinkes;
 use App\Models\BA_General;
 use App\Models\BA_Kelembagaan;
+use App\Models\BA_Pertatanan;
 use App\Models\Gambaran_KabKota;
 use App\Models\M_C_Kelembagaan_New;
 use App\Models\M_Category;
@@ -1102,6 +1103,134 @@ class Answer_Verifikator_Prov_Controller extends Controller
 
 
     }
+
+    // BA Pertatanan
+    public function indexBAPertatanan($id, $id_zona){
+        $district = M_District::find($id_zona);
+        $session_date = Session::get('selected_year');
+        $date = Trans_Survey::find($session_date);
+        $ba_pertatanan = BA_Pertatanan::where('id_zona', $id_zona)
+            ->where('id_survey',$session_date)
+            ->where('id_category', $id)
+            ->first();
+        
+        $category = M_Category::find($id);
+        
+        
+
+        $sent = [
+            'ba_pertatanan' => $ba_pertatanan,
+            'date' => $date,
+            'district' => $district,
+            'category' => $category
+        ];
+        // return $ba_pertatanan;
+        return view('verifikator_provinsi.question.index_ba', $sent);
+
+        
+    }
+
+    public function storeBAPertatanan(Request $request){
+        $request->validate([
+            'pembahas' => 'required',
+            'jabatan' => 'required',
+            'operator' => 'required',
+            'tahun' => 'required',
+            'kota' => 'required',
+            'category' => 'required'
+        ]);
+
+        $user= Auth::user();
+        
+        try {
+            $session_date = Session::get('selected_year');
+            $ba = BA_Pertatanan::where('id_zona', $request->kota)
+                ->where('id_survey', $session_date)
+                ->first();
+
+            if($ba)
+            {
+                $ba->update([
+                    'nama_pj_kabkota' => $request->pembahas,
+                    'jb_pj_kabkota' => $request->jabatan,
+                    'tim_verifikasi' => $request->operator,
+                    'updated_by' => $user->id
+                ]);
+
+                // return redirect()->back()->with('success', 'Berhasil memverifikasi pertanyaan');
+                return redirect()->route('v-prov.showCategory',[
+                    'id' => $request->kota,
+                    'id_zona' => $request->kota, // atau nilai lain yang sesuai
+                ])->with('success', 'Berhasil mengubah data');
+                
+            }
+            else{
+                BA_Pertatanan::create([
+                    'id_zona' =>$request->kota,
+                    'id_survey' =>$request->tahun,
+                    'id_category' =>$request->category,
+                    'nama_pj_kabkota' => $request->pembahas,
+                    'jb_pj_kabkota' => $request->jabatan,
+                    'tim_verifikasi' => $request->operator,
+                    'created_by' => $user->id,
+                    'updated_by' => $user->id
+
+                ]);
+                return redirect()->route('v-prov.showCategory',[
+                    'id_zona' => $request->kota,
+                    'id' => $request->category,
+                     // atau nilai lain yang sesuai
+                ])->with('success', 'Berhasil mengubah data');
+                // return redirect()->route('v-prov.indexBAKelembagaan',$request->kota)->with('success', 'Berhasil mengubah data');
+            }
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+    }
+
+    public function printBAPertatanan($id, $id_zona){
+        $session_date = Session::get('selected_year');
+        $date = Trans_Survey::find($session_date);
+        $district = M_District::find($id_zona);
+        $category = M_Category::find($id);
+
+        $questions = M_Questions::where('id_category', $id)
+            ->where('id_survey', $session_date)    
+            ->get();
+
+        $answer = Trans_Survey_D_Answer::where('id_zona',$id_zona)
+            ->where('id_survey', $session_date)
+            ->get();
+
+        $uploadedFiles = Trans_Upload_KabKota::where('id_zona',$id_zona)
+            ->where('id_survey', $session_date)
+            ->get();
+
+        $ba_pertatanan = BA_Pertatanan::where('id_zona', $id_zona)
+        ->where('id_category', $id)
+        ->where('id_survey', $session_date)
+        ->first();
+
+
+
+        $sent = [
+            'ba_pertatanan' => $ba_pertatanan,
+            'date' => $date,
+            'district' => $district,
+            'category' => $category,
+            'questions' => $questions,
+            'answer' => $answer,
+            'uploadedFiles' => $uploadedFiles,
+        ];
+
+        // return $ba_pertatanan;
+        return view('verifikator_provinsi.question.show_ba', $sent);
+
+
+    }
+
 
     public function createBA($id){
 
