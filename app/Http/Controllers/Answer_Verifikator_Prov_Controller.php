@@ -1159,7 +1159,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
 
                 // return redirect()->back()->with('success', 'Berhasil memverifikasi pertanyaan');
                 return redirect()->route('v-prov.showCategory',[
-                    'id' => $request->kota,
+                    'id' => $request->category,
                     'id_zona' => $request->kota, // atau nilai lain yang sesuai
                 ])->with('success', 'Berhasil mengubah data');
                 
@@ -1177,8 +1177,8 @@ class Answer_Verifikator_Prov_Controller extends Controller
 
                 ]);
                 return redirect()->route('v-prov.showCategory',[
-                    'id_zona' => $request->kota,
                     'id' => $request->category,
+                    'id_zona' => $request->kota,
                      // atau nilai lain yang sesuai
                 ])->with('success', 'Berhasil mengubah data');
                 // return redirect()->route('v-prov.indexBAKelembagaan',$request->kota)->with('success', 'Berhasil mengubah data');

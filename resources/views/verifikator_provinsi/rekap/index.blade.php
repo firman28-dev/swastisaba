@@ -22,8 +22,10 @@
                     <th class="w-100px border-1 border align-middle p-3">Nama Kab/Kota </th>
                     <th class="w-100px text-center border-1 border align-middle p-3">Total Jawaban </th>
                     <th class="w-100px text-center border-1 border align-middle p-3">Total Nilai Kab/Kota</th>
+                    <th class="w-100px text-center border-1 border align-middle p-3">Status Kab/Kota</th>
                     <th class="w-100px text-center border-1 border align-middle p-3">Total Nilai Provinsi</th>
-                    <th class="w-100px text-center border-1 border align-middle p-3">Status</th>
+                    <th class="w-100px text-center border-1 border align-middle p-3">Status Provinsi</th>
+
 
                 </tr>
             </thead>
@@ -34,7 +36,6 @@
                         <td class="border-1 border">{{ $item->district_name }}</td >
                         <td class="text-center border-1 border">{{ $item->total_jawaban ?? 0 }}</td>
                         <td class="text-center border-1 border">{{ $item->total_nilai_kabkota ?? 0 }}</td>
-                        <td class="text-center border-1 border">{{ $item->total_nilai_provinsi ?? 0 }}</td>
                         <td class="text-center border-1 border">
                             @php
                                 $score = $item->total_nilai_kabkota ?? 0;
@@ -49,6 +50,22 @@
                                 }
                             @endphp
                             {{ $status }}
+                        </td>
+                        <td class="text-center border-1 border">{{ $item->total_nilai_provinsi ?? 0 }}</td>
+                        <td class="text-center border-1 border">
+                            @php
+                                $scoreprov = $item->total_nilai_provinsi ?? 0;
+                                if ($scoreprov >= 9656 && $scoreprov < 11016) {
+                                    $statusprov = 'Padapa';
+                                } elseif ($scoreprov >= 11016 && $scoreprov < 12376) {
+                                    $statusprov = 'Wiwirda';
+                                } elseif ($scoreprov >= 12376) {
+                                    $statusprov = 'Wistara';
+                                } else {
+                                    $statusprov = '-';
+                                }
+                            @endphp
+                            {{ $statusprov }}
                         </td>
                     </tr>
                 @empty
