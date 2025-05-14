@@ -570,18 +570,24 @@
                                                             </thead>
                                                             <tbody>
                                                                 @php
-                                                                    $questions2023 = \App\Models\M_Q_Kelembagaan_New::where('indikator', $item->indikator)
-                                                                        ->where('id_survey', 7)
+                                                                    $category1 = \App\Models\M_C_Kelembagaan_New::where('id', $item->id_c_kelembagaan_v2)
                                                                         ->first();
+                                                                    
+                                                                    $category2 = \App\Models\M_C_Kelembagaan_New::where('id_survey', 7)
+                                                                        ->where('name',$category1->name)
+                                                                        ->first();
+                                                                    $question2023 = \App\Models\M_Q_Kelembagaan_New::where('indikator', $item->indikator)
+                                                                        ->where('id_c_kelembagaan_v2', $category2->id)
+                                                                        ->first()
                                                                 @endphp
                                                                 <tr>
                                                                     <td class="border border-1">
-                                                                        {{$questions2023->data_dukung}}
+                                                                        {{ $question2023->data_dukung }}
                                                                     </td>
-                                                                     @php
+                                                                    @php
                                                                         $uploadedFile2 = \App\Models\Trans_Doc_Kelembagaan::where('id_zona',$zona->id)
                                                                         ->where('id_survey', 7)
-                                                                        ->where('id_q_kelembagaan', $questions2023->id)
+                                                                        ->where('id_q_kelembagaan', $question2023->id)
                                                                         ->first();
                                                                     @endphp
                                                                     @if ($uploadedFile2 && $uploadedFile2->path)
@@ -597,9 +603,6 @@
                                                                             <div class="badge badge-light-danger">Belum diupload</div>
                                                                         </td>
                                                                     @endif
-                                                                    <td>
-
-                                                                    </td>
                                                                 </tr>
                                                                 
                                                             </tbody>
