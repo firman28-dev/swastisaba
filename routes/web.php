@@ -523,15 +523,22 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/v-prov/rekap-nilai', [Answer_Verifikator_Prov_Controller::class, 'indexRekap'])->name('v-prov.indexRekap');
 
             //BA
-            Route::get('/v-prov/ba', [Answer_Verifikator_Prov_Controller::class, 'indexBA'])->name('v-prov.indexBA');
-            Route::get('/v-prov/create-ba/{id}', [Answer_Verifikator_Prov_Controller::class, 'createBA'])->name('v-prov.createBA');
-            Route::post('/v-prov/ba-print', [Answer_Verifikator_Prov_Controller::class, 'BA'])->name('v-prov.BA');
+            Route::get('/v-prov/ba-general', [Answer_Verifikator_Prov_Controller::class, 'indexBA'])->name('v-prov.indexBA');
+            // Route::get('/v-prov/create-ba/{id}', [Answer_Verifikator_Prov_Controller::class, 'createBA'])->name('v-prov.createBA');
+            // Route::post('/v-prov/ba-print', [Answer_Verifikator_Prov_Controller::class, 'BA'])->name('v-prov.BA');
 
             //BA NEW
             // Route::post('/v-prov/ba-prin', [Answer_Verifikator_Prov_Controller::class, 'BA'])->name('v-prov.BA');
             Route::get('/v-prov/ba-kelembagaan/{id}', [Answer_Verifikator_Prov_Controller::class, 'indexBAKelembagaan'])->name('v-prov.indexBAKelembagaan');
             Route::post('/v-prov/store/ba-kelembagaan', [Answer_Verifikator_Prov_Controller::class, 'storeBAKelembagaan'])->name('v-prov.storeBAKelembagaan');
             Route::get('/v-prov/ba-kelembagaan-print/{id}', [Answer_Verifikator_Prov_Controller::class, 'printKelembagaanNew'])->name('v-prov.printKelembagaanNew');
+
+            // General
+            Route::get('/v-prov/ba-general/{id}', [Answer_Verifikator_Prov_Controller::class, 'indexFirstBAGeneral'])->name('v-prov.indexFirstBAGeneral');
+            Route::post('/v-prov/store/ba-general', [Answer_Verifikator_Prov_Controller::class, 'storeBAGeneral'])->name('v-prov.storeBAGeneral');
+            Route::get('/v-prov/ba-general-print/{id}', [Answer_Verifikator_Prov_Controller::class, 'printBAGeneral'])->name('v-prov.printBAGeneral');
+
+
 
         });
 

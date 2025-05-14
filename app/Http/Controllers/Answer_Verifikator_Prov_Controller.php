@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BA_Bappeda;
 use App\Models\BA_Dinkes;
+use App\Models\BA_General;
 use App\Models\BA_Kelembagaan;
 use App\Models\Gambaran_KabKota;
 use App\Models\M_C_Kelembagaan_New;
@@ -815,6 +816,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
         
     }
 
+    // BA KELEMBGAAN
     
     public function indexBAKelembagaan($id){
         
@@ -923,6 +925,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
         // return $ba;
     }
     
+    // BA GENERAL
 
     public function indexBA(){
         $district = M_District::where('province_id', 13)->get();
@@ -940,6 +943,166 @@ class Answer_Verifikator_Prov_Controller extends Controller
         ];
         return view('verifikator_provinsi.ba.index', $sent);
     }
+
+    public function indexFirstBAGeneral($id){
+        $zona = M_District::find($id);
+        $session_date = Session::get('selected_year');
+        $date = Trans_Survey::find($session_date);
+
+        $bappeda = BA_Bappeda::where('is_active',1)->get();
+        $dinkes = BA_Dinkes::where('is_active',1)->get();
+        $skpd = SKPD::where('is_active',1)->get();
+        // return $date;
+
+        $ba_general = BA_General::where('zona_id', $id)->first();
+        $sent = [
+            'zona' => $zona,
+            'date' => $date,
+            'ba_general' => $ba_general,
+            'dinkes' => $dinkes,
+            'bappeda'=> $bappeda,
+            'skpd' => $skpd
+        ];
+        return view('verifikator_provinsi.ba.create', $sent);
+
+    }
+
+    public function storeBAGeneral(Request $request){
+        $request->validate([
+            'ba_bappeda_prov' => 'required',
+            'ba_dinkes_prov' => 'required',
+            'skpd_prov' => 'required',
+            'nama_skpd_prov' => 'required',
+            'jb_skpd_prov' => 'required',
+            'nama_bappeda_kab_kota' => 'required',
+            'jb_bappeda_kab_kota' => 'required',
+            'nama_dinkes_kab_kota' => 'required',
+            'jb_dinkes_kab_kota' => 'required',
+            'nama_forum_kab_kota' => 'required',
+            'jb_forum_kab_kota' => 'required',
+        ]);
+
+        $ba_bappeda_prov = $request->ba_bappeda_prov;
+        $ba_dinkes_prov = $request->ba_dinkes_prov;
+
+        $skpd_prov = $request->skpd_prov;
+        $nama_skpd_prov = $request->nama_skpd_prov;
+        $jb_skpd_prov = $request->jb_skpd_prov;
+
+        $nama_bappeda_kab_kota = $request->nama_bappeda_kab_kota;
+        $jb_bappeda_kab_kota = $request->jb_bappeda_kab_kota;
+
+        $nama_dinkes_kab_kota = $request->nama_dinkes_kab_kota;
+        $jb_dinkes_kab_kota = $request->jb_dinkes_kab_kota;
+
+        $nama_forum_kab_kota = $request->nama_forum_kab_kota;
+        $jb_forum_kab_kota = $request->jb_forum_kab_kota;
+
+        $kota = $request->kota;
+
+        $user= Auth::user();
+        
+        try {
+            $session_date = Session::get('selected_year');
+            $ba = BA_General::where('zona_id', $kota)
+                ->first();
+
+            if($ba)
+            {
+                $ba->update([
+                    'ba_bappeda_prov_id' => $ba_bappeda_prov,
+                    'ba_dinkes_prov_id' => $ba_dinkes_prov,
+                    'skpd_id' => $skpd_prov,
+
+                    'nama_pj_skpd' => $nama_skpd_prov,
+                    'jb_pj_skpd' => $jb_skpd_prov,
+
+                    'nama_pj_bappeda_kabkota' => $nama_bappeda_kab_kota,
+                    'jb_pj_bappeda_kabkota' => $jb_bappeda_kab_kota,
+
+                    'nama_pj_dinkes_kabkota' => $nama_dinkes_kab_kota,
+                    'jb_pj_dinkes_kabkota' => $jb_dinkes_kab_kota,
+
+                    'nama_pj_forum' => $nama_forum_kab_kota,
+                    'jb_pj_forum' => $jb_forum_kab_kota,
+                    'updated_by' => $user->id
+                ]);
+
+                // return redirect()->back()->with('success', 'Berhasil memverifikasi pertanyaan');
+                return redirect()->route('v-prov.indexBA',)->with('success', 'Berhasil mengubah data');
+            }
+            else{
+                BA_General::create([
+                    'zona_id' => $kota,
+                    'periode_id' => 1,
+                    'ba_bappeda_prov_id' => $ba_bappeda_prov,
+                    'ba_dinkes_prov_id' => $ba_dinkes_prov,
+                    'skpd_id' => $skpd_prov,
+
+                    'nama_pj_skpd' => $nama_skpd_prov,
+                    'jb_pj_skpd' => $jb_skpd_prov,
+
+                    'nama_pj_bappeda_kabkota' => $nama_bappeda_kab_kota,
+                    'jb_pj_bappeda_kabkota' => $jb_bappeda_kab_kota,
+
+                    'nama_pj_dinkes_kabkota' => $nama_dinkes_kab_kota,
+                    'jb_pj_dinkes_kabkota' => $jb_dinkes_kab_kota,
+
+                    'nama_pj_forum' => $nama_forum_kab_kota,
+                    'jb_pj_forum' => $jb_forum_kab_kota,
+                    'created_by' => $user->id,
+                    'updated_by' => $user->id
+
+                ]);
+                return redirect()->route('v-prov.indexBA',)->with('success', 'Berhasil mengubah data');
+
+                // return redirect()->route('v-prov.indexKelembagaan',[
+                //     'id' => $request->kota, // atau nilai lain yang sesuai
+                // ])->with('success', 'Berhasil mengubah data');
+                // return redirect()->route('v-prov.indexBAKelembagaan',$request->kota)->with('success', 'Berhasil mengubah data');
+            }
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+
+    }
+
+    public function printBAGeneral($id){
+        $ba_general = BA_General::where('zona_id', $id)->first();
+        // return $ba_general;
+        $district = M_District::find($id);
+        $now = date('Y-m-d');
+        $days = [
+            'Sunday' => 'Minggu',
+            'Monday' => 'Senin',
+            'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis',
+            'Friday' => 'Jumat',
+            'Saturday' => 'Sabtu'
+        ];
+        $day_en = date('l', strtotime($now));
+        $day_id = $days[$day_en];
+        $date_id = date('d', strtotime($now));
+        // $date_id = date('d-m-Y', strtotime($now));
+
+        $sent = [
+            'ba_general' => $ba_general,
+            'district' => $district,
+            'day_id' => $day_id,
+            'date_id' => $date_id
+
+        ];
+
+        // return view('')
+        return view('verifikator_provinsi.ba.show', $sent);
+
+
+
+    }
+
     public function createBA($id){
 
         $bappeda = BA_Bappeda::where('is_active',1)->get();
@@ -955,6 +1118,8 @@ class Answer_Verifikator_Prov_Controller extends Controller
         ];
         return view('verifikator_provinsi.ba.create', $sent);
     }   
+
+   
 
     public function BA(Request $request){
         $request->validate([

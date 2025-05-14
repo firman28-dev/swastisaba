@@ -215,7 +215,13 @@
                                 </div>
                             </td> --}}
                             <td class="border border-1 text-center">
-                                <a href="{{route('v-prov.createBA',$item->id)}}">
+                                <a href="{{route('v-prov.indexFirstBAGeneral',$item->id)}}">
+                                    <button type="button" class="btn btn-outline-success btn-outline btn-sm">
+                                        <i class="fa-solid fa-print"></i> Lihat BA
+                                    </button>
+                                </a>
+                                &nbsp;
+                                <a href="{{route('v-prov.printBAGeneral',$item->id)}}" target="_blank">
                                     <button type="button" class="btn btn-success btn-sm">
                                         <i class="fa-solid fa-print"></i> Cetak
                                     </button>

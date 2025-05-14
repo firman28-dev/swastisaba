@@ -10,7 +10,7 @@
 
 @section('content')
 <div class="card mb-5 mb-xl-10">
-    <form action="{{ route('v-prov.BA')}}" method="POST" target="_blank">
+    <form action="{{route('v-prov.storeBAGeneral')}}" method="POST" >
     @csrf
     <div class="card-header justify-content-between">
         <div class="card-title">
@@ -25,7 +25,7 @@
             <div class="col-lg-6 mb-4">
                 <div class="form-group w-100">
                     <label for="achievement" class="form-label">Nama Kab/Kota</label>
-                    <input type="text" value="{{ $district->name  }}" readonly class="form-control form-control-solid rounded rounded-4">
+                    <input type="text" value="{{ $zona->name  }}" readonly class="form-control form-control-solid rounded rounded-4">
                 </div>
             </div>
             <div class="col-lg-6 mb-4">
@@ -40,11 +40,15 @@
                         autocomplete="off"
                         autofocus
                     >
+                    
                     <option value="" disabled selected></option>
                     @foreach($bappeda as $data)
-                        <option value="{{ $data->id }}">
-                            {{$data->name}}
+                        <option value="{{ $data->id }}" {{ $ba_general && $ba_general->ba_bappeda_prov_id == $data->id ? 'selected' : '' }}>
+                            {{ $data->name }}
                         </option>
+                        {{-- <option value="{{ $data->id }}">
+                            {{$data->name}}
+                        </option> --}}
                     @endforeach
                     </select>
                     
@@ -71,9 +75,12 @@
                     >
                     <option value="" disabled selected></option>
                     @foreach($dinkes as $data)
-                        <option value="{{ $data->id }}">
-                            {{$data->name}}
+                        <option value="{{ $data->id }}" {{ $ba_general && $ba_general->ba_dinkes_prov_id == $data->id ? 'selected' : '' }}>
+                            {{ $data->name }}
                         </option>
+                        {{-- <option value="{{ $data->id }}">
+                            {{$data->name}}
+                        </option> --}}
                     @endforeach
                     </select>
                     
@@ -100,9 +107,10 @@
                     >
                     <option value="" disabled selected></option>
                     @foreach($skpd as $data)
-                        <option value="{{ $data->id }}">
-                            {{$data->name}}
+                        <option value="{{ $data->id }}" {{ $ba_general && $ba_general->skpd_id == $data->id ? 'selected' : '' }}>
+                            {{ $data->name }}
                         </option>
+                       
                     @endforeach
                     </select>
                     
@@ -118,55 +126,55 @@
             <div class="col-lg-6 mb-4">
                 <div class="form-group w-100">
                     <label for="nama_skpd_prov" class="form-label">Nama Perwakilan SKPD</label>
-                    <input type="text" required class="form-control form-control-solid rounded rounded-4" placeholder="Nama" name="nama_skpd_prov" id="nama_skpd_prov">
+                    <input type="text" value="{{$ba_general->nama_pj_skpd ?? ''}}" required class="form-control form-control-solid rounded rounded-4" placeholder="Nama" name="nama_skpd_prov" id="nama_skpd_prov">
                 </div>
             </div>
             <div class="col-lg-6 mb-4">
                 <div class="form-group w-100">
                     <label for="jb_skpd_prov" class="form-label">Jabatan Perwakilan SKPD</label>
-                    <input type="text" required class="form-control form-control-solid rounded rounded-4" placeholder="Jabatan" name="jb_skpd_prov" id="jb_skpd_prov">
+                    <input type="text" value="{{$ba_general->jb_pj_skpd ?? ''}}" required class="form-control form-control-solid rounded rounded-4" placeholder="Jabatan" name="jb_skpd_prov" id="jb_skpd_prov">
                 </div>
             </div>
 
             <div class="col-lg-6 mb-4">
                 <div class="form-group w-100">
                     <label for="nama_bappeda_kab_kota" class="form-label">Nama Perwakilan Bappeda Kab/Kota</label>
-                    <input type="text" required class="form-control form-control-solid rounded rounded-4" placeholder="Nama" id="nama_bappeda_kab_kota" name="nama_bappeda_kab_kota">
+                    <input type="text" value="{{$ba_general->nama_pj_bappeda_kabkota ?? ''}}" required class="form-control form-control-solid rounded rounded-4" placeholder="Nama" id="nama_bappeda_kab_kota" name="nama_bappeda_kab_kota">
                 </div>
             </div>
             <div class="col-lg-6 mb-4">
                 <div class="form-group w-100">
                     <label for="jb_bappeda_kab_kota" class="form-label">Jabatan Perwakilan Bappeda Kab/Kota</label>
-                    <input type="text" required class="form-control form-control-solid rounded rounded-4" placeholder="Jabatan" id="jb_bappeda_kab_kota" name="jb_bappeda_kab_kota">
+                    <input type="text"  value="{{$ba_general->jb_pj_bappeda_kabkota ?? ''}}" required class="form-control form-control-solid rounded rounded-4" placeholder="Jabatan" id="jb_bappeda_kab_kota" name="jb_bappeda_kab_kota">
                 </div>
             </div>
 
             <div class="col-lg-6 mb-4">
                 <div class="form-group w-100">
                     <label for="nama_dinkes_kab_kota" class="form-label">Nama Perwakilan Dinkes Kab/Kota</label>
-                    <input type="text" required class="form-control form-control-solid rounded rounded-4" placeholder="Nama" id="nama_dinkes_kab_kota" name="nama_dinkes_kab_kota">
+                    <input type="text" value="{{$ba_general->nama_pj_dinkes_kabkota ?? ''}}" required class="form-control form-control-solid rounded rounded-4" placeholder="Nama" id="nama_dinkes_kab_kota" name="nama_dinkes_kab_kota">
                 </div>
             </div>
             <div class="col-lg-6 mb-4">
                 <div class="form-group w-100">
                     <label for="jb_dinkes_kab_kota" class="form-label">Jabatan Perwakilan Dinkes Kab/Kota</label>
-                    <input type="text" required class="form-control form-control-solid rounded rounded-4" placeholder="Jabatan" name="jb_dinkes_kab_kota" id="jb_dinkes_kab_kota">
+                    <input type="text" value="{{$ba_general->jb_pj_dinkes_kabkota ?? ''}}" required class="form-control form-control-solid rounded rounded-4" placeholder="Jabatan" name="jb_dinkes_kab_kota" id="jb_dinkes_kab_kota">
                 </div>
             </div>
 
             <div class="col-lg-6 mb-4">
                 <div class="form-group w-100">
                     <label for="nama_forum_kab_kota" class="form-label">Nama Perwakilan Forum Kab/Kota</label>
-                    <input type="text" required class="form-control form-control-solid rounded rounded-4" placeholder="Nama" id="nama_forum_kab_kota" name="nama_forum_kab_kota">
+                    <input type="text" value="{{$ba_general->nama_pj_forum ?? ''}}" required class="form-control form-control-solid rounded rounded-4" placeholder="Nama" id="nama_forum_kab_kota" name="nama_forum_kab_kota">
                 </div>
             </div>
             <div class="col-lg-6 mb-4">
                 <div class="form-group w-100">
                     <label for="jb_forum_kab_kota" class="form-label">Jabatan Perwakilan Forum Kab/Kota</label>
-                    <input type="text" required class="form-control form-control-solid rounded rounded-4" placeholder="Jabatan" name="jb_forum_kab_kota" id="jb_forum_kab_kota">
+                    <input type="text" value="{{$ba_general->jb_pj_forum ?? ''}}" required class="form-control form-control-solid rounded rounded-4" placeholder="Jabatan" name="jb_forum_kab_kota" id="jb_forum_kab_kota">
                 </div>
             </div>
-            <input value="{{ $district->id  }}" name="kota" hidden>
+            <input value="{{ $zona->id  }}" name="kota" hidden>
         </div>
     </div>
     <div class="card-footer">

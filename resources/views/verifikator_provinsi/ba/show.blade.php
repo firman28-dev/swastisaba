@@ -126,43 +126,43 @@
             <tr>
                 <td class="center">1</td>
                 <td>Bappeda Provinsi selaku Ketua Tim Pembina KKS Tingkat Provinsi</td>
-                <td>{{$bappeda_prov->name}}</td>
-                <td>{{$bappeda_prov->jabatan}}</td>
+                <td>{{$ba_general->_bappeda_prov->name ?? ''}}</td>
+                <td>{{$ba_general->_bappeda_prov->jabatan ?? ''}}</td>
                 <td></td>
             </tr>
             <tr>
                 <td class="center">2</td>
                 <td>Dinas Kesehatan selaku Sekretaris Tim Pembina KKS Tingkat Provinsi</td>
-                <td>{{$dinkes_prov->name}}</td>
-                <td>{{$dinkes_prov->jabatan}}</td>
+                <td>{{$ba_general->_dinkes_prov->name ?? ''}}</td>
+                <td>{{$ba_general->_dinkes_prov->jabatan ?? ''}}</td>
                 <td></td>
             </tr>
             <tr>
                 <td class="center">3</td>
-                <td>SKPD <span class="bold"> {{$skpd->name}}  </span>selaku Perwakilan Perangkat Daerah Provinsi selaku Anggota Tim Pembina KKS Tingkat Provinsi </td>
-                <td>{{$nama_skpd_prov}}</td>
-                <td>{{$jb_skpd_prov}}</td>
+                <td>SKPD <span class="bold"> {{$ba_general->_skpd->name ?? ''}}  </span>selaku Perwakilan Perangkat Daerah Provinsi selaku Anggota Tim Pembina KKS Tingkat Provinsi </td>
+                <td>{{$ba_general->nama_pj_skpd ?? ''}}</td>
+                <td>{{$ba_general->jb_pj_skpd ?? ''}}</td>
                 <td></td>
             </tr>
             <tr>
                 <td class="center">4</td>
                 <td>Bappeda <span class="bold"> {{$districtFullName}} </span> selaku Ketua Tim Pembina KKS Tingkat <span class="bold">{{$districtFullName}}</span></td>
-                <td>{{$nama_bappeda_kab_kota}}</td>
-                <td>{{$jb_bappeda_kab_kota}}</td>
+                <td>{{$ba_general->nama_pj_bappeda_kabkota ?? ''}}</td>
+                <td>{{$ba_general->jb_pj_bappeda_kabkota ?? ''}}</td>
                 <td></td>
             </tr>
             <tr>
                 <td class="center">5</td>
                 <td>Dinas Kesehatan <span class="bold"> {{$districtFullName}} </span> selaku Sekretaris Tim Pembina KKS Tingkat <span class="bold">{{$districtFullName}}</span></td>
-                <td>{{$nama_dinkes_kab_kota}}</td>
-                <td>{{$jb_dinkes_kab_kota}}</td>
+                <td>{{$ba_general->nama_pj_dinkes_kabkota ?? ''}}</td>
+                <td>{{$ba_general->jb_pj_dinkes_kabkota ?? ''}}</td>
                 <td></td>
             </tr>
             <tr>
                 <td class="center">6</td>
                 <td>Forum <span class="bold"> {{$districtFullName}} </span> Sehat</td>
-                <td>{{$nama_forum_kab_kota}}</td>
-                <td>{{$jb_forum_kab_kota}}</td>
+                <td>{{$ba_general->nama_pj_forum ?? ''}}</td>
+                <td>{{$ba_general->jb_pj_forum ?? ''}}</td>
                 <td style="padding: 30px"></td>
             </tr>
         </tbody>
