@@ -1146,6 +1146,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
             $session_date = Session::get('selected_year');
             $ba = BA_Pertatanan::where('id_zona', $request->kota)
                 ->where('id_survey', $session_date)
+                ->where('id_category', $request->category)
                 ->first();
 
             if($ba)
@@ -1159,8 +1160,8 @@ class Answer_Verifikator_Prov_Controller extends Controller
 
                 // return redirect()->back()->with('success', 'Berhasil memverifikasi pertanyaan');
                 return redirect()->route('v-prov.showCategory',[
-                    'id' => $request->category,
-                    'id_zona' => $request->kota, // atau nilai lain yang sesuai
+                    'id_zona' => $request->kota,
+                    'id' => $request->category,// atau nilai lain yang sesuai
                 ])->with('success', 'Berhasil mengubah data');
                 
             }
@@ -1177,15 +1178,15 @@ class Answer_Verifikator_Prov_Controller extends Controller
 
                 ]);
                 return redirect()->route('v-prov.showCategory',[
-                    'id' => $request->category,
                     'id_zona' => $request->kota,
+                    'id' => $request->category,
                      // atau nilai lain yang sesuai
                 ])->with('success', 'Berhasil mengubah data');
                 // return redirect()->route('v-prov.indexBAKelembagaan',$request->kota)->with('success', 'Berhasil mengubah data');
             }
 
         } catch (\Throwable $th) {
-            //throw $th;
+            throw $th;
         }
 
     }
