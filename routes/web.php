@@ -543,6 +543,8 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/v-prov/store/ba-pertatanan', [Answer_Verifikator_Prov_Controller::class, 'storeBAPertatanan'])->name('v-prov.storeBAPertatanan');
             Route::get('/v-prov/ba-pertatanan-print/{id}/{id_zona}', [Answer_Verifikator_Prov_Controller::class, 'printBAPertatanan'])->name('v-prov.printBAPertatanan');
 
+            Route::get('/v-prov/rekap-ba-kelembagaan', [Answer_Verifikator_Prov_Controller::class, 'RekapBAKelembagaan'])->name('v-prov.RekapBAKelembagaan');
+
 
 
         });

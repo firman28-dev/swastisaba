@@ -720,6 +720,14 @@
                         </a>
                     </div>
                     <div class="menu-item">
+                        <a class="menu-link {{ Route::is('v-prov.RekapBAKelembagaan') ? 'active-custom' : '' }}" href="{{route('v-prov.RekapBAKelembagaan')}}">
+                            <span class="menu-icon">
+                                <i class="fas fa-file-contract fs-3 text-white"></i>
+                            </span>
+                            <span class="menu-title text-white">Rekap BA Kelembagaan</span>
+                        </a>
+                    </div>
+                    <div class="menu-item">
                         <a class="menu-link {{ Route::is('v-prov.indexRekap') ? 'active-custom' : '' }}" href="{{route('v-prov.indexRekap')}}">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-clipboard fs-3 text-white"></i>

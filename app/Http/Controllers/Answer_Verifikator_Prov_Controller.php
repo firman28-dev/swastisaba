@@ -1231,6 +1231,16 @@ class Answer_Verifikator_Prov_Controller extends Controller
 
     }
 
+    public function RekapBAKelembagaan(){
+        $district = M_District::where('province_id', 13)->get();
+
+        // return $district;
+        $sent = [
+            'district' => $district,
+        ];
+        return view('verifikator_provinsi.kelembagaan.rekap_ba', $sent);
+    }
+
 
     public function createBA($id){
 
