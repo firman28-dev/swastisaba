@@ -82,6 +82,8 @@
                         <tr class="fw-semibold fs-6 text-muted">
                             <th class="w-60px border border-1">No.</th>
                             <th class="border border-1">Nama Tatanan</th>
+                            <th class="border border-1 text-center">Status BA Tatanan</th>
+
                             <th class="border border-1 w-300px"></th>
                         </tr>
                     </thead>
@@ -90,6 +92,19 @@
                             <tr>
                                 <td class="border border-1 text-center">{{ $loop->iteration }}</td>
                                 <td class="text-capitalize">{{ $data->name }}</td>
+                                <td class="border border-1 text-center">
+                                    @php
+                                        $ba = \App\Models\BA_Pertatanan::where('id_zona', $zona->id)
+                                        ->where('id_survey',$tahun->id)
+                                        ->where('id_category', $data->id)
+                                        ->first();
+                                    @endphp
+                                    @if ($ba)
+                                        <span class="badge badge-success"><i class="fa-solid fa-check text-white "></i></span>
+                                    @else
+                                        <span class="badge badge-danger"><i class="fa-solid fa-xmark text-white"></i></span>
+                                    @endif
+                                </td>
                                 <td class="border border-1">
                                     <a href="{{route('v-prov.showCategory',['id_zona' => $zona->id, 'id' => $data->id]) }}" class="btn btn-outline btn-outline-success btn-sm">
                                         Lihat Pertanyaan
