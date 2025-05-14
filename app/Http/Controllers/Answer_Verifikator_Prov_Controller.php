@@ -52,14 +52,63 @@ class Answer_Verifikator_Prov_Controller extends Controller
         $zona = M_District::find($id);
 
         $category = M_Category::where('id_survey', $session_date)->get();
-        // return $zona;
+
+        $categoryCount = M_Category::select('id')
+            ->where('id_survey', $session_date)
+            ->count();
+        $questions = M_Questions::select('id')
+            ->where('id_survey', $session_date)
+            ->count();
+        
+        $chart = M_Category::where('id_survey', $session_date)
+            ->withCount([
+                 '_transDAnswer as total_jawaban' => function ($query) use ($session_date, $id) {
+                    $query->where('id_survey', $session_date)
+                        ->where('id_zona', $id);
+                },
+                '_question as total_pertanyaan',
+                '_transDAnswer as total_verifprov' => function ($query) use ($session_date, $id) {
+                    $query->where('id_survey', $session_date)
+                        ->where('id_zona', $id)
+                        ->whereNotNull('id_option_prov');
+                }
+            ])
+
+            ->with(['_transDAnswer' => function ($query) use ($session_date, $id) {
+                $query->where('id_survey', $session_date)
+                      ->where('id_zona', $id)
+                      ->with('_q_option','_q_option_prov'); 
+            }])
+            ->get();
+
+        $chartData = $chart->map(function ($category) {
+            $totalScore = $category->_transDAnswer->sum(function ($answer) {
+                return $answer->_q_option ? $answer->_q_option->score : 0;
+            });
+            $totalScoreProv = $category->_transDAnswer->sum(function ($answer) {
+                return $answer->_q_option_prov ? $answer->_q_option_prov->score : 0;
+            });
+
+            return [
+                'kategori' => $category->name,  // atau gunakan field yang sesuai untuk nama kategori
+                'total_jawaban' => $category->total_jawaban,
+                'total_jawabanprov' => $category->total_verifprov,
+                'total_pertanyaan' => $category->total_pertanyaan,
+                'total_score' => $totalScore,
+                'total_score_prov' => $totalScoreProv
+            ];
+        });
+        // return $questions;
         $sent = [
             'zona' => $zona,
             'category' => $category,
             'tahun' => $date,
+            'chartData' => $chartData,
         ];
         return view('verifikator_provinsi.question.index', $sent);
     }
+
+
 
     public function showCategory($id_zona, $id)
     {

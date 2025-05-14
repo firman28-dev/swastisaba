@@ -8,6 +8,22 @@
 
 
 @section('content')
+    <div class="card card-bordered mb-5">
+        <div class="card-header">
+            <div class="card-title">
+                <h3>
+                    Total Jawaban Tatanan
+                </h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <div id="kt_apexcharts_2" style="overflow-x: auto">
+                <div id="chartKabkota" style="height: 100%;"> 
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="card mb-5 mb-xl-10">
         <div class="card-header justify-content-between">
             <div class="card-title">
@@ -141,5 +157,137 @@
                 "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
                 ">"
         });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            var element = document.getElementById('kt_apexcharts_2');
+            const chartData = @json($chartData);
+            const labelsCategory = chartData.map(item => item.kategori);
+            const dataKabKota = chartData.map(item => item.total_jawaban);
+            const dataProv = chartData.map(item => item.total_jawabanprov);
+            const dataQuestion = chartData.map(item => item.total_pertanyaan);
+            
+            //color
+            var labelColor = KTUtil.getCssVariableValue('--kt-gray-500');
+            var borderColor = KTUtil.getCssVariableValue('--kt-gray-200');
+            var baseColor = KTUtil.getCssVariableValue('--kt-primary');
+            var secondaryColor = KTUtil.getCssVariableValue('--kt-success');
+            var thirdColor = KTUtil.getCssVariableValue('--kt-danger');
+
+
+            console.log(chartData);
+            
+
+            var optionsKabKota = {
+                series: [ {
+                    name: 'Total Jawaban Kab/Kota',
+                    data: dataKabKota
+                },{
+                    name: 'Total Pertanyaan',
+                    data: dataQuestion
+                },{
+                    name: 'Total Jawaban Prov',
+                    data: dataProv
+                }],
+                chart: {
+                    fontFamily: 'inherit',
+                    type: 'bar',
+                    // height: 600,
+                    toolbar: {
+                        show: true
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: true,
+                        columnWidth: ['50%'],
+                        endingShape: 'rounded'
+                    },
+                },
+                legend: {
+                    show: true,
+                    position: 'top'
+                },
+                dataLabels: {
+                    enabled: true
+                },
+                stroke: {
+                    show: true,
+                    width: 2,
+                    colors: ['transparent']
+                },
+                xaxis: {
+                    categories: labelsCategory,
+                    axisBorder: {
+                        show: true,
+                    },
+                    axisTicks: {
+                        show: false
+                    },
+                    labels: {
+                        style: {
+                            colors: labelColor,
+                            fontSize: '12px'
+                        }
+                    }
+                },
+                yaxis: {
+                    labels: {
+                        style: {
+                            colors: labelColor,
+                            fontSize: '12px'
+                        }
+                    }
+                },
+                fill: {
+                    opacity: 1
+                },
+                states: {
+                    normal: {
+                        filter: {
+                            type: 'none',
+                            value: 0
+                        }
+                    },
+                    hover: {
+                        filter: {
+                            type: 'none',
+                            value: 0
+                        }
+                    },
+                    active: {
+                        allowMultipleDataPointsSelection: false,
+                        filter: {
+                            type: 'none',
+                            value: 0
+                        }
+                    }
+                },
+                tooltip: {
+                    style: {
+                        fontSize: '12px'
+                    },
+                    y: {
+                        formatter: function (val) {
+                            return val 
+                        }
+                    }
+                },
+                colors: [baseColor, secondaryColor,thirdColor],
+                grid: {
+                    borderColor: borderColor,
+                    yaxis: {
+                        lines: {
+                            show: true
+                        }
+                    },
+                }
+            };
+
+            var chart2 = new ApexCharts(document.querySelector("#chartKabkota"), optionsKabKota);
+            chart2.render();
+        });
+
+        
+
     </script>
 @endsection
