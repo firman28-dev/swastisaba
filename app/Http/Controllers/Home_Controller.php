@@ -64,9 +64,17 @@ class Home_Controller extends Controller
 
 
         $chart = M_Category::where('id_survey', $session_date)
-            ->withCount(['_transDAnswer as total_jawaban' => function ($query) use ($session_date, $idZona) {
-                $query->where('id_survey', $session_date)->where('id_zona', $idZona);
-            }, '_question as total_pertanyaan'])
+            ->withCount([
+                '_transDAnswer as total_jawaban' => function ($query) use ($session_date, $idZona) {
+                    $query->where('id_survey', $session_date)->where('id_zona', $idZona);
+                }, 
+                '_question as total_pertanyaan',
+                '_transDAnswer as total_verifprov' => function ($query) use ($session_date, $idZona) {
+                    $query->where('id_survey', $session_date)
+                        ->where('id_zona', $idZona)
+                        ->whereNotNull('id_option_prov');
+                }
+            ])
             ->with(['_transDAnswer' => function ($query) use ($session_date, $idZona) {
                 $query->where('id_survey', $session_date)
                       ->where('id_zona', $idZona)
@@ -85,9 +93,11 @@ class Home_Controller extends Controller
             return [
                 'kategori' => $category->name,  // atau gunakan field yang sesuai untuk nama kategori
                 'total_jawaban' => $category->total_jawaban,
+                'total_jawabanprov' => $category->total_verifprov,
                 'total_pertanyaan' => $category->total_pertanyaan,
                 'total_score' => $totalScore,
-                'total_score_prov' => $totalScoreProv
+                'total_score_prov' => $totalScoreProv,
+                
             ];
         });
 

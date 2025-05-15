@@ -617,6 +617,8 @@
                 const labelsCategory = chartData.map(item => item.kategori);
                 const dataKabKota = chartData.map(item => item.total_jawaban);
                 const dataQuestion = chartData.map(item => item.total_pertanyaan);
+                const dataProv = chartData.map(item => item.total_jawabanprov);
+
 
 
                 // const totalAllScore = dataQuestion*100;
@@ -638,6 +640,9 @@
                     },{
                         name: 'Total Pertanyaan',
                         data: dataQuestion
+                    },{
+                        name: 'Total Jawaban Prov',
+                        data: dataProv
                     }],
                     chart: {
                         fontFamily: 'inherit',
@@ -723,7 +728,7 @@
                             }
                         }
                     },
-                    colors: [baseColor, secondaryColor],
+                    colors: [baseColor, secondaryColor, thirdColor],
                     grid: {
                         borderColor: borderColor,
                         yaxis: {
