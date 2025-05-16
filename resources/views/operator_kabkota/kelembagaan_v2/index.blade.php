@@ -379,8 +379,60 @@
                                                                     </div>
                                                                 @endif
                                                             </div>
+
+                                                            @if ($date->id == 5)
+                                                                <span class="mb-2">Data Dukung Tahun 2023</span>
+                                                                <table class="table mb-4 table-striped table-row-bordered border rounded">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th class="w-50 border border-1">Data Pendukung</th>
+                                                                            <th class="border border-1">File</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @php
+                                                                            $category1 = \App\Models\M_C_Kelembagaan_New::where('id', $question->id_c_kelembagaan_v2)
+                                                                                ->first();
+                                                                            
+                                                                            $category2 = \App\Models\M_C_Kelembagaan_New::where('id_survey', 7)
+                                                                                ->where('name',$category1->name)
+                                                                                ->first();
+                                                                            $question2023 = \App\Models\M_Q_Kelembagaan_New::where('indikator', $question->indikator)
+                                                                                ->where('id_c_kelembagaan_v2', $category2->id)
+                                                                                ->first()
+                                                                        @endphp
+                                                                        <tr>
+                                                                            <td class="border border-1">
+                                                                                {{ $question2023->data_dukung }}
+                                                                            </td>
+                                                                            @php
+                                                                                $uploadedFile2 = \App\Models\Trans_Doc_Kelembagaan::where('id_zona',$idZona)
+                                                                                ->where('id_survey', 7)
+                                                                                ->where('id_q_kelembagaan', $question2023->id)
+                                                                                ->first();
+                                                                            @endphp
+                                                                            @if ($uploadedFile2 && $uploadedFile2->path)
+                                                                                <td class="border border-1">
+                                                                                    <a href="{{ asset('uploads/doc_kelembagaan/'.$uploadedFile2->path) }}" target="_blank" class="btn btn-success btn-sm ">
+                                                                                        <div class="d-flex justify-content-center">
+                                                                                            Lihat
+                                                                                        </div>
+                                                                                    </a>
+                                                                                </td>
+                                                                            @else
+                                                                                <td class="border border-1">
+                                                                                    <div class="badge badge-light-danger">Belum diupload</div>
+                                                                                </td>
+                                                                            @endif
+                                                                        </tr>
+                                                                        
+                                                                    </tbody>
+                                                                </table>
+                                                            @endif
+
                                                             <div class="mb-2">
-                                                                <span class="required">Data Dukung berupa Pdf dan maksimal 8 MB</span>
+                                                                <span>Data Dukung Tahun {{$date->trans_date}} Pdf dan maksimal 8 MB</span>
+                                                                {{-- <span class="required">Data Dukung berupa Pdf dan maksimal 8 MB</span> --}}
                                                             </div>
                                                             <table class="table mb-3 table-striped table-row-bordered border rounded">
                                                                 <thead>

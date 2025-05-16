@@ -519,9 +519,63 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    @if ($date->id == 5)
+                                                    <span class="mb-2">Data Dukung Tahun 2023</span>
+                                                    <table class="table mb-4 table-striped table-row-bordered border rounded">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="w-50 border border-1">Data Pendukung</th>
+                                                                <th class="w-60px border border-1">Penjelasan</th>
+                                                                <th class="border border-1">File</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @php
+                                                                $question2023 = \App\Models\M_Questions::where('name', $question->name)
+                                                                    ->whereHas('_category', function ($q) {
+                                                                        $q->where('id_survey', 7); // kategori tahun 2023
+                                                                    })->first();
+                                                                $docQuestions23 = $question2023 
+                                                                    ? \App\Models\Doc_Question::where('id_question', $question2023->id)->get()
+                                                                    : collect();
+                                                            @endphp
+                                                            @foreach ($docQuestions23 as $doc2)
+                                                                <tr>
+                                                                    <td class="border border-1">{{$doc2->name}}</td>
+                                                                    <td class="border border-1 text-center">
+                                                                        <button type="button" class="btn btn-secondary btn-sm btn-icon" data-bs-toggle="popover" data-bs-placement="right" title="Keterangan" data-bs-custom-class="popover-inverse" data-bs-dismiss="true" data-bs-content="{{$doc2->ket}}">
+                                                                            <i class="fa fa-info-circle"></i>
+                                                                        </button>
+                                                                    </td>
+                                                                    @php
+                                                                        $uploadedFile2 = \App\Models\Trans_Upload_KabKota::where('id_zona',$idZona)
+                                                                        ->where('id_survey', 7)
+                                                                        ->where('id_doc_question', $doc2->id)
+                                                                        ->first();
+                                                                    @endphp
+                                                                     @if ($uploadedFile2 && $uploadedFile2->file_path)
+                                                                        <td class="border border-1">
+                                                                            <a href="{{ asset('uploads/doc_pendukung/'.$uploadedFile2->file_path) }}" target="_blank" class="btn btn-success btn-sm ">
+                                                                                <div class="d-flex justify-content-center">
+                                                                                    Lihat
+                                                                                </div>
+                                                                            </a>
+                                                                        </td>
+                                                                    @else
+                                                                        <td class="border border-1">
+                                                                            <div class="badge badge-light-danger">Belum diupload</div>
+                                                                        </td>
+                                                                    @endif
+
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                    @endif
                                                     
                                                     <div class="mb-2">
-                                                        <span class="required">Data Dukung berupa Pdf dan maksimal 8 MB</span>
+                                                        <span class="required">Data Dukung {{$date->trans_date}} berupa Pdf dan maksimal 8 MB</span>
                                                     </div>
                                                     
                                                     <table class="table mb-3 table-striped table-row-bordered border rounded">

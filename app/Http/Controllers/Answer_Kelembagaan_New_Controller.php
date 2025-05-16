@@ -103,7 +103,8 @@ class Answer_Kelembagaan_New_Controller extends Controller
             'forum_kabkota' => $forum_kabkota,
             'sum_subdistrict' => $sum_subdistrict,
             'sum_village' => $sum_village,
-            'date' => $date
+            'date' => $date,
+            'idZona' =>$idZona
         ];
         // return $q_kelembagaan;
         return view('operator_kabkota.kelembagaan_v2.index', $sent);

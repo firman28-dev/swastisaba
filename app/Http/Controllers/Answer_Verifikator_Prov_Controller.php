@@ -277,7 +277,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
         $request->validate([
             'id_survey' => 'required',
             'id_option' => 'required',
-            'comment_prov' => 'required',
+            'comment_prov' => 'required|string',
             'comment_detail_prov' => 'required|string',
         ],[
             'id_option.required' => 'Option wajib diisi',
@@ -320,7 +320,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
     {
 
         $request->validate([
-            'comment_prov' => 'required',
+            'comment_prov' => 'required|string',
             'answer_prov' => 'required',
         ],[
             'answer_prov.required' => 'Option wajib diisi',
@@ -357,7 +357,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
     {
 
         $request->validate([
-            'comment_prov' => 'required',
+            'comment_prov' => 'required|string',
             'answer_prov' => 'required',
         ],[
             'comment_prov.required' => 'Option wajib diisi',
@@ -428,7 +428,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
     {
 
         $request->validate([
-            'comment_prov' => 'required',
+            'comment_prov' => 'required|string',
             'answer_prov' => 'required',
         ],[
             'answer_prov.required' => 'Option wajib diisi',
@@ -539,7 +539,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
     public function storePendanaan(Request $request, $id)
     {
         $request->validate([
-            'comment_prov' => 'required',
+            'comment_prov' => 'required|string',
             'is_prov' => 'required',
         ],[
             'is_prov.required' => 'Option wajib diisi',
@@ -594,7 +594,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
     public function storeNarasi(Request $request, $id)
     {
         $request->validate([
-            'comment_prov' => 'required',
+            'comment_prov' => 'required|string',
             'is_prov' => 'required',
         ],[
             'is_prov.required' => 'Option wajib diisi',
@@ -888,9 +888,9 @@ class Answer_Verifikator_Prov_Controller extends Controller
 
     public function storeBAKelembagaan(Request $request){
         $request->validate([
-            'pembahas' => 'required',
-            'jabatan' => 'required',
-            'operator' => 'required',
+            'pembahas' => 'required|string|max:255',
+            'jabatan' => 'required|string|max:255',
+            'operator' => 'required|string|max:255',
             'tahun' => 'required',
             'kota' => 'required'
         ]);
@@ -1019,17 +1019,17 @@ class Answer_Verifikator_Prov_Controller extends Controller
 
     public function storeBAGeneral(Request $request){
         $request->validate([
-            'ba_bappeda_prov' => 'required',
-            'ba_dinkes_prov' => 'required',
-            'skpd_prov' => 'required',
-            'nama_skpd_prov' => 'required',
-            'jb_skpd_prov' => 'required',
-            'nama_bappeda_kab_kota' => 'required',
-            'jb_bappeda_kab_kota' => 'required',
-            'nama_dinkes_kab_kota' => 'required',
-            'jb_dinkes_kab_kota' => 'required',
-            'nama_forum_kab_kota' => 'required',
-            'jb_forum_kab_kota' => 'required',
+            'ba_bappeda_prov' => 'required|integer',
+            'ba_dinkes_prov' => 'required|integer',
+            'skpd_prov' => 'required|integer',
+            'nama_skpd_prov' => 'required|string|max:255',
+            'jb_skpd_prov' => 'required|string|max:255',
+            'nama_bappeda_kab_kota' => 'required|string|max:255',
+            'jb_bappeda_kab_kota' => 'required|string|max:255',
+            'nama_dinkes_kab_kota' => 'required|string|max:255',
+            'jb_dinkes_kab_kota' => 'required|string|max:255',
+            'nama_forum_kab_kota' => 'required|string|max:255',
+            'jb_forum_kab_kota' => 'required|string|max:255',
         ]);
 
         $ba_bappeda_prov = $request->ba_bappeda_prov;
@@ -1181,9 +1181,9 @@ class Answer_Verifikator_Prov_Controller extends Controller
 
     public function storeBAPertatanan(Request $request){
         $request->validate([
-            'pembahas' => 'required',
-            'jabatan' => 'required',
-            'operator' => 'required',
+            'pembahas' => 'required|string|max:255',
+            'jabatan' => 'required|string|max:255',
+            'operator' => 'required|string|max:255',
             'tahun' => 'required',
             'kota' => 'required',
             'category' => 'required'
@@ -1292,6 +1292,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
     }
 
 
+    // Not use
     public function createBA($id){
 
         $bappeda = BA_Bappeda::where('is_active',1)->get();
@@ -1307,8 +1308,6 @@ class Answer_Verifikator_Prov_Controller extends Controller
         ];
         return view('verifikator_provinsi.ba.create', $sent);
     }   
-
-   
 
     public function BA(Request $request){
         $request->validate([
