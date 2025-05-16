@@ -15,6 +15,8 @@ use File;
 use Illuminate\Http\Request;
 use Session;
 use PDF;
+use DB;
+
 
 
 class Answer_KabKota_Controller extends Controller
@@ -23,6 +25,39 @@ class Answer_KabKota_Controller extends Controller
     {
         $category = M_Category::all();
         return view('operator_kabkota.index', compact('category'));
+    }
+
+    public function indexRekap(){
+        $user = Auth::user();
+        $idZona = $user->id_zona;
+
+        $session_date = Session::get('selected_year');
+        $answers = M_District::where('district.id', $idZona)
+            ->leftJoin('trans_survey_d_answer', function($join) use ($session_date) {
+                $join->on('district.id', '=', 'trans_survey_d_answer.id_zona')
+                    ->where('trans_survey_d_answer.id_survey', $session_date);
+            })
+            ->leftJoin('m_question_options as opt_kabkota', 'trans_survey_d_answer.id_option','=', 'opt_kabkota.id')
+            ->leftJoin('m_question_options as opt_prov', 'trans_survey_d_answer.id_option_prov', '=', 'opt_prov.id')
+            ->select(
+                'district.id as district_id',
+                'district.name as district_name',
+                DB::raw('COUNT(trans_survey_d_answer.id) as total_jawaban'),
+                DB::raw('SUM(opt_kabkota.score) as total_nilai_kabkota'),
+                DB::raw('SUM(opt_prov.score) as total_nilai_provinsi')
+            )
+            ->groupBy('district.id', 'district.name')
+            ->orderBy('total_jawaban', 'desc')
+            ->first();
+
+        $sent = [
+            'zona' => $answers,
+        ];
+
+        // return $sent;
+        return view('operator_kabkota.rekap.index', $sent);
+
+        // return $sent;
     }
 
 

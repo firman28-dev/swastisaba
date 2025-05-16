@@ -447,6 +447,9 @@ Route::group(['middleware' => ['auth']], function () {
             Route::post('/kabkota/sk-renja/fkabkota/store', [Trans_Forum_KabKota_Controller::class,'store'])->name('fkabkota.store');
             Route::put('/kabkota/sk-renja/fkabkota/update/{id}', [Trans_Forum_KabKota_Controller::class,'update'])->name('fkabkota.update');
 
+            //rekap
+            Route::get('/kabkota/rekap-penilaian', [Answer_KabKota_Controller::class,'indexRekap'])->name('kabkota.rekap');
+
             
         });
 

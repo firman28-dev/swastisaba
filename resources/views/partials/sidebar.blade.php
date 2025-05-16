@@ -1001,6 +1001,20 @@
                         </div>  
                     </div>
 
+                    <div class="menu-item pt-5"><!--begin:Menu content-->
+                        <div class="menu-content"><span class="fw-bold text-uppercase fs-7 text-white">Rekap</span>
+                        </div><!--end:Menu content-->
+                    </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::is('kabkota.rekap') ? 'active-custom' : '' }}" href="{{route('kabkota.rekap')}}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-hard-drive fs-3 text-white"></i>
+                            </span>
+                            <span class="menu-title text-white">Rekap Penilaian</span>
+                        </a>
+                    </div>
+
                     <div class="menu-item">
                         <a class="menu-link {{ Route::is('narasi-tatanan.index') ? 'active-custom' : '' }}" href="{{route('narasi-tatanan.index')}}">
                             <span class="menu-icon">
