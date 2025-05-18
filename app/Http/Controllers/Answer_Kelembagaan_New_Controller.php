@@ -228,7 +228,9 @@ class Answer_Kelembagaan_New_Controller extends Controller
             if($files){
                 // $file = $request->file('path'); 
                 $timestamp = now()->format('YmdHis'); // contoh: 20250504153030
-                $fileName = $idZona.'_' . $timestamp . '_' . $files->getClientOriginalName();
+                $unique = uniqid();
+
+                $fileName = $idZona.'_' . $timestamp . '_' . $unique . '_'  . $files->getClientOriginalName();
                 $files->move($_SERVER['DOCUMENT_ROOT']. '/uploads/doc_kelembagaan/', $fileName);
                 // $files->move(public_path('uploads/doc_kelembagaan/'), $fileName);
 
