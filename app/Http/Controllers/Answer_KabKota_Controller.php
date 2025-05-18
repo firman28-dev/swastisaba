@@ -182,7 +182,8 @@ class Answer_KabKota_Controller extends Controller
                     } else {
                         // Create file
                         $timestamp = now()->format('YmdHis'); // contoh: 20250504153030
-                        $fileName = $idZona . '_' . $timestamp . '_' . $file->getClientOriginalName();
+                        $unique = uniqid();
+                        $fileName = $idZona . '_' . $timestamp . '_' . $unique . '_' . $file->getClientOriginalName();
                         // $fileName = $idZona. '_' . $file->getClientOriginalName();
                         // $file->move(public_path('uploads/doc_pendukung/'), $fileName);
                         $file->move($_SERVER['DOCUMENT_ROOT'].'/uploads/doc_pendukung/', $fileName);

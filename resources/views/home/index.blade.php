@@ -129,7 +129,7 @@
                 </h3>
             </div>
             <div class="card-toolbar">
-                {{-- <form action="{{route('home.showDistrict')}}" method="POST">
+                <form action="{{route('home.showDistrict')}}" method="POST">
                     @csrf
                     <div class="row d-flex align-items-center">
                         <div class="col-lg-10">
@@ -168,7 +168,7 @@
                         
                     </div>
                     
-                </form> --}}
+                </form>
             </div>
         </div>
         <div class="card-body">
