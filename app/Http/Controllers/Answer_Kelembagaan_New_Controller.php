@@ -35,6 +35,7 @@ class Answer_Kelembagaan_New_Controller extends Controller
         $category = M_C_Kelembagaan_New::find($id);
         $q_kelembagaan = M_Q_Kelembagaan_New::where('id_c_kelembagaan_v2', $id)
             ->where('id_survey', $session_date)    
+            ->orderBy('order_no', 'asc')
             ->get();
         // return $q_kelembagaan;
 

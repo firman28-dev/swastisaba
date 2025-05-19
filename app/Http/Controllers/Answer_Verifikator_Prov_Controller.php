@@ -216,6 +216,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
         $category = M_C_Kelembagaan_New::find($id);
         $questions = M_Q_Kelembagaan_New::where('id_c_kelembagaan_v2', $id)
             ->where('id_survey', $session_date)
+            ->orderBy('order_no', 'asc')
             ->get();
         $answer = Trans_Kelembagaan_V2::where('id_zona',$id_zona)
             ->where('id_survey', $session_date)
