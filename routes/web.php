@@ -70,8 +70,8 @@ Route::get('/op-clear', function () {
 });
 
 Route::get('/cache-clear', function () {
-    Artisan::call('config:cache');
-    Artisan::call('route:cache');
+    // Artisan::call('config:cache');
+    // Artisan::call('route:cache');
     Artisan::call('view:cache');
     return 'Cache rebuilt!';
 });
