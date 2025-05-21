@@ -62,7 +62,7 @@
                             if ($scoreprov >= 9656 && $scoreprov < 11016) {
                                 $statusprov = 'Padapa';
                             } elseif ($scoreprov >= 11016 && $scoreprov < 12376) {
-                                $statusprov = 'Wiwirda';
+                                $statusprov = 'Wiwerda';
                             } elseif ($scoreprov >= 12376) {
                                 $statusprov = 'Wistara';
                             } else {
