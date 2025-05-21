@@ -331,15 +331,33 @@
                                                     </h3>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <div id="loading-spinner" style="display: none; position: fixed; top: 0; left: 0;
+                                                    <div id="loading-spinner" style="
+                                                        display: none;
+                                                        position: fixed;
+                                                        top: 0; left: 0;
+                                                        width: 100%;
+                                                        height: 100%;
+                                                        background-color: rgba(0,0,0,0.5);
+                                                        z-index: 999999;  /* Naikkan ini */
+                                                        text-align: center;
+                                                        padding-top: 20%;
+                                                    ">
+                                                        <div class="spinner-border text-light" role="status" style="width: 3rem; height: 3rem;">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                        <p style="color: white; font-size: 18px;">Sedang mengunggah file...</p>
+                                                    </div>
+
+                                                    {{-- <div id="loading-spinner" style="display: none; position: fixed; top: 0; left: 0;
                                                         width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 9999;
                                                         text-align: center; padding-top: 20%;">
                                                         <div class="spinner-border text-light" role="status" style="width: 3rem; height: 3rem;">
                                                             <span class="visually-hidden">Loading...</span>
                                                         </div>
                                                         <p style="color: white; font-size: 18px;">Sedang mengunggah file...</p>
-                                                    </div>
-                                                    <form action="{{ route('answer-data.store', $question->id)}}" method="POST" enctype="multipart/form-data">
+                                                    </div> --}}
+
+                                                    <form id="upload-form" action="{{ route('answer-data.store', $question->id)}}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     <p>
                                                         <strong>Pertanyaan:</strong> 
@@ -1044,12 +1062,10 @@
         // });
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const forms = document.querySelectorAll('form');
-            forms.forEach(function(form) {
-                form.addEventListener('submit', function () {
-                    document.getElementById('loading-spinner').style.display = 'block';
-                });
+       document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('upload-form');
+            form.addEventListener('submit', function () {
+                document.getElementById('loading-spinner').style.display = 'block';
             });
         });
     </script>
