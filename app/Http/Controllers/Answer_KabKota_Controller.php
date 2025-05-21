@@ -163,16 +163,21 @@ class Answer_KabKota_Controller extends Controller
 
             foreach ($request->file() as $key => $file) {
                 if (strpos($key, 'file_') !== false) {
+                    $ids = str_replace('file_', '', $key);
+                    $fileId = $request->input('file_id_' . $ids);
+
                     $this->validate($request, [
-                        $key => 'required|mimes:pdf|max:10480',
+                        $key => 'required|mimes:pdf|max:8192',
                     ], [
                         $key . '.required' => 'File ' . $key . ' harus diisi.',
                         $key . '.mimes' => 'File ' . $key . ' harus berformat PDF.',
-                        $key . '.max' => 'File ' . $key . ' tidak boleh lebih besar dari 10 MB.',
+                        $key . '.max' => 'File ' . $key . ' tidak boleh lebih besar dari 8 MB.',
                     ]);
 
-                    $ids = str_replace('file_', '', $key);
-                    $fileId = $request->input('file_id_' . $ids);
+                    $timestamp = now()->format('YmdHis');
+                    $unique = uniqid();
+                    $fileName = $idZona . '_' . $timestamp . '_' . $unique . '_' . $file->getClientOriginalName();
+                    $file->move($_SERVER['DOCUMENT_ROOT'].'/uploads/doc_pendukung/', $fileName);
                     
                     if ($fileId) {
                         // Update file
@@ -180,13 +185,10 @@ class Answer_KabKota_Controller extends Controller
                         $uploadedFile->filename = $file->getClientOriginalName();
                         $uploadedFile->save();
                     } else {
-                        // Create file
-                        $timestamp = now()->format('YmdHis'); // contoh: 20250504153030
-                        $unique = uniqid();
-                        $fileName = $idZona . '_' . $timestamp . '_' . $unique . '_' . $file->getClientOriginalName();
-                        // $fileName = $idZona. '_' . $file->getClientOriginalName();
-                        // $file->move(public_path('uploads/doc_pendukung/'), $fileName);
-                        $file->move($_SERVER['DOCUMENT_ROOT'].'/uploads/doc_pendukung/', $fileName);
+                        // $timestamp = now()->format('YmdHis'); 
+                        // $unique = uniqid();
+                        // $fileName = $idZona . '_' . $timestamp . '_' . $unique . '_' . $file->getClientOriginalName();
+                        // $file->move($_SERVER['DOCUMENT_ROOT'].'/uploads/doc_pendukung/', $fileName);
 
                         $uploadedFile = new Trans_Upload_KabKota();
                         
