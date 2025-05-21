@@ -658,7 +658,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
                 DB::raw('SUM(opt_prov.score) as total_nilai_provinsi')
             )
             ->groupBy('district.id', 'district.name')
-            ->orderBy('total_jawaban', 'desc')
+            ->orderBy('total_nilai_provinsi', 'desc')
             ->get();
 
         $sent = [
