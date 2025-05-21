@@ -365,6 +365,8 @@
             var borderColor = KTUtil.getCssVariableValue('--kt-gray-200');
             var baseColor = KTUtil.getCssVariableValue('--kt-primary');
             var secondaryColor = KTUtil.getCssVariableValue('--kt-success');
+            var secondaryColor2 = '#FF69B4';
+
             var thirdColor = KTUtil.getCssVariableValue('--kt-danger');
 
 
@@ -589,7 +591,7 @@
                             
                         }
                     },
-                    colors: [baseColor, secondaryColor],
+                    colors: [baseColor, secondaryColor2],
                     grid: {
                         borderColor: borderColor,
                         yaxis: {
