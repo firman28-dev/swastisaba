@@ -331,33 +331,19 @@
                                                     </h3>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <div id="loading-spinner" style="
-                                                        display: none;
-                                                        position: fixed;
-                                                        top: 0; left: 0;
-                                                        width: 100%;
-                                                        height: 100%;
-                                                        background-color: rgba(0,0,0,0.5);
-                                                        z-index: 999999;  /* Naikkan ini */
-                                                        text-align: center;
-                                                        padding-top: 20%;
-                                                    ">
-                                                        <div class="spinner-border text-light" role="status" style="width: 3rem; height: 3rem;">
+                                                    {{-- <div id="spinner-{{ $question->id }}" class="loading-spinner" style="display:none; ...">
+                                                        <div class="spinner-border text-primary" role="status">
                                                             <span class="visually-hidden">Loading...</span>
                                                         </div>
-                                                        <p style="color: white; font-size: 18px;">Sedang mengunggah file...</p>
-                                                    </div>
-
-                                                    {{-- <div id="loading-spinner" style="display: none; position: fixed; top: 0; left: 0;
-                                                        width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 9999;
-                                                        text-align: center; padding-top: 20%;">
-                                                        <div class="spinner-border text-light" role="status" style="width: 3rem; height: 3rem;">
-                                                            <span class="visually-hidden">Loading...</span>
-                                                        </div>
-                                                        <p style="color: white; font-size: 18px;">Sedang mengunggah file...</p>
                                                     </div> --}}
+                                                   <div id="spinner-{{ $question->id }}" class="loading-spinner"  style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:9999;">
+                                                        <div class="spinner-border text-primary" role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                    </div>
+                                                   
 
-                                                    <form id="upload-form" action="{{ route('answer-data.store', $question->id)}}" method="POST" enctype="multipart/form-data">
+                                                    <form data-spinner="spinner-{{ $question->id }}" class="upload-form" action="{{ route('answer-data.store', $question->id)}}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     <p>
                                                         <strong>Pertanyaan:</strong> 
@@ -1061,12 +1047,21 @@
         //     allowClear: true
         // });
     </script>
-    <script>
-       document.addEventListener('DOMContentLoaded', function () {
-            const form = document.getElementById('upload-form');
-            form.addEventListener('submit', function () {
-                document.getElementById('loading-spinner').style.display = 'block';
-            });
+   <script>
+        document.addEventListener('submit', function (event) {
+            const form = event.target;
+            if (form.classList.contains('upload-form')) {
+                const spinnerId = form.getAttribute('data-spinner');
+                const spinner = document.getElementById(spinnerId);
+                if (spinner) spinner.style.display = 'block';
+
+                // Delay agar spinner sempat muncul sebelum redirect
+                setTimeout(() => {
+                    form.submit();
+                }, 300);
+            }
         });
+
     </script>
+
 @endsection

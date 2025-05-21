@@ -64,17 +64,15 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/op-clear', function () {
-    Artisan::call('optimize:clear');
-    return 'Optimize clear done!';
-});
+// Route::get('/op-clear', function () {
+//     Artisan::call('optimize:clear');
+//     return 'Optimize clear done!';
+// });
 
-Route::get('/cache-clear', function () {
-    // Artisan::call('config:cache');
-    // Artisan::call('route:cache');
-    Artisan::call('view:cache');
-    return 'Cache rebuilt!';
-});
+// Route::get('/cache-clear', function () {
+//     Artisan::call('view:cache');
+//     return 'Cache rebuilt!';
+// });
 
 Route::group(['middleware' => ['guest']], function () {
     /**
