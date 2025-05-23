@@ -23,7 +23,7 @@
     <div class="card mb-5 mb-xl-10">
         <div class="card-header justify-content-between">
             <div class="card-title">
-                <h3>Tatanan {{$category->name}}</h3>
+                <h3>Tatanan {{$category->name ?? '-'}}</h3>
             </div>
         </div>
 

@@ -32,7 +32,11 @@ class Answer_Kelembagaan_New_Controller extends Controller
         $date = Trans_Survey::find($session_date);
 
 
-        $category = M_C_Kelembagaan_New::find($id);
+        // $category = M_C_Kelembagaan_New::find($id);
+        $category = M_C_Kelembagaan_New::where('id_survey',$session_date)->where('id',$id)->first();
+        if (!$category) {
+            return redirect()->back()->with('error', 'Kategori tidak ditemukan.');
+        }
         $q_kelembagaan = M_Q_Kelembagaan_New::where('id_c_kelembagaan_v2', $id)
             ->where('id_survey', $session_date)    
             ->orderBy('order_no', 'asc')

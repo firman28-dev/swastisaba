@@ -13,6 +13,7 @@ use App\Models\Trans_Upload_KabKota;
 use Auth;
 use File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Session;
 use PDF;
 use DB;
@@ -63,41 +64,57 @@ class Answer_KabKota_Controller extends Controller
 
     public function show($id)
     {
-        $session_date = Session::get('selected_year');
-        $dates = Trans_Survey::all();
-        $date = Trans_Survey::find($session_date);
-        // return $session_date;
-        $user = Auth::user();
-        $idZona = $user->id_zona;
-        // $category = M_Category::find($id);
-        $category = M_Category::where('id_survey',$session_date)->where('id',$id)->first();
-        if (!$category) {
-            return redirect()->back()->with('error', 'Kategori tidak ditemukan.');
-        }
-        $questions = M_Questions::where('id_category', $id)
-            ->where('id_survey', $session_date)    
-            ->get();
-        $answer = Trans_Survey_D_Answer::where('id_zona',$idZona)
-            ->where('id_survey', $session_date)
-            ->get();
+        try {
+            $session_date = Session::get('selected_year');
+            $dates = Trans_Survey::all();
+            $date = Trans_Survey::find($session_date);
 
-        $uploadedFiles = Trans_Upload_KabKota::where('id_zona',$idZona)
-            ->where('id_survey', $session_date)
-            ->get();
-        $schedule = Setting_Time::where('id_group', $user->id_group)->first();
-        
-        $sent = [
-            'category' => $category,
-            'questions' => $questions,
-            'answer' => $answer,
-            'uploadedFiles' => $uploadedFiles,
-            'idZona' => $idZona,
-            'session_date' =>$session_date,
-            'date' => $date,
-            'dates' => $dates, 
-            'schedule' => $schedule
-        ];
-        return view('operator_kabkota.answer.index', $sent);
+            $user = Auth::user();
+            $idZona = $user->id_zona;
+
+            $category = M_Category::where('id_survey', $session_date)
+                ->where('id', $id)
+                ->first();
+
+            if (!$category) {
+                return redirect()->back()->with('error', 'Kategori tidak ditemukan.');
+            }
+
+            $questions = M_Questions::where('id_category', $id)
+                ->where('id_survey', $session_date)
+                ->get();
+
+            $answer = Trans_Survey_D_Answer::where('id_zona', $idZona)
+                ->where('id_survey', $session_date)
+                ->get();
+
+            $uploadedFiles = Trans_Upload_KabKota::where('id_zona', $idZona)
+                ->where('id_survey', $session_date)
+                ->get();
+
+            $schedule = Setting_Time::where('id_group', $user->id_group)->first();
+
+            return view('operator_kabkota.answer.index', [
+                'category' => $category,
+                'questions' => $questions,
+                'answer' => $answer,
+                'uploadedFiles' => $uploadedFiles,
+                'idZona' => $idZona,
+                'session_date' => $session_date,
+                'date' => $date,
+                'dates' => $dates,
+                'schedule' => $schedule
+            ]);
+
+        } catch (\Exception $e) {
+            // Log error detail untuk debugging
+            Log::error('Gagal menampilkan halaman jawaban kab/kota', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat memuat data. Silakan coba lagi.');
+        }
     }
 
 
@@ -236,7 +253,11 @@ class Answer_KabKota_Controller extends Controller
             return redirect()->back()->with('success', 'Berhasil memverifikasi pertanyaan');
 
         } catch (\Throwable $th) {
-            throw $th;
+            // throw $th;
+            \Log::error('Gagal store2: '.$th->getMessage(), [
+                'trace' => $th->getTraceAsString()
+            ]);
+            return redirect()->back()->with('error', 'Gagal menyimpan data. Silakan coba lagi.');
         }
 
     }

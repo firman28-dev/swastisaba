@@ -37,6 +37,7 @@ use App\Models\Trans_Survey_D_Answer;
 use App\Models\Trans_Upload_KabKota;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Session;
 use DB;
 use PDF;
@@ -47,114 +48,149 @@ class Answer_Verifikator_Prov_Controller extends Controller
 {
     public function index($id)
     {
-        $session_date = Session::get('selected_year');
-        $date = Trans_Survey::where('id', $session_date)->first();
-        // $zona = M_District::find($id);
-        $zona = M_District::where('province_id',13)->where('id',$id)->first();
-        if (!$zona) {
-            return redirect()->back()->with('error', 'Zona tidak ditemukan.');
-        }
+        try {
+            $session_date = Session::get('selected_year');
 
-        $category = M_Category::where('id_survey', $session_date)->get();
+            if (!$session_date) {
+                return redirect()->back()->with('error', 'Tahun survei belum dipilih.');
+            }
 
-        $categoryCount = M_Category::select('id')
-            ->where('id_survey', $session_date)
-            ->count();
-        $questions = M_Questions::select('id')
-            ->where('id_survey', $session_date)
-            ->count();
-        
-        $chart = M_Category::where('id_survey', $session_date)
-            ->withCount([
-                 '_transDAnswer as total_jawaban' => function ($query) use ($session_date, $id) {
-                    $query->where('id_survey', $session_date)
-                        ->where('id_zona', $id);
-                },
-                '_question as total_pertanyaan',
-                '_transDAnswer as total_verifprov' => function ($query) use ($session_date, $id) {
+            $date = Trans_Survey::where('id', $session_date)->first();
+            $zona = M_District::where('province_id', 13)
+                ->where('id', $id)
+                ->first();
+
+            if (!$zona) {
+                return redirect()->back()->with('error', 'Zona tidak ditemukan.');
+            }
+
+            $category = M_Category::where('id_survey', $session_date)->get();
+
+            $categoryCount = M_Category::where('id_survey', $session_date)->count();
+            $questions = M_Questions::where('id_survey', $session_date)->count();
+
+            $chart = M_Category::where('id_survey', $session_date)
+                ->withCount([
+                    '_transDAnswer as total_jawaban' => function ($query) use ($session_date, $id) {
+                        $query->where('id_survey', $session_date)
+                            ->where('id_zona', $id);
+                    },
+                    '_question as total_pertanyaan',
+                    '_transDAnswer as total_verifprov' => function ($query) use ($session_date, $id) {
+                        $query->where('id_survey', $session_date)
+                            ->where('id_zona', $id)
+                            ->whereNotNull('id_option_prov');
+                    }
+                ])
+                ->with(['_transDAnswer' => function ($query) use ($session_date, $id) {
                     $query->where('id_survey', $session_date)
                         ->where('id_zona', $id)
-                        ->whereNotNull('id_option_prov');
-                }
-            ])
+                        ->with('_q_option', '_q_option_prov');
+                }])
+                ->get();
 
-            ->with(['_transDAnswer' => function ($query) use ($session_date, $id) {
-                $query->where('id_survey', $session_date)
-                      ->where('id_zona', $id)
-                      ->with('_q_option','_q_option_prov'); 
-            }])
-            ->get();
+            $chartData = $chart->map(function ($category) {
+                $totalScore = $category->_transDAnswer->sum(function ($answer) {
+                    return $answer->_q_option ? $answer->_q_option->score : 0;
+                });
+                $totalScoreProv = $category->_transDAnswer->sum(function ($answer) {
+                    return $answer->_q_option_prov ? $answer->_q_option_prov->score : 0;
+                });
 
-        $chartData = $chart->map(function ($category) {
-            $totalScore = $category->_transDAnswer->sum(function ($answer) {
-                return $answer->_q_option ? $answer->_q_option->score : 0;
+                return [
+                    'kategori' => $category->name,
+                    'total_jawaban' => $category->total_jawaban,
+                    'total_jawabanprov' => $category->total_verifprov,
+                    'total_pertanyaan' => $category->total_pertanyaan,
+                    'total_score' => $totalScore,
+                    'total_score_prov' => $totalScoreProv
+                ];
             });
-            $totalScoreProv = $category->_transDAnswer->sum(function ($answer) {
-                return $answer->_q_option_prov ? $answer->_q_option_prov->score : 0;
-            });
 
-            return [
-                'kategori' => $category->name,  // atau gunakan field yang sesuai untuk nama kategori
-                'total_jawaban' => $category->total_jawaban,
-                'total_jawabanprov' => $category->total_verifprov,
-                'total_pertanyaan' => $category->total_pertanyaan,
-                'total_score' => $totalScore,
-                'total_score_prov' => $totalScoreProv
+            $sent = [
+                'zona' => $zona,
+                'category' => $category,
+                'tahun' => $date,
+                'chartData' => $chartData,
             ];
-        });
-        // return $questions;
-        $sent = [
-            'zona' => $zona,
-            'category' => $category,
-            'tahun' => $date,
-            'chartData' => $chartData,
-        ];
-        return view('verifikator_provinsi.question.index', $sent);
+
+            return view('verifikator_provinsi.question.index', $sent);
+
+        } catch (\Exception $e) {
+            Log::error('Gagal memuat halaman index verifikasi provinsi.', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'id_zona' => $id,
+            ]);
+
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat memuat data. Silakan coba beberapa saat lagi.');
+        }
     }
 
 
 
     public function showCategory($id_zona, $id)
     {
-        $session_date = Session::get('selected_year');
-        $zona = M_District::where('province_id',13)->where('id',$id_zona)->first();
+        try {
+            $session_date = Session::get('selected_year');
 
-        // $zona = M_District::find($id_zona);
-        if (!$zona) {
-            return redirect()->back()->with('error', 'Zona tidak ditemukan.');
+            if (!$session_date) {
+                return redirect()->back()->with('error', 'Tahun survei belum dipilih.');
+            }
+
+            $zona = M_District::where('province_id', 13)
+                ->where('id', $id_zona)
+                ->first();
+
+            if (!$zona) {
+                return redirect()->back()->with('error', 'Zona tidak ditemukan.');
+            }
+
+            $dates = Trans_Survey::all();
+            $date = Trans_Survey::find($session_date);
+
+            $category = M_Category::where('id_survey', $session_date)
+                ->where('id', $id)
+                ->first();
+
+            if (!$category) {
+                return redirect()->back()->with('error', 'Kategori tidak ditemukan.');
+            }
+
+            $questions = M_Questions::where('id_category', $id)
+                ->where('id_survey', $session_date)
+                ->get();
+
+            $answer = Trans_Survey_D_Answer::where('id_zona', $id_zona)
+                ->where('id_survey', $session_date)
+                ->get();
+
+            $uploadedFiles = Trans_Upload_KabKota::where('id_zona', $id_zona)
+                ->where('id_survey', $session_date)
+                ->get();
+
+            $sent = [
+                'zona' => $zona,
+                'category' => $category,
+                'questions' => $questions,
+                'answer' => $answer,
+                'uploadedFiles' => $uploadedFiles,
+                'date' => $date,
+                'dates' => $dates,
+            ];
+
+            return view('verifikator_provinsi.question.show', $sent);
+
+        } catch (\Exception $e) {
+            Log::error('Gagal menampilkan kategori verifikasi provinsi.', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+                'id_zona' => $id_zona,
+                'id_kategori' => $id,
+            ]);
+
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat memuat data. Silakan coba lagi.');
         }
-
-        $dates = Trans_Survey::all();
-        $date = Trans_Survey::find($session_date);
-
-        // $category = M_Category::find($id);
-        $category = M_Category::where('id_survey',$session_date)->where('id',$id)->first();
-        if (!$category) {
-            return redirect()->back()->with('error', 'Kategori tidak ditemukan.');
-        }
-        $questions = M_Questions::where('id_category', $id)
-            ->where('id_survey', $session_date)
-            ->get();
-        
-        $answer = Trans_Survey_D_Answer::where('id_zona',$id_zona)  
-            ->where('id_survey', $session_date)
-            ->get();
-        $uploadedFiles = Trans_Upload_KabKota::where('id_zona',$id_zona)
-            ->where('id_survey', $session_date)
-            ->get();
-        // return $answer;
-        $sent = [
-            'zona' => $zona,
-            'category' => $category,
-            'questions' => $questions,
-            'answer' => $answer,
-            'uploadedFiles' => $uploadedFiles,
-            'date' => $date,
-            'dates' => $dates, 
-
-        ];
-
-        return view('verifikator_provinsi.question.show', $sent);
     }
     
     public function store(Request $request,$id_zona, $questionId)
@@ -197,7 +233,7 @@ class Answer_Verifikator_Prov_Controller extends Controller
             }
 
         } catch (\Throwable $th) {
-            //throw $th;
+            throw $th;
         }
 
 
@@ -206,7 +242,11 @@ class Answer_Verifikator_Prov_Controller extends Controller
     public function indexKelembagaan($id)
     {
         $session_date = Session::get('selected_year');
-        $zona = M_District::find($id);
+        // $zona = M_District::find($id);
+        $zona = M_District::where('province_id',13)->where('id',$id)->first();
+        if (!$zona) {
+            return redirect()->back()->with('error', 'Zona tidak ditemukan.');
+        }
         $date = Trans_Survey::where('id', $session_date)->first();
         
         $category = M_C_Kelembagaan_New::where('id_survey', $session_date)->get();
@@ -226,8 +266,17 @@ class Answer_Verifikator_Prov_Controller extends Controller
         $session_date = Session::get('selected_year');
         $date = Trans_Survey::find($session_date);
 
-        $zona = M_District::find($id_zona);
-        $category = M_C_Kelembagaan_New::find($id);
+        $zona = M_District::where('province_id',13)->where('id',$id_zona)->first();
+        if (!$zona) {
+            return redirect()->back()->with('error', 'Zona tidak ditemukan.');
+        }
+
+        // $zona = M_District::find($id_zona);
+        // $category = M_C_Kelembagaan_New::find($id);
+        $category = M_C_Kelembagaan_New::where('id_survey',$session_date)->where('id',$id)->first();
+        if (!$category) {
+            return redirect()->back()->with('error', 'Kategori tidak ditemukan.');
+        }
         $questions = M_Q_Kelembagaan_New::where('id_c_kelembagaan_v2', $id)
             ->where('id_survey', $session_date)
             ->orderBy('order_no', 'asc')
