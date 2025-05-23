@@ -49,7 +49,11 @@ class Answer_Verifikator_Prov_Controller extends Controller
     {
         $session_date = Session::get('selected_year');
         $date = Trans_Survey::where('id', $session_date)->first();
-        $zona = M_District::find($id);
+        // $zona = M_District::find($id);
+        $zona = M_District::where('province_id',13)->where('id',$id)->first();
+        if (!$zona) {
+            return redirect()->back()->with('error', 'Zona tidak ditemukan.');
+        }
 
         $category = M_Category::where('id_survey', $session_date)->get();
 
@@ -113,15 +117,25 @@ class Answer_Verifikator_Prov_Controller extends Controller
     public function showCategory($id_zona, $id)
     {
         $session_date = Session::get('selected_year');
-        $zona = M_District::find($id_zona);
+        $zona = M_District::where('province_id',13)->where('id',$id_zona)->first();
+
+        // $zona = M_District::find($id_zona);
+        if (!$zona) {
+            return redirect()->back()->with('error', 'Zona tidak ditemukan.');
+        }
 
         $dates = Trans_Survey::all();
         $date = Trans_Survey::find($session_date);
 
-        $category = M_Category::find($id);
+        // $category = M_Category::find($id);
+        $category = M_Category::where('id_survey',$session_date)->where('id',$id)->first();
+        if (!$category) {
+            return redirect()->back()->with('error', 'Kategori tidak ditemukan.');
+        }
         $questions = M_Questions::where('id_category', $id)
             ->where('id_survey', $session_date)
             ->get();
+        
         $answer = Trans_Survey_D_Answer::where('id_zona',$id_zona)  
             ->where('id_survey', $session_date)
             ->get();

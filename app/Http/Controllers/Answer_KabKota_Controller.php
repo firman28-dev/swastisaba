@@ -69,7 +69,11 @@ class Answer_KabKota_Controller extends Controller
         // return $session_date;
         $user = Auth::user();
         $idZona = $user->id_zona;
-        $category = M_Category::find($id);
+        // $category = M_Category::find($id);
+        $category = M_Category::where('id_survey',$session_date)->where('id',$id)->first();
+        if (!$category) {
+            return redirect()->back()->with('error', 'Kategori tidak ditemukan.');
+        }
         $questions = M_Questions::where('id_category', $id)
             ->where('id_survey', $session_date)    
             ->get();
@@ -262,7 +266,11 @@ class Answer_KabKota_Controller extends Controller
         $user = Auth::user();
         $idZona = $user->id_zona;
         $district = M_District::find($idZona);
-        $category = M_Category::find($id);
+        // $category = M_Category::find($id);
+        $category = M_Category::where('id_survey',$session_date)->where('id',$id)->first();
+        if (!$category) {
+            return redirect()->back()->with('error', 'Kategori tidak ditemukan.');
+        }
         // return $category;
         $questions = M_Questions::where('id_category', $id)
             ->where('id_survey', $session_date)    

@@ -20,3 +20,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/district', [DataController::class, 'index']);
+Route::get('/districts', [DataController::class, 'getProvince']);
+Route::get('/indikator', [DataController::class, 'getIndikatorTatanan']);
+Route::get('/odf', [DataController::class, 'getOdf']);
+
+//odf
+Route::get('/sendodfAllKabkota', [DataController::class, 'sendodfAllKabkota']);
+Route::get('/sendodfperkabkota', [DataController::class, 'sendodfperkabkota']);
+
+//list kabkota
+Route::get('/kabkota', [DataController::class, 'kabkota']);
+
+
+

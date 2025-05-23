@@ -61,7 +61,7 @@ class M_Questions_Controller extends Controller
     
 
    
-    public function create($id)
+    public function createbyid($id)
     {
         $category = M_Category::find(id: $id);
         return view('admin.questions.create', compact('category'));

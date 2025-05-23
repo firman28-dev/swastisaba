@@ -331,11 +331,6 @@
                                                     </h3>
                                                 </div>
                                                 <div class="modal-body">
-                                                    {{-- <div id="spinner-{{ $question->id }}" class="loading-spinner" style="display:none; ...">
-                                                        <div class="spinner-border text-primary" role="status">
-                                                            <span class="visually-hidden">Loading...</span>
-                                                        </div>
-                                                    </div> --}}
                                                    <div id="spinner-{{ $question->id }}" class="loading-spinner"  style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:9999;">
                                                         <div class="spinner-border text-primary" role="status">
                                                             <span class="visually-hidden">Loading...</span>
@@ -1047,7 +1042,7 @@
         //     allowClear: true
         // });
     </script>
-   <script>
+    <script>
         document.addEventListener('submit', function (event) {
             const form = event.target;
             if (form.classList.contains('upload-form')) {
@@ -1055,7 +1050,6 @@
                 const spinner = document.getElementById(spinnerId);
                 if (spinner) spinner.style.display = 'block';
 
-                // Delay agar spinner sempat muncul sebelum redirect
                 setTimeout(() => {
                     form.submit();
                 }, 300);

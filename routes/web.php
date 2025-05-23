@@ -149,7 +149,7 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/questions/import/{id}', [M_Questions_Controller::class, 'import'])->name('questions.import');
             Route::post('/question/import', [M_Questions_Controller::class, 'importQuestion'])->name('questions.importQuestion');
             Route::resource('questions', M_Questions_Controller::class);
-            Route::get('/questions/create/{id}', [M_Questions_Controller::class, 'create'])->name('questions.create');
+            Route::get('/questions/create/{id}', [M_Questions_Controller::class, 'createbyid'])->name('questions.createbyid');
 
 
 

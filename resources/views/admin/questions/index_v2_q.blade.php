@@ -24,7 +24,7 @@
                             <i class="nav-icon fas fa-arrow-left"></i>Kembali
                         </button>
                     </a>
-                    <a href="{{route('questions.create', $category->id)}}">
+                    <a href="{{route('questions.createbyid', $category->id)}}">
                         <button type="button" class="btn btn-primary btn-sm ms-4">
                             <i class="nav-icon fas fa-folder-plus "></i>Tambah
                         </button>

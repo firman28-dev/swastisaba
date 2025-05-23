@@ -13,4 +13,9 @@ class M_District extends Model
     {
         return $this->hasMany(Trans_Survey_D_Answer::class, 'id_zona', 'id');
     }
+
+    public function _odf()
+    {
+        return $this->hasMany(Trans_ODF_New::class, 'id_zona', 'id');
+    }
 }
