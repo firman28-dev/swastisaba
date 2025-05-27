@@ -566,6 +566,20 @@
                             <span class="menu-title text-white">Rekap Penilaian</span>
                         </a>
                     </div>
+
+                    <div class="menu-item pt-5"><!--begin:Menu content-->
+                        <div class="menu-content"><span class="fw-bold text-uppercase fs-7 text-white">Bridging API</span>
+                        </div><!--end:Menu content-->
+                    </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::is('api.index')  ? 'active-custom' : '' }}" href="{{route('api.index')}}">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-hard-drive fs-3 text-white"></i>
+                            </span>
+                            <span class="menu-title text-white">List API</span>
+                        </a>
+                    </div>
                 @endif
 
                 @if(Auth::user()->id_group == 3)
@@ -744,7 +758,7 @@
                         </a>
                     </div>
 
-                    <div class="menu-item menu-accordion {{ Route::is('v-prov.indexGData') || Route::is('v-prov.indexGData') ? 'show' : '' }}" data-kt-menu-trigger="click">
+                    {{-- <div class="menu-item menu-accordion {{ Route::is('v-prov.indexGData') || Route::is('v-prov.indexGData') ? 'show' : '' }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-book fs-3 text-white"></i>
@@ -767,7 +781,7 @@
                                 </div>
                             @endforeach
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="menu-item menu-accordion {{ Route::is('v-prov.indexKelembagaan') || Route::is('v-pusat.showCategory') ? 'show' : '' }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
@@ -794,7 +808,7 @@
                         </div>
                     </div>
 
-                    <div class="menu-item menu-accordion {{ Route::is('v-prov.indexPendanaan') || Route::is('v-prov.indexPendanaan') ? 'show' : '' }}" data-kt-menu-trigger="click">
+                    {{-- <div class="menu-item menu-accordion {{ Route::is('v-prov.indexPendanaan') || Route::is('v-prov.indexPendanaan') ? 'show' : '' }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-book fs-3 text-white"></i>
@@ -817,7 +831,7 @@
                                 </div>
                             @endforeach
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="menu-item menu-accordion {{ Route::is('v-prov.index') || Route::is('v-prov.showCategory') ? 'show' : '' }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
@@ -844,7 +858,7 @@
                         </div>
                     </div>
                     
-                    <div class="menu-item menu-accordion {{ Route::is('v-prov.indexNarasi') || Route::is('v-prov.indexNarasi') ? 'show' : '' }}" data-kt-menu-trigger="click">
+                    {{-- <div class="menu-item menu-accordion {{ Route::is('v-prov.indexNarasi') || Route::is('v-prov.indexNarasi') ? 'show' : '' }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-book fs-3 text-white"></i>
@@ -867,7 +881,7 @@
                                 </div>
                             @endforeach
                         </div>
-                    </div>
+                    </div> --}}
 
                    
                    

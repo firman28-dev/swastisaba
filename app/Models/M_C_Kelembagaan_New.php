@@ -16,7 +16,10 @@ class M_C_Kelembagaan_New extends Model
         'is_status'
 
     ];  
-    
+    public function _questions()
+    {
+        return $this->hasMany(M_Q_Kelembagaan_New::class, 'id_c_kelembagaan_v2');
+    }
     protected $table = 'm_category_kelembagaan_new';
     protected $dates = ['deleted_at'];
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\Answer_Operator_Prov_Controller;
 use App\Http\Controllers\Answer_Pendanaan_Kabkota_Controller;
 use App\Http\Controllers\Answer_Verifikator_Prov_Controller;
 use App\Http\Controllers\Answer_Verifikator_Pusat_Controller;
+use App\Http\Controllers\APIPusatController;
 use App\Http\Controllers\Category_Doc_Provinsi_Controller;
 use App\Http\Controllers\Doc_Question_Controller;
 use App\Http\Controllers\Gambaran_KabKota_Controller;
@@ -126,6 +127,15 @@ Route::group(['middleware' => ['auth']], function () {
         });
 
         Route::group(['middleware' => ['superadmin']], function () {
+            //api
+            Route::get('/list-api', [APIPusatController::class, 'index'])->name('api.index');
+            // Route::get('/sendTatanan/{id}', [APIPusatController::class, 'viewTatananPerkabkota2024'])->name('api.sendtatanan2024');
+            Route::post('/list-api/send-tatanan-2024', [APIPusatController::class, 'viewTatananPerkabkotaMerged'])->name('api.viewTatananPerkabkota2024');
+            Route::get('/list-api/sendodfAllKabkota', [APIPusatController::class, 'sendodfAllKabkota'])->name('api.sendodfAllKabkota');
+            Route::get('/list-api/viewCapaiankelembagaan2024', [APIPusatController::class, 'viewCapaiankelembagaan2024'])->name('api.viewCapaiankelembagaan2024');
+
+
+
             //rekap
             Route::get('/rekap-nilai', [Answer_Verifikator_Prov_Controller::class, 'indexRekapv2'])->name('admin.indexRekap');
 

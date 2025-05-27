@@ -31,5 +31,14 @@ Route::get('/sendodfperkabkota', [DataController::class, 'sendodfperkabkota']);
 //list kabkota
 Route::get('/kabkota', [DataController::class, 'kabkota']);
 
+//kelembagaan
+Route::get('/viewCapaiankelembagaan2024', [DataController::class, 'viewCapaiankelembagaan2024']);
+Route::get('/viewCapaiankelembagaanMarged', [DataController::class, 'viewCapaiankelembagaanMarged']);
 
+
+//indikator tatanan
+Route::get('/viewTatanan', [DataController::class, 'viewTatanan']);
+Route::get('/viewTatananPerkabkota2024', [DataController::class, 'viewTatananPerkabkota2024']);
+Route::get('/viewTatananAllKabkota', [DataController::class, 'viewTatananAllKabkota']);
+Route::get('/viewTatananPerkabkotaMerged', [DataController::class, 'viewTatananPerkabkotaMerged']);
 

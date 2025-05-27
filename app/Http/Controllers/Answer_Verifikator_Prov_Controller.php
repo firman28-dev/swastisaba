@@ -20,6 +20,7 @@ use App\Models\M_SubDistrict;
 use App\Models\M_Village;
 use App\Models\M_Zona;
 use App\Models\Pendanaan_KabKota;
+use App\Models\Setting_Time;
 use App\Models\SKPD;
 use App\Models\Trans_Doc_G_Data;
 use App\Models\Trans_Doc_Kelembagaan;
@@ -107,11 +108,14 @@ class Answer_Verifikator_Prov_Controller extends Controller
                 ];
             });
 
+
+
             $sent = [
                 'zona' => $zona,
                 'category' => $category,
                 'tahun' => $date,
                 'chartData' => $chartData,
+
             ];
 
             return view('verifikator_provinsi.question.index', $sent);
@@ -133,7 +137,8 @@ class Answer_Verifikator_Prov_Controller extends Controller
     {
         try {
             $session_date = Session::get('selected_year');
-
+            
+            $user = Auth::user();
             if (!$session_date) {
                 return redirect()->back()->with('error', 'Tahun survei belum dipilih.');
             }
@@ -169,6 +174,8 @@ class Answer_Verifikator_Prov_Controller extends Controller
                 ->where('id_survey', $session_date)
                 ->get();
 
+            $schedule = Setting_Time::where('id_group', $user->id_group)->first();
+
             $sent = [
                 'zona' => $zona,
                 'category' => $category,
@@ -177,6 +184,8 @@ class Answer_Verifikator_Prov_Controller extends Controller
                 'uploadedFiles' => $uploadedFiles,
                 'date' => $date,
                 'dates' => $dates,
+                'schedule' => $schedule
+
             ];
 
             return view('verifikator_provinsi.question.show', $sent);
@@ -265,6 +274,8 @@ class Answer_Verifikator_Prov_Controller extends Controller
     {
         $session_date = Session::get('selected_year');
         $date = Trans_Survey::find($session_date);
+        $user = Auth::user();
+
 
         $zona = M_District::where('province_id',13)->where('id',$id_zona)->first();
         if (!$zona) {
@@ -315,6 +326,8 @@ class Answer_Verifikator_Prov_Controller extends Controller
         $sum_village = M_Village::whereIn('subdistrict_id',$distirctId)
             ->where('is_active', 1)
             ->count();
+        $schedule = Setting_Time::where('id_group', $user->id_group)->first();
+        
 
         // return $answer;
         $sent = [
@@ -330,6 +343,8 @@ class Answer_Verifikator_Prov_Controller extends Controller
             'date' => $date,
             'sum_village' => $sum_village,
             'sum_subdistrict' => $sum_subdistrict,
+            'schedule' => $schedule
+
 
         ];
 

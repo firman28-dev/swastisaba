@@ -193,7 +193,7 @@
                         @foreach($questions as $question)
                             <tr>
                                 <td class="border-1 border text-center p-3">{{ $loop->iteration }}</td>
-                                <td class="border-1 border p-3">{{ $question->name }}</td>
+                                <td class="border-1 border p-3">{{ $question->name ?? '-' }}</td>
                                 @php
                                     $relatedAnswer = $answer->where('id_question', $question->id)->first(); // This will return a single instance or null
                                     // $uploadedFile = $uploadedFiles->where('id_question', $question->id);
@@ -987,27 +987,7 @@
         
     </script>
 
-    {{-- <script>
-        document.querySelectorAll('input[type="file"]').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            const maxSize = 8 * 1024 * 1024; // 10 MB
-
-            if (file && file.type !== 'application/pdf') {
-                alert('File harus berformat PDF.');
-                e.target.value = ''; // Reset input
-            } else if (file && file.size > maxSize) {
-                // alert('Ukuran file tidak boleh lebih dari 2 MB.');
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Ukuran file terlalu besar',
-                    text: 'Ukuran maksimal file adalah 8 MB.',
-                    confirmButtonText: 'Oke',
-                });
-                e.target.value = ''; // Reset input
-            }
-        });
-       
-    </script> --}}
+  
     <script>
         document.querySelectorAll('input[type="file"]').forEach(function(input) {
             input.addEventListener('change', function(e) {

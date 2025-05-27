@@ -9,7 +9,12 @@
 
 @section('content')
    
-
+    @php
+        $now = strtotime(now());
+        // echo($now);
+        $start = strtotime($schedule->started_at);
+        $end = strtotime($schedule->ended_at);
+    @endphp
     {{-- <div class="card mb-5 mb-xl-10">
         <div class="card-header justify-content-between">
             <div class="card-title">
@@ -205,6 +210,20 @@
         
     </div> --}}
 
+     <div class="card mb-5 p-7 bg-card-stopwatch text-custom-primary rounded rounded-4">
+        <div class="row align-items-center">
+            <div class="col-lg-6 ">
+                <h3 class="text-custom-primary fw-bolder">{{$schedule->notes}}</h3>
+                <h3 class="text-custom-primary fw-bolder">Jadwal dimulai tanggal {{$schedule->started_at->format('d-m-Y')}} jam {{$schedule->started_at->format('H:i')}}</h3>
+                <h3 class="text-custom-primary fw-bolder">Jadwal berakhir tanggal {{$schedule->ended_at->format('d-m-Y')}} jam {{$schedule->ended_at->format('H:i')}}</h3>
+            </div>
+            <div class="col-lg-6 text-end">
+                <img src="{{asset('assets/img/stopwatch.png')}}" class="w-80px" alt="">
+                <span id="time-range" class="fw-bolder"></span>
+            </div>
+        </div>
+    </div>
+    
     <div class="card mb-5 mb-xl-10">
         <div class="card-header justify-content-between">
             <div class="card-title">
@@ -685,16 +704,15 @@
 
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal" onclick="location.reload()">Batal</button>
+                                                    <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal">Batal</button>
                                                     &nbsp;
                                                     <button 
-                                                    {{-- @if ($now >= $start && $now <= $end) --}}
+                                                    @if ($now >= $start && $now <= $end)
                                                         type="submit" 
                                                         class="btn btn-primary rounded-4 hover-scale"
-                                                    {{-- @else
+                                                    @else
                                                         class="btn btn-primary rounded-4 hover-scale" disabled
-                                                    @endif --}}
-                                                    >
+                                                    @endif>
                                                         Simpan
                                                     </button>
                                                 </div>
@@ -712,7 +730,7 @@
         </div>
         
     </div>
-
+{{-- 
     @php
         $c_v2 = $category;
     @endphp
@@ -848,7 +866,6 @@
                                     @else
                                         -
                                     @endif
-                                    {{-- {{$item->answer_pusat === 1 ? 'Sesuai' : ($item->answer_pusat === 2 ? 'Tidak sesuai' : '-') }} --}}
                                 </td>
                                 <td class="border-1 border text-center">
                                     {{$forum2->comment_pusat ?? '-'}}
@@ -908,12 +925,8 @@
                                                     <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal" onclick="location.reload()">Batal</button>
                                                     &nbsp;
                                                     <button 
-                                                    {{-- @if ($now >= $start && $now <= $end) --}}
                                                         type="submit" 
                                                         class="btn btn-primary rounded-4 hover-scale"
-                                                    {{-- @else
-                                                        class="btn btn-primary rounded-4 hover-scale" disabled
-                                                    @endif --}}
                                                     >
                                                         Simpan
                                                     </button>
@@ -1040,7 +1053,6 @@
                                             @else
                                                 -
                                             @endif
-                                            {{-- {{$item->answer_pusat === 1 ? 'Sesuai' : ($item->answer_pusat === 2 ? 'Tidak sesuai' : '-') }} --}}
                                         </td>
                                         <td class="border-1 border text-center">
                                             {{$item_v2->comment_pusat ?? '-'}}
@@ -1061,7 +1073,6 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <form action="{{ route('v-prov.storeActivity', $item_v2->id)}}" method="POST">
-                                                            {{-- <form action="{{ route('v-pusat.storeKelembagaan', $item->id)}}" method="POST"> --}}
                                                             @csrf
                                                             <p><strong>{{$item_v2->name}}</strong></p>
                                                             <div class="form-check mb-3">
@@ -1099,12 +1110,8 @@
                                                             <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal" onclick="location.reload()">Batal</button>
                                                             &nbsp;
                                                             <button 
-                                                            {{-- @if ($now >= $start && $now <= $end) --}}
                                                                 type="submit" 
                                                                 class="btn btn-primary rounded-4 hover-scale"
-                                                            {{-- @else
-                                                                class="btn btn-primary rounded-4 hover-scale" disabled
-                                                            @endif --}}
                                                             >
                                                                 Simpan
                                                             </button>
@@ -1114,13 +1121,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        {{-- <td class="border border-1 text-center">
-                                            <a href="{{ route('kelembagaan-v2.editActivity', $item_v2->id) }}" class="btn btn-icon btn-primary w-35px h-35px mb-3 ">
-                                                <div class="d-flex justify-content-center">
-                                                    <i class="fa-solid fa-pen-to-square"></i>
-                                                </div>
-                                            </a>
-                                        </td> --}}
+                                        
                                     </tr>
                                 @endforeach
                             @else
@@ -1171,13 +1172,13 @@
                     <tbody>
                     @foreach ($subdistrict as $item)
                         <tr>
-                                <td class="border-1 border text-center">{{ $loop->iteration }}</td>
-                                <td class="border-1 border">{{$item->name}}</td>
-                                <td class="border-1 border">
-                                    <a href="{{route('v-prov.showPokjaDesa',[$category->id, $item->id])}}" class="btn btn-outline btn-outline-success btn-sm">
-                                        Lihat detailnya
-                                    </a>
-                                </td>
+                            <td class="border-1 border text-center">{{ $loop->iteration }}</td>
+                            <td class="border-1 border">{{$item->name}}</td>
+                            <td class="border-1 border">
+                                <a href="{{route('v-prov.showPokjaDesa',[$category->id, $item->id])}}" class="btn btn-outline btn-outline-success btn-sm">
+                                    Lihat detailnya
+                                </a>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -1261,7 +1262,6 @@
                                 @else
                                     -
                                 @endif
-                                {{-- {{$item->answer_pusat === 1 ? 'Sesuai' : ($item->answer_pusat === 2 ? 'Tidak sesuai' : '-') }} --}}
                             </td>
                             <td class="border-1 border text-center">
                                 {{$item->comment_pusat ?? '-'}}
@@ -1282,7 +1282,6 @@
                                             </div>
                                             <div class="modal-body">
                                                 <form action="{{ route('v-prov.storeActivity', $item->id)}}" method="POST">
-                                                {{-- <form action="{{ route('v-pusat.storeKelembagaan', $item->id)}}" method="POST"> --}}
                                                 @csrf
                                                 <p><strong>{{$item->name}}</strong></p>
                                                 <div class="form-check mb-3">
@@ -1320,12 +1319,8 @@
                                                 <button type="button" class="btn btn-secondary rounded-4 hover-scale" data-bs-dismiss="modal" onclick="location.reload()">Batal</button>
                                                 &nbsp;
                                                 <button 
-                                                {{-- @if ($now >= $start && $now <= $end) --}}
                                                     type="submit" 
                                                     class="btn btn-primary rounded-4 hover-scale"
-                                                {{-- @else
-                                                    class="btn btn-primary rounded-4 hover-scale" disabled
-                                                @endif --}}
                                                 >
                                                     Simpan
                                                 </button>
@@ -1344,7 +1339,7 @@
         </div>
     </div>
 
-    @endif
+    @endif --}}
 
 
 @endsection
@@ -1412,5 +1407,46 @@
                 "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
                 ">"
         });
+        
+        var startTime = @json($start);
+        var endTime = @json($end);
+        var now = Math.floor(Date.now() / 1000); // Waktu saat ini dalam detik
+
+        // Fungsi untuk menghitung dan menampilkan waktu tersisa
+        function updateTime() {
+            now = Math.floor(Date.now() / 1000); // Update waktu saat ini
+
+            if (now < startTime) {
+                // Jika waktu sekarang sebelum waktu mulai
+                var timeDiff = startTime - now;
+                document.getElementById("time-range").innerHTML = "Waktu mulai: " + formatTime(timeDiff);
+            } else if (now >= startTime && now <= endTime) {
+                // Jika waktu sekarang dalam rentang waktu
+                var timeDiff = endTime - now;
+                document.getElementById("time-range").innerHTML = "Waktu tersisa: " + formatTime(timeDiff);
+            } else {
+                // Jika waktu sekarang setelah waktu selesai
+                document.getElementById("time-range").innerHTML = "Waktu sudah berakhir.";
+            }
+        }
+
+        // Fungsi untuk memformat waktu dalam format jam:menit:detik
+        function formatTime(seconds) {
+            var months = Math.floor(seconds / (3600 * 24 * 30)); // Menghitung bulan
+            var days = Math.floor((seconds % (3600 * 24 * 30)) / (3600 * 24)); // Menghitung hari
+            var hours = Math.floor((seconds % (3600 * 24)) / 3600); // Menghitung jam
+            var minutes = Math.floor((seconds % 3600) / 60); // Menghitung menit
+            var secs = seconds % 60; // Menghitung detik
+            return months + " bulan " + days + " hari " + hours + " jam " + minutes + " menit " + secs + " detik";
+            // return hours + " : " + minutes + " : " + seconds
+            // return hours + " jam " + minutes + " menit " + secs + " detik";
+        }
+
+        // Panggil fungsi updateTime setiap detik
+        setInterval(updateTime, 1000);
+
+        // Panggil fungsi sekali untuk menampilkan waktu saat halaman dimuat
+        updateTime();
+
     </script>
 @endsection

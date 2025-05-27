@@ -24,6 +24,11 @@ class M_Q_Kelembagaan_New extends Model
         return $this->hasMany(M_Q_O_Kelembagaan_New::class, 'id_q_kelembagaan', 'id');
     }
 
+    public function _category()
+    {
+        return $this->belongsTo(M_C_Kelembagaan_New::class, 'id_c_kelembagaan_v2');
+    }
+
     protected $table = 'm_question_kelembagaan_new';
     protected $dates = ['deleted_at'];
 }
