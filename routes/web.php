@@ -567,6 +567,9 @@ Route::group(['middleware' => ['auth']], function () {
 
             Route::get('/v-prov/rekap-ba-kelembagaan', [Answer_Verifikator_Prov_Controller::class, 'RekapBAKelembagaan'])->name('v-prov.RekapBAKelembagaan');
 
+            //profile kabkota
+            Route::get('/v-prov/profile-kabkota', [Answer_Verifikator_Prov_Controller::class, 'profileKabkota'])->name('v-prov.profileKabkota');
+            Route::get('/v-prov/profile-kabkota/{id}', [Answer_Verifikator_Prov_Controller::class, 'showProfileKabkota'])->name('v-prov.showProfileKabkota');
 
 
         });

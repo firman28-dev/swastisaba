@@ -650,7 +650,7 @@
                         </div><!--end:Menu content-->
                     </div>
 
-                    {{-- <div class="menu-item menu-accordion {{ Route::is('v-pusat.indexGData') || Route::is('v-pusat.indexGData') ? 'show' : '' }}" data-kt-menu-trigger="click">
+                    {{-- <div class="menu-item menu-accordion {{ Route::is('v-provt.indexGData') || Route::is('v-prov.indexGData') ? 'show' : '' }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-book fs-3"></i>
@@ -662,9 +662,9 @@
                             @foreach(\App\Models\M_District::where('province_id', 13)->get() as $zona)
                                 <div class="menu-item">
                                     <a class="menu-link {{ 
-                                        request()->routeIs('v-pusat.indexGData') && request()->id == $zona->id ||
-                                        (request()->routeIs('v-pusat.indexGData') && request()->id_zona == $zona->id)
-                                        ? 'active-custom' : '' }}" href="{{ route('v-pusat.indexGData', ['id' => $zona->id]) }}">
+                                        request()->routeIs('v-prov.indexGData') && request()->id == $zona->id ||
+                                        (request()->routeIs('v-prov.indexGData') && request()->id_zona == $zona->id)
+                                        ? 'active-custom' : '' }}" href="{{ route('v-prov.indexGData', ['id' => $zona->id]) }}">
                                         <span class="menu-icon">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -673,10 +673,10 @@
                                 </div>
                             @endforeach
                         </div>
-                    </div>
+                    </div> --}}
 
                    
-                    <div class="menu-item menu-accordion {{ Route::is('v-prov.indexKelembagaan') || Route::is('v-prov.showKelembagaan')  ? 'show' : '' }}" data-kt-menu-trigger="click">
+                    {{-- <div class="menu-item menu-accordion {{ Route::is('v-prov.indexKelembagaan') || Route::is('v-prov.showKelembagaan')  ? 'show' : '' }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-industry fs-3"></i>
@@ -699,9 +699,9 @@
                                 </div>
                             @endforeach
                         </div>
-                    </div>
+                    </div> --}}
 
-                    <div class="menu-item menu-accordion {{ Route::is('v-prov.indexGData')   ? 'show' : '' }}" data-kt-menu-trigger="click">
+                    {{-- <div class="menu-item menu-accordion {{ Route::is('v-prov.indexGData')   ? 'show' : '' }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-folder fs-3"></i>
@@ -783,7 +783,7 @@
                         </div>
                     </div> --}}
 
-                    <div class="menu-item menu-accordion {{ Route::is('v-prov.indexKelembagaan') || Route::is('v-pusat.showCategory') ? 'show' : '' }}" data-kt-menu-trigger="click">
+                    <div class="menu-item menu-accordion {{ Route::is('v-prov.indexKelembagaan') || Route::is('v-prov.showCategory') ? 'show' : '' }}" data-kt-menu-trigger="click">
                         <a class="menu-link" href="#">
                             <span class="menu-icon">
                                 <i class="fa-solid fa-book fs-3 text-white"></i>
@@ -806,6 +806,15 @@
                                 </div>
                             @endforeach
                         </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::is('v-prov.profileKabkota' ) || Route::is('v-prov.showProfileKabkota') ? 'active-custom' : '' }}" href="{{route('v-prov.profileKabkota')}}">
+                            <span class="menu-icon">
+                                <i class="fas fa-file-contract fs-3 text-white"></i>
+                            </span>
+                            <span class="menu-title text-white">Profile Kabkota</span>
+                        </a>
                     </div>
 
                     {{-- <div class="menu-item menu-accordion {{ Route::is('v-prov.indexPendanaan') || Route::is('v-prov.indexPendanaan') ? 'show' : '' }}" data-kt-menu-trigger="click">

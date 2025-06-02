@@ -120,32 +120,6 @@ class DataController extends Controller
             ], 404);
         }
 
-        // $sendResponse = Http::withToken($token)
-        //     ->asForm()
-        //     ->post('https://sipantas.kemkes.go.id/AP_Data/sendDataODF', [
-        //             'jumlah_kecamatan' => $data->_odf[0]->sum_subdistricts,
-        //             'jumlah_desa_kelurahan' => $data->_odf[0]->sum_villages,
-        //             'jumlah_desa_stop_babs' => $data->_odf[0]->s_villages_stop_babs,
-        //             'persentase_desa_stop_babs' => (int) $data->_odf[0]->p_villages_stop_babs,
-        //             'tahun' => 2024,
-        //             'status' => 4,
-
-        //     ]);
-
-        // if ($sendResponse->successful()) {
-        //     return response()->json([
-        //         'status' => 'success',
-        //         'message' => 'Data berhasil dikirim',
-        //         'response' => $sendResponse->json()
-        //     ]);
-        // } else {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'message' => 'Gagal kirim data ke API pusat',
-        //         'response' => $sendResponse->json()
-        //     ], 500);
-        // }
-
         return response()->json([
             'status' => 'done',
             'token' => $token,
@@ -304,53 +278,53 @@ class DataController extends Controller
                 if ($jawaban) {
                     $totalJawabanKabupaten++;
 
-                    // $questionResults[] = [
+                    $questionResults[] = [
                       
-                    //     'indikator_id' => $q->id_pusat,
-                    //     'jumlah_kecamatan' => $jawaban?->sum_subdistrict,
-                    //     'jumlah_kelurahan' => $jawaban?->sum_village,
-                    //     'file_capaian' => $dokumen?->path ? 'https://swastisaba.sumbarprov.go.id/uploads/doc_kelembagaan/' . $dokumen->path : null,
-                    //     'capaian' => $jawaban?->achievement,
-                    //     'capaian_sebelumnya' => $answer2023?->achievement ?? null,
-                    //     'file_sebelumnya' => $doc2023?->path
-                    //         ? 'https://swastisaba.sumbarprov.go.id/uploads/doc_kelembagaan/' . $doc2023->path
-                    //         : null,
-                    //     'nilai_mandiri' => $jawaban?->_q_option?->score,
-                    //     'nilai_provinsi' => $jawaban?->_q_option_prov?->score,
-                    //     'penjelasan_kabupaten' => $jawaban?->note,
-                    //     'penjelasan_provinsi' => $jawaban?->comment_prov,
-                    //     'status' => 4,
-                    //     'tahun' => 2024,
-                    //     'kabupaten_id' => $district->kabupaten_id
-                        
-                    // ];
-                    $sendPayload = Http::withToken($token)
-                        ->asForm()
-                        ->post('https://sipantas.kemkes.go.id/AP_Data/sendDataCapaianKelembagaanByKabupaten', [
-                            'indikator_id' => $q->id_pusat,
-                            'jumlah_kecamatan' => $jawaban?->sum_subdistrict ?? '-',
-                            'jumlah_desa_kelurahan' => $jawaban?->sum_village ?? '-',
-                            'file_capaian' => $dokumen?->path ? 'https://swastisaba.sumbarprov.go.id/uploads/doc_kelembagaan/' . $dokumen->path : '-',
-                            'capaian' => $jawaban?->achievement,
-                            'capaian_sebelumnya' => $answer2023?->achievement ?? '-',
-                            'file_sebelumnya' => $doc2023?->path
-                                ? 'https://swastisaba.sumbarprov.go.id/uploads/doc_kelembagaan/' . $doc2023->path
-                                : '-',
-                            'nilai_mandiri' => $jawaban?->_q_option?->score ?? 0,
-                            'nilai_provinsi' => $jawaban?->_q_option_prov?->score ?? 0,
-                            'penjelasan_provinsi' => $jawaban?->comment_prov ?? '-',
-                            'penjelasan_kabupaten' => $jawaban?->note ?? '-',
-                            'status' => 4,
-                            'tahun' => 2024,
-                            'kabupaten_id' => $district->kabupaten_id
-                    ]);
-
-                    $sendResultsResponse[] = [
                         'indikator_id' => $q->id_pusat,
-                        'status' => $sendPayload->successful() ? 'success' : 'error',
-                        'message' => $sendPayload->successful() ? 'Data berhasil dikirim' : 'Gagal mengirim data',
-                        'response' => $sendPayload->json()
+                        'jumlah_kecamatan' => $jawaban?->sum_subdistrict,
+                        'jumlah_kelurahan' => $jawaban?->sum_village,
+                        'file_capaian' => $dokumen?->path ? 'https://swastisaba.sumbarprov.go.id/uploads/doc_kelembagaan/' . $dokumen->path : null,
+                        'capaian' => $jawaban?->achievement,
+                        'capaian_sebelumnya' => $answer2023?->achievement ?? null,
+                        'file_sebelumnya' => $doc2023?->path
+                            ? 'https://swastisaba.sumbarprov.go.id/uploads/doc_kelembagaan/' . $doc2023->path
+                            : null,
+                        'nilai_mandiri' => $jawaban?->_q_option?->score,
+                        'nilai_provinsi' => $jawaban?->_q_option_prov?->score,
+                        'penjelasan_kabupaten' => $jawaban?->note,
+                        'penjelasan_provinsi' => $jawaban?->comment_prov,
+                        'status' => 4,
+                        'tahun' => 2024,
+                        'kabupaten_id' => $district->kabupaten_id
+                        
                     ];
+                    // $sendPayload = Http::withToken($token)
+                    //     ->asForm()
+                    //     ->post('https://sipantas.kemkes.go.id/AP_Data/sendDataCapaianKelembagaanByKabupaten', [
+                    //         'indikator_id' => $q->id_pusat,
+                    //         'jumlah_kecamatan' => $jawaban?->sum_subdistrict ?? '-',
+                    //         'jumlah_desa_kelurahan' => $jawaban?->sum_village ?? '-',
+                    //         'file_capaian' => $dokumen?->path ? 'https://swastisaba.sumbarprov.go.id/uploads/doc_kelembagaan/' . $dokumen->path : '-',
+                    //         'capaian' => $jawaban?->achievement,
+                    //         'capaian_sebelumnya' => $answer2023?->achievement ?? '-',
+                    //         'file_sebelumnya' => $doc2023?->path
+                    //             ? 'https://swastisaba.sumbarprov.go.id/uploads/doc_kelembagaan/' . $doc2023->path
+                    //             : '-',
+                    //         'nilai_mandiri' => $jawaban?->_q_option?->score ?? 0,
+                    //         'nilai_provinsi' => $jawaban?->_q_option_prov?->score ?? 0,
+                    //         'penjelasan_provinsi' => $jawaban?->comment_prov ?? '-',
+                    //         'penjelasan_kabupaten' => $jawaban?->note ?? '-',
+                    //         'status' => 4,
+                    //         'tahun' => 2024,
+                    //         'kabupaten_id' => $district->kabupaten_id
+                    // ]);
+
+                    // $sendResultsResponse[] = [
+                    //     'indikator_id' => $q->id_pusat,
+                    //     'status' => $sendPayload->successful() ? 'success' : 'error',
+                    //     'message' => $sendPayload->successful() ? 'Data berhasil dikirim' : 'Gagal mengirim data',
+                    //     'response' => $sendPayload->json()
+                    // ];
 
                 } 
                
@@ -380,7 +354,7 @@ class DataController extends Controller
                 'kabupaten_id' => $district->kabupaten_id,
                 'nama_kabkota' => $district->name,
                 'total_jawaban' => $totalJawabanKabupaten,
-                'data' => $sendResultsResponse
+                'data' => $questionResults
             ];
         }
         return response()->json([

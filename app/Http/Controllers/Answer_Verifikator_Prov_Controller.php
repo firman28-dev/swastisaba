@@ -13,6 +13,7 @@ use App\Models\M_Category;
 use App\Models\M_Category_Kelembagaan;
 use App\Models\M_District;
 use App\Models\M_Doc_General_Data;
+use App\Models\M_General_Data;
 use App\Models\M_Q_Kelembagaan_New;
 use App\Models\M_Question_Kelembagaan;
 use App\Models\M_Questions;
@@ -1471,6 +1472,30 @@ class Answer_Verifikator_Prov_Controller extends Controller
 
         // return $now;
 
+    }
+
+    //dokumen umum
+    public function profileKabkota(){
+        $district = M_District::where('province_id', 13)->get();
+        $g_data = M_General_Data::all();
+        // return $district;
+        $sent = [
+            'district' => $district,
+            'general_data' => $g_data
+        ];
+        return view('verifikator_provinsi.profile_kabkota.index', $sent);
+    }
+
+    public function showProfileKabkota($id){
+        $district = M_District::find($id);
+        $g_data = M_General_Data::where('id_zona', $id)->first();
+
+        // return $district;
+        $sent = [
+            'district' => $district,
+            'g_data' => $g_data
+        ];
+        return view('verifikator_provinsi.profile_kabkota.show', $sent);
     }
 
 
