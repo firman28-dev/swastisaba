@@ -9,98 +9,126 @@
 
 @section('content')
 <div class="row">
-    {{-- <div class="col-xl-6 col-md-6 d-flex align-items-stretch mb-4" data-aos="fade-up" data-aos-duration="1000">
-        <div class="card w-100 card-custom">
-            <div class="card-body">
-                <img src="{{asset('assets/img/icon/user.svg')}}" alt="" class="mb-4" />
-                <h3 class="text-custom-primary">
-                    DATA TATANAN
-                </h3>
-                <h1 class="text-custom-secondary">
-                    {{$category}}
-                </h1>
-            </div>
-        </div>
-    </div> --}}
-    <div class="col-xl-6 col-md-6 d-flex align-items-stretch mb-4" data-aos="fade-up" data-aos-duration="1000">
-        <div class="card w-100 card-custom">
-            <div class="card-body">
-                <div class="d-flex flex-row justify-content-between align-items-center">
-                    <div class="flex-column">
-                        <h3 class="text-custom-primary">
-                            DATA TATANAN
-                        </h3>
-                        <h1 class="text-custom-secondary">
-                            {{$category}}
-                        </h1>
+    @if (!in_array(Auth::user()->id_group, [7, 8]))
+        <div class="col-xl-6 col-md-6 d-flex align-items-stretch mb-4" data-aos="fade-up" data-aos-duration="1000">
+            <div class="card w-100 card-custom">
+                <div class="card-body">
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                        <div class="flex-column">
+                            <h3 class="text-custom-primary">
+                                DATA TATANAN
+                            </h3>
+                            <h1 class="text-custom-secondary">
+                                {{$category}}
+                            </h1>
+                        </div>
+                        <img src="{{asset('assets/img/icon/category.svg')}}" alt="" class="mb-4" />
                     </div>
-                    <img src="{{asset('assets/img/icon/category.svg')}}" alt="" class="mb-4" />
-                </div>
-                
-            </div>
-        </div>
-    </div>
-   
-    <div class="col-xl-6 col-md-6 d-flex align-items-stretch mb-4" data-aos="fade-up" data-aos-duration="1000">
-        <div class="card w-100 card-custom">
-            <div class="card-body">
-                <div class="d-flex flex-row justify-content-between align-items-center">
-                    <div class="flex-column">
-                        <h3 class="text-custom-primary">
-                            DATA PERTANYAAN
-                        </h3>
-                        <h1 class="text-custom-secondary">
-                            {{$questions}}
-                        </h1>
-                    </div>
-                    <img src="{{asset('assets/img/icon/questions.svg')}}" alt="" class="mb-4" />
+                    
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="col-xl-6 col-md-6 d-flex align-items-stretch mb-4" data-aos="fade-up" data-aos-duration="1000">
-        <div class="card w-100 card-custom">
-            <div class="card-body">
-                <div class="d-flex flex-row justify-content-between align-items-center">
-                    <div class="flex-column">
-                        <h3 class="text-custom-primary">
-                            DATA USER
-                        </h3>
-                        <h1 class="text-custom-secondary">
-                            {{$user}}
-                        </h1>
-                    </div>
-                    <img src="{{asset('assets/img/icon/user-2.svg')}}" alt="" class="mb-4" />
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xl-6 col-md-6 d-flex align-items-stretch mb-4" data-aos="fade-up" data-aos-duration="1000">
-        <div class="card w-100 card-custom">
-            <div class="card-body">
-                <div class="d-flex flex-row justify-content-between align-items-center">
-                    <div class="flex-column">
-                        <h3 class="text-custom-primary">
-                            DATA KABUPATEN/KOTA
-                        </h3>
-                        <h1 class="text-custom-secondary">
-                            @php
-                                $zonav2 = $zona->count();
-                            @endphp
-                            {{$zonav2}}
-                        </h1>
-                    </div>
-                    <img src="{{asset('assets/img/icon/district.svg')}}" alt="" class="mb-4" />
-                </div>
-                {{-- <img src="{{asset('assets/img/icon-payment.svg')}}" alt="" class="mb-4" /> --}}
-            </div>
-        </div>
-    </div>
-
     
+        <div class="col-xl-6 col-md-6 d-flex align-items-stretch mb-4" data-aos="fade-up" data-aos-duration="1000">
+            <div class="card w-100 card-custom">
+                <div class="card-body">
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                        <div class="flex-column">
+                            <h3 class="text-custom-primary">
+                                DATA PERTANYAAN
+                            </h3>
+                            <h1 class="text-custom-secondary">
+                                {{$questions}}
+                            </h1>
+                        </div>
+                        <img src="{{asset('assets/img/icon/questions.svg')}}" alt="" class="mb-4" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6 d-flex align-items-stretch mb-4" data-aos="fade-up" data-aos-duration="1000">
+            <div class="card w-100 card-custom">
+                <div class="card-body">
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                        <div class="flex-column">
+                            <h3 class="text-custom-primary">
+                                DATA USER
+                            </h3>
+                            <h1 class="text-custom-secondary">
+                                {{$user}}
+                            </h1>
+                        </div>
+                        <img src="{{asset('assets/img/icon/user-2.svg')}}" alt="" class="mb-4" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6 col-md-6 d-flex align-items-stretch mb-4" data-aos="fade-up" data-aos-duration="1000">
+            <div class="card w-100 card-custom">
+                <div class="card-body">
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                        <div class="flex-column">
+                            <h3 class="text-custom-primary">
+                                DATA KABUPATEN/KOTA
+                            </h3>
+                            <h1 class="text-custom-secondary">
+                                @php
+                                    $zonav2 = $zona->count();
+                                @endphp
+                                {{$zonav2}}
+                            </h1>
+                        </div>
+                        <img src="{{asset('assets/img/icon/district.svg')}}" alt="" class="mb-4" />
+                    </div>
+                    {{-- <img src="{{asset('assets/img/icon-payment.svg')}}" alt="" class="mb-4" /> --}}
+                </div>
+            </div>
+        </div>
+    @endif
     
+    @if (in_array(Auth::user()->id_group, [7, 8]))
+        <div class="col-xl-6 col-md-6 d-flex align-items-stretch mb-4" data-aos="fade-up" data-aos-duration="1000">
+            <div class="card w-100 card-custom">
+                <div class="card-body">
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                        <div class="flex-column">
+                            <h3 class="text-custom-primary">
+                                DATA USER
+                            </h3>
+                            <h1 class="text-custom-secondary">
+                                {{$user}}
+                            </h1>
+                        </div>
+                        <img src="{{asset('assets/img/icon/user-2.svg')}}" alt="" class="mb-4" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-md-6 d-flex align-items-stretch mb-4" data-aos="fade-up" data-aos-duration="1000">
+            <div class="card w-100 card-custom">
+                <div class="card-body">
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                        <div class="flex-column">
+                            <h3 class="text-custom-primary">
+                                DATA KABUPATEN/KOTA
+                            </h3>
+                            <h1 class="text-custom-secondary">
+                                @php
+                                    $zonav2 = $zona->count();
+                                @endphp
+                                {{$zonav2}}
+                            </h1>
+                        </div>
+                        <img src="{{asset('assets/img/icon/district.svg')}}" alt="" class="mb-4" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+
 
 </div>
 

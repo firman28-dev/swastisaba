@@ -70,6 +70,9 @@ class Kernel extends HttpKernel
         'v_provinsi' =>\App\Http\Middleware\VerifikatorProvinsiMiddleware::class,
         'operator_provinsi' =>\App\Http\Middleware\OperatorProvinsiMiddleware::class,
         'operator_kab_kota' =>\App\Http\Middleware\OperatorKabKotaMiddleware::class,
+        'panitia_pelatihan' =>\App\Http\Middleware\PanitiaPelatihanMiddleware::class,
+        'peserta_pelatihan' =>\App\Http\Middleware\PesertaPelatihanMiddleware::class,
+        'admin_or_panitia' => \App\Http\Middleware\AdminOrPanitiaMiddleware::class,
         'checkSelectedYear' => \App\Http\Middleware\CheckSelectedYear::class,
     ];
 }

@@ -11,6 +11,7 @@ use App\Http\Controllers\Answer_Verifikator_Prov_Controller;
 use App\Http\Controllers\Answer_Verifikator_Pusat_Controller;
 use App\Http\Controllers\APIPusatController;
 use App\Http\Controllers\Category_Doc_Provinsi_Controller;
+use App\Http\Controllers\CategoryPostestController;
 use App\Http\Controllers\Doc_Question_Controller;
 use App\Http\Controllers\Gambaran_KabKota_Controller;
 use App\Http\Controllers\General_Data_KabKota_Controller;
@@ -47,6 +48,10 @@ use App\Http\Controllers\Trans_Survey_H_Controller;
 use App\Http\Controllers\User_Controller;
 use App\Models\Doc_Question;
 use App\Models\M_Category;
+
+use App\Http\Controllers\CategoryCourseController;
+
+
 use Illuminate\Support\Facades\Route;
 
 
@@ -79,14 +84,16 @@ Route::group(['middleware' => ['guest']], function () {
     /**
      * Register Routes
      */
-    // Route::get('/register', [RegisterController::class, 'show'])->name('register.show');
-    // Route::post('/register/perform', [RegisterController::class, 'register'])->name('register.perform');
+    Route::get('/register', [RegisterController::class, 'show'])->name('register.show');
+    Route::post('/register/perform', [RegisterController::class, 'register'])->name('register.perform');
 
     /**
      * Login Routes
      */
     Route::get('/login', [LoginController::class, 'show'])->name('login.show');
     Route::post('/login', [LoginController::class, 'login'])->name('login.perform');
+    
+    
 });
 
 Route::group(['middleware' => ['auth']], function () {
@@ -623,6 +630,27 @@ Route::group(['middleware' => ['auth']], function () {
             // Route::get('/o-prov/doc-prov/get/{id}', [Trans_Doc_Prov_Controller::class, 'show'])->name('doc-prov.show');
 
         });
+
+
+        Route::group(['middleware' => ['admin_or_panitia']], function () {
+            Route::resource('category-course', CategoryCourseController::class);
+            Route::get('/category-course/{id}/create-session', [CategoryCourseController::class, 'createSession'])->name('category-course.createSession');
+            Route::post('/category-course/{id}/store-session', [CategoryCourseController::class, 'storeSession'])->name('category-course.storeSession');
+            Route::get('/category-course/{id}/edit-session', [CategoryCourseController::class, 'editSession'])->name('category-course.editSession');
+            Route::put('/category-course/{id}/update-session', [CategoryCourseController::class, 'updateSession'])->name('category-course.updateSession');
+
+            Route::resource('category-postest', CategoryPostestController::class);
+            Route::get('/category-postest/{id}/create-question', [CategoryPostestController::class, 'createQuestion'])->name('category-postest.createQuestion');
+            Route::post('/upload-file-question', [CategoryPostestController::class, 'uploadFileEditor'])->name('category-postest.uploadFileEditor');
+            Route::post('/store-question', [CategoryPostestController::class, 'storeQuestion'])->name('category-postest.storeQuestion');
+            Route::get('/edit-question/{id}', [CategoryPostestController::class, 'editQuestion'])->name('category-postest.editQuestion');
+            Route::put('/update-question/{id}', [CategoryPostestController::class, 'updateQuestion'])->name('category-postest.updateQuestion');
+            Route::delete('/destroy-question/{id}', [CategoryPostestController::class, 'destroyQuestion'])->name('category-postest.destroyQuestion');
+        });
+
+
+
+
 
         
 

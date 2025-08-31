@@ -580,6 +580,38 @@
                             <span class="menu-title text-white">List API</span>
                         </a>
                     </div>
+
+                    <div class="menu-item pt-5"><!--begin:Menu content-->
+                        <div class="menu-content"><span class="fw-bold text-uppercase fs-7 text-white">Pelatihan</span>
+                        </div><!--end:Menu content-->
+                    </div>
+                    <div class="menu-item menu-accordion " data-kt-menu-trigger="click">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-list-check fs-3 text-white"></i>
+                            </span>
+                            <span class="menu-title text-white">Master Data</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="menu-sub menu-sub-accordion">
+                            <div class="menu-item">
+                                <a class="menu-link" href="{{route('category-course.index')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot bg-white"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Kategori Pelatihan</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link " href="{{route('category-postest.index')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot bg-white"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Kategori Soal</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 @endif
 
                 @if(Auth::user()->id_group == 3)
@@ -1058,6 +1090,36 @@
                     
                 @endif
                 
+                {{-- panitia pelatihan --}}
+                @if(Auth::user()->id_group == 8)
+                    <div class="menu-item menu-accordion " data-kt-menu-trigger="click">
+                        <a class="menu-link" href="#">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-list-check fs-3 text-white"></i>
+                            </span>
+                            <span class="menu-title text-white">Master Data</span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="menu-sub menu-sub-accordion">
+                            <div class="menu-item">
+                                <a class="menu-link" href="{{route('category-course.index')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot bg-white"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Kategori Kelas</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link " href="{{route('category-postest.index')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot bg-white"></span>
+                                    </span>
+                                    <span class="menu-title text-white">Kategori Soal</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
