@@ -9,7 +9,8 @@ use App\Models\User;
 use Auth;
 use Hash;
 use Illuminate\Http\Request;
-use Storage;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use PDF;
 
 
@@ -145,46 +146,84 @@ class User_Controller extends Controller
 
     }
 
+    // public function updatedPhoto(Request $request)
+    // {
+    //     $user = Auth::user();
+
+    //     // Validasi foto yang diunggah
+    //     $request->validate([
+    //         'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Only allow image files, max 2MB
+    //     ], [
+    //         'photo.required' => 'Foto wajib diunggah.',
+    //         'photo.image' => 'File yang diunggah harus berupa gambar.',
+    //         'photo.mimes' => 'Hanya file JPEG, PNG, JPG, dan GIF yang diperbolehkan.',
+    //         'photo.max' => 'Ukuran gambar maksimal 2 MB.',
+    //     ]);
+
+    //     try {
+    //         if ($user->photo) {
+    //             $oldPhotoPath = $_SERVER['DOCUMENT_ROOT']. '/uploads/photo/' .$user->photo;
+    //             // $oldPhotoPath = public_path('uploads/photo/' . $user->photo);
+    //             if (file_exists($oldPhotoPath)) {
+    //                 unlink($oldPhotoPath);
+    //             }
+    //         }
+
+    //         $file = $request->file('photo'); 
+    //         $fileName = time(). '_' . $file->getClientOriginalName();
+    //         // $file->move(public_path('uploads/photo/'), $fileName);
+            
+    //         //untuk server
+    //         $file->move($_SERVER['DOCUMENT_ROOT']. '/uploads/photo/', $fileName);
+
+        
+    //         $user->photo = $fileName;
+    //         $user->save();
+    //         return redirect()->route('user.profile')->with('success', 'Berhasil mengunggah foto.');
+
+    //     } catch (\Throwable $th) {
+    //         //throw $th;
+    //     }
+        
+
+    // }
+
     public function updatedPhoto(Request $request)
     {
         $user = Auth::user();
 
-        // Validasi foto yang diunggah
+        // Validasi lebih ketat
         $request->validate([
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Only allow image files, max 2MB
+            'photo' => 'required|file|mimetypes:image/jpeg,image/png,image/gif|max:2048',
         ], [
             'photo.required' => 'Foto wajib diunggah.',
-            'photo.image' => 'File yang diunggah harus berupa gambar.',
-            'photo.mimes' => 'Hanya file JPEG, PNG, JPG, dan GIF yang diperbolehkan.',
-            'photo.max' => 'Ukuran gambar maksimal 2 MB.',
+            'photo.file'     => 'File tidak valid.',
+            'photo.mimetypes'=> 'Format file harus JPEG, PNG, atau GIF.',
+            'photo.max'      => 'Ukuran gambar maksimal 2 MB.',
         ]);
 
         try {
-            if ($user->photo) {
-                $oldPhotoPath = $_SERVER['DOCUMENT_ROOT']. '/uploads/photo/' .$user->photo;
-                // $oldPhotoPath = public_path('uploads/photo/' . $user->photo);
-                if (file_exists($oldPhotoPath)) {
-                    unlink($oldPhotoPath);
-                }
+            // Hapus foto lama kalau ada
+            if ($user->photo && Storage::disk('public')->exists('photo/' . $user->photo)) {
+                Storage::disk('public')->delete('photo/' . $user->photo);
             }
 
-            $file = $request->file('photo'); 
-            $fileName = time(). '_' . $file->getClientOriginalName();
-            // $file->move(public_path('uploads/photo/'), $fileName);
-            
-            //untuk server
-            $file->move($_SERVER['DOCUMENT_ROOT']. '/uploads/photo/', $fileName);
+            // Simpan file baru
+            $file     = $request->file('photo');
+            $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
 
-        
+            // Simpan ke storage/app/public/photo
+            $file->storeAs('photo', $fileName, 'public');
+
+            // Update database
             $user->photo = $fileName;
             $user->save();
+
             return redirect()->route('user.profile')->with('success', 'Berhasil mengunggah foto.');
 
         } catch (\Throwable $th) {
-            //throw $th;
+            return back()->with('error', 'Gagal mengunggah foto.');
         }
-        
-
     }
 
     public function resetPhoto()
@@ -192,13 +231,12 @@ class User_Controller extends Controller
         $user = Auth::user();
 
         if ($user->photo) {
-            // Menghapus file dari server
-            $oldPhotoPath = $_SERVER['DOCUMENT_ROOT']. '/uploads/photo/' .$user->photo;
-            if (file_exists($oldPhotoPath)) {
-                unlink($oldPhotoPath);
+            // Hapus file lama dari storage
+            if (Storage::disk('public')->exists('photo/' . $user->photo)) {
+                Storage::disk('public')->delete('photo/' . $user->photo);
             }
-            
-            // Mengatur kolom foto menjadi null
+
+            // Reset kolom photo
             $user->photo = null;
             $user->save();
         }

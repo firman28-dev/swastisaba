@@ -22,7 +22,7 @@
                 <div class="col-lg-4 mb-lg-0 mb-3">
                     <div class="d-flex flex-column">
                         @if ($userFind->photo)
-                        <img src="{{ asset('uploads/photo/' . $userFind->photo) }}" alt="Foto Pengguna" class="img-fluid rounded mb-2 text-center" style="max-width: 250px">
+                        <img src="{{ asset('storage/photo/' . $userFind->photo) }}" alt="Foto Pengguna" class="img-fluid rounded mb-2 text-center" style="max-width: 250px">
                         @else
                             <img src="{{ asset('assets/media/blank.png') }}" alt="default user" class="mb-2 text-center" style="max-width: 250px"/>
                             {{-- <p>Belum ada foto</p> --}}
