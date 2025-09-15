@@ -98,7 +98,7 @@
                                 DATA USER
                             </h3>
                             <h1 class="text-custom-secondary">
-                                {{$user}}
+                                {{$user_peserta}}
                             </h1>
                         </div>
                         <img src="{{asset('assets/img/icon/user-2.svg')}}" alt="" class="mb-4" />

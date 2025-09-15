@@ -24,7 +24,7 @@
                         </button>
                     </a> --}}
                     <a href="{{ route('category-course.createSession', $category->id) }}">
-                        <button type="button" class="btn btn-primary btn-sm ms-4">
+                        <button type="button" class="btn btn-primary btn-sm">
                             <i class="nav-icon fas fa-folder-plus "></i>Tambah
                         </button>
                     </a>

@@ -37,6 +37,7 @@ class Home_Controller extends Controller
             ->where('id_survey', $session_date)
             ->count();
         $user = User::select('id')->count();
+        $user2 = User::where('id_group', 7)->count();
         $zona = M_District::where('province_id', 13)->get();
         $pluckZona =  M_District::where('province_id', 13)->pluck('name');
 
@@ -110,6 +111,8 @@ class Home_Controller extends Controller
             'category' => $category,
             'questions' => $questions,
             'user' => $user,
+            'user_peserta' => $user2,
+
             'zona' => $zona,
             'pluckZona' => $pluckZona,
             'districtNames' => $districtNames,

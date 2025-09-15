@@ -84,8 +84,8 @@ Route::group(['middleware' => ['guest']], function () {
     /**
      * Register Routes
      */
-    Route::get('/register', [RegisterController::class, 'show'])->name('register.show');
-    Route::post('/register/perform', [RegisterController::class, 'register'])->name('register.perform');
+    // Route::get('/register', [RegisterController::class, 'show'])->name('register.show');
+    // Route::post('/register/perform', [RegisterController::class, 'register'])->name('register.perform');
 
     /**
      * Login Routes

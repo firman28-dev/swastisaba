@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <span class="has-text-weight-bold has-text-white" >Belum Punya Akun? <a href="{{ route('register.show') }}">Daftar</a></span>
+    {{-- <span class="has-text-weight-bold has-text-white" >Belum Punya Akun? <a href="{{ route('register.show') }}">Daftar</a></span> --}}
     <div class="column is-flex is-half is-offset-one-quarter">
         <button class="button is-block is-info is-medium is-fullwidth has-text-weight-normal has-text-dark">
         Login
